@@ -1,0 +1,173 @@
+\documentclass{solution}
+
+\begin{document}
+
+\begin{problem}
+    \begin{enumerate}
+        \item Let $M$ be a Noetherian $A$-module and $u: M \rightarrow M$ a module homomorphism. If $u$ is surjective, then $u$ is an isomorphism
+        \item If $M$ is Artinian and $u$ is injective, then again $u$ is an isomorphism
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item ISTS $u$ is injective. It is clear that $\mathrm{ker}(u^k) \subset \mathrm{ker}(u^{k + 1})$ for arbitrary $k$. Consider the ascending chain $\mathrm{ker}(u) \subset \mathrm{ker}(u^2) \subset \mathrm{ker}(u^3) \subset \cdots$, by Noetherian, it stabilizes at some $n$. Then consider $u^n$. Since $u$ is surjective, so is $u^n$. Take arbitrary $x \in M$, it can be written as $u^n(y)$ for some $y \in M$. Then $u(x) = 0 \Rightarrow u^{n + 1}(y) = 0 \Rightarrow u^{n}(y) = 0 \Rightarrow x = 0$ where the second step is by $\mathrm{ker}(u^n) = \mathrm{ker}(u^{n + 1})$. This proves that $\mathrm{ker}(u) = 0$ and thus $u$ is injective.
+        \item ISTS $u$ is surjective. It is clear that $\mathrm{im}(u^k) \supset \mathrm{im}(u^{k + 1})$ for arbitrary $k$ (by induction and note that $u(\mathrm{im}(u^k)) \supset u(\mathrm{im}(u^{k + 1}))$). Consider the descending chain $\mathrm{im}(u) \supset \mathrm{im}(u^2) \supset \mathrm{im}(u^3) \supset \cdots$, by Artinian, it stabilizes at some $n$. Then consider $u^n$. Since $u$ is injective, so is $u^n$. Take arbitrary $x \in M$, we have $u^n(x) \in \mathrm{im}(u^n) = \mathrm{im}(u^{n + 1}) \Rightarrow$ there is some $y \in M$ such that $u^{n + 1}(y) = u^n(x) \Rightarrow u^n(u(y)) = u^n(x) \Rightarrow u(y) = x$ since $u^n$ is injective. This proves that $\mathrm{im}(u) = M$ and thus $u$ is surjective.
+    \end{enumerate}
+\end{proof}
+
+{\color{red}
+
+Although our proof of part 2 is correct, it does not quite the 'dual' of part 1. And mathematicians really want to be able to wave their hands and say 'prove of part 2 is by reversing all the arrows in part 1', the idea is also reflected in Atiyah's hint. To do so, we need to reformulate the Artinian property. But I am having trouble writing the Noetherian and Artinian properties in a homological algebra fashion.
+
+}
+
+\begin{problem}
+    Let $M$ be an $A$-module. If every non-empty set of finitely generated submodules of $M$ has a maximal element, then $M$ is Noetherian.
+\end{problem}
+
+{\color{red}Contrast this with Proposition 6.1, the condition is the problem is weaker since we only consider finitely generated submodule here. But it is logical since every submodule of a Noetherian module is finitely generated.}
+
+\begin{proof}
+    By Proposition 6.2, ISTS any submodule of $M$ is finitely generated. Take any submodule $N$ of $M$. If it is not finitely generated, then there is a strictly ascending chain $(x_1) \subset (x_1, x_2) \subset (x_1, x_2, x_3) \subset \cdots$ of submodules of $N$. Let $M_i = (x_1, \cdots, x_i)$, then $M_i$'s are finitely generated modules. By our hypothesis, there is a maximal element of $M_i$'s, say $M_n$, a contradiction to $M_n \subsetneq M_{n + 1}$. 
+\end{proof}
+
+\begin{problem}
+    Let $M$ be an $A$-module and let $N_1, N_2$ be submodules of $M$. If $M / N_1$ and $M / N_2$ are Noetherian, so is $M / (N_1 \cap N_2)$. Similarly with Artinian in place of Noetherian.
+\end{problem}
+
+\begin{proof}
+    Apply the third isomorphism theorem of modules to $N_1 \cap N_2 \subset N_1 \subset M$, the following sequence is exact:
+    $$0 \rightarrow N_1 / (N_1 \cap N_2) \rightarrow M / (N_1 \cap N_2) \rightarrow M / N_1 \rightarrow 0$$
+    Apply the second isomorphism theorem of modules to $N_1, N_2$, we have $(N_1 + N_2) / N_2 \cong N_1 / (N_1 \cap N_2)$. But $(N_1 + N_2) / N_2$ is a submodule of $M / N_2$ so by our hypothesis and the lemma below $(N_1 + N_2) / N_2$ is Noetherian (resp. Artinian). Then apply Proposition 6.3 to the exact sequence.
+\end{proof}
+
+\begin{lemma} \label{lem:sub-quotient-chain}
+    Every submodule / quotient of a Noetherian / Artinian module is Noetherian / Artinian.
+\end{lemma}
+
+\begin{proof}
+    Corollary of Proposition 6.3
+\end{proof}
+
+\begin{problem}
+    Let $M$ be a Noetherian $A$-module and let $I$ be the annihilator of $M$ in $A$. Prove that $A / I$ is a Noetherian ring.
+
+    If we replace "Noetherian" by "Artinian" in this result, is it still true?
+\end{problem}
+
+\begin{proof}
+    Note that $M$ is a faithful Noetherian $(A / I)$-module (It is Noetherian because the submodules of $M$ as $A$-module and $(A / I)$-module are exactly the same set). Then apply the proposition below.
+
+    \TODO The counter-example.
+\end{proof}
+
+\begin{proposition}
+    Let $M$ be a faithful $A$-module, if $M$ is a Noetherian $A$-module, then $A$ is a Noetherian ring.
+\end{proposition}
+
+\begin{proof}
+    Since $M$ is Noetherian, it is finitely generated. Let $m_1, \cdots, m_n$ be a set of generators. Consider the $A$-module homomorphism $A \rightarrow \prod\limits_{i = 1}^{m}M: a \mapsto (am_i)_i$. By faithfulness, the map is injective. Conclude by Proposition 6.3 and Corollary 6.4. (Note that $A$ is Noetherian means $A$ is Noetherian as an $A$-module)
+\end{proof}
+
+{\color{red}
+    \TODO I am still looking for a way to prove this without the seemingly unnatural construction $A \rightarrow \prod\limits_{i = 1}^{m} M$. The natural verification would be to transform an ascending chain of ideals $I_i$ to an ascending chain of submodules $I_iM$. The problem is that I can only show that $IM \subset JM \Rightarrow I \subset \sqrt{J}$ (by Caley-Hamilton). So I was wondering does every ascending chain of \textbf{radical ideals} stabilizes imply Noetherian? Or equivalently if the spectra is Noetherian (as topological space, see Problem 5), does that imply the ring is Noetherian?
+
+    UPDATE: The answer is no. See Problem 8
+}
+
+\begin{problem}
+    A topological space $X$ is said to be \textit{Noetherian} if the open subsets of $X$ satisfy the ascending chain condition (or, equivalently, the maximal condition). Since closed subsets are complements of open subsets, it comes to the same thing to say that the closed subsets of $X$ satisfy the descending chain condition (or, equivalently, the minimal condition). Show that, if $X$ is Noetherian, then every subspace of $X$ is Noetherian, and that $X$ is quasi-compact.
+\end{problem}
+
+\begin{proof}
+    Let $U$ be a subspace of $X$, and let $O_1 \subset O_2 \subset \cdots$ be an ascending chain of open subsets of $U$. Then by definition there are open sets $V_i$ of $X$ such that $V_i \cap U = O_i$. Denote $W_n = \bigcup\limits_{i = 1}^{n} V_i$, then $W_n$ is an open set in $X$, and $W_n \subset W_{n + 1}$, $W_n \cap U = O_n$. Since $X$ is Noetherian, the ascending chain $\left\lbrace W_n \right\rbrace_n$ stabilizes and therefore the ascending chain $O_n$ stabilizes. This proves that $U$ is also Noetherian.
+
+    To show that $X$ is quasi-compact, take any open covering $\left\lbrace O_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ of $X$. Suppose it does not contain a finite subcovering. Then we can pick $O_{\lambda_1}, O_{\lambda_2}, \cdots$ from it such that $O_{\lambda_{n + 1}} \not \subset \bigcup\limits_{i = 1}^{n} O_{\lambda_i}$: This is because $\bigcup\limits_{i = 1}^{n} O_{\lambda_i} \ne X$ by our hypothesis and $\left\lbrace O_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ covers $X$. But by Noetherian, the chain $\left\lbrace \bigcup\limits_{i = 1}^{n} O_{\lambda_i} \right\rbrace_n$ stabilizes, a contradiction.
+\end{proof}
+
+\begin{problem}
+    Prove that the followings are equivalent:
+    \begin{enumerate}
+        \item $X$ is Noetherian
+        \item Every subspace of $X$ is quasi-compact
+        \item Every open subspace of $X$ is quasi-compact
+    \end{enumerate}
+\end{problem}
+
+
+\begin{proof}
+    Note that I have switched the order of part 2 and 3 in the problem statement.
+
+    (1) $\Rightarrow$ (2): By Problem 5.
+
+    (2) $\Rightarrow$ (3): Clear.
+
+    (3) $\Rightarrow$ (1): Let $\left\lbrace O_i \right\rbrace_{i = 1}^{\infty}$ be an ascending chain of open sets in $X$. Take $O = \bigcup\limits_{i = 1}^{\infty} O_i$, then $O$ is open. By our hypothesis, $O$ is quasi-compact. Since $\left\lbrace O_i \right\rbrace_{i = 1}^n$ is an open covering of $O$, it contains a subcovering, namely the ascending chain stabilizes.
+\end{proof}
+
+\begin{problem}
+    A Noetherian space is a finite union of irreducible closed subspaces. Hence the set of irreducible components of a Noetherian space is finite.
+\end{problem}
+
+\begin{proof}
+    Let $X$ be a Noetherian space. Suppose $X$ cannot be written as a finite union of irreducible closed subspaces. Then $X$ is not irreducible, so it can be written as the union of two proper closed set $X_1^{(1)}, X_2^{(1)}$. Moreover, one of $X_i^{(1)}$ cannot be written as a finite union of irreducible closed subspaces, WLOG $i = 1$. So we can continue and write $X_1^{(1)} = X_1^{(2)} \cup X_2^{(2)}$ where $X_1^{(2)}, X_2^{(2)}$ are two proper closed subsets of $X_1^{(1)}$. Continue the process, and we obtain a strictly decreasing chain of closed subsets $X \supsetneq X_1^{(1)} \supsetneq X_2^{(1)} \supsetneq \cdots$, which is impossible since $X$ is Noetherian.
+
+    Now suppose $X = \bigcup\limits_{i = 1}^{n} C_i$ where $C_i$'s are irreducible closed subspaces. By Problem 20 of Chapter 1, each $C_i$ is contained in an irreducible component $X_i$ (not necessarily distinct). So $X = \bigcup\limits_{i = 1}^{n} X_i$. We claim that any irreducible component $X'$ of $X$ must be one of $X_i$. Since $X' \subset X$, $X' = \bigcup\limits_{i = 1}^{n} X' \cap X_i$. If all of RHS are proper subsets of $X'$, then $X'$ is reducible, a contradiction, so there must be some $i$ such that $X' \subset X_i$. But $X'$ is maximal since it is a component, we must have $X' = X_i$.
+\end{proof}
+
+{\color{red} Note that by the proof of the second part, we also show that the decomposition of $X$ into irreducible components is unique, indeed every irreducible component must participate in the decomposition.}
+
+\begin{problem}
+    If $A$ is a Noetherian ring then $\mathrm{Spec}(A)$ is a Noetherian topological space. Is the converse true?
+\end{problem}
+
+\begin{proof}
+    Note that closed sets in $\mathrm{Spec}(A)$ is in a one-to-one correspondence to the irreducible ideals of $A$. It follows that $\mathrm{Spec}(A)$ is Noetherian if and only if the radical ideals of $A$ satisfies ACC, which is implied by $A$ Noetherian.
+
+    The converse is not true. We need to find a ring with a lot more ideals than radical ideals. In particular, note that the nilradical has no effect on the spectra, we can build an infinite ascending chain inside the nilradical. The counter-example is $A = k[X_1, X_2, X_3, \cdots] / (X_1, X_2^2, X_3^3, \cdots)$. The ring is not Noetherian since $(X_1, \cdots, X_n)$ is not finitely generated. But the spectra is Noetherian. Let's consider the prime $\mathfrak{p}$ of $A$. It corresponds to prime ideals in $k[X_1, X_2, \cdots]$ that contains $X_1, X_2^2, \cdots$. But since $\mathfrak{p}$ is prime, the corresponding prime ideal must contain all $X_i$ $\Rightarrow$ it must be $(X_1, \cdots)$ as the latter is maximal $\Rightarrow \mathfrak{p} = (\overline{X_1}, \overline{X_2}, \cdots)$. So $\mathrm{Spec}(A)$ contains only one point and clearly is Noetherian.({\color{red}This answers the comments after Problem 4.})
+\end{proof}
+
+\begin{problem}
+    Deduce from Problem 8 that the set of minimal prime ideals in a Noetherian ring is finite.
+\end{problem}
+
+\begin{proof}
+    By Problem 7, 8 and part 4 of Problem 20 in Chapter 1.
+\end{proof}
+
+\begin{problem}
+    If $M$ is a Noetherian module (over an arbitrary ring $A$) then $\mathrm{Supp}(M)$ is a closed Noetherian subspace of $\mathrm{Spec}(A)$
+\end{problem}
+
+\begin{proof}
+    Since $M$ is Noetherian, it is finitely generated by Proposition 6.2. Then by part 5 of Problem 19 in Chapter 3, $\mathrm{Supp}(M) = V(\mathrm{Ann}(M))$. But then we have $V(\mathrm{Ann}(M)) \simeq \mathrm{Spec}(A / \mathrm{Ann}(M))$ by part 4 of Problem 21 in Chapter 1. Conclude by Problem 4 and 8.
+\end{proof}
+
+\begin{problem}
+    Let $f: A \rightarrow B$ be a ring homomorphism and suppose that $\mathrm{Spec}(B)$ is a Noetherian space (Problem 5). Prove that $\mathrm{Spec}(f): \mathrm{Spec}(B) \rightarrow \mathrm{Spec}(A)$ is a closed mapping if and only if $f$ has the going-up property (Chapter 5, Problem 10)
+\end{problem}
+
+\begin{proof}
+    The "only if" part is by Problem 10 of Chapter 5. We only need to show the "if" part.
+
+    Note that by Problem 10 of Chapter 5, if $f$ has the going-up property, then $\mathrm{Spec}(f)(V(\mathfrak{q})) = V(\mathrm{Spec}(p))$ for $\mathfrak{p} = \mathfrak{q}^c$ and $\mathfrak{p}, \mathfrak{q}$ primes. For arbitrary closed set $V(J)$ of $\mathrm{Spec}(B)$, by Problem 5, it is Noetherian, then by Problem 7, it is a union of irreducible closed subspaces (which are easily seen to be also irreducible subspaces of $\mathrm{Spec}(B)$). Namely, $V(J) = \bigcup\limits_{i = 1}^{n} V(\mathfrak{p}_i)$. Then we have:
+    $$\mathrm{Spec}(f)(V(J)) = \bigcup\limits_{i = 1}^n \mathrm{Spec}(f)(V(\mathfrak{p}_i))$$
+    which is a union of irreducible closed sets and thus closed.
+\end{proof}
+
+{\color{red} If $B$ is Noetherian (a condition strictly stronger, see Problem 8), since $V(J) = V(\sqrt{J})$, we may assume $J$ is radical, then consider the reduced ring $B / J$, it is Noetherian by Lem \ref{lem:sub-quotient-chain}, then it has only finitely many minimal primes, whose intersection is $0$ as $B / J$ is reduced. It follows that any radical ideal in a Noetherian ring is a finite intersection of prime ideals (the minimal prime ideals over it), which is stronger than the conclusion we use in Problem 11. ($V(J) = \bigcup\limits_{i = 1}^{n} V(\mathfrak{p}_i)$) \TODO I wonder what is the counter-example this time: A ring with Noetherian spectra, but with some radical ideal not the intersection of finitely many prime ideals? (The counter-example in Problem 8 is not applicable anymore, since $(\overline{X_1}, \overline{X_2}, \cdots)$ is also the only radical ideal.)}
+
+\begin{problem}
+    Let $A$ be a ring such that $\mathrm{Spec}(A)$ is a Noetherian space. Show that the set of prime ideals of $A$ satisfies the ascending chain condition. Is the converse true?
+\end{problem}
+
+\begin{proof}
+    Note that the closed sets in $\mathrm{Spec}(A)$ is in a one-to-one correspondence to radical ideals in $A$, so $\mathrm{Spec}(A)$ Noetherian $\Leftrightarrow$ the radical ideals of $A$ satisfies ACC. Since prime ideals are radical, they also satisfy ACC.
+
+    The converse is not true. A counter example is the boolean ring $\prod\limits_{i = 1}^{\infty} \mathbb{F}_2$. Since it is a boolean ring, any ideal is radical. Then the radical ideals clearly do not satisfy ACC: $\mathbb{F}_2 \times 0 \subsetneq \mathbb{F}_2 \times \mathbb{F}_2 \times 0 \subsetneq \cdots$. But the only prime ideals are $\prod\limits_{i = 1}^{n - 1} \mathbb{F}_2 \times 0 \times \prod\limits_{i = n + 1}^{\infty} \mathbb{F}_2$, so clearly the prime ideals satisfy ACC.
+\end{proof}
+
+{\color{red} Problem 12 together with Problem 8 shows that ACC $\gt$ ACCR (ACC on radical ideals) $\gt$ ACCP(ACC on primes).}
+
+\end{document}

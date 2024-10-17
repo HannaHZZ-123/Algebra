@@ -1,0 +1,319 @@
+\documentclass{solution}
+
+\begin{document}
+
+\begin{problem}{7.1}
+    Show that any curve has only a finite number of multiple points
+\end{problem}
+
+\begin{proof}
+    By Proposition 4 in Sec 6.3, the curve is isomorphic to an open subset of a projective variety. Then by Proposition 10 in Sec 6.5, the projective variety is a projective curve. So we only need to prove the case for projective curve $C'$.
+
+    By Problem 6.43, there is a projective plane curve $C$ birationally equivalent to $C'$. Then there is a nonempty open subset $V'$ of $C'$ isomorphic to an open subset $V$ of $C$. By Problem 5.8, the number of multiple points on $V'$ is finite. Since $V'$ is open, $C' \setminus V'$ is closed and thus finite($C'$ is a curve). This completes the proof.
+\end{proof}
+
+{\color{red} I am still looking for a more algebraic way of proving problem 7.1.}
+
+\begin{problem}{7.2}
+    \begin{inparaenum}
+        \item For each of the curves $F$ in Sec 3.1, find $F'$; show that $F'$ is nonsingular in the first five examples, but not in the sixth.
+        \item Let $F = Y^2 - X^5$. What is $F'$? What is $(F')'$? What must be done to resolve the singularity of the curve $Y^2 = X^{2n + 1}$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item I will only demonstrate the second and the last. Namely $B = Y^2 - X^3 + X$ and $F = (X^2 + Y^2)^3 - 4X^2Y^2$. By the formula of $F'$, we have $B' = 1 + XZ^2 - X^2$ and $F' = -4Z^2 + X^2(1 + Z^2)^3$. By calculating the intersection of $F, F_X, F_Y$, we found that $B'$ is singular while $F'$ is not, it has multiple point $(0, 0)$
+        \item By the formula of $F'$, we have $F' = Z^2 - X^3$ and $(F')' = Z^2 - X$. By induction, we simply need to blow up $(0, 0)$ $n$ times to obtain $Y^2 = X$, which is a singular curve.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{7.3}
+    Let F be any plane curve with no multiple components. Generalize the results of this section to F
+\end{problem}
+
+\begin{proof}
+    Omitted. We can argue in each component and combine the results.
+\end{proof}
+
+\begin{problem}{7.4}
+    Suppose $P$ is an ordinary multiple point on $C$, $f ^{-1}(P) = \left\lbrace P_1, \cdots, P_r \right\rbrace$. With the notation of Step (2), show that $F_Y = \sum\limits_{i} \prod\limits_{j \ne i} (Y - \alpha_j X) + (F_{r + 1})_Y + \cdots$, so $F_Y(x, y) = x^{r - 1} (\sum\limits_{i}\prod\limits_{j \ne i} (z - \alpha_j)) + \text{higher terms}$. Conclude that $ord_{P_i}^{C'}(F_Y(x, y)) = r - 1$ for $i = 1, \cdots, r$
+\end{problem}
+
+I think the original statement of the problem is wrong. Correct me if it weren't.
+
+\begin{proof}
+    The expression of $F_Y$ should be obvious for someone who knows how to take derivation. It follows by $xz = y$ that $F_Y(x, y) = x^{r - 1} (\sum\limits_{i}\prod\limits_{j \ne i} (z - \alpha_j)) + \text{higher terms}$. Then to show $ord_{P_i}^{C'} (F_Y(x, y)) = r - 1$, we only need to show $X$ is not tangent to $C'$ at $P_i$ so that $x$ is a parameter of $\mathcal{O}_{P_i}(C')$ (Thm 1 in Sec 3.2).
+    
+    By translation $T: (0, 0) \mapsto (0, \alpha_i)$, we have $(F')^T = F_r(1, Z + \alpha_i) + X(\cdots)$. Note that $F_r(1, Z + \alpha_i) = \prod\limits_{j} (Z + \alpha_i - \alpha_j) = Z \prod\limits_{j \ne i} (Z + \alpha_i - \alpha_j)$, which contains a term in $Z$. As a result, the tangent line at $P_i$ cannot be $X$.
+\end{proof}
+
+\begin{problem}{7.5}
+    Let $P$ be an ordinary multiple point on $C$, $f ^{-1}(P) = \left\lbrace P_1, \cdots, P_r \right\rbrace$, $L_i = Y - \alpha_i X$ the tangent line corresponding to $P_i = (0, \alpha_i)$. Let $G$ be a plane curve with image $g \in \Gamma(C) \subset \Gamma(C')$. \begin{inparaenum}
+        \item Show that $ord_{P_i}^{C'}(g) \ge m_P(G)$, with equality if $L_i$ is not tangent to $G$ at $P$.
+        \item If $s \le r$, and $ord_{P_i}^{C'}(g) \ge s$ for each $i = 1, \cdots, r$, show that $m_P(G) \ge s$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Write $G = G_m + G_{m + 1}+ \cdots + G_{n}$, where $G_i$ is a form of $X, Y$ with degree $i$. We may assume $G_m$ is not tangent to $X$ and $G_m(X, Y) = \prod\limits_{i} (Y - \beta_i X)^{s_i}$ Then $g = G_m(x, xz)  + \text{higher terms} = x^m (\prod\limits_{i} (z - \beta_i)^{s_i} + x(\cdots))$, by the same argument in Problem 7.4, $x$ is a parameter of $\mathcal{O}_{P_i}(C')$ and $ord_{P_i}^{C'}(g) = m + ord_{P_i}^{C'}(\prod\limits_{j} (z - \beta_j)^{s_j} + x(\cdots)) \ge m$. Finally, $\prod\limits_{j} (z - \beta_j)^{s_j} + x(\cdots)$ has order $0$ iff it does not evaluate to $0$ at $P_i$, which is equivalent to that $\alpha_i$ is not a zero of $\prod\limits_{j} (z - \beta_j)^{s_j}$, namely $G$ not tangent to $L_i$
+        \item Suppose otherwise, follow the arguments in part 1, then $(\prod\limits_{j} (z - \beta_j)^{s_j} + x(\cdots))$ evaluates to $0$ at each $P_i$. Which means $\prod\limits_{j} (z - \beta_j)^{s_j}$ has at least $r$ zero. But it is a polynomial of degree $m$, which implies $m \ge r \ge s$, a contradiction.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{7.6}
+    If $P$ is an ordinary cusp on $C$, show that $f ^{-1}(P) = \left\lbrace P_1 \right\rbrace$, where $P_1$ is a simple point on $C'$.
+\end{problem}
+
+\begin{proof}
+    If $P$ is an ordinary cusp, we may assume the tangent line at $P$ is $Y$ and $C = Y^2 + cX^3 + \text {other terms with order $3$} +\text{higher terms}$ where $c \ne 0$. Then we have $C' = cX + Z^2 + X(\cdots)$, which implies $f ^{-1}(P) = \left\lbrace (0, 0) \right\rbrace$ and $(0, 0)$ is a simply point.
+\end{proof}
+
+\begin{problem}{7.7}
+    Suppose $P_1 = [0:0:1]$, $P_1' = [a_{11}:a_{12}:1]$, and
+    $$T = (aX + bY + a_{11}z, cX + dY + a_{12}Z, eX + fY + Z)$$
+    Show that $T_1 = ((a - a_{11}e)X + (b - a_{11}f)Y, (c - a_{12}e)X + (d - a_{12}f)Y)$ satisfies $T_1 \circ f_1 = f_1' \circ T$. Use this to prove Step (3) above.
+\end{problem}
+
+\begin{proof}
+    Omitted since this is pure computation. Note that $T$ is actually a general change of coordinates (with $8$ parameters) so this completes Step(3).
+\end{proof}
+
+\begin{problem}{7.8}
+    Let $P_1 = [0:0:1], T_1 = (aX + bY, cX + dY)$. Show that $T = (aX + bY, cX + dY, Z)$ satisfies $f_1 \circ T = T_1 \circ f_1$. Use this to prove Step(4)
+\end{problem}
+
+\begin{proof}
+    Omitted since this is pure computation. We should note that $T$ fixes $P_1$. To fix general point, simply change that point into $[0:0:1]$, replace $T_1$ by $T_1 \circ S_1 ^{-1}$ where $S_1$ is the change of coordinates caused by $T$ in Problem 7.7.Then apply $T$. Then apply this process reversely.
+\end{proof}
+
+\begin{problem}{7.9}
+    Let $C = V(X^4 + Y^4 - XYZ^2)$. Write down equations for a nonsingular curve $X$ in some $\mathbb{P}^N$ that is birationally equivalent to $C$.
+\end{problem}
+
+\begin{proof}
+    The only singularity is $[0:0:1]$. Let us denote the coordinates in the space $\mathbb{P}^2 \times \mathbb{P}^1$ as $([X:Y:Z], [U:W])$. Follow the process in the section, we take $V = U_3$, $W = \mathbb{A}^2$ and $W' = U \cup \left\lbrace x \right\rbrace$ and $V' = B \setminus V(UZ)$. Then the curve in $W$ is $X^4 + Y^4 - XY$, which corresponds to the curve $-Z + X^2 + X^2Z^4$ in $W'$. By $\varphi ^{-1}$, we obtain its expression in $V'$: $-Z^2U^3W + X^2U^4 + X^2W^4 = 0$. Its closure in $B$ is
+    $$\left\{\begin{aligned}
+        &-Z^2U^3W + X^2U^4 + X^2W^4 = 0\\
+        &UY - WX = 0
+    \end{aligned}\right.$$
+    \TODO
+\end{proof}
+
+\begin{problem}{7.10}
+    Let $F = 8X^3Y + 8X^3Z + 4X^2YZ - 10XY^3 - 10XY^2Z - 3Y^3Z$. Show that $F$ is in good position, and that $F' = 8Y^2Z + 8Y^3 + 4XY^2 - 10X^2Z - 10X^2Y - 3X^3$. Show that $F$ and $F'$ have singularities as in the example sketched, and find the multiple points of $F$ and $F'$.
+\end{problem}
+
+\begin{proof}
+    Write $F = (8X^3 + 4X^2Y - 10 XY^2 - 3Y^3)Z + 8X^3Y - 10 XY^3$, we can see that neither $X$ nor $Y$ are tangent to $F$ at $P$. By similar arguments at $P', P''$, $F$ is in good position. Note that $F^Q = 8XY^3Z^4 + 8XY^4Z^3 + 4 X^2Y^3Z^3 - 10 X^3YZ^4 - 10 X^3Y^2Z^3 - 3X^4YZ^3 = XYZ^3(F')$, we obtain the expression of $F'$. The rest is easy by solving $F = F_X = F_Y = F_Z = 0$.
+\end{proof}
+
+\begin{problem}{7.11}
+    Find a change of coordinates $T$ so that $(Y^2Z - X^3)^T$ is in excellent position, and $T([0:0:1]) = [0:0:1]$. Calculate the quadratic transformation.
+\end{problem}
+
+\begin{proof}
+    Note that $m_P(Y^2Z - X^3) = 2$, we only need to find $L', L''$ that pass through $P$ and intersect $F$ at one points and $L$ that intersects $F$ at three points. By Bezout's theorem, as long as $L', L''$ is not tangent to $F$ at $P$, we are done. The tangent line of $F$ at $P$ is $Y$. As a result, we can take $L' = X, L'' = X - Y$. Then $L'$ intersects $F$ at $[0:0:1]$ and $[0:1:0]$ and $L''$ intersects $F$ at $[0:0:1]$ and $[1:-1:1]$. Finally, we select a simple point of $F$ that is not one of these intersection points: $[1:1:1]$, and find a line through it that intersects $F$ in three distinct points. (You can do so by the method in Problem 5.26, but you can just try a series of candidates, you can only fail a finite times anyway). We use $L = X + Y - 2Z$ here. Now $L$ and $L'$ intersect at $[0: 2: 1]$, $L$ and $L''$ intersect at $[1:1:1]$. Finally, find a projective change of coordinates that sends $P, P', P''$ to $[0:0:1], [1:1:1]$ and $[0:2:1]$ respectively, this can be done by solving equations.
+\end{proof}
+
+Note that a curve is in excellent position iff its intersection with $L, L', L''$ satisfy the conditions in the definition, namely we do not need to verify that the curve is in good position. This is because by Bezout's theorem, $m_{P'}(C) = m_{P''}(C) = 0$ (otherwise the summation of intersection numbers for $L$ and $C$ will exceed $n$) and neither $L', L''$ is tangent to $C$ at $P$ (otherwise the intersection number of $L', L''$ at $P$ will be larger than $r$ and therefore the summation of intersection numbers of $L' \cap C, L'' \cap C$ will exceed $n$)
+
+\begin{problem}{7.12}
+    Find a quadratic transformation of $Y^2Z^2 - X^4 - Y^4$ with only ordinary multiple points. Do the same with $Y^4 + Z^4 - 2X^2(Y - Z)^2$
+\end{problem}
+
+\begin{proof}
+    Omitted. \TODO
+\end{proof}
+
+\begin{problem}{7.13}
+    \begin{inparaenum}
+        \item Show that in the lemma, we may choose $T$ in such a way that for a given finite set $S$ of points of $F$, with $P \notin S, T ^{-1}(S) \cap V(XYZ) = \emptyset$. Then there is a neighborhood of $S$ on $F$ that is isomorphic to an open set on $(F^T)'$.
+        \item If $S$ is a finite set of simple points on a plane curve $F$, there is a curve $F'$ with only ordinary multiple points, and a neighborhood $U$ of $S$ on $F$, and an open set $U'$ on $F'$ consisting entirely of simple points, such that $U$ is isomorphic to $U'$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that $T ^{-1} (S) \cap V(XYZ) = \emptyset$ is equivalent to $T(V(XYZ)) \cap S = \emptyset$. Note that $V(XYZ)$ is the union of three lines $X, Y, Z$, we only need to map them to three lines that do not intersect $S$. Since there are infinite many lines that do not intersect $S$ (Problem 5.14), there are infinite number of $T$ that satisfies this condition. Also, the selection of $L, L', L''$ in the lemma only rules out finite $T$'s, so we can always find the $T$ that satisfies all conditions. If $T$ satisfies the condition, take $T ^{-1}(U) \cap F$ as the neighborhood of $S$, it is isomorphic to $F^T \cap U$ and therefore isomorphic to $(F^T)' \cap U$.
+        \item Let $V$ be the set of simple points on $F^T$, it is open in $F^T$. Consider $U \cap V \cap F^T$, which is open $F^T$, it is isomorphic (by $T$) to $T ^{-1}(U) \cap T ^{-1}(V) \cap F$, a neighborhood of $S$. Then since $Q$ restricts to an isomorphism on $U$ and therefore keeps simple points, $U \cap V \cap F^T$ is isomorphic to an open set in $(F^T)'$, which by isomorphism contains only simple points. Replace $S$ by its corresponding points in $(F^T)'$ and continue the process. (In the induction step, we further require the neighborhood of $S$ is contained in the open set of the previous step).
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{7.14}
+    \begin{inparaenum}
+        \item What happens to the degree, and to $g^*(F)$, when a quadratic transformation is centered at \begin{inparaenum}
+            \item an ordinary multiple point
+            \item a simple point
+            \item a point not on $F$
+        \end{inparaenum}
+        \item Show that the curve $F'$ of Problem 7.13(b) may be assumed to have arbitrarily large degree.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item The projective change of coordinates do not affect the degree or $g^*(F)$, so we may only consider the case when $F$ is at excellent position and the quadratic transformation is the algebraic transformation.
+        \begin{enumerate}
+            \item If $P$ is an ordinary multiple point, then $\deg(F') = 2n - r$ by Step (2) in Sec 7.4. There are $r$ distinct intersection points (non-fundamental) on $L \cap C'$, all simple on $C'$ (By the lemma below). By Step(8) in Sec 7.4, $g^*(C') = g^*(C)$.
+            \item If $P$ is a simple point, then $\deg(F') = 2n - 1$ by Step (2) in Sec 7.4. $g^*(C') = g^*(C)$ by the same arguments above.
+            \item If $P$ is not on $F$, then $\deg(F') = 2n$ by Step (2). $g^*(C') = g^*(C)$ by the same arguments above.
+        \end{enumerate}
+        \item We may perform a quadratic transformation on $F$ centered at a point not of $F$ to increase the degree of $F$ to arbitarily large.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma} \label{lem:intersection-number-non-dundamental}
+    If $F_r = \prod\limits_{i = 1}^{s} (X - \alpha_i Y)^{m_i}$, then $F' \cap L$ has $s$ non-fundamental points $\left\lbrace P_1, \cdots, P_s \right\rbrace$, with $P_i = [1:\alpha_i:0]$, also $I(P_i, C' \cap L) = m_i$. In particular, $m_{P_i}(C') \le m_i$, and $m_i = 1$ implies $P_i$ simple on $C'$
+\end{lemma}
+
+\begin{proof}
+    Note that
+    $$F' = \sum\limits_{i = 0}^{n - r} F_{r + i} (Y, X)X^{n - r - r'' - i} Y^{n - r - r' - i}Z^i$$
+    So the non-fundamental points of $F' \cap Z$ correspond to the solutions of $F_r$. Therefore the non-fundamental points of $F' \cap Z$ are $\left\lbrace P_i = [1:\alpha_i:0] \right\rbrace_i$.
+
+    Also, $I(P_i, C' \cap L) = I(P_i, F_r(Y, X)\cap Z) = m_i I(P_i, Y - \alpha_i X \cap Z) = m_i$
+\end{proof}
+
+\begin{problem}{7.15}
+    Let $F = F_1, \cdots, F_m$ be a sequence of quadratic transformations of $F$, such that $F_m$ has only ordinary multiple points. Let $P_{i1}, P_{i2}, \cdots$ be the points on $F_i$ introduced, as in (7)(c), in going from $F_{i - 1}$ to $F_i$. If $n = \deg(F)$, show that
+    $$(n - 1)(n - 2) \ge \sum\limits_{P \in F} m_P(F) (m_P(F) - 1) + \sum\limits_{i \gt 1, j} m_{P_{ij}}(F_i)(m_{P_{ij}}(F_i) - 1)$$
+\end{problem}
+
+\begin{proof}
+    This is by Step (8) in Sec 7.4 and $g^*(C_m) \ge 0$
+\end{proof}
+
+\begin{problem}{7.16}
+    \begin{inparaenum}
+        \item Show that everything in this section, including Theorem 2, goes through for any plane curve with no multiple components.
+        \item If $F, G$ are two curves with no common components, and no multiple components, apply (a) to the curve $FG$. Deduce that there are sequences of quadratic transformations $F = F_1, \cdots, F_s = F'$ and $G = G_1, \cdots, G_s = G'$, where $F', G'$ have only ordinary multiple points, and no tangents in common at points of intersection. Show that
+        $$\deg(F) \deg(G) = \sum m_P(F) m_P(G) + \sum\limits_{i \gt 1, j} m_{P_{ij}}(F_i) m_{P_{ij}}(G_i)$$
+        where $P_{ij}$ are the neighboring singularities of $FG$, determined as in Problem 7.15.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item All of them can be proved by considering the different components of $F$ and sum up the results. (Note that we define a point to be an ordinary point of a plane curve if it is an ordinary point on each component)
+        \item ISTS $g(F, G) = \deg(F) \deg(G) - \sum\limits_{P}m_P(F) m_P(G)$ has the following properties:
+        \begin{enumerate}
+            \item $g(F_{i + 1}, G_{i + 1}) = g(F_i, G_i) - \sum\limits_{j} m_{P_{ij}}(F_i) m_{P_{ij}}(G_i)$: Note that:
+            $$g(F, G) = g^*(FG) - g^*(F) + g^*(G)$$
+            and apply Step (8)
+            \item $g(F', G') = 0$: Since $F', G'$ has only ordinary multiple point and no common tangents, every intersection is simple, then $g(F', G') = 0$ by Bezout's theorem.
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{7.17}
+    \begin{inparaenum}
+        \item Show that for any irreducible curve $C$ (projective or not) there is a nonsingular curve $X$ and a birational morphism $f$ from $X$ onto $C$. What conditions on $X$ will make it unique?
+        \item Let $f: X \rightarrow C$ as in part 1, and let $C^{\circ}$ be the set of simple points of $C$. Show that the restriction of $f$ to $f ^{-1}(C^{\circ})$ gives an isomorphism of $f ^{-1}(C^{\circ})$ with $C^{\circ}$
+    \end{inparaenum}
+\end{problem}
+
+Note that in Theorem 7.5, $X$ is taken as a nonsingular \textbf{projective} curve. And I would like to clarify a few things about the definitions in this book:
+
+\begin{enumerate}
+    \item Curve: any variety of dimension $1$
+    \item Projective Curve: a \textbf{closed} subvariety of $\mathbb{P}^n$ of dimension $1$
+    \item Projective Plane Curve: a form in $k[X, Y, Z]$, could be redusible, could have multiple components
+\end{enumerate}
+
+\begin{proof}
+    \begin{enumerate}
+        \item By Proposition 4 in Sec 6.3 and Proposition 10(1) in Sec 6.5, any irreducible curve $C$ is isomorphic to an open subset of a projective curve $C_1$. Then we can find a birational morphism $f: X_1 \rightarrow C_1$ from a nonsingular projective curve $X_1$ onto $C_1$. Then the restriction of $f$ on $X' = f ^{-1}(C)$ will have $f': X' \rightarrow C$ a birational and onto morphism. Note that any open subset $X''$ of $X'$ such that $f(X') = C$ will also satisfy the condition (take $f''$ to be the restriction of $f'$ on $X'$), so to make $X'$ unique, we must restrict $X'$ such that it is maximum. We claim that under this condition, $X'$ is unique up to isomorphism.
+        
+        Suppose $f_i': X_i' \rightarrow C, i = 1, 2$ are two birational onto morphism and $X_i$ are nonsingular curve. Then $X_i'$ may be regarded as an open subset of a nonsingular projective curve $X_i$. (It is isomorphic to an open subset of a projective curve, we can then make the projective curve nonsingular by birational morphism. Note that each step of the transformation preserves an open subset that contains all simple points. Then $X_i'$ will still corresponds to open subsets in the transformed curve). Then there are birational map $f_i: X_i \rightarrow C$, and therefore $X_1, X_2$ are isomorphic by $g: X_1 \rightarrow X_2$ with $f_2g = f_1$. By maximality, $X_i' = f_i ^{-1}(C)$, then $g$ also restricts to an isomorphism between $X_i'$
+        \item This is because each step (a birational map) of the transformation preserves an open subset that contains all simple points and simple points are open(multiple points are finite).
+    \end{enumerate}
+\end{proof}
+
+Warning: a birational and onto morphism $f: X \rightarrow C$ does not mean $f$ has domain $X$ regarded as a birational map. (Otherwise a birational onto morphism will be an isomorphism, which is absurd). But by part 2 of Problem 7.17, we can at least assume all the preimages of simple points are in the domain, the only tricky parts are the 'blew-up's.
+
+\begin{problem}{7.18}
+    Show that for any place $P$ of a curve $C$, and choice $t$ of uniformizing parameter for $\mathcal{O}_{P}(X)$, there is a homomorphism $\varphi: k(X) \rightarrow k((T))$ taking $t$ to $T$. Show how to recover the place from $\varphi$. (In many treatments of curves, a place is defined to be a suitable quivalence class of "power series expansions")
+\end{problem}
+
+By the problem, we can expand elements in $k(X)$ (expecially $\mathcal{O}_{Q}(C)$ where $Q = f(P)$) as rational power series of $t$, an element in $\mathcal{O}_{P}(X)$. Different selection of $t$ in $\mathcal{O}_{P}(X)$ will only affect the expansion, but not the order of the expansion. The correspondence between $k(X)$ and the order of the expansion characterizes the place.
+
+\begin{proof}
+    Note that $P$ is a simple point, so $R = \mathcal{O}_{P}(X)$ is a DVR of $K = k(X)$ that contains $k$. Since $X$ is a curve, by Proposition 9(3) in Sec 6.5, $R$ is a DVR that satisfies the conditions in Problem 2.30. Then apply Problem 2.32 to construct homomorphism $\varphi: k(X) \rightarrow k((T))$. To recover the place, we only need to recover $R = \mathcal{O}_{P}(X)$ by Corollary 4 in Sec 7.1 since $X$ is nonsincular. Note that since the order of $k((T))$ restricts to the order of $k(X)$ by Problem 2.32, and $R$ is a DVR of $k(X)$. So $\mathcal{O}_{P}(X)$ is the set of all elements in $k(X)$ with order $\ge 0$, and the order can be calculated by its image in $\varphi$ (the order of $k((T))$ can be easily calculated).
+\end{proof}
+
+\begin{problem}{7.19}
+    Let $f: X \rightarrow C$ as above, $C$ a projective plane curve. Suppose $P$ is an ordinary multiple point of multiplicity $r$ on $C$, $Q_1, \cdots, Q_r$ the places on $X$ centered at $P$. Let $G$ be any projective plane curve, and let $s \le r$. Show that $m_P(G) \ge s$ iff $ord_{Q_i}(G) \ge s$ for $i = 1, \cdots, r$. 
+\end{problem}
+
+\begin{proof}
+    \TODO 
+
+    For the "only if" part, suppose otherwise, note that
+    $$m_P(G) r \le I(P, G \cap C) = \sum\limits_{i = 1}^{r} ord_{Q_i}(G)\lt rs$$
+    so $m_P(G) \lt s$, a contradiction.
+\end{proof}
+
+\begin{problem}{7.20}
+    Let $R$ be a domain with quotient field $K$. The integral closure $R'$ of $R$ is $\left\lbrace z \in K: z \text{ is integral over }R \right\rbrace$. Prove:
+    \begin{enumerate}
+        \item If $R$ is a DVR, then $R' = R$
+        \item If $R'_{\alpha} = R_{\alpha}$, then $(\cap R_{\alpha})' = (\cap R_{\alpha})$
+        \item With $f: X \rightarrow C$ as in Lemma 2, show that $\Gamma(U') = \Gamma(U)'$ for all open sets $U$ of $C$. This gives another algebraic characterization of $X$.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item It's clear that $R \subset R'$. Let $z \in K$, then $z = ut^n$ where $u$ is a unit of $R$ and $n \in \mathbb{Z}$. Suppose $z$ is integral over $R$, then there are $a_1, \cdots, a_r \in R$ such that $z^{r} + a_1z^{r - 1} + \cdots + a_r = 0$. If $n \lt 0$, then the LHS contains terms of different orders ($z^r$ with negative order and $a_r$ with nonnegative order), as a result, write $LHS = t^{m}(u + \text{terms in $\mathfrak{m}$})$ where $m$ is the lowest order among the sum ends. Then $LHS \ne 0$, a contradiction. So $n \ge 0$ and $z \in R'$. 
+        \item Note that if $z \in (\cap R_{\alpha})$, then there is $a_1, \cdots, a_r \in \cap R_{\alpha} \subset R_{\alpha}$ such that $z^{r} + a_1z^{r - 1} + \cdots + a_r = 0$, namely $z$ is integral over $R_{\alpha}, \forall \alpha$. This implies $z \in R_{\alpha}' = R_{\alpha}, \forall \alpha$, namely $z \in \cap R_{\alpha}$.
+        \item Note that $\Gamma(U') = \bigcap\limits_{P \in U'} \mathcal{O}_{P}(U')$, since $X$ is nonsingular, each $\mathcal{O}_{P}(U')$ is a DVR, and by part 2, we have $\Gamma(U') = \Gamma(U')'$. However, by Lemma 2 in Sec 7.5 and Problem 1.46, $\Gamma(U')' = \Gamma(U)'$
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{7.21}
+    Let $X$ be a nonsingular projective curve, $P_1, \cdots, P_s \in X$. \begin{inparaenum}
+        \item Show that there is a projective plane curve $C$ with only ordinary multiple points, and a birational morphism $f: X \rightarrow C$ such that $f(P_i)$ is simple on $C$ for each $i$
+        \item For any $m_1, \cdots, m_r \in \mathbb{Z}$, show that there is a $z \in k(X)$ such that $ord_{P_i}(z) = m_i$
+        \item Show that the curve $C$ of part 1 may be found with arbitrarily large degree.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item We can first apply Problem 6.43 to obtain a birational morphism $f_0: X \rightarrow C_0$. By quadratic transformations if necessary, we may assume $C_0$ has only ordinary multiple points. If $f_0(P_i)$ is multiple, we may take a quadratic transform $Q \circ T$ of $C_0$ centered at $f_0(P_i)$. Furthermore, we require $T$ satisfies $T ^{-1}(P_j) \in U, j \ne i$ (by Problem 7.13) so that the quadratic transformation does not change whether other points $P_j$ are (non-ordinary) multiple points. Then we obtain $f_1: X \rightarrow C_1$ a birational map. Since $X$ is nonsingular, $f_1$ is a morphism. By our construction, $f_1(P_j)$ has the same multiplicity as $f_0(P_j)$ for $j \ne i$. By the lemma below, $f_1(P_i)$ is one of the intersection points in Step(7)(c) of Sec 7.4, which are all simple since $f_0(P_j)$ is ordinary (see lemma \ref{lem:intersection-number-non-dundamental}).
+        \item By Problem 5.15, we can take $z \in k(C) = k(X)$ such that $ord_{f(P_i)}(z) = m_i$, then $ord_{P_i}(z) = m_i$ by part 2 of Problem 7.17. (The local rings for simple points are isomorphic between $X, C$)
+        \item After we obtain $f: X \rightarrow C$ in part 1, we may continue applying quadratic transformation on points not on $C$. Moreover, we can futher require (by Problem 7.13) that each quadratic transformation keeps $f(P_i)$ simple.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    If $f: X \rightarrow C$ is a birational morphism, $X$ a nonsingular projective curve and $C$ a projective plane curve. Suppose $f(Q) = P = [0:0:1]$ for some $Q \in X$. $C'$ is the resulting curve after a quadratic transformation centered at $P$ for $C$. Then the birational map between $C'$ and $C$ induces a birational map $f': X \rightarrow C'$, which is a morphism by Corollary 1 in Sec 7.1. Then $f'(Q)$ is one of the $r$ non-fundamental intersection points of $C' \cap L$ as mentioned in Step(7)(c) of Sec 7.4.
+\end{lemma}
+
+\begin{proof}
+    We prove by ruling out other cases. By definition, the birational map between $C'$ and $C$ restricts to an isomorphism of $C' \cap U$ and $C \cap U$. Since $f(Q) = P \notin U$, $f'(Q) \notin U$. \TODO
+\end{proof}
+
+
+\begin{problem}{7.22}
+    Let $P$ be a node on an irreducible plane curve $F$, and let $L_1, L_2$ be the tangents to $F$ at $P$. $F$ is called a simple node if $I(P, L_i \cap F) = 3$ for $i = 1, 2$. Let $H$ be the Hessian of $F$. \begin{inparaenum}
+        \item If $P$ is a simple node on $F$, show that $I(P, F \cap H) = 6$. 
+        \item If $P$ is an ordinary cusp on $F$, show that $I(P, F \cap H) = 8$
+        \item Use part 1 and 2 to show that every cubic has one, three or nine flexes. Then Problem 5.24 gives another proof that every cubic is projectively equivalent to one of the type $Y^2Z = \text{cubic in $X$ and $Z$}$.
+        \item If the curve $F$ has degree $n$, and $i$ flexes (all ordinary), and $\delta$ simple nodes, and $k$ cusps, and no other singularities, then
+        $$i + 6 \delta + 8k = 3n(n - 2)$$
+        This is one of "Plucker's Formulas"
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \TODO
+    \begin{enumerate}
+        \item By a change of coordinates, we may assume $P = [0:0:1]$ and the tangent lines at $P$ are $X, Y$. Then $F_* = XY + \cdots$. By Proposition 2 in Sec 7.5, we have $I(P, L_1 \cap F) = ord_{Q_1}(x) + ord_{Q_2}(x) = 3$ where $Q_1, Q_2$ are the preimages of $P$ in $X$. Note that $x$ evaluates to $0$ at $P$, so $\tilde{f}(x) \in \mathcal{O}_{Q_i}(X)$, then $ord_{Q_i}(x) \gt 0$. As a result, we may assume $ord_{Q_1}(x) = 1, ord_{Q_2}(x) = 2$. The similar can be said about $y$. \TODO
+        \item 
+    \end{enumerate}
+\end{proof}
+
+\end{document}

@@ -1,0 +1,653 @@
+\documentclass{solution}
+
+\usepackage{paralist}
+\usepackage{xcolor}
+
+\newcommand{\TODO}{{\color{red} TODO}}
+
+\begin{document}
+
+Below I will denote $P_*$ as $(x_1, \cdots, x_n)$ for $P = [x_1:\cdots :x_n:1]$ and $Q^*$ as $[x_1:\cdots:x_n:1]$ for $Q = (x_1, \cdots, x_n)$
+
+Before the proofs, I think the definition of multiplicity given in the text is a bit misleading. It is stated that the multiplicity is determined by the local ring of the curve, this seems confusing (at least to me). Note that local rings are only defined for varieties. What if we want to calculate the multiplicity of a general algebraic curve? It turns out that we only need to sum up the contribution of each component. This is compatible with the definition of multiplicity for affine algebraic curves (the smallest $m$ such that $F_m \ne 0$). Since the multiplicity of each component is determined by the local ring (Thm 2 of Sec 3.2), the multiplicity of a general curve is indeed determined by local rings.
+
+However, $m_P(F) = m_{P_*}(F_*)$ always holds if $P \in U_{n + 1}$(similar for every $U_i$). This is because when $P \in F_i$ where $F_i$ is a component of $F$, we clearly have $F_i \cap U_i \ne \emptyset$. And when $P \notin F_i$, the contribution is $0$ anyway.
+
+\begin{remark}
+    One may try to define local rings for algebraic sets in general. This works. But the problem is that $\mathcal{O}_{P}(V) \cong \mathcal{O}_{P_*}(V_*)$ does not necessarily hold (it is likely that you cannot find a single $U_i$ which intersects every component of $V$, so $(V_*)^*$ does not hold). In the end, you have to project each component separately.
+\end{remark}
+
+Before the proofs, we shall first clarify a few facts.
+
+\begin{proposition}
+    $V$ is a variety in $\mathbb{A}^n$, $P \in V$, then $\Gamma_h(V^*) \cong \Gamma(V), k(V^*) \cong k(V), \mathcal{O}_{P^*}(V^*) \cong \mathcal{O}_{P}(V)$.
+\end{proposition}
+
+\begin{proof}
+    We only prove the first one, since the other two follow naturally from the first. Define the map $\varphi: \Gamma_h(V^*) \rightarrow \Gamma(V): f \mapsto f_*$ where $f_*$ is defined as in section 4.3.
+
+    \begin{enumerate}
+        \item $\varphi$ is well-defined: Suppose $F - G \in I(V^*)$, then $F_* - G_* \in I(V^*)_* \subset I((V^*)_*) = I(V)$
+        \item $\varphi$ is a ring homomorphism: trivial by Proposition 5 in section 2.6
+        \item $\varphi$ is injective: Suppose $f_* = 0$, and $f$ is the residue class of $F$. Then $F_* \in I(V) \Rightarrow F \in I(V)^* \subset I(V^*) \Rightarrow f = 0$.
+        \item $\varphi$ is surjective: Take arbitrary $f \in \Gamma(V)$, suppose $f$ is the residue of $F$. Simply take $G = F^*$, then $f = g_*$.
+    \end{enumerate}
+\end{proof}
+
+However, in this section, we want to reduce the problems in $\mathbb{P}^n$ to $\mathbb{A}^n$, namely, we want relations between algebraic structures of $V$ and $V_*$. By the above proposition, we only need to have $(V_*)^* = V$. Problem 4.22 and Proposition 3 of section 4.3 classifies all algebraic varieties $V$ in $\mathbb{P}^n$: If $V$ contains $H_{\infty}$, then $V = \mathbb{P}^n$; otherwise, either $V \cap U_{n + 1} \ne \emptyset$ and $(V_*)^* = V$, or $V \subset H_{\infty}$ and $V_* = \emptyset$. As a result, $(V_*)^* = V$ iff $V \cap U_{n + 1} \ne \emptyset$.
+
+\begin{proposition}
+    $V$ is a variety in $\mathbb{P}^n$ and $V \cap U_{n + 1} \ne \emptyset$, $P \in V \cap U_{n + 1}$, then $\Gamma_h(V_*) \cong \Gamma(V), k(V_*) \cong k(V), \mathcal{O}_{P_*}(V_*) \cong \mathcal{O}_{P}(V)$.
+\end{proposition}
+
+Of course, $U_{n + 1}$ is nothing special here, and can be replaced by any $U_{i}, i = 1, \cdots, n + 1$.
+
+A special case for the above proposition is when $V$ is an irreducible hypersurface.
+
+\begin{proposition}
+    $F$ is an irreducible hypersurface in $\mathbb{P}^n$ and $F \cap U_{n + 1} \ne \emptyset$, $P \in F \cap U_{n + 1}$, then $\mathcal{O}_{P_*}(F_*) \cong \mathcal{O}_{P}(F)$.
+\end{proposition}
+
+Now we can reduce the problems in $\mathbb{P}^2$ into problems in $\mathbb{A}^2$ by projection:
+
+\begin{proposition}\label{props:lem-intersection-number}
+    Let $F, G$ be projective curves in $\mathbb{P}^2$ and $P \in F \cap G \cap U_3$, then we have $I(P, F \cap G) = I(P_*, F_* \cap G_*)$
+\end{proposition}
+
+\begin{proof}
+    Take $L = Z$. Suppose $F, G$ is of degree $r, s$ respectively. Then by the isomorphism between $\mathcal{O}_{P_*}(\mathbb{A}^2)$ and $\mathcal{O}_{P}(\mathbb{P}^2)$, we have:
+    $$\mathcal{O}_{P}(\mathbb{P}^2) / (F / L^r, G / L^s) \cong \mathcal{O}_{P_*}(\mathbb{A}^2) / (F_* / L_*^r, G_* / L_*^s) \cong \mathcal{O}_{P_*}(\mathbb{A}^2) / (F_*, G_*)$$
+    which completes our proof.
+\end{proof}
+
+\begin{corollary}\label{cor:tangent-line-homo}
+    Let $F$ be a projective curve in $\mathbb{P}^2$ and $L$ a line in $\mathbb{P}^2$, $P \in L \cap F \cap U_3$, then $L$ is a tangent line of $F$ iff $L_*$ is a tangent line of $F_*$.
+\end{corollary}
+
+\begin{proof}
+    Suppose $F = GH$ where $H$ is the product of all components of $F$ that do not pass $P$. Then $I(P, F \cap L) = I(P, G \cap L)$ by property 2 of section 3.3. Also $m_P(F) = m_P(G)$. So $L$ is tangent to $F$ iff $L$ is tangent to $G$ at $P$. We may assume $F$ contains only components that intersect $P$, therefore $m_{P_*}(F_*) = m_{P}(F)$. By Props \ref{props:lem-intersection-number}, we have:
+    $$
+        \begin{aligned}
+        L_* \text{tangent to} F_* & \Leftrightarrow I(P_*, L_* \cap F_*) \gt m_{P_*}(F_*) \\
+        &\Leftrightarrow I(P, L \cap F) \gt m_{P}(F) \\
+        &\Leftrightarrow L \text{tangent to} F
+        \end{aligned}
+    $$
+\end{proof}
+
+\begin{problem}{5.1}
+    Let $F$ be a projective plane curve. Show that a point $P$ is a multiple point of $F$ iff $F(P) = F_X(P) = F_Y(P) = F_Z(P) = 0$
+\end{problem}
+
+\begin{proof}
+    First we claim that $m_P(F) = 0$ if $P$ is not on the curve. By a projective change of coordinates, we may assume $P = [1:1:1]$. Since $U_1, U_2, U_3$ covers $\mathbb{P}^2$, there is $U_i \cap F \ne \emptyset$, WLOG, $F \cap U_3 \ne \emptyset$, so $\mathcal{O}_P(V(F)) \cong \mathcal{O}_{(1, 1)}(V(F)_*)$, but $P \notin F \Rightarrow (1, 1) \notin F_* \Rightarrow m_{(1, 1)}(F_*) = 0 \Rightarrow m_P(F) = 0$.
+
+    Suppose $F = GH$ where $H$ is a component that does not pass $H$. Then $P$ is a multiple point of $F$ iff $P$ is a multiple point of $G$. Also, $F(P) = G(P)H(P), F_X(P) = G_X(P) H(P) + H_X(P)G(P)$, since $H(P) \ne 0$, $F(P) = F_X(P) = 0$ iff $G(P) = G_X(P) = 0$, similar for $Y, Z$.
+
+    As a result, we only need to consider the components of $F$ that pass $P$. If there are more than one components (or one component with multiplicities $\ge 2$) of $F$ that passes $P$, we may assume $F = F_1F_2G$ where $F_i$ are irreducible and $P \in F_i, i = 1, 2$. It is easy to verify (by the partial derivative rule) that $F(P) = F_X(P) = F_Y(P) = F_Z(P) = 0$. Since each component will provide at least $1$ multiplicity of $P$, $P$ is a multiple point of $F$.
+
+    If there is only one simple component of $F$ that pass $P$, $F$ is a variety. We claim that a projective change of coordinates will not affect the statement. Since a projective change of coordinates produce isomorphism among local rings, we only need to show that $F_X(P) = F_Y(P) = F_Z(P) = 0$ iff $F_X^T(Q) = F_Y^T(Q) = F_Z^T(Q) = 0$ where $P = T(Q)$ for projective change of coordinates $T$, this is by the fact that:
+    $$\begin{bmatrix}F_X^T(Q) \\F_Y^T(Q) \\ F_Z^T(Q)\end{bmatrix} = J_Q(T) \begin{bmatrix} F_X(P) \\F_Y(P) \\ F_Z(P) \end{bmatrix}$$
+
+    As a result, we may assume $P = [0:0:1]$ and $F \cap U_3 \ne \emptyset$, then consider $m_P(F) = m_{(0, 0)}(F_*)$, following the discussion after problem 3.1, we know that $m_P(F) \gt 1$ iff $F_{*}(0, 0) = F_{*, X}(0, 0) = F_{*, Y}(0, 0) = 0$, which corresponds to $F_{Z}(P) = 0, F_X(P) = 0, F_Y(P) = 0$ respectively. 
+\end{proof}
+
+\begin{problem}{5.2}
+    Show that the following curves are irreducible; find their multiple points, and the multiplicities and tangents at the multiple points.
+
+    \begin{enumerate}
+        \item $XY^4 + YZ^4 + XZ^4$
+        \item $X^2Y^3 + X^2Z^3 + Y^2Z^3$
+        \item $Y^2Z - X(X - Z)(X - \lambda Z), \lambda \in k$
+        \item $X^n + Y^n + Z^n, n \gt 0$
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    We will not go into details for each. The gists are:
+
+    \begin{enumerate}
+        \item \label{item:judge-irreducible} Judge whether a polynomial is irreducible: the method varies, the main result we use here is the Corollary in section 2.6, which states factoring $F$ is the same as factoring $F_*$.
+        \item Find multiple points: by problem 5.1, this is the easiest part
+        \item Find multiplicities: we simply utilize the fact that $\mathcal{O}_{P}(F) \cong \mathcal{O}_{P_*}(F_*)$, and calculate the multiplicities of the latter instead
+        \item Find tangents: Suppose $P \in U_3$ (similar for other cases by changing the role of $X, Y, Z$), we may choose $L = Z$. Note that by the isomorphism between $\mathcal{O}_{P}(\mathbb{P}^2)$ and $\mathcal{O}_{P_*}(\mathbb{A}^2)$, $F / L^d$ corresponds to $F_* / L_*^d = F_*$. As a result, $I(P, F \cap G) = \dim (\mathcal{O}_{P}(\mathbb{P}^2) / (F / L^d, G / L^d)) = \dim (\mathcal{O}_{P_*}(\mathbb{A}^2) / (F_*, G_*)) = I(P_*, F_* \cap G_*)$. So finding the tangent lines of $F$ at $P$ is equivalent to finding the tangent lines of $F_*$ at $P_*$ (The correspondence is $AX + BY \leftrightarrow AX + BY$. This is because from the discussion, any $L$ such that $L_*$ is a tangent line of $F_*$ will be a tangent line of $F$. So $L = Z^rL$. But $L$ has to be of degree $1$ since it is a line.)
+    \end{enumerate}
+
+    So everything is pure computational except part \ref{item:judge-irreducible}.
+
+    \begin{enumerate}
+        \item $F_* = XY^4 + X + Y$. Discuss the 1-forms of possible factorization to prove its irreducibility.
+        \item $F_* = X^2Y^3 + X^2 + Y^2$. 
+        \item $F_* = Y^2 - X(X - 1)(X - \lambda)$. It is irreducible by problem 2.34
+        \item $F_* = X^n + Y^n + 1$. Discuss the 0-forms of possible factorization to prove its irreducibility.
+    \end{enumerate}
+\end{solution}
+
+\begin{problem}{5.3}
+    Find all points of intersection of the following pairs of curves, and the intersection numbers at these points:
+    \begin{enumerate}
+        \item $Y^2Z - X(X - 2Z)(X + Z)$ and $Y^2 + X^2 - 2XZ$
+        \item $(X^2 + Y^2)Z + X^3 + Y^3$ and $X^3 + Y^3 - 2XYZ$
+        \item $Y^5 - X(Y^2 - XZ)^2$ and $Y^4 + Y^3Z - X^2Z^2$
+        \item $(X^2 + Y^2)^2 + 3X^2YZ - Y^3Z$ and $(X^3 + Y^3)^3 - 4X^2Y^2Z^2$
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+    As explained in problem 5.2, $I(P, F \cap G) = I(P_*, F_* \cap G_*)$, we only need to apply the algorithm in chapter 3 again. Omitted.
+\end{solution}
+
+\begin{problem}{5.4}
+    Let $P$ be a simple point on $F$. Show that the tangent line to $F$ at $P$ has the equation $F_X(P)X + F_Y(P)Y + F_Z(P)Z = 0$
+\end{problem}
+
+\begin{proof}
+    If $T$ is a projective change of coordinates and $T(Q) = P$, it is easy to verify that:
+    $$(F_X(P)X + F_Y(P)Y + F_Z(P)Z)^T = F_X^T(Q)X + F_Y^T(Q)Y + F_Z^T(Q)Z$$
+    By the correspondence between $\mathcal{O}_{P}(F)$ and $\mathcal{O}_{Q}(F^T)$, we have
+    $$
+        \begin{aligned}
+        &\mathcal{O}_{P}(F) / ((F_X(P)X + F_Y(P)Y + F_Z(P)Z)_*) \\
+        \cong &\mathcal{O}_{Q}(F^T) / ((F_X^T(Q)X + F_Y^T(Q)Y + F_Z^T(Q)Z)_*)
+        \end{aligned}
+    $$
+    As a result, the line $L = F_X(P)X + F_Y(P)Y + F_Z(P)Z$ is tangent to $F$ at $P$ if and only if $L^T$ is tangent to $F^T$ at $Q$. So ISTS that the statement holds for $P = [0:0:1]$.
+    
+    Now consider $F_*$, since $P$ is a simple point of $F$, $(0, 0)$ is a simple point of $F_*$. Then $F_* = AX + BY + \text{higher terms}$, the tangent line of $F_*$ is therefore $AX + BY$. Clearly $A = F_{*, X}(0, 0) = F_X(P)$ and $B = F_{*, Y}(0, 0) = F_Y(P)$. Since $I(P, F \cap G) = I(P_*, F_* \cap G_*)$, $L = AX + BY$ is the tangent line of $F$ at $P$, which completes the proof since $F_Z(P) = 0$ as $P \in F$ (there is no terms with the form $Z^n$ in $F$)
+\end{proof}
+
+\begin{problem}{5.5}
+    Let $P = [0:0:1]$, $F$ a curve of degree $n$, $F = \sum\limits_{i} F_i(X, Y) Z^{n - i}$, where $F_i$ a form of degree $i$. Show that $m_P(F)$ is the smallest $m$ such that $F_m \ne 0$, and the factors of $F_m$ determine the tangents to $F$ at $P$.
+\end{problem}
+
+Note I have changed the role of $Y$ and $Z$ to make it more natural.
+
+\begin{proof}
+    Since $m_P(F) = m_{P_*}(F_*)$ and $P_* = (0, 0), F_* = \sum\limits_{i}F_i$, it follows by definition in $\mathbb{A}^2$ that $m_P(F)$ is the smallest $m$ such that $F_m \ne 0$ and the factors of $F_m$ determine the tangents to $F$ at $P$ (by the discussion in problem 5.2).
+\end{proof}
+
+\begin{problem}{5.6}
+    For any $F, P \in F$, show that $m_P(F_X) \ge m_P(F) - 1$
+\end{problem}
+
+\begin{proof}
+    First we claim that:
+    $$m_P(F_X) \ge m_P(F) - 1, m_P(F_Y) \ge m_P(F) - 1, m_P(F_Z) \ge m_P(F) - 1$$
+    for $P = [0:0:1]$ and $P \in F$.
+
+    Write $F = \sum\limits_{i = m}^{n} F_i(X, Y) Z^{d - i}$ where $d$ is the degree of $F$ and $F_m \ne 0$. By Problem 5.5, we have $m_{P}(F) = m$. Also, we have:
+    $$F_X = \sum\limits_{i = m}^{n} F_{i, X}(X, Y) Z^{d - i}$$
+    Discuss the cases for $F_{m, X}$ to derive $m_P(F_X) \ge m - 1$. The case for $F_Y$ is similar. For $F_Z$, we have:
+    $$F_Z = \sum\limits_{i = m}^{n} F_{i}(X, Y) Z^{d - i - 1}$$
+    which clearly has $m_P(F_Z) \ge m - 1$.
+
+    For the general case. Let $T$ be a projective change of coordinates that maps $P$ to $[0:0:1]$ (denoted as $Q$ below). Then we have $m_Q(F) = m_P(F^T)$. For the derivative, we have:
+    $$(F^T)_X = (F_X)^T T_{1, X} + (F_Y)^T T_{2, X} + (F_Z)^T T_{3, X}$$
+    where $T = (T_1, T_2, T_3)$ and $T_{i, X}$ are constant. As a result:
+    $$m_P((F^T)_X) = m_Q(F_X T_{1, X} + F_Y T_{2, X} + F_Z T_{3, X})$$
+    Since $T$ is a bijection, one of $T_{i, X}$ is not zero and we have:
+    $$
+        \begin{aligned}
+        m_Q(F_X T_{1, X} + F_Y T_{2, X} + F_Z T_{3, X}) &\ge \min \left\lbrace m_Q(F_X), m_Q(F_Y), m_Q(F_Z) \right\rbrace \\
+        &\ge m_Q(F) - 1 = m_P(F^T) - 1
+        \end{aligned}
+    $$
+    Replace $F$ by $F^{T ^{-1}}$ to complete the proof.
+\end{proof}
+
+\begin{problem}{5.7}
+    Show that two plane curves with no common components intersect in a finite number of points.
+\end{problem}
+
+\begin{proof}
+    ISTS distinct irreducible curves intersect in a finite number of points. Then ISTS for each $U_i$ and two irreducible curves $F, G$, we have $F \cap G \cap U_i$ finite. WLOG, we only prove the case for $U_{3}$. Note that $\varphi_{3} ^{-1}(F \cap G \cap U_3) = F_* \cap G_*$. Clearly $F_*, G_*$ have no common factors (otherwise suppose $H$ is a common factor, then $H^*$ is a common factor of $F, G$). By Props 2 of Sec 1.6, $F_* \cap G_*$ is finite.
+\end{proof}
+
+\begin{problem}{5.8}
+    Let $F$ be an irreducible curve.
+    \begin{enumerate}
+        \item Show that $F_X, F_Y$ or $F_Z \ne 0$
+        \item Show that $F$ has only a finite number of multiple points.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that $F_X = 0 \Rightarrow F = F(Y, Z)$. So any nonzero polynomial will have $F_X, F_Y$ or $F_Z \ne 0$.
+        \item By Problem 5.1 and 5.7
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{5.9}
+    \begin{enumerate}
+        \item Let $F$ be an irreducible conic, $P = [0:1:0]$ a simple point on $F$ and $Z = 0$ the tangent line to $F$ at $P$. Show that $F = aYZ - bX^2 - cXZ - dZ^2, a, b \ne 0$. Find a projective change of coordinates $T$ so that $F^T = YZ - X^2 - c'XZ - d'Z^2$. Find $T'$ so that $(F^T)^{T'} = YZ - X^2$.
+        \item Show that, up to projective equivalence, here is only one irreducible conic: $YZ = X^2$. Any irreducible conic is nonsingular.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    Below $F_*$ denotes dehomogenization with respect to $Y$.
+
+    \begin{enumerate}
+        \item By Cor \ref{cor:tangent-line-homo}, $Z$ is a tangent line of $F_*$ at simple point $(0, 0)$. Then we must have $F_* = Z + \text{higher terms}$. Since $F$ is a conic, the higher terms must not be all zero, and they have degree at most $2$. We may assume $F_* = Z + eX^2 + fXZ + gZ^2$. Then $F = ZY + eX^2 + fXZ + gZ^2$. If $e = 0$, then $F$ is not irreducible(because $Z$ would be a factor), so $e \ne 0$. By renaming and scaling the coefficients, the first part of the proof is complete. For the second part, simply choose $T = (\frac{1}{\sqrt{b}}X, \frac{1}{a}Y, Z)$. For the third part, choose $T' = (X, Y + c'X + d'Z, Z)$
+        \item By a projective change of coordinates, any irreducible conic can be transformed into an irreducible conic with simple point $P$ and tangent line $Z$. (We only need the change of coordinates to fix a simple point of the curve to $P$ and another point on the tangent line to $[1:0:0]$, which can be easily achieved) By part 1, any irreducible conic is equivalent to $YZ - X^2$, by problem 5.1, it only has simple points so it is nonsingular.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{5.10}
+    Let $F$ be an irreducible cubic, $P = [0:0:1]$ a cusp on $F$, $Y = 0$ the tangent line to $F$ at $P$. Show that $F = aY^2Z - bX^3 - cX^2Y - dXY^2 - eY^3$. Find projective changes of coordinates 
+    \begin{inparaenum}[(i)]
+        \item to make $a = b = 1$
+        \item to make $c = 0$
+        \item to make $d = e = 0$
+    \end{inparaenum}
+    Up to projective equivalence, there is only one irreducible cubic with a cusp: $Y^2Z = X^3$. It is no other singularities.
+\end{problem}
+
+\begin{proof}
+    Since $F$ is irreducible, $F_*$ is also cubic. Also $(0, 0)$ is a double point of $F_*$. By Cor \ref{cor:tangent-line-homo}, $Y$ is the only tangent line of $F_*$. Since $I(P, F \cap Y) = I(P_*, F_* \cap Y) = 3$, $(0, 0)$ must also be a cusp of $F_*$. By Problem 3.22, we have $F_* = Y^2 + aX^3 + bX^2Y + cXY^2 + dY^3$ where $a \ne 0$. Then $F = ZY^2 + aX^3 + bX^2Y + cXY^2 + dY^3$, by renaming and scaling the coefficients, the first part of the proof is complete. To satisfy the conditions (i) to (iii), the change of coordinates are:
+    \begin{enumerate}[(i)]
+        \item $T_1 = (\frac{1}{\sqrt[3]{b}}X, Y, \frac{1}{a}Z)$
+        \item $T_2 = (X - \frac{c}{3}Y, Y, Z)$
+        \item $T_3 = (X, Y, Z + \frac{d}{a}X + \frac{e}{a}Y)$
+    \end{enumerate}
+    It is easy to verify that $F^{T_1 \circ T_2 \circ T_3} = Y^Z - X^3$. By Problem 5.1, the only multiple point (singularity) is $P$, which completes the proof for irreducible cubic with a cusp at $P$ and tangent $Y$. For general irreducible curves, we simply apply a change of coordinates that fix the cusp to $P$ and another point on the tangent line to $[1:0:0]$.
+\end{proof}
+
+\begin{problem}{5.11}
+    Up to projective equivalence, there is only one irreducible cubic with a node: $XYZ = X^3 + Y^3$. It has no other singularities.
+\end{problem}
+
+\begin{proof}
+    By a projective change of coordinates, we may assume $P = [0:0:1]$ is the node and $X, Y$ are the two tangent lines. By similar argument as before, we obtain $F_* = XY + aX^3 + bX^2Y + cXY^2 + dY^3$. Since $F$ is irreducible, so is $F_*$ and $ad \ne 0$. As a result, $F = XYZ + aX^3 + bX^2Y + cXY^2 + dY^3$. By a change of coordinates $T = (\frac{1}{\sqrt[3]{a}}X, \frac{1}{\sqrt[3]{d}}Y, \sqrt[3]{ad} Z)$, we have $F^T = XYZ + X^3 + bX^2Y + cXY^2 + Y^3$. By another change of coordinate $T' = (X, Y, Z - bX - cY)$, we have $(F^{T})^{T'} = XYZ + X^3 + Y^3$. By Problem 5.1, it has no other singularity.
+\end{proof}
+
+\begin{problem}{5.12}
+    \begin{enumerate}
+        \item $F$ a curve of degree $n$ that does not contain the hyperplane $X$. Show that $\sum\limits_{P} I(P, F \cap X) = n$.
+        \item Show that if $F$ is a curve of degree $n$, $L$ a line not contained in $F$, then:
+        $$\sum I(P, F \cap L) = n$$
+    \end{enumerate}
+\end{problem}
+
+\begin{remark}
+    I modify the first part of the problem, add a constraint that $F$ should not contain $X$. Otherwise the statement is wrong. For example, $F = X$, the sum is infinite.
+\end{remark}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Write $F = XG + H$ where $XG$ is the summation of all terms that contain $X$ and $H$ is a polynomial of $Y, Z$. Since $F$ does not contain $X$, $H \ne 0$ and is a form of the same degree as $F$. By property (7) of Sec 3.3, we have $I(P, F \cap X) = I(P, H \cap X)$ for every $P$.
+        \begin{enumerate}
+            \item If $P \in U_3$, dehomogenize with respect to $Z$, we have $I(P, H \cap X) = I(P_*, H_{*} \cap X)$. By the lemma below, we have $\sum\limits_{P \in U_3} I(P, H \cap X) = \deg (H_*)$.
+            \item If $P \in H_{\infty}$, then since $P \in X$, there is only one possibility: $P = [0:1:0]$. Dehomogenize with respect to $Y$, We have:
+            $$I(P, H \cap X) = I((0, 0), H_{*, Y} \cap X) = m_{(0, 0)}(H_{*, Y})$$
+            Note that this equation holds even if $P \notin H$ (then we have $H = Y^n + \cdots$ up to constant, and both $m_{(0, 0)}(H_{*, Y})$ and $I(P, H \cap X)$ are $0$)
+        \end{enumerate}
+        As a result, $\sum\limits_{P} I(P, F \cap X) = \deg (H_*) + m_{(0, 0)} (H_{*, Y})$, note that $\deg H_*$ is the highest degree of $Y$ in the terms and $m_{(0, 0)} (H_{*, Y})$ is the lowest degree of $Z$ in the terms. Since $H$ is a form, the two terms are the same and we have $\deg (H_*) + m_{(0, 0)} (H_{*, Y}) = n$, which completes the proof.
+        \item By a projective change of coordinates and the first part.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    If $F$ is a polynomial in $Y$, then $\sum\limits_{P} I(P, F \cap X) = \deg F$ (as algebraic curves in $\mathbb{A}^2$)
+\end{lemma}
+
+\begin{proof}
+    Decompose $F = \prod\limits_{i} (Y - \lambda_i)^{e_i}$ where $\lambda_i$'s are distinct. Then $F \in X = \left\lbrace (0, \lambda_i) \right\rbrace_i$ and therefore $\sum\limits_{P} I(P, F \cap X) = \sum\limits_{i} I(P_i, F \cap X)$. Denote $P_i = (0, \lambda_i)$. By the projective change of coordinates $T = (X, Y + \lambda_i)$, we have:
+    $$I(P_i, F \cap X) = I((0, 0), F^T \cap X) = m_{(0, 0)}(F^T)$$
+    and
+    $$F^T = Y^{e_i} \prod\limits_{j \ne i} (Y - \lambda_j)^{e_j}$$
+    Since $\lambda_i$'s are all distinct, $m_{(0, 0)}(F^T) = e_j$. As a result, $\sum\limits_{P} I(P, F \cap X) = \sum\limits_{i} e_i = \deg F$
+\end{proof}
+
+The above lemma relies on the fact that $F$ contains $Y$ only. If $F$ is a polynomial of $X, Y$ in general, we can gather all terms that contain $X$ and write $F = XG + H$, then we have $I(P, F \cap X) = I(P, H \cap X)$. However, since $H$ may have lower degree than $F$, the lemma does not hold anymore. This is why we only have $\sum\limits_{P} I(P, F \cap L) \le \deg F$ in Problem 3.21.
+
+\begin{problem}{5.13}
+    Prove that an irreducible cubic is either nonsingular or has at most one double point (a node or a cusp)
+\end{problem}
+
+\begin{proof}
+    As suggested by the hint, we can use Problem 5.10 and 5.11 which classify irreducible cubis with a double point: It either has a cusp or a node (by definition of cusp and node), then by Problem 5.10 and 5.11, in each case there is only one double point.
+
+    Or we can use Problem 5.12: Suppose $F$ has two double points $P_1, P_2$, let $L$ be a line that crosses $P_1, P_2$, then $I(P_i, L \cap F) \ge m_{P_i}(F) = 2 \Rightarrow \sum\limits_{P} I(P, L \cap F) \ge 4$, which contradicts Problem 5.12.
+\end{proof}
+
+\begin{problem}{5.14}
+    Let $P_1, \cdots, P_n \in \mathbb{P}^2$. Show that there are an infinite number of lines passing through $P_1$, but not through $P_2, \cdots, P_n$. If $P_1$ is a simple point on $F$, we may take these lines transversal to $F$ at $P_1$.
+\end{problem}
+
+\begin{proof}
+    Since there are infinite lines that pass $P_1$ on $\mathbb{P}^2$ and each $P_i, i \ne 1$ defines a line with $P_1$, there are infinite lines that pass $P_1$ without passing $P_i, i \ne 1$. To make the lines transversal to $F$ at $P_1$, we simply need to further rule out the tangent line at $P_1$, and still there are infinite number of them.
+\end{proof}
+
+\begin{problem}{5.15}
+    Let $C$ be an irreducible projective plane curve, $P_1, \cdots, P_n$ simple points on $C$, $m_1, \cdots, m_n$ integers. Show that there is a $z \in k(C)$ with $ord_{P_i}(z) = m_i$ for $i = 1, \cdots, n$.
+\end{problem}
+
+\begin{proof}
+    Take $L_i$ that passes $P_i$ transversally without passing $P_j$ for $i \ne j$ and $L_0$ that does not pass any $P_i$. Consider $z = \prod\limits_{i}l_i^{m_i} / l_0^{\sum m_i} \in k(C)$ where $l_i$ is the residue class of $L_i$ in $\Gamma_h(C)$. Note that $l_j(P_i) \ne 0$ for $j \ne i$, so $l_j / l_0$ are all units in $\mathcal{O}_{P_i}(C)$ for $j \ne i$. Also, since $L_i$ passes $P_i$ transversally, $ord_{P_i}(l_i / l_0) = I(P_i, L_i \cap C) = 1$. As a result, $ord_{P_i}(z) = m_i, \forall i$
+\end{proof}
+
+\begin{problem}{5.16}
+    Let $F$ be an irreducible curve in $\mathbb{P}^2$. Suppose $I(P, F \cap Z) = 0$ and $P \ne [1:0:0]$. Show that $F_X(P) \ne 0$.
+\end{problem}
+
+\begin{proof}
+    Note that $I(P, F \cap Z) \ge m_P(F)$. So $I(P, F \cap Z) = 1$ iff $F$ has a simple point at $P$ and $Z$ is not a tangent to $F$ at $P$. Also, since $P \in Z$ and $P \ne [1:0:0]$, we must have $P = [x:1:0]$. Dehomogenize with respect to $Y$, we have $m_P(F) = m_{P_*}(F_*) = 1$. Let $T$ be the affine change of coordinate $T = (X + x, Z)$, then $(F_*)^T = AX + BZ + \text{higher terms}$ where $A = ((F_*)^T)_X(0, 0) = F_{*, X}(P_*) = F_X(x, 1, 0)$. Since $Z$ is not tangent to $F$, $A \ne 0$, which completes the proof.
+\end{proof}
+
+\begin{problem}{5.17}
+    Let $P_1, P_2, P_3, P_4 \in \mathbb{P}^2$. Let $V$ be the linear system of conics passing through these points. Show that $\dim (V) = 2$ if $P_1, \cdots, P_4$ lie on a line, and $\dim(V) = 1$ otherwise.
+\end{problem}
+
+\begin{proof}
+    Suppose $P_1, \cdots, P_4$ do not lie on the same line, then either $P_3$ or $P_4$ do not lie on the line defined by $P_1, P_2$. WLOG, we may assume $P_1, P_2, P_3$ do not lie on the same line. By a projective change of coordinates and Problem 4.14, we may assume $P_1 = [1:0:0], P_2 = [0:1:0], P_3 = [0:0:1]$ and $P_4 = [x:y:z]$. Suppose the conic that passes $P_1, \cdots, P_4$ is $H = AX^2 + BY^2 + CZ^2 + DXY + EYZ + FXZ$ where $A, \cdots, F \in k$. Since $P_1, P_2, P_3 \in H$,we have $A = B = C = 0$. Note that $P_4$ is distinct from $P_1, \cdots, P_3$, so at least two of $x, y, z \ne 0$. As a result, the linear system of conis passing through $P_1, \cdots, P_4$ is the linear subvariaty $V(A, B, C, xyD + yzE + xzF)$, since the $4$ forms are linearly independent, $\dim(V) = 5 - 4 = 1$.
+
+    If $P_1, \cdots, P_4$ lie on the same line, we may assume $P_1 = [1:0:0], P_2 = [0:1:0]$ and $P_3 = [x_3:y_3:0], P_4 = [x_4:y_4:0]$ also lie on the line at infinity. Argue as above, the forms that define the linear subvariaty are
+    $$A, B, x_3^2A + y_3^2B + x_3y_3D, x_4^2A + y_4^2B + x_4y_4D$$
+    Note that $x_3y_3, x_4y_4 \ne 0$, it is easy to see the first three forms are linearly independent and the last one is a linear combination of the first three. So $\dim(V) = 5 - 3 = 2$.
+\end{proof}
+
+Problem 5.17 is an example of what happens when $d \lt \sum\limits_{i} r_i - 1$.
+
+\begin{problem}{5.18}
+    Show that there is only one conic passing through the five points $[0:0:1], [0:1:0], [1:0:0], [1:1:1]$ and $[1:2:3]$. Show that it is nonsingular.
+\end{problem}
+
+\begin{proof}
+    Just solve it by brute force. The curve is $3XY + YZ - 4XZ$. Use Problem 5.1 to show it is nonsingular.
+\end{proof}
+
+\begin{problem}{5.19}
+    Consider the nine points $[0:0:1], [0:1:1], [1:0:1], [1:1:1], [0:2:1], [2:0:1], [1:2:1]$. Show that there are an infinite number of cubics passing through these points.
+\end{problem}
+
+\begin{proof}
+    We only need to prove the linear system of cubics passing through these points has dimension $\gt 0$. This can be done by brute force (Just write out all the constraints, use Gaussian elimination to calculate a base from the constraints).
+\end{proof}
+
+\begin{problem}{5.20}
+    Check your answers of Problem 5.3 with Bezout's Theorem.
+\end{problem}
+
+\begin{solution}
+    Omitted.
+\end{solution}
+
+\begin{problem}{5.21}
+    Show that every nonsingular projective plane curve is irreducible. Is this true for affine curves?
+\end{problem}
+
+\begin{proof}
+    Suppose otherwise, let $G, H$ be two components of $F$. If $G = H$, then clearly $F$ is nonsingular. Otherwise, $G, H$ must intersect due to Bezout's Theorem(At least one $I(P, G \cap H) \ne 0$). If $P \in G \cap H$, we have $m_P(F) \ge m_P(G) + m_P(H) \ge 2$, so $F$ is nonsigular.
+
+    The same is not true for affine curves. The key point is that two irreducible curves may not intersect. We simply need to take $G = X^2 + Y^2 - 1$ and $H = X^2 + Y^2 - 2$ in the above example to contradict.
+\end{proof}
+
+\begin{problem}{5.22}
+    Let $F$ be an irreducible curve of degree $n$. Assume $F_X \ne 0$. Apply Corollary 1 to $F$ and $F_X$, and conclude that $\sum m_P(F)(m_P(F) - 1) \le n(n - 1)$. In particular, $F$ has at most $\frac{1}{2}n(n - 1)$ multiple points.
+\end{problem}
+
+\begin{proof}
+    By Problem 5.6, $m_P(F_X) \ge m_P(F) - 1$. Also note that $F_X$ is a form of degree $n - 1$. Then by Cor 1 in Sec 5.3 we have:
+    $$n(n - 1) \ge \sum\limits_{P} m_P(F)m_P(F_X) \ge \sum\limits_{P} m_P(F) (m_P(F) - 1)$$
+    In particular, if $m_P(F) \ge 2$, then $m_P(F) (m_P(F) - 1) \ge 2$, by the above inequality, at most $\frac{1}{2}n(n - 1)$ satisfies this.
+\end{proof}
+
+\begin{problem}{5.23}
+    A problem about flexes(see Problem 3.12). Let $F$ be a projective plane curve of degree $n$, and assume $F$ contains no lines.
+
+    Let $F_i = F_{X_i}$ and $F_{ij} = F_{X_iX_j}$, forms of degree $n - 1$ and $N - 2$ respectively. Form a $3 \times 3$ matrix with the entry in the $(i, j)$th place being $F_{ij}$. Let $H$ be the determinant of this matrix, a form of degree $3(n - 2)$. This $H$ is called the Hessian of $F$. Problems 5.22 and 6.47 show that $H \ne 0$, for $F$ irreducible. The following theorem shows the relationship between flexes and the Hessian.
+
+    \begin{theorem}
+        ($char(k) = 0$) \begin{inparaenum}[(1)]
+            \item $P \in H \cap F$ if and only if $P$ is either a lex or a multiple point of $F$.
+            \item $I(P, H \cap F) = 1$ if and only if $P$ is an ordinary flex.
+        \end{inparaenum}
+    \end{theorem}
+
+    Outline of the proof:
+    \begin{enumerate}
+        \item Let $T$ be a projective change of coordinates. Then the Hessian of $F^T = \det(T)^2(H^T)$. So we can assume $P = [0:0:1]$. Write $f(X, Y) = F(X, Y, 1)$ and $h(X, Y) = H(X, Y, 1)$.
+        \item $(n - 1) F_j = \sum\limits_{i} X_i F_{ij}$ (Use Euler's Theorem)
+        \item $I(P, f \cap h) = I(P, f \cap g)$ where $g = f_y^2f_{xx} + f_x^2 f_{yy} - 2f_xf_yf_{xy}$.
+        \item If $P$ is a multiple point on $F$, then $I(P, f \cap g) \gt 1$.
+        \item Suppose $P$ is a simple point, $Y = 0$ is the tangent line to $F$ at $P$, so $f = y + ax^2 + bxy + cy^2 + dx^3 + ex^2y + \cdots$. Then $P$ is a flex iff $a = 0$, and $P$ is an ordinary flex iff $a = 0, d \ne 0$. A short calculation shows that $g = 2a + 6dx + (8ac - 2b^2 + 2e)y + \text{higher terms}$, which concludes the proof.
+    \end{enumerate}
+
+    \begin{corollary}
+        \begin{inparaenum}[(1)]
+            \item A nonsingular curve of degree $\gt 2$ always has a flex. 
+            \item A nonsingular cubic has nine flexes, all ordinary.
+        \end{inparaenum}
+    \end{corollary}
+\end{problem}
+
+\begin{proof}
+    The proof for the theorem:
+
+    \begin{enumerate}
+        \item I will use suffix notation here. Note that
+        $$
+            \begin{aligned}
+            (F^T)_{ij} &= (F \circ T)_{ij} \\
+            &= \left(F_{r} \circ T T_{r, i}\right)_j \\
+            &= T_{r, i} T_{s, j} F_{rs} \circ T
+            \end{aligned}
+        $$
+        where $T = (T_1, T_2, T_3)$ and we use $T_{i, j}$ to represent the derivative of $T_i$ with respect to $X_j$, which is a constant in $k$. For the hessian, we have:
+        $$
+            \begin{aligned}
+            H(F^T) &= \varepsilon_{ijl}(F^T)_{1i}(F^T)_{2j}(F^T)_{3l} \\
+            &= \varepsilon_{ijl} (T_{r_1, 1} T_{s_1, i} F_{r_1s_1} \circ T) (T_{r_2, 2} T_{s_2, j} F_{r_2s_2} \circ T) (T_{r_3, 3} T_{s_3, l} F_{r_3s_3} \circ T) \\
+            &= \varepsilon_{s_1s_2s_3} \det T (T_{r_1, 1} F_{r_1s_1} \circ T) (T_{r_2, 2} F_{r_2s_2} \circ T) (T_{r_3, 3} F_{r_3s_3} \circ T) \\
+            &= \varepsilon_{r_1r_2r_3} \det T H^T T_{r_1, 1} T_{r_2, 2}  T_{r_3, 3} \\
+            &= (\det T)^2 H^T
+            \end{aligned}
+        $$
+        where the last three steps are by $\varepsilon_{ijl} A_{ir}A_{js}A_{lt} = \varepsilon_{rst} \det A$ (to prove this, simply discuss the value of $\varepsilon_{rst}$).
+        \item By Euler's Theorem and $F_{ji} = F_{ij}$ (BTW, Euler's Theorem is stated in Sec 1.1)
+        \item We denote $f_{ij} = F_{ij}(X_1, X_2, 1)$. It can be easily proved that $f_{ij} = \frac{\partial^2 f}{\partial X_i \partial X_j}$ for $i, j \le 2$ so the notation will not cause confusion. Note that by part 2, we have:
+        $$
+            \begin{aligned}
+            (n - 1)F_j &= \sum\limits_{i} X_iF_{ij} \\
+            n F &= \sum\limits_{i} X_i F_i
+            \end{aligned}
+        $$
+        which implies:
+        $$
+            \begin{aligned}
+            (n - 1)f_j &= X_1f_{1j} + X_2f_{2j} + f_{3j}\\
+            n F &= X_1f_1 + X_2f_2 + f_3
+            \end{aligned}
+        $$
+        As a result, we have:
+        $$
+            \begin{aligned}
+            h &= \begin{vmatrix}
+                f_{11} &f_{12} &f_{13} \\
+                f_{21} &f_{22} &f_{23} \\
+                f_{31} &f_{32} &f_{33}
+            \end{vmatrix} \\
+            &= \begin{vmatrix}
+                f_{11} &f_{12} &f_{13} \\
+                f_{21} &f_{22} &f_{23} \\
+                f_{31} + X_1 f_{11} + X_2 f_{21} &f_{32} + X_1 f_{12} + X_2 f_{22} &f_{33} + X_1 f_{13} + X_2 f_{23}
+            \end{vmatrix} \\
+            &= \begin{vmatrix}
+                f_{11} &f_{12} &f_{13} \\
+                f_{21} &f_{22} &f_{23} \\
+                (n - 1)f_{1} &(n - 1)f_2 &(n - 1) f_3
+            \end{vmatrix} \\
+            &= \begin{vmatrix}
+                f_{11} &f_{12} &f_{13} + X_1 f_{11} + X_2 f_{12}\\
+                f_{21} &f_{22} &f_{23} + X_1 f_{21} + X_2 f_{22}\\
+                (n - 1)f_{1} &(n - 1)f_2 &(n - 1) (f_3 + X_1 f_1 + X_2f_2)
+            \end{vmatrix} \\
+            &= \begin{vmatrix}
+                f_{11} &f_{12} &(n - 1)f_1 \\
+                f_{21} &f_{22} &(n - 1)f_2 \\
+                (n - 1)f_1 & (n - 1)f_2 &(n - 1)nf
+            \end{vmatrix} \\
+            &= (n - 1)n f (f_{11}f_{22} - f_{12}f_{21}) + (n - 1)^2(2f_1f_2f_{12} - f_1^2f_{22} - f_2^2f_{11}) \\
+            &= (n - 1)n f (f_{11}f_{22} - f_{12}f_{21}) - (n - 1)^2g\\
+            \end{aligned}
+        $$
+        By property (7) of Sec 3.3, we have $I(P, f \cap g) = I(P, f \cap g)$
+        \item Since $I(P, f \cap g) \ge m_P(f) m_P(g)$, we only need to prove $P \in g$. This is clear by Problem 5.1.
+        \item Note that $\mathcal{O}_{P}(Y)$ has a parameter $X$. So $ord_P^L(f)$ is the smallest $m$ such that $cx^m$ is a term in $f$. $F$ has a(n) (ordinary) flex at $P$ iff $f$ has a(n) (ordinary) flex at $P$ iff $a = 0$ (and $d \ne 0$). Also, when $a = 0, d \ne 0$, $g$ and $f$ have different different tangent lines, so $I(P, f \cap g) = m_P(f)m_p(g) = 1$.
+    \end{enumerate}
+
+    The proof for the corollary:
+    \begin{enumerate}
+        \item If $F$ has degree $\gt 2$, $H$ is nonconstant and $H \ne 0$ by Problem 5.21, 5.22, 6.47. By Bezout's theorem, $I(P, F \cap H) \gt 0$ for some $P$, apply the theorem to complete the proof.
+        \item By the theorem above, the set of flexes for $F$ is $F \cap H$ as $F$ is nonsingular. By the lemma below, each flex is an ordinary flex. It then follows from the theorem that $I(P, F \cap H) = 1$ for every ordinary flex. Since $\sum\limits_{P} I(P, F \cap H) = \deg F \deg H = 9$, by Bezout's theorem, there are nine flexes, each ordinary. 
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    If $P$ is a flex of a cubic $F$, then $P$ is an ordinary flex.
+\end{lemma}
+
+\begin{proof}
+    Let $L$ be the tangent line of $F$ at $P$. Then $I(P, L \cap F) \ge 3$ since $P$ is a flex. However, $I(P, L \cap F) \le 3$ by Bezout's theorem. As a result, $P$ is an ordinary flex.
+\end{proof}
+
+\begin{problem}{5.24}
+    ($char(k) = 0$) \begin{inparaenum}
+        \item Let $[0:1:0]$ be a flex on an irreducible cubic $F$, $Z = 0$ the tangent line at $[0:1:0]$. Show that $F = ZY^2 + bYZ^2 + cYXZ + \text{terms in $X, Z$}$. Find a projective change of coordinates to get $F$ to the form $ZY^2 = \text{cubic in $X, Z$}$.
+        \item Show that any irreducible cubic is projectively equivalent to one of the following: $Y^2Z = X^3, Y^2Z = X^2(X + Z), Y^2Z = X(X - Z)(X - \lambda Z), \lambda \in k, \lambda \ne 0, 1$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Dehomogenize with respect to $Y$, then $Z$ is the tangent line at $F_*$. Since $(0, 0)$ is a flex, $X^2, X$ are not terms in $F_*$. Then we have $F_* = Z + bZ^2 + cXZ + \text{terms with order $3$}$. Then $F = ZY^2 + bYZ^2 + cXYZ + \text{terms in $X, Z$}$. The change of coordinates is $T = (X, Y - \frac{b}{2} Z - \frac{c}{2}X, Z)$
+        \item We have seen that if cubic $F$ has double points, it must be either $Y^2Z = X^3$ (the double point is a cusp) or $X^3 + Y^3 = XYZ$, which is equivalent to $Y^2Z = X^2(X + Z)$(We can take $T = T_1 \circ T_2$ where $T_1 = (X, -Y, 4Z - 3X + 3Y)$ and $T_2 = (X + Y, Y - X, -2Z)$). $F$ cannot have a multiple point of multiplicity $3$: Suppose otherwise, let $L$ be a tangent line at the multiple point $P$, then $I(P, L \cap F) \gt m_P(F)m_P(L) = 3$, a contradiction to Bezout's theorem. If $F$ is a nonsingular cubic, then by the above corollary, $F$ has $9$ ordinary flex. By a projective change of coordinates and part 1, $F$ is equivalent to $Y^2Z = \text{cubic in $X, Z$}$. Factor RHS in $k[X, Z]$ and properly scale $Y$, we have $Y^2Z = (X - \lambda_1 Z)(X - \lambda_2Z)(X - \lambda_3Z)$. We claim that $\lambda_i$'s are distinct. Otherwise by a change of coordinates, we obtain $Y^2Z = X^3$ or $Y^2Z = X^2(X + Z)$, which are the cases for double points. Finaly, by a change of coordinates, we obtain $Y^2Z = X(X - Z)(X - \lambda Z)$ where $\lambda \ne 0, 1$
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{5.25}
+    Let $F$ be a projective plane curve of degree $n$ with no multiple components, and $c$ simple components. Show that
+    $$\sum \frac{m_P(m_P - 1)}{2} \le \frac{(n - 1)(n - 2)}{2} + c - 1 \le \frac{n(n - 1)}{2}$$
+\end{problem}
+
+\begin{proof}
+    We prove by induction on $c$. The base case is covered by Thm 2 of Sec 5.4. Now suppose $c \gt 1$, we can factor $F = F_1F_2$ where $F_i$ has $c_i, i = 1, 2$ components and $c_1 + c_2 = c$. Denote $n_i$ as the degree of $F_i, i = 1, 2$ and $m_{P, i}$ as the multiplicity of $P$ for $F_i, i = 1, 2$.
+
+    By IH, we have:
+    \begin{equation}\label{eq:IH}
+        \begin{aligned}
+        &\sum\limits_P \frac{m_{P, 1}(m_{P, 1} - 1)}{2} + \sum\limits_P \frac{m_{P, 2}(m_{P, 2} - 1)}{2}\\
+        &\le \frac{(n_1 - 1)(n_1 - 2)}{2} + \frac{(n_2 - 1)(n_2 - 2)}{2} + c_1 - 1 + c_2 - 1
+        \end{aligned}
+    \end{equation}
+    
+    To calculate $\sum\limits_{P} \frac{m_P(m_P - 1)}{2}$, we divide the multiple points into three groups:
+    $$
+        \begin{aligned}
+        \sum\limits_{P} \frac{m_P(m_P - 1)}{2} &= \left(\sum\limits_{P \in F_1 \setminus F_2} + \sum\limits_{P \in F_2 \setminus F_1} + \sum\limits_{P \in F_1 \cap F_2}\right) \frac{m_P(m_P - 1)}{2} \\
+        &= \sum\limits_{P \in F_1 \setminus F_2} \frac{m_{P, 1}(m_{P, 1} - 1)}{2} + \sum\limits_{P \in F_2 \setminus F_1} \frac{m_{P, 2}(m_{P, 2} - 1)}{2} \\
+        &+ \sum\limits_{P \in F_1 \cap F_2} \frac{(m_{P, 1} + m_{P, 2})(m_{P, 1} + m_{P, 2} - 1)}{2}
+        \end{aligned}
+    $$
+    Note that:
+    $$\frac{(m_{P, 1} + m_{P, 2})(m_{P, 1} + m_{P, 2} - 1)}{2} = \frac{m_{P, 1}(m_{P, 1} - 1)}{2} + \frac{m_{P, 2}(m_{P, 2} - 1)}{2} + m_{P, 1} m_{P, 2}$$
+    So we have:
+    $$
+        \begin{aligned}
+        \sum\limits_{P} \frac{m_P(m_P - 1)}{2} &= \sum\limits_{P} \frac{m_{P, 1}(m_{P, 1} - 1)}{2} + \sum\limits_{P} \frac{m_{P, 2}(m_{P, 2} - 1)}{2} + \sum\limits_{P} m_{P,1} m_{P, 2} \\
+        &= \sum\limits_{P} \frac{m_{P, 1}(m_{P, 1} - 1)}{2} + \sum\limits_{P} \frac{m_{P, 2}(m_{P, 2} - 1)}{2} + n_1n_2
+        \end{aligned}
+    $$
+    where the last step is by Bezout's theorem.
+
+    On the other hand:
+    $$\frac{(n_1 + n_2 - 1)(n_1 + n_2 - 2)}{2} = \frac{(n_1 - 1)(n_1 - 2)}{2} + \frac{(n_2 - 1)(n_2 - 2)}{2} + n_1n_2 - 1$$
+    
+    Add $n_1n_2$ to both sides of equation \ref{eq:IH} to conclude.
+
+\end{proof}
+
+\begin{problem}{5.26}
+    ($char(k) = 0$) Let $F$ be an irreducible curve of degree $n$ in $\mathbb{P}^2$. Suppose $P \in \mathbb{P}^2$, with $m_P(F) = r \ge 0$. Then for all but a finite number of lines $L$ through $P$, $L$ intersects $F$ in $n - r$ distinct points other than $P$. We outline a proof:
+    \begin{enumerate}
+        \item We may assume $P = [0:1:0]$. If $L_{\lambda} = \left\lbrace [\lambda:t:1]: t \in k \right\rbrace \cup \left\lbrace P \right\rbrace$, we need only consider $L_\lambda$. Then $F = A_r(X, Z)Y^{n - r} + \cdots + A_n(X, Z), A_r \ne 0$.
+        \item Let $G_\lambda(t) = F(\lambda, t, 1)$. It is enough to show that for all but a finite number of $\lambda$, $G_\lambda$ has $n - r$ distinct roots.
+        \item Show that $G_\lambda$ has $n - r$ distinct roots if $A_r(\lambda, 1) \ne 0$, and $F \cap F_Y \cap L_\lambda = \left\lbrace P \right\rbrace$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item By Problem 5.5. (We should note that $L_{\lambda}$ is the line $X - \lambda Z$. The other cases of lines passing $P$, namely $Z - \lambda X$, are symmetric so we only need to consider $L_{\lambda}$)
+        \item The roots of $G_\lambda$ is in a one to one correspondence to $L_\lambda \cap F \setminus \left\lbrace P \right\rbrace$ (The correspondence is $t \leftrightarrow [\lambda:t:1]$)
+        \item Note that:
+        $$G_{\lambda}(t) = A_{r}(\lambda, 1)t^{n - r} + \cdots + A_n(\lambda, 1)$$
+        Suppose $A_r(\lambda, 1) \ne 0$ and $G_\lambda$ has less than $n - r$ distinct roots. Then at least one of them is multiple. Then $G_{\lambda, t}$ and $G_\lambda$ shares common root $t_0$, as a result, $[\lambda:t_0:1] \in F \cap F_Y \cap L_{\lambda}$ but $[\lambda:t_0:1] \ne P$, a contradiction. So $G_\lambda$ has $n - r$ distinct roots if $A_{r}(\lambda, 1) \ne 0$ and $F \cap F_Y \cap L_{\lambda} = \left\lbrace P \right\rbrace$. Since $F \cap F_Y$ is finite (by the fact that $F$ is irreducible and Bezout's theorem), only finite number of $L_{\lambda}$ through $P$ intersect $F \cap F_{Y}$. Also, since $A_r(\lambda, 1)$ is a nonzero polynomial of $\lambda$, only a finite number of $\lambda$ have $A_{r}(\lambda, 1) = 0$.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{5.27}
+    Show that Problem 5.26 remains true if $F$ is reducible, provided it has no multiple components.
+\end{problem}
+
+\begin{proof}
+    Suppose $F = F_1 \cdots F_c$ where $F_i$'s are irreducible.
+    
+    For any multiple points $P \in F$ with multiplicity $r$, denote $n_i, r_i$ as the degree of $F_i$ and multiplicity of $P$ for $F_i$. Then all lines through $P$ will intersect $F$ at $\sum\limits_{i} n_i - r_i = n - r$ distinct points except:
+    \begin{enumerate}
+        \item Lines that do not intersect $F_i$ at $n_i - r_i$ distinct points for some $i$
+        \item Lines that passes any intersection point between different components of $F$
+    \end{enumerate}
+    by Problem 5.26 and 5.7, there are only a finite number of lines that safisfy these conditions.
+\end{proof}
+
+\begin{problem}{5.28}
+    ($char(k) = p \gt 0$) $F = X^{p + 1} - Y^pZ, P = [0:1:0]$. Find $L \cap F$ for all lines $L$ passing through $P$. Show that every line that is tangent to $F$ at a simple point passes through $P$.
+\end{problem}
+
+\begin{proof}
+    $L$ passes $P$, then $L = X - \lambda Z$ or $L = Z - \lambda X$. WLOG, assume $L = X - \lambda Z$, the other case is symmetric.
+
+    By solving the equations, we have:
+    $$L \cap F = \left\lbrace [\lambda:\omega:1]: \omega^p = \lambda^{p + 1} \right\rbrace \cup \left\lbrace P \right\rbrace$$
+
+    By Problem 5.1, the only multiple point of $F$ is $[0:0:1]$. So the simple points are $P$ and $[\lambda:\omega:1]$ where $\omega^p = \lambda^{p + 1}, \lambda, \omega \ne 0$. The tangent line at $P$ clearly passes $P$. For the latter case, note that $F_* = X^{p + 1} - Y^p$, by a change of coordinates $T = (X + \lambda, Y + \omega)$, we have
+    $$
+        \begin{aligned}
+        F_*^T &= (X + \lambda)^{p + 1} - (Y + \omega)^p \\
+        &= \sum\limits_{i = 0}^{p + 1} {p + 1 \choose i} \lambda^i X^{p + 1 - i} - \sum\limits_{i = 0}^{p} {p \choose i} \omega^i Y^{p - i} \\
+        &= X^{p + 1} + \lambda X^p + \lambda^p X + \lambda^{p + 1} - Y^p - \omega^p \\
+        &= X^{p + 1} - Y^p + \lambda X^p + \lambda^p X
+        \end{aligned}
+    $$
+    About the third step:
+    \begin{enumerate}
+        \item If $i \ne 0, 1, p, p + 1$, ${p + 1 \choose i}$ is divisable by $p$ since the $p$ that appears on the divisor cannot be cancelled by the denominator. (Note, the characteristic $p$ for a field is always a prime) Therefore, the corresponding terms vanish. For $i = 1, p$, we have ${p + 1 \choose i} = p + 1 = 1$
+        \item If $i \ne 0, p$, ${p \choose i}$ is divisable by $p$ by similar arguments as above.
+    \end{enumerate}
+    As a result, the tangent at $(\lambda, \omega)$ should be $\lambda^p(X - \lambda)$, and the corresponding tangent at $[\lambda:\omega:1]$ would be $\lambda^p(X - \lambda Z)$, which passes $P$
+\end{proof}
+
+\begin{problem}{5.29}
+    Fix $F, G$ and $P$. Show that in cases (1) and (2) but not (3) of Proposition 1 of Sec 5.5 the conditions on $H$ are equivalent to Noether's conditions.
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Case (1) can be derived from case (2) since case (1) has stronger condition but weaker result.
+        \item For case (2), since $P$ is a simple point on $F$, $\mathcal{O}_{P}(F)$ is a DVR and $I(P, H \cap F) = ord_P^F(H_*), I(P, G_* \cap F) = ord_P^F(G)$. By Noether's condition, $\overline{H_*} \in (\overline{G_*})$ in $\mathcal{O}_{P}(F)$, which implies $ord_P^F (H_*) \ge ord_P^F(G_*)$.
+        \item For case (3), \TODO
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{5.30}
+    Let $F$ be an irreducible projective plane curve. Suppose $z \in k(F)$ is defined at every $P \in F$. Show that $z \in k$
+\end{problem}
+
+\begin{proof}
+    Suppose $z = H / G$ where $H, G$ are forms of the same degree and $\overline{G} \ne 0$. Since $F$ is irreducible, $G$ and $F$ have no common factors. Now for every $P \in F$, $H / G \in \mathcal{O}_{P}(F)$ implies there are $H', G'$ forms such that $H_*G'_* - G_*H'_* \in (F_*)$ as elements of $\mathcal{O}_{P}(\mathbb{P}^2)$ and $G'_*(P) \ne 0$. Then $G'_*$ is a unit in $\mathcal{O}_{P}(\mathbb{P}^2)$ and $H_* \in (G_*, F_*)$. If $P \notin F$, $F_*$ is a unit in $\mathcal{O}_{P}(\mathbb{P}^2)$ and clearly $H_* \in (G_*, F_*)$. As a result, by Noether's Theorem, $H = AF + BG$ where $A$ is a form of degree $\deg(H) - \deg(F)$ and $B \in k$ as $\deg(H) = \deg(G)$. Therefore, we can write $z$ as $BG / G = B \in k$.
+\end{proof}
+
+\end{document}

@@ -1,0 +1,558 @@
+\documentclass{solution}
+
+\begin{document}
+
+\begin{problem}{8.1}
+    Let $X = C = \mathbb{P}^1$, $k(X) = k(t)$ where $t = X_1 / X_2$. \begin{inparaenum}
+        \item Calculate $div(t)$
+        \item Calculate $div(f / g)$, relatively prime in $k[t]$.
+        \item Prove Proposition 1 directly in this case.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that for $P = [\lambda:\mu], \lambda \mu \ne 0$, $t, \frac{1}{t} \in \mathcal{O}_{P}(X)$ so $ord_P(t) = 0$. For $P = [1:0]$, $\frac{1}{t}$ is a parameter of $\mathcal{O}_{P}(X)$ and $ord_P(t) = -1$. For $P = [0:1]$, $t$ is a parameter of $\mathcal{O}_{P}(X)$ and $ord_P(t) = 1$. As a result, $div(t) = -[1:0] + [0:1]$
+        \item Decompose $f, g$:
+        $$f = \prod\limits_{i = 1}^{r} (t - \lambda_i)^{n_i}, g = \prod\limits_{i = 1}^{s} (t - \mu_i)^{m_i}$$
+        Then note that for $P = [\lambda:1]$, $t - \lambda$ is a parameter of $\mathcal{O}_{P}(X)$ and $t - \mu, \mu \ne \lambda$ is a unit. So $ord_{[\lambda_i:1]}(f / g) = n_i, ord_{[\mu_i:1]}(f / g) = -m_i$.
+        Let $n = \sum\limits_{i} n_i = \deg(f), m = \sum\limits_{i} m_i = \deg(g)$. Suppose $n \lt m$, divide by $t^m$ on both $f, g$, we obtain:
+        $$f / g = \left(\frac{1}{t}\right)^{m - n} \prod\limits_{i = 1}^{r} (1 - \frac{\lambda_i}{t})^{n_i} / \prod\limits_{i = 1}^{s} (1 - \frac{\mu_i}{t})^{m_i}$$
+        Note that the terms in the products are all units in $\mathcal{O}_{[1:0]}(X)$. So $ord_{[1:0]}(z) = m - n$.
+        As a result:
+        $$div(f / g) = (m - n)[1:0] + \sum\limits_{i = 1}^{r} n_i[\lambda_i:1] - \sum\limits_{i = 1}^{s} m_i[\mu_i:1]$$
+        \item Just verify Proposition 1 on part 2.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{8.2}
+    Let $X = C = V(Y^2Z - X(X - Z)(X - \lambda Z)) \subset \mathbb{P}^2$, $\lambda \in k, \lambda \ne 0, 1$. Let $x = X / Z$, $y = Y / Z \in K$, $K = k(x, y)$. Calculate $div(x)$ and $div(y)$
+\end{problem}
+
+\begin{proof}
+    Since $C$ is nonsingular, $ord_P(F) = I(P, C \cap F)$. Calculate $div(X), div(Y), div(Z)$ respectively and $div(x) = div(X) - div(Z), div(y) = div(Y) - div(Z)$. Omitted.
+\end{proof}
+
+\begin{problem}{8.3}
+    Let $C = X$ be a nonsingular cubic. \begin{inparaenum}
+        \item Let $P, Q \in C$. Show that $P \equiv Q$ iff $P = Q$.
+        \item Let $P, Q, R, S \in C$. Show that $P + Q \equiv R + S$ iff the line through $P, Q$ intersects the line through $R, S$ in a point on $C$. (if $P = Q$ use the tangent line)
+        \item Let $P_0$ be a fixed point on $C$, thus defining an addition $\oplus$ on $C$. Show that $P \oplus Q = R$ iff $P + Q \equiv R + P_0$. Use this to give another proof of Proposition 4 of Sec 5.6
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item The "if" part is trivial. Suppose $P \equiv Q, P \ne Q$, take $G$ to be a line passing through $P, Q$. Then since $C$ is a nonsingular cubic, by Bezout's theorem, $G$ intersects $C$ at another point $R$ or is tangent at one of $P, Q$. For the first case, by Residue Theorem, there is a line that passes $R$ and is tangent at $Q$, but the line passing $R, Q$ is $G$, a contradiction. For the second case, also by Residue Theorem, there is a line tangent to $Q$ with intersection $3$ at $Q$. However, the line tangent at $Q$ is $G$, a contradiction.
+        \item "if": Let $F, G$ be the lines that pass $P, Q$ and $R, S$ respectively and they intersect at a point $T \in C$. Then $T$ is the only other points on $F, G$ except $P, Q, R, S$ by Bezout's theorem (this is true even for $P = Q$ where we take $F$ as the tangent line). Then $P + Q + div(G / F) = R + S$
+        
+        "only if": Let $F, G$ be the same as above. Suppose $F, G$ intersects $C$ at $M, N$ apart from $P, Q, R, S$, then we have $P + Q + M + div(G / F) = R + S + N$. But $P + Q \equiv R + S$ implies $M \equiv N$, which is equivalent to $M = N$ by part 1.
+        \item This is trivial by writing out the definition of $\oplus$ and by part 2.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{8.4}
+    Let $C$ be a cubic with a node. Show that for any two simple points $P, Q$ on $C$, $P \equiv Q$.
+\end{problem}
+
+\begin{proof}
+    Let $R$ be the node. Consider the line $F, G$ passing $R, P$ and $R, Q$ respectively. Then by Bezout's theorem, $F, G$ only intersects $C$ at two points and are not tangent to $C$ at $R$. Also note that $\sum\limits_{f(S) = R} ord_S(F) = I(P, F \cap C) = 2$, but $\tilde{f}(F)(Q) = 0$, so $ord_{S}(F) = 1$ for each $f(S) = R$. Then $F, G$ has the same order at every point of $X$ except at $P, Q$. Then $div(F) + Q = div(G) + P$, which completes the proof by Proposition 2.
+\end{proof}
+
+However, I don't see why we need the cubic to contain node only. It seems the proof goes through for the case when the cubic contains a cusp instead.
+
+\begin{problem}{8.5}
+    Let $C$ be a nonsingular quartic, $P_1, P_2, P_3 \in C$. Let $D = P_1 + P_2 + P_3$. Let $L, L'$ be lines such that $L \cdot C = P_1 + P_2 + P_4 + P_5, L' \cdot C = P_1 + P_3 + P_6 + P_7$. Suppose these seven points are distinct. Show that $D$ is not linearly equivalent to any other effective divisor. Investigate in a similar way other divisors of small degre on quartics with various types of multiple points
+\end{problem}
+
+\begin{proof}
+    Consider the conic $LL'$, we have $div(LL') = LL' \cdot C = 2P_1 + P_2 + \cdots + P_7$. Suppose $D$ is linearly equivalent to another effective divisor $D'$, then by Residue Theorem, there is a conic $G$ such that $div(G) = P_1 + P_4 + P_5 + P_6 + P_7 + D'$. Since $D' \ge 0$, $G$ must pass $P_1, P_4, P_5, P_6, P_7$, which defines the conic. As a result, $G = LL'$ and $D' = D$.
+
+    \TODO {\color{red} I am not sure what the second part expects from us}
+\end{proof}
+
+\begin{problem}{8.6}
+    Let $D(X)$ be the group of divisors on $X$, $D_0(X)$ the subgroup consisting of divisors of degree zero, and $P(X)$ the subgroup of $D_0(X)$ consisting of divisors of rational functions. Let $C_0(X) = D_0(X) / P(X)$ be the quotient group. It is the divisor class group on $X$. \begin{inparaenum}
+        \item If $X = \mathbb{P}^1$, then $C_0(X) = 0$
+        \item Let $X = C$ be a nonsingular cubic. Pick $P_0 \in C$, defining $\oplus$ on $C$. Show that the map from $C$ to $C_0(X)$ that sends $P$ to the residue class of the divisor $P - P_0$ is an isomorphism from $(C, \oplus)$ onto $C_0(X)$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item ISTS $P(X) = D_0(X)$. For a divisor $D = \sum\limits_{P \in X} n_P P - \sum\limits_{P \in X} m_P P$ of degree $0$ where $n_P, m_P \ge 0$ and $n_Pm_P = 0, \forall P$, construct polynomials $f, g \in k[t]$ where $f = \prod\limits_{P} (t - P)^{n_P}$ and $g = \prod\limits_{P} (t - P)^{m_P}$. Here, by $t - P$, we mean $t - \lambda$ if $P = [\lambda:1]$ and $1$ if $P = [1:0]$. Then by similar arguments as in Problem 8.1, we have $z = f / g \in k(X)$ and $div(z) = D$
+        \item ISTS:
+        \begin{enumerate}
+            \item The map is a homomorphism: Let $P, Q \in C$. We need to show the residue class of the divisor $P \oplus Q - P_0$ is the same as $P + Q - 2P_0$, namely $P \oplus Q - P_0 \equiv P + Q - 2P_0$. But by Problem 8.3, $P \oplus Q \equiv P + Q - P_0$, which completes the proof.
+            \item The map is injective: If $P - P_0 \equiv 0$, then $P \equiv P_0$, which implies $P = P_0$ by Problem 8.3. But $P_0$ is the identity in the group of $(C, \oplus)$
+            \item The map is surjective: ISTS all divisors $D$ of degree $0$ is linearly equivalent to some $P - P_0$. Write $D = \sum\limits_{P} n_P P - \sum\limits_{P} m_P P$ where $n_P, m_P \ge 0, n_Pm_P = 0, \forall P$. Take $P, Q$ such that $n_P \gt 0, n_Q \gt 0$ or $P = Q and n_P \gt 1$, find $T$ the intersection of the line $PQ$ (when $P = Q$, take the tangent) and $C$, then select $R$ such that $m_R \gt 0$ and suppose the line $TR$ intersects $C$ at $S$. By Problem 8.3, $P + Q \equiv R + S$, replace $P + Q - R$ in $D$ by $S$, then we obtain a divisor $D'$ linearly equivalent to $D$ with $\sum\limits_{P} n_P' = \sum\limits_{P} m_P' \lt \sum\limits_{P} n_P$. Repeat this process as long as $\sum\limits_{P} n_P \gt 1$, we arrive at a $D' = P - Q$ for some $P, Q$. Note that $D' = P + P_0 - Q - P_0$, repeat the same process (select $R = Q$ this time) above to obtain the desired divisor.
+        \end{enumerate}
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{8.7}
+    When do two curves $G, H$ have the same divisor ($C$ and $X$ fixed)?
+\end{problem}
+
+\begin{proof}
+    When $div(G) = div(H)$, consider $z = G / H$, then $div(z) = 0$ and therefore $z \in k$ by Corollary 1 in Sec 8.1. As a result, $G, H$ have the same divisor iff $\overline{G} = \lambda \overline{H}$ in $\Gamma(C)$.
+\end{proof}
+
+\begin{problem}{8.8}
+    If $D \le D'$, then $l(D') \le l(D) + \deg (D' - D)$
+\end{problem}
+
+\begin{proof}
+    This is by Proposition 7 of Sec 2.10 and Proposition 3 in Sec 8.2
+\end{proof}
+
+\begin{problem}{8.9}
+    Let $X = \mathbb{P}^1$, $t$ as in Problem 8.1. Calculate $L(r(t)_0)$ explicitly, and show that $l(r(t)_0) = r + 1$
+\end{problem}
+
+\begin{proof}
+    We have shown before that $div(t) = -[1:0] + [0:1]$. Therefore $(t)_0 = [0:1]$. We claim that $L(r(t)_0)$ is the vector space with coefficient in $k$ spanned by $1, t^{-1}, \cdots, t^{-r}$. This can be done by examining the decomposition of a general $z$:
+    $$z = \prod\limits_{i = 1}^{r} (t - \lambda_i)^{n_i} / \prod\limits_{i = 1}^{s} (t - \mu_i)^{m_i}$$
+    If $z \in L(r(t)_0)$, then:
+    \begin{enumerate}
+        \item $m_i = 0$ for all $\mu_i \ne 0$ so that $ord_{[\mu_i:1]} \ge 0$. Then $m = m_i$ where $\mu_i = 0$
+        \item $m_i \ge -r$ for $\mu_i = 0$ so that $ord_{[0:1]} \ge -r$. 
+        \item $\sum n_i \le m$ so that $ord_{[1:0]} \ge 0$
+    \end{enumerate}
+    As a result, by dividing $t^m$ on both the numerator and denumerator, we can prove that $z \in span \left\lbrace 1, t^{-1}, \cdots, t^{-r} \right\rbrace$
+
+    Clearly $1, t^{-1}, \cdots, t^{-r}$ is linearly independent in $k(t) = K$, so they form a basis of $L(r(t)_0)$ and therefore $l(r(t)_0) = r + 1$
+\end{proof}
+
+\begin{problem}{8.10}
+    Let $X = C$ be a cubic, $x, y$ as in Problem 8.2. Let $z = x ^{-1}$. Show that $L(r(z)_0) \subset k[x, y]$, and show that $l(r(z)_0) = 2r$ if $r \gt 0$.
+\end{problem}
+
+\begin{proof}
+    Omitted
+\end{proof}
+
+\begin{problem}{8.11}
+    Let $D$ be a divisor. Show that $l(D) \gt 0$ iff $D$ is linearly equivalent to an effective divisor.
+\end{problem}
+
+\begin{proof}
+    $l(D) \gt 0$ iff $L(D) \ne 0$ iff $\exists z \in K, s.t. div(z) + D \ge 0$, which is equivalent to $D$ being linearly equivalent to $D + div(z)$, an effective divisor.
+\end{proof}
+
+\begin{problem}{8.12}
+    Show that $\deg(D) = 0$ and $l(D) \gt 0$ are true iff $D \equiv 0$
+\end{problem}
+
+\begin{proof}
+    By Problem 8.11, $D$ is linearly equivalent to an effective divisor $D'$. Since linear equivalence preserves degree, $D' = 0$
+\end{proof}
+
+\begin{problem}{8.13}
+    Suppose $l(D) \gt 0$, and let $f \ne 0$, $f \in L(D)$. Show that $f \notin L(D - P)$ for all but a finite number of $P$. So $l(D - P) = l(D) - 1$ for all but a finite number of $P$.
+\end{problem}
+
+\begin{proof}
+    Note that if $f \in L(D - P)$ and $f \in L(D - Q)$ for $P \ne Q$, then $f \in L(D - P - Q)$. As a result, if there are more than $\deg (D)$ number of points $P_1, \cdots, P_{\deg(D) + 1}$ such that $f \in L(D - P_i)$, then $f \in L(D - \sum\limits_{i = 1}^{\deg(D) + 1} P_i)$, which is impossible by Proposition 3 in Sec 8.2.
+
+    Note that by the proof of Proposition 3, $l(D - P) = l(D) - 1$ iff $L(D - P) \subsetneq L(D)$. Suppose $f_1, \cdots, f_d$ is a basis for $L(D)$, then by part 1, for all but a finite number of points $P$, $f_i \in L(D - P)$. As a result, $L(D) = L(D - P)$ for all but a finite number of $P$.
+\end{proof}
+
+\begin{problem}{8.14}
+    Calculate the genus of each of the following curves: (I will only demonstrate two) \begin{inparaenum}
+        \item $X^2Y^2 - Z^2(X^2 + Y^2)$
+        \item $(X^3 + Y^3)Z^2 + X^3Y^2 - X^2Y^3$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item First find the multiple points by calculating the gradients. They are $[1:0:0], [0:1:0], [0:0:1]$. By dehomogenization, we obtain the multiplicities at the multiple points are $2, 2, 2$ and they are all ordinary. As a result, by Proposition 5 in Sec 8.3, we have $g = 0$
+        \item First find the multiple points by calculating the gradients. They are $[1:0:0], [0:1:0], [0:0:1]$. By dehomogenization, we obtain the multiplicities at the multiple points are $2, 2, 3$ and they are all ordinary. As a result, by Proposition 5 in Sec 8.3, we have $g = 1$
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{8.15}
+    Let $D = \sum n_P P$ be an effective divisors, $S = \left\lbrace P \in C: n_P \gt 0 \right\rbrace$, $U = X \setminus S$. Show that $L(rD) \subset \Gamma(U, \mathcal{O}_{X})$ for all $r \ge 0$
+\end{problem}
+
+\begin{proof}
+    Note that $z \in L(rD)$ implies $div(z) + rD \ge 0$. If $P \in U$, we have $n_P = 0$, so $ord_P(z) \ge 0$, which implies $z \in \mathcal{O}_{P}(X)$. As a result, $z \in \bigcap\limits_{P \in U} \mathcal{O}_{P}(X) = \Gamma(U, \mathcal{O}_{X})$
+\end{proof}
+
+\begin{problem}{8.16}
+    Let $U$ be any open set on $X$, $\emptyset \ne U \ne X$. Then $\Gamma(U, \mathcal{O}_{X})$ is infinite dimensional over $k$
+\end{problem}
+
+\begin{proof}
+    Since $U$ is a proper open subset of $X$, select $P \notin U$. Consider $l(nP)$. By Corollary 3 in Section 8.3, $l(nP) = n + 1 - g$ for sufficiently large $n$. However, $L(nP) \subset \Gamma(U, \mathcal{O}_{X})$, which completes the proof.
+\end{proof}
+
+\begin{problem}{8.17}
+    Let $X, Y$ be nonsingular projective curves, $f: X \rightarrow Y$ a dominating morphism. Prove that $f(X) = Y$
+\end{problem}
+
+Namely, all dorminating morphism between nonsingular projective curves are surjective.
+
+\begin{proof}
+    Suppose otherwise, pick $P \in Y \setminus f(X)$, then $\Gamma(Y \setminus \left\lbrace P \right\rbrace)$ is infinite dimensional according to Problem 8.16, but $\tilde{f}(\Gamma(Y \setminus \left\lbrace P \right\rbrace)) \subset \Gamma(X) = k$ (the last equality by Corollary 1 in Sec 8.1), which is absurd since $\tilde{f}$ is injective (as it is a homomorphism from fields and it is nonconstant).
+\end{proof}
+
+\begin{problem}{8.18}
+    Show that a morphism from a projective curve $X$ to a curve $Y$ is either constant or surjective. If it is surjective, $Y$ must be projective.
+\end{problem}
+
+\begin{proof}
+    By Problem 6.45, $f: X \rightarrow Y$ is either constant or dominating. ISTS if $f$ is dominating, then $f$ is surjective and $Y$ is projective.
+
+    By Proposition 4 in Sec 6.3, $Y$ is an open subset of a projective curve $Z$ ($Y = Z$ is allowed). Then the dominating morphism $f: X \rightarrow Y$ can also be regarded as a dominating morphism $f: X \rightarrow Z$. It then induces a homomorphism $\tilde{f}: k(Z) \rightarrow k(X)$ and thus dominating (by Proposition 11 in Sec 6.6) morphism $f': X' \rightarrow Z'$ where $X', Z'$ are the nonsingular models of $X, Z$. Moreover, $X' \rightarrow Z' \rightarrow Z$ and $X' \rightarrow X \rightarrow Z$ commute. By Problem 8.17, $f'$ is surjective, since $X' \rightarrow X, Z' \rightarrow Z$ are onto, $f$ is also surjective and $Y = Z$.
+\end{proof}
+
+\begin{problem}{8.19}
+    If $f: C \rightarrow V$ is a morphism from a projective curve to a variety $V$, then $f(C)$ is a closed subvariety of $V$
+\end{problem}
+
+\begin{proof}
+    If $f$ is constant, then $f(C)$ is clearly a closed subvariety. Otherwise, consider $C'$ the closure of $f(C)$ in $V$. It is closed by definition and it is easy to verify (by definition) that it is irreducible. So $C'$ is a closed subvariety. Then $f$ is a dominating morphism $C \rightarrow C'$ and therefore induces a homomorphism $k(C') \rightarrow k(C)$. This proves that $\dim (C') \le \dim k(C) = 1$. But $\dim(C')$ contains points as proper subset, by Problem 6.35, $\dim(C') \gt 0$ and therefore $\dim (C') = 1$, namely $C'$ is a curve. Finally, by Problem 8.18, $C'$ is surjective, $f(C) = C'$ a closed subvariety of $C$
+\end{proof}
+
+\begin{problem}{8.20}
+    Let $C$ be the curve defined by $(X^3 + Y^3)Z^2 + X^3Y^2 - X^2Y^3$, and let $P$ be a simple point on $C$. Show that there is a $z \in \Gamma(C \setminus \left\lbrace P \right\rbrace)$ with $ord_P(z) \ge -12, z \ne k$.
+\end{problem}
+
+\begin{proof}
+    Note that a simple point on $C$ corresponds to a point on $X$. ISTS $l(12P) \gt 0$, but $l(12P) \ge 12 + 1 - 1 = 12$ by Riemann's theorem.
+\end{proof}
+
+\begin{problem}{8.21}
+    Let $C_0(X)$ be the divisor class group of $X$. Show that $C_0(X) = 0$ iff $X$ is rational.
+\end{problem}
+
+\begin{proof}
+    If $X$ is rational, $C_0(X) = 0$ by Problem 8.6.
+
+    Note that by definition, $C_0(X) = 0$ iff all divisors $D$ with $\deg(D) = 0$ are divisors of rational functions. Then by Proposition 3 (2)(4), $l(D) = 0$ for all $\deg(D) = 0$. Then consider the case when $\deg(D) = 1$. Since $D \ge D - P$ for any $P$, and $l(D - P) = 1$ since $\deg(D - P) = 0$, we have $l(D) \gt 0$. So by Problem 8.13, $l(D) = l(D - P) + 1$ for all but a finite number of $P$, then we must have $l(D) = 2$. Continue this process, we can prove $l(D) = \deg(D) + 1$ for all $D$ with $\deg(D) \ge 0$, namely $g = 0$. This completes the proof by Example (1) in Sec 8.3
+\end{proof}
+
+\begin{problem}{8.22}
+    Generalize Proposition 6 in Sec 8.4 to function fields in $n$ variables.
+\end{problem}
+
+\begin{proof}
+    We claim that: 
+    \begin{enumerate}
+        \item If $K$ is an algebraic function field in $n$ variable over $k$, then $\Omega_k(K)$ is a $n$-dimensional vector space over $K$
+        \item ($char(k) = 0$) If $x_1, \cdots, x_n$ is a transcendence basis for $K$ over $k$, then $dx_1, \cdots, dx_n$ is a basis for $\Omega_k(K)$ over $K$
+    \end{enumerate}
+
+    We only need to prove the second statement. By Problem 6.31(Theorem of the Primitive Element), $K = k(x_1, \cdots, x_n, y)$ for some $y \notin k$. Note that for all $z \in K$, we have $z = f / g$ where $f, g \in k[x_1, \cdots, x_n, y]$. Then $dz = g ^{-1} df - g ^{-2} f dg$, a linear combination of $df, dg$ with coefficients in $K$. Therefore, ISTS the differential of any $f \in k[x_1, \cdots, x_n, y]$ can be expressed as a linear combination of $dx_i$'s with coefficients in $K$. It then suffices to show $dy$ can be expressed as a linear combination of $dx_i$ with coefficients in $K$. Note that $y$ is algebraic over $k(x_1, \cdots, x_n)$, namely there is $r \gt 0$ and $a_1, \cdots, a_r \in k(x_1, \cdots, x_n)$ such that $y^r + a_1y^{r - 1} + \cdots + a_r = 0$. Take differentials of both sides, we have:
+    $$(ry^{r - 1} + a_1(r - 1)y^{r - 2} + \cdots + a_{r - 1}) dy = -(y^{r - 1} da_1 + \cdots + da_r)$$
+    which proves that $dy \in span(dx_1, \cdots, dx_n)$ in $\Omega_k(K)$.
+
+    Finally, we need to prove $dx_i$'s are linearly independent. This is hard. So instead we aim to prove that $\Omega_k(K)$ has dimension $\le n$. Let $R = k[x_1, \cdots, x_n, y]$, by Lemma 3 in Sec 8.4, ISTS there is a surjective derivation $\varphi: R \rightarrow K^n$. For $F \in k[X_1, \cdots, X_n, Y]$, define
+    $$\varphi(F(x_1, \cdots, x_n, y)) = (\cdots, F_{X_i}(x_1, \cdots, x_n, y) - g_i(x_1, \cdots, x_n, y) F_{Y}(x_1, \cdots, x_n, y), \cdots)$$
+    where $g_i$ is the rational function defined by $dy = \cdots + g_i dx_i + \cdots$ in the first part of the proof. It can be easily (The key point is that the $i$th component of $\varphi$ mimics the 'partial derivative' with respect to $x_i$) verified that $\varphi$ is a well-defined surjective derivation. 
+\end{proof}
+
+\begin{problem}{8.23}
+    With $\mathcal{O}, t$ as in Proposition 7 of Sec 8.4, let $\varphi: \mathcal{O} \rightarrow k[[T]]$ be the corresponding homomorphism (Problem 2.32). Show that, for $f \in \mathcal{O}$, $\varphi$ takes the derivative of $f$ to the 'formal derivative' of $\varphi(f)$. Use this to give another proof of Proposition 7, and of the fact that $\Omega_k(K) \ne 0$ in Proposition 6.
+\end{problem}
+
+\begin{proof}
+    Let $t$ be a parameter of the local ring, write $f = \lambda_0 + \lambda_1t + \cdots + \lambda_nt^n + z_n t^{n + 1}$ where $\lambda_i \in k, z_n \in \mathcal{O}$. Then
+    $$
+        \begin{aligned}
+        df &= \lambda_1 dt + \cdots + n \lambda_n t^{n - 1} dt + (n + 1) t^{n} z_n dt + t^{n + 1} dz_n \\
+        &= (\lambda_1 + \cdots + n \lambda_n t^{n - 1}) dt + t^{n}((n + 1)z_n + t dz_n)
+        \end{aligned}
+    $$
+    Note that $dt$ is a basis of $\Omega$, so $dz_n = u dt$ for some $u \in K$ and $u$ has order $\ge -N$ as in Proposition 7. As a result, the above proves that the coefficients of the power expansion of $df / dt$ matches the formal derivatives for the first $n - N$ terms. Since $n$ is arbitrary, this completes the proof.
+
+    It is easy to prove Proposition 7 and Proposition 6 by this fact.
+\end{proof}
+
+\begin{problem}{8.24}
+    Show that if $g \gt 0$, then $n \ge 3$ (notation as in Proposition 8 of Sec 8.5).
+\end{problem}
+
+\begin{proof}
+    This follows easily from Corollary 1 in Sec 8.3 (Note that we do not require the curve to contain only ordinary multiple points for Corollary 1 to work)
+\end{proof}
+
+\begin{problem}{8.25}
+    Let $X = \mathbb{P}^1, K = k(t)$ as in Problem 8.1. Calculate $div(dt)$, and show directly that the above Corollary holds when $g = 0$
+\end{problem}
+
+\begin{proof}
+    By previous arguments, $t - \lambda$ is a parameter for $\mathcal{O}_{[\lambda:1]}(X)$ and $dt = d(t - \lambda)$, so $ord_{[\lambda:1]}(dt) = 0$. And $1 / t$ is a parameter for $\mathcal{O}_{[1:0]}(X)$, since $dt = -t^2 d(1 / t)$, so $ord_{[1:0]}(dt) = -2$. As a result, $\deg(div(dt)) = -2$, which proves the $g = 0$ case of the Corollary in Sec 8.5 since all $g = 0$ curves are rational.
+\end{proof}
+
+\begin{problem}{8.26}
+    Show that for any $X$ there is a curve $C$ birationally equivalent to $X$ satisfying conditions of Proposition 8.
+\end{problem}
+
+\begin{proof}
+    By Problem 7.21 and change of coordinates if necessary
+\end{proof}
+
+\begin{problem}{8.27}
+    Let $X = C$, $x, y$ as in Problem 8.2. Let $\omega = y ^{-1} dx$, show that $div(w) = 0$
+\end{problem}
+
+\begin{proof}
+    Omitted(Since I omitted Problem 8.2, I have to omit this, I will fix this later when I have the time)
+\end{proof}
+
+\begin{problem}{8.28}
+    Show that if $g \gt 0$, there are effective canonical divisors
+\end{problem}
+
+\begin{proof}
+    By problem 7.21 and 8.24, we may study projective plane curve $F$ with $\deg(F) \ge 3$ only. Then by Proposition 8, ISTS there is a plane curve of degree $n - 3$ and $div(G) - E$ is effective. By Problem 7.19, this is equivalent to $m_{P_i}(G) \ge m_{P_i}(F) - 1$ for all multiple point $P_i$ in $F$.
+
+    By Theorem 1 in Sec 5.2, such $G$ exists iff
+    $$\frac{n(n - 3)}{2} - \sum \frac{m_{P_i}(F)(m_{P_i}(F) - 1)}{2} \gt 0$$
+    If $g \gt 1$, the above holds by Corollary 1 in Sec 8.3. Otherwise $g = 1$, complete the proof by Example (2) in Sec 8.3 and Problem 8.27.
+\end{proof}
+
+\begin{problem}{8.29}
+    Let $D$ be any divisor, $P \in X$. Then $l(W - D - P) \ne l(W - D)$ iff $l(D + P) = l(D)$
+\end{problem}
+
+\begin{proof}
+    By Riemann-Roch Theorem.
+\end{proof}
+
+\begin{problem}{8.30}
+    (Reciprocity Theorem of Brill-Noether) Suppose $D, D'$ are divisors, and $D + D' = W$ is a canonical divisor. Then $l(D) - l(D') = \frac{1}{2} (\deg(D) - \deg(D'))$
+\end{problem}
+
+\begin{proof}
+    Apply Riemann-Roch Theorem to $D, D'$ and substract them.
+\end{proof}
+
+\begin{problem}{8.31}
+    Let $D$ be a divisor with $\deg(D) = 2g - 2$ and $l(D) = g$. Show that $D$ is a canonical divisor. So these properties characterize canonical divisors.
+\end{problem}
+
+Problem 8.31 not only characterizes canonical divisors, but also shows that Corollary 2 in Sec 8.6 cannot be improved.
+
+\begin{proof}
+    By Riemann-Roch Theorem, $l(W - D) = 1$. By Problem 8.11 and the fact that canonical divisors form a linear equivalence class, we may assume $W - D \ge 0$. But $\deg(W - D) = 0$, so $W - D = 0$, namely $D$ is a canonical divisor.
+\end{proof}
+
+\begin{problem}{8.32}
+    Let $P_1, \cdots, P_m \in \mathbb{P}^2$, $r_1, \cdots, r_m$ nonnegative integers. Let $V(d; r_1 P_1, \cdots, r_mP_m)$ be the projective space of curves $F$ of degree $d$ with $m_{P_i}(F) \ge r_i$. Suppose there is a curve $C$ of degree $n$ with ordinary multiple points $P_1, \cdots, P_m$ and $m_{P_i}(C) = r_i + 1$ and suppose $d \ge n - 3$. Show that
+    $$\dim V(d; r_1 P_1, \cdots, r_mP_m) = \frac{d(d + 3)}{2} - \sum \frac{(r_i + 1)r_i}{2}$$
+    Compare with Theorem 1 of Sec 5.2
+\end{problem}
+
+\begin{proof}
+    \TODO
+\end{proof}
+
+\begin{problem}{8.33}
+    (Linear Series) Let $D$ be a divisor, and let $V$ be a subspace of $L(D)$ (as a vector space). The set of effective divisors $\left\lbrace div(f) + D: f \in V, f \ne 0 \right\rbrace$  is called a \textit{linear series}. If $f_1, \cdots, f_{r + 1}$ is a basis for $V$, then the correspondence $div(\sum \lambda_i f_i) + D \rightarrow (\lambda_1, \cdots, \lambda_{r + 1})$ sets up a one-to-one correspondence between the linear series and $\mathbb{P}^r$. If $\deg(D) = n$, the series is often called a $g_n^r$. (dimension $r$, degree $n$) The series is called \textit{complete} if $V = L(D)$, i.e., every effective divisor linearly equivalent to $D$ appears.
+
+    \begin{enumerate}
+        \item Show that, with $C, E$ as in Section 1, the series
+        $$\lbrace div(G) - E: G \text{ is an adjoint of degree $n$ not containing $C$} \rbrace$$
+        is complete.
+        \item Assume that there is no $P$ in $X$ such that $div(f) + D \ge P$ for all nonzero $f$ in $V$. (This can always be achieved by replacing $D$ by a divisor $D' \le D$.) For each $P \in X$, let $H_P = \left\lbrace f \in V: div(f) + D \ge P \text{ or } f = 0 \right\rbrace$, a hyperplane in $V$. Show that the mapping $P \mapsto H_P$ is a morphism $\varphi_V$ from $X$ to the projective space $\mathbb{P}^*(V)$ of hyperplanes in $V$.
+        \item A hyperplane $M$ in $\mathbb{P}^*(V)$ corresponds to a line $m$ in $V$. Show that $\varphi_V ^{-1}(M)$ is the divisor $div(f) + D$, where $f$ spans the line $m$. Show that $\varphi_V(X)$ is not contained in any hyperplane of $\mathbb{P}^*(V)$.
+        \item Conversely, if $\varphi: X \rightarrow \mathbb{P}^r$ is any morphism whose image is not contained in any hyperplane, show that the divisors $\varphi ^{-1}(M)$ form a linear system on $X$.
+        \item If $V = L(D)$ and $\deg(D) \ge 2g + 1$, show that $\varphi_V$ is one-to-one.
+    \end{enumerate}
+
+    Linear systems are used to map curves and embed curves in projective spaces
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item ISTS that all effective divisors linearly equivalent to $D = div(G) - E$ is contained in the set. (This will also prove that the set in question is a linear series, which is nontrivial) Take $z \in L(D)$ and suppose $z = u / v$ where $u, v$ are the residue classes of polynomials $U, V$ in $k(C)$. Then we know that $div(U) - div(V) + div(G) - E \ge 0$, namely $div(UG) \ge div(V) + E$. By Proposition 3 in Sec 7.5, $UG = AV + BF$ where $F$ is the polynomial for the curve $C$. Then $U / V = A / G$ in $k(C)$. This proves that $div(z) + D = div(U) - div(V) + div(G) - E = div(A) - E$. Note that $A$ is of degree $n$ and $div(A) - E = div(U) - div(V) + div(G) - E \ge 0$.
+        \item Note that $H_P = L(D - P) \cap V$. By assumption $L(D) / L(D - P) = 1$ and $V \subsetneq L(D - P)$, so $H_P$ is indeed a hyperplane of $V$. In fact, we can construct a linear functional on $V$ to specify the hyperplane, similar to the proof of Proposition 3(1): Suppose $D = n_PP + D'$ where $D'$ contains no terms in $P$. Take $t_P$ a parameter in $\mathcal{O}_{P}(X)$, then consider the function $\varphi: f \mapsto (t_P^{n_P}f)(P)$, this is well-defined since $f \in V \subset L(D)$. Also, it is easy to verify that $\varphi$ is linear and $\varphi(f) = 0$ iff $f \in L(D - P)$. Then $H_P = \ker(\varphi)$. If $V$ has a basis $f_1, \cdots, f_{r + 1}$ and $V$ is thus identified with $\mathbb{A}^{r + 1}$, then the map $\varphi_V: V \rightarrow \mathbb{P}^r$ can be explicitly write out:
+        $$\varphi_V(P) = (t_P^{n_{P}}f_1(P), t_P^{n_{P}}f_2(P), \cdots, t_P^{n_P}f_{r + 1}(P))$$
+        Note that selecting different $t_P$ will scale all the coordinates, and by assumption not all $t_P^{n_P}f_i(P) = 0$ (otherwise $V \subset L(D - P)$), so the formula is well-defined.
+
+        To show that $\varphi_V$ is continuous, ISTS $\varphi_V ^{-1}(V(F))$ is finite for all forms $F$ since the topology on $X$ is cofinite. If $F(\varphi_V(P)) = 0$, then $t_P^{dn_P}F(f_1, \cdots, f_{r + 1})(P) = 0$ where $\deg(F) = d$. Note that $F(f_1, \cdots, f_{r + 1}) \in L(dD)$, and $t_P^{dn_P}F(f_1, \cdots, f_{r + 1})(P) = 0$ iff $F(f_1, \cdots, f_{r + 1}) \in L(dD - P)$. Completes the proof by Problem 8.13.
+
+        To show that $\varphi_V$ induces a homomorphism from $\Gamma(U)$ to $\Gamma (\varphi_V ^{-1}(U))$ where $U$ is an open set in $\mathbb{P}^r$, \TODO
+        \item A hyper plane $M$ in $\mathbb{P}^*(V)$ has the form $\left\lbrace (\mu_i): \sum\limits_{i = 1}^{r + 1} c_i \mu_i = 0 \right\rbrace$ where $c_i$'s are constant. It corresponds to a set of hyperplanes $(\mu_i)_i$ in $V$. Suppose $(\lambda_i)_i$ belongs to the intersection of these hyperplanes, then $\sum\limits_{i = 1}^{r + 1} \lambda_i \mu_i = 0$ for all $(\mu_i)$ in $M$. Then it can be proved that $(\lambda_i)_i = (c_i)_i$ (as elements in projective space, i.e. scaling of coefficients are allowed). This corresponds to a line $m = \left\lbrace f: f = \sum\limits_{i = 1}^{r + 1} \lambda_i f_i, (\lambda_i)_i = (c_i)_i \right\rbrace$.
+        
+        By the explicit formula in part 2, we have:
+        $$\varphi_V ^{-1}(M) = \left\lbrace P: \sum c_i t_P^{n_P}f_i(P) = 0 \right\rbrace = \left\lbrace P: f = \sum c_i f_i \in L(D - P) \right\rbrace$$
+        It is clear that $f$ spans the line $m$, and $\varphi_V ^{-1}(M)$ is the set of all $P$'s where $div(f) + D \ge P$. {\color{red} I am confused by the statement, why is $\varphi_V ^{-1}(M)$ a divisor? It is a finite subset of $X$ for sure, but how can we decide $n_P$ of the divisor for each point $P \in \varphi_V ^{-1}(M)$?}
+
+        The above arguments show that the preimage of any hyperplane of $\mathbb{P}^*(V)$ will only contains finite points of $X$, so $\varphi_V(X)$ will not be contained in any hyperplane of $\mathbb{P}^*(V)$
+
+        \item \TODO
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{8.34}
+    Show that there are curves of every positive genus.
+\end{problem}
+
+\begin{proof}
+    By Proposition 5 in Sec 8.3, we aim to construct a projective plane curves with $n = g + 2$ and one ordinary multiple points of degree $n - 2 = g$ at $[0:0:1]$. Then the genus of the curve will be $g$.
+
+    Note that ordinary and multiple are all local properties (see Problem 3.24), so it suffices to find an affine curve with the above properties.
+
+    \TODO
+\end{proof}
+
+\begin{problem}{8.35}
+    \begin{inparaenum}
+        \item Use linear systems to reprove that every curve of genus $1$ is birationally equivalent to a plane cubic.
+        \item Show that every curve of genus $2$ is birationally equivalent to a plane curve of degree $4$ with one double point.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \TODO
+\end{proof}
+
+\begin{problem}{8.36}
+    Let $f: X \rightarrow Y$ be a nonconstant (therefore surjective) morphism of projective nonsingular curves, corresponding to a homomorphism $\tilde{f}$ of $k(Y)$ into $k(X)$. The integer $n = [k(X): k(Y)]$ is called the \textit{degree} of $f$. If $P \in X$, $f(P) = Q$, let $t \in \mathcal{O}_{Q}(Y)$ be a uniformizing parameter. The integer $e(P) = ord_P(t)$ is called the \textit{ramification index} of $f$ at $P$.
+    \begin{enumerate}
+        \item For each $Q \in Y$, show that $\sum_{f(P) = Q} e(P) P$ is an effective divisor of degree $n$
+        \item ($char(k) = 0$) With $t$ as above, show that $ord_P(dt) = e(P) - 1$
+        \item ($char(k) = 0$) If $g_X$(resp. $g_Y$) is the genus of $X$ (resp. $Y$), prove the \textit{Hurwitz Formula}
+        $$2g_X - 2 = (2g_Y - 2)n + \sum\limits_{P \in X} (e(P) - 1)$$
+        \item For all but a finite number of $P \in X$, $e(P) = 1$. The points $P \in X$ (and $f(P) \in Y$) where $e(P) \gt 1$ are called \textit{ramification points}. If $Y = \mathbb{P}^1$ and $n \gt 1$, show that there are always some ramification points.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Before the proof, we should note that selecting different $t$ will not change $e(P)$, since $\mathcal{O}_{P}(X)$ contains (actually domonates by Proposition 11 in Sec 6.6) $\mathcal{O}_{Q}(Y)$, and two uniformizing parameters differ by a units in $\mathcal{O}_{Q}(Y)$ (and thus $\mathcal{O}_{P}(X)$).
+        
+        For large enough $m$, we have $l(mQ) \gt 1$. Namely, we can find $u \in k(Y), u \notin k$ with $ord_Q(u) \ge -m$ and $ord_R(u) \ge 0$ for all other $R \in Y, R \ne Q$. Take $v = u ^{-1}$, then we have $ord_Q(v) \le n$ and $ord_R(v) \le 0$ for all $R \ne Q$. Since $v \notin k$, we must have $ord_Q(v) \gt 0$ and WLOG $ord_Q(v) = m$.
+
+        Consider $(v)_0$ on $X$. Since clearly if $f(P) \ne Q$, $\tilde{f} v = v \circ f$ is undefined or evaluates to nonzero value at $P$, namely $ord_P(v) \le 0$ in $k(X)$. As a result, we only need to consider $ord_P(v)$ for $f(P) = Q$. Since $ord_Q(v) = m$ in $k(Y)$, we have $ord_Q(v) = st^m$ where $s$ is a unit in $\mathcal{O}_{Q}(Y)$. Then $ord_P(v) = e(P)m$. (Actually, a general version of this fact is stated in the below lemma) It then follows that $(v)_0$ is a divisor of degree $m \sum\limits_{f(P) = Q} e(P)$. However, since $[k(X): k(v)] = [k(X):k(Y)][k(Y):k(v)] = n m$ by the hypothesis and Proposition 4 of Sec 8.2, we must have $\sum\limits_{f(P) = Q} e(P) = n$
+
+        \item Let $s$ be a parameter of $\mathcal{O}_{P}(X)$, then $t = us^{e(P)}$ for some unit $u$ in $\mathcal{O}_{P}(X)$. Then we have $dt = s^{e(P)}du + e(P)s^{e(P) - 1} ds$, which implies
+        $$\frac{dt}{ds} = s^{e(P)} \frac{du}{ds} + e(P)s^{e(P) - 1}$$
+        Then $ord_P(dt) = e(P) - 1$ by Proposition 7 in Sec 8.4 ($du / ds \in \mathcal{O}_{P}(X)$) and Problem 2.29.
+
+        \item For differential $\omega$, we count the degree of $W = div(w)$ in $k(X)$. By Corollary in Sec 8.5, we have $\deg(W) = 2g_X - 2$. On the other hand, since $f$ is surjective, we can sum up the degrees by:
+        $$\deg(W) = \sum\limits_{Q \in Y} \sum\limits_{f(P) = Q} ord_P(w)$$
+        However, note that if $t$ is a parameter of $\mathcal{O}_{Q}(Y)$, and $w = g dt$, then $ord_Q(w) = ord_Q(g)$. For each $P$ such that $f(P) = Q$, we have $dt = h ds$ where $ord_P(h) = e(P) - 1$ by part 2, and $ord_P(g) = e(P) ord_Q(g)$. As a result,
+        $$
+            \begin{aligned}
+            \deg(W) &= \sum\limits_{Q \in Y} \sum\limits_{f(P) = Q} e(P) ord_Q(g) + e(P) - 1 \\
+            &= \sum\limits_{Q \in Y} \left(ord_Q(g) \sum\limits_{f(P) = Q} e(P) + \sum\limits_{f(P) = Q} e(P) - 1\right)\\
+            &= \sum\limits_{Q \in Y} n \cdot ord_Q(g) + \sum\limits_{P \in X} e(P) - 1 \\
+            &= (2g_Y - 2) n + \sum\limits_{P \in X} e(P) - 1
+            \end{aligned}
+        $$
+        where the third equality is by part 1. This completes the proof.
+
+        \item From Hurwitz Formula, clearly only a finite number of $P$ has $e(P) \gt 1$. If $Y = \mathbb{P}^1$, then $g_Y = 0$, when $n \gt 1$, $2g_X - 2 \gt (2g_Y - 2) n$, so $\sum\limits_{P \in X} e(P) - 1 \gt 0$, namely there must be some point $P$ with $e(P) \gt 1$.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    Let $R, S$ be DVR with quotient field $K$ and $R$ dominates $S$. Then $ord_R(z) = m \cdot ord_S(z), \forall u \in K$ for some $m \in \mathbb{Z}^+$. Indeed $m = ord_R(t)$ where $t$ is a parameter of $S$
+\end{lemma}
+
+\begin{proof}
+    Note that if $s$ is another parameter of $S$, then $t / s$ is a unit in $S$, and thus a unit in $R$, so $ord_R(t) = ord_R(s)$. $m$ is thus well-defined.
+
+    The proof is omitted.
+\end{proof}
+
+\begin{problem}{8.37}
+    (Weierstrass Point; assume $char(k) = 0$) Let $P$ be a point on a nonsingular curve $X$ og genus $g$. Let $N_r = N_r(P) = l(rP)$.
+    \begin{enumerate}
+        \item Show that $1 = N_0 \le N_1 \le \cdots \le N_{2g - 1} = g$. So there are exactly $g$ numbers $0 \lt n_1 \lt n_2 \lt \cdots \lt n_g \lt 2g$ such that there is no $z \in k(X)$ with pole only at $P$, and $ord_P(z) = -n_i$. These $n_i$ are called the \textit{Weierstrass gaps}, and $(n_1, \cdots, n_g)$ the \textit{gap sequence}, at $P$. The point $P$ is called a \textit{Weierstrass point} if the gap sequence at $P$ is anything but $(1, 2, \cdots, g)$ that is , if $\sum\limits_{i = 1}^{g} (n_i - i) \gt 0$.
+        \item The following are equivalent:
+        \begin{enumerate}
+            \item $P$ is a Weierstrass point
+            \item $l(gP) \gt 1$
+            \item $l(W - gP) \gt 0$
+            \item Tehre is a differential $\omega$ on $X$ with $div(\omega) \ge gP$
+        \end{enumerate}
+        \item  If $r$ and $s$ are not gaps at $P$, then $r + s$ is not a gap at $P$.
+        \item If $2$ is not a gap at $P$, the gap sequence is $(1, 3, \cdots, 2g - 1)$. Such a Weierstrass point (if $g \gt 1$)is called \textit{hyperelliptic}. The curve $X$ has a hyperelliptic Weierstrass point iff there is a morphism $f: X \rightarrow \mathbb{P}^1$ of degree $2$. Such an $X$ is called a \textit{hyperelliptic curve}.
+        \item An integer $n$ is a gap at $P$ iff there is a differential of the first kind $\omega$ with $ord_P(\omega) = n - 1$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item By Corollary 2 in Sec 8.6, we have $N_{2g - 1} = g$. By Corollary 1 in Sec 8.1, we have $N_0 = 0$. By Proposition 3 in Sec 8.2 we have $N_i$ monotonic increasing. The $n_i$ are decided by the following rule: $n_i$ is the $i$th smallest index such that $N_{n_i} = N_{n_i - 1}$. There are at least $g$ of them since there is only $g$ possible values of $2g$ $N_i$'s. There are exactly $g$ of them since there are $N_i = j$ for each $1 \le j \le g$ as neighboring $N_i$'s differ by at most $1$.
+        \item
+        \begin{enumerate}
+            \item (a) $\Leftrightarrow$ (b): By the way $n_i$ are selected.
+            \item (b) $\Leftrightarrow$ (c): By Riemann-Roch Theorem
+            \item (c) $\Leftrightarrow$ (d): By Problem 8.11
+        \end{enumerate}
+        \item If $r, s$ are not gaps at $P$, then there is $z, w \in k(X)$ with pole only at $P$ and $ord_P(z) = -r, ord_P(w) = -s$. Then $zw \in k(X)$ has pole only at $P$ and $ord_P(zw) = -r - s$, so $r + s$ is not a gap.
+        \item By part 3, $2n$ is not a gap for all $n$. Then there are only $g$ possible values left for the gaps, they must all be a gap.
+        
+        Let $P_0$ be a Weierstrass point and $f$ has $ord_{P_0}(f) = -2$ and $ord_P(f) \ge 0, \forall P \ne P_0$. Then $f$ can be regarded as a morphism $f: X \rightarrow \mathbb{P}^1$ where $P$ is mapped to $[f(P):1]$ if $f \in \mathcal{O}_{P}(X)$ and $[1:0]$ otherwise. We know that $1 / t$ is a parameter at $\mathcal{O}_{[1:0]}(\mathbb{P}^1)$. Since $\tilde{f}(1/t) = 1 / f$, we have $ord_{P_0}(t) = 2$, namely $e(P_0) = 2$. However, since $ord_P(f) \ge 0, \forall P \ne P_0$, $P_0$ is the only point mapped to $[1:0]$ and we have $n = \sum\limits_{f(P) = [1:0]} e(P) = e(P_0) = 2$.
+
+        On the other hand, by part 4 of Problem 8.36, if $f: X \rightarrow \mathbb{P}^1$ is a morphism of degree $2$, then there must be a ramification point $P_0$ on $f$. Since $n = 2$, the only possibility is that $e(P_0) = 2$ and $f ^{-1} (f(P_0)) = \left\lbrace P_0 \right\rbrace$. WLOG, we may assume $f(P_0) = [1:0]$, reverse the above arguments to show that $f \in L(2P_0) \setminus L(P_0)$
+
+        \item Note that:
+        $$
+            \begin{aligned}
+            n \text{ is a gap} &\Leftrightarrow l(nP) = l((n - 1)P) \\
+            &\Leftrightarrow l(W - nP) \ne l(W - (n - 1)P) \\
+            &\Leftrightarrow \exists f, \omega, ord_P(f) = ord_P (div(\omega)) - (n - 1) \\
+            &\Leftrightarrow \exists f, \omega, ord_P(div(f ^{-1} \omega)) = n - 1
+            \end{aligned}
+        $$
+        where $f \in k(X)$, $\omega$ a differential. Since $f ^{-1} \omega$ is also a differential, the proof is complete.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{8.38}
+    ($char(k) = 0$) Fix $z \in K, z \notin k$. For $f \in K$, denote the derivative of $f$ with respect to $z$ by $f'$. Let $f^{{0}} = f, f^{(1)} = f', f^{(2)} = (f')'$, etc. For $f_1, \cdots, f_r \in K$, let $W_z(f_1, \cdots, f_r) = \det (f_j^{(i)}), i = 0, \cdots, r - 1, j = 1, \cdotp, r$(the "Wronskian"). Let $\omega_1, \cdots, \omega_g$ be a basis of $\Omega(0)$. Write $\omega_i = f_i dz$, and let $h = W_z(f_1, \cdots, f_g)$.
+    \begin{enumerate}
+        \item $h$ is independent of choice of basis, up to multiplication by a constant.
+        \item If $t \in K$ and $\omega_i = e_i dt$, then $h = W_t(e_1, \cdots, e_g) (t')^{1 + \cdots + g}$.
+        \item There is a basis $\omega_1, \cdots, \omega_g$ for $\Omega(0)$ such that $ord_P(\omega_i) = n_i - 1$, where $(n_1, \cdots, n_g)$ is the gap sequence at $P$.
+        \item Show that $ord_P(h) = \sum (n_i - i) - \frac{1}{2} g(g + 1) ord_P(dz)$
+        \item Prove the formula
+        $$\sum\limits_{P, i} (n_i(P) - i) = (g - 1)g(g + 1)$$
+        so there are a finite number of Weierstrass points. Every curve of genus $\gt 1$ has Weierstrass points.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Omitted, the constant is the Jacobian matrix corresponding to the change of basis.
+        \item $\omega_i = e_i dt = e_i t' dz$, as a result,
+        $$
+            \begin{aligned}
+            f_i^{(j)} &= \sum\limits_{l = 0}^{j} {j \choose l} \frac{d^l e_i}{dz^l} t^{(j - l + 1)} \\
+            &= \sum\limits_{l = 0}^{j} {j \choose l} \frac{d^l e_i}{dz^l} t^{(j - l + 1)} 
+            \end{aligned}
+        $$
+        Denote $e_i^{(j)}$ as $d^j e_i / dt^j$, then we have
+        $$d e_i / dz = e_i' t', d^2 e_i / dz^2 = e_i^{(2)} (t')^2 + e_i' t^{(2)}, \cdots$$
+        the leading term of $d^{j} e_i / dz^j = e_i^{(j)} (t')^j$.
+
+        By row operations, we can cancel out all nonleading terms (anything else from $e_i^{(j)} t'$) of each row in $(f_i^{(j)})$. As a result,
+        $$
+            \begin{aligned}
+                h &= \begin{vmatrix}
+                    &e_1t' &e_2t' &\cdots &e_g t' \\
+                    &e_1'(t')^2 &e_2'(t')^2 &\cdots &e_g' (t')^2 \\
+                    & \vdots &\vdots &\ddots &\vdots \\
+                    &e_1^{(g - 1)} (t')^g &e_2^{(g - 1)} (t')^g &\cdots & e_g^{(g - 1)} (t')^g
+                \end{vmatrix} \\
+                &= (t')^{1 + \cdots + g} W_t(e_1, \cdots, e_g)
+            \end{aligned}
+        $$
+        \item By part 5 of Problem 8.37, such $\omega_i$ exists. They are linearly independent by considering $ord_P(\sum \lambda_i \omega_i)$ and Problem 2.29
+        \item Take $t$ as a parameter of $\mathcal{O}_{P}(X)$, then by part 2 and $ord_P(t') = ord_P(dt / dz) = -ord_P(dz / dt) = -ord_P(dz)$, we have:
+        $$ord_P(h) = ord_P (W_t(e_1, \cdots, e_g)) - \frac{1}{2} g(g + 1) ord_P(dz)$$
+        By our selection of $\omega_i$(part 3), we have $ord_P (e_i) = n_i - 1$ and therefore $ord_P(e_i^{(j)}) = \max \left\lbrace 0, n_i - 1 - j \right\rbrace$. So the term with lowest degree in $W_t$ is of order $\sum\limits_{i} n_i - i$, which completes the proof. {\color{red} TODO, I think this only proves $ord_P(h) \ge \cdots$, what happens when there are multiple terms in $W_t$ of degree $\sum\limits_{i} n_i - i$ and they cancel each other out?}
+        \item Simply sum over part 4 and notice that $\sum\limits_{P} ord_P(dz) = 2g - 2$ by Corollary in Sec 8.5. The rest is obvious since $P$ is a Weierstrass point iff $\sum\limits_{i} n_i(P) - i \gt 0$
+    \end{enumerate}
+\end{proof}
+
+\end{document}

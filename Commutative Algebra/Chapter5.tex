@@ -1,0 +1,692 @@
+\documentclass{solution}
+
+\begin{document}
+
+\begin{problem}
+    Let $f: A \rightarrow B$ be an integral homomorphism of rings. Show that $\mathrm{Spec}(f): \mathrm{Spec}(B) \rightarrow \mathrm{Spec}(A)$ is a closed mapping. (This is a geometrical equivalent of Proposition 5.10)
+\end{problem}
+
+\begin{proof}
+    Take arbitrary closed set $V(J)$ of $B$. Denote $I = J^c$, then $\overline{f}: A / I \rightarrow B / J$ is still integral by Proposition 5.6, and is injective by definition, so we may regard $A / I$ as a subring of $B / J$. By Proposition 5.10, for each prime ideal $\mathfrak{p} \in \mathrm{Spec}(A / I)$, there is a prime ideal $\mathfrak{q} \in \mathrm{Spec}(B / J)$ such that $\overline{f}^{-1} (\mathfrak{q}) = \mathfrak{p}$. But this implies $\mathrm{Spec}(f)(V(J)) \supset V(I)$. On the other hand, it is clear that $\mathrm{Spec}(f)(V(J)) \subset V(I)$, so we have $\mathrm{Spec}(f)(V(J)) = V(I)$. Since $J$ is arbitrary, $\mathrm{Spec}(f)$ is closed.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a subring of a ring $B$ such that $B$ is integral over $A$, and let $f: A \rightarrow \Omega$ be a homomorphism of $A$ into an algebraically closed field $\Omega$. Show that $f$ can be extended to a homomorphism of $B$ into $Q$.
+\end{problem}
+
+\begin{proof}
+    Consider $\mathrm{ker}(f)$, since $0$ is a maximal ideal in $\Omega$, $\mathrm{ker}(f) = \mathfrak{p}$ is a prime ideal. By Proposition 5.10, we have prime ideal $\mathfrak{q}$ in $B$ such that $\mathfrak{q} \cap A = \mathfrak{p}$. Then $A / \mathfrak{p} \hookrightarrow B / \mathfrak{q}$ is injective, and $A / \mathfrak{p}$ can be regarded as a subring of $B / \mathfrak{q}$. We claim that if we can extend $\bar{f}: A / \mathfrak{p} \rightarrow \Omega$ to $\bar{g}: B / \mathfrak{q} \rightarrow \Omega$, then $g: B \rightarrow \Omega$ composed by the natural homomorphism $B \rightarrow B / \mathfrak{q}$ and $\bar{g}$, will be an extension of $f$: This is simply because the diagram below commutes:
+
+    % https://q.uiver.app/#q=WzAsNSxbMCwwLCJBIl0sWzAsMSwiQiJdLFsxLDAsIkEvXFxtYXRoZnJha3twfSJdLFsxLDEsIkIvXFxtYXRoZnJha3txfSJdLFsyLDAsIlxcT21lZ2EiXSxbMSwzXSxbMCwyXSxbMCwxLCIiLDEseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFsyLDMsIiIsMSx7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoidG9wIn19fV0sWzIsNCwiXFxvdmVybGluZXtmfSJdLFszLDQsIlxcb3ZlcmxpbmV7Z30iXV0=
+    \[\begin{tikzcd}
+        A & {A/\mathfrak{p}} & \Omega \\
+        B & {B/\mathfrak{q}}
+        \arrow[from=1-1, to=1-2]
+        \arrow[hook, from=1-1, to=2-1]
+        \arrow["{\overline{f}}", from=1-2, to=1-3]
+        \arrow[hook, from=1-2, to=2-2]
+        \arrow[from=2-1, to=2-2]
+        \arrow["{\overline{g}}", from=2-2, to=1-3]
+    \end{tikzcd}\]
+
+    By Proposition 5.6, $B / \mathfrak{q}$ is integral over $A / \mathfrak{p}$. Following the above argument, we may replace $A, B$ by $A / \mathfrak{p}, B / \mathfrak{q}$ and assume $A, B$ to be integral domains. The rest of the proof is stated as \ref{lem:domain-hom-extension} below.
+\end{proof}
+
+\begin{lemma}\label{lem:domain-hom-extension}
+    Let $A \subset B$ be integral domains, $B$ integral over $A$, then any homomorphism $f: A \rightarrow \Omega$ where $\Omega$ is an algebraically closed field can be extended to $\tilde{f}: B \rightarrow \Omega$
+\end{lemma}
+
+\begin{proof}
+    Note that $A \subset B \subset k(B)$ where $k(B)$ is the field of fraction of $B$. Then $A$ would be a subring of $k(B)$. Then by Theorem 5.21 $(A, f: A \rightarrow \Omega)$ can be extended to $(C: f': C \rightarrow \Omega)$ for some valuation ring $C$ of $k(B)$. By Corollary 5.22, $B \subset \overline{A} \subset C$. Then we can simply take $\tilde{f} = f'|_B$
+\end{proof}
+
+\begin{problem}
+    Let $f: B \rightarrow B'$ be a homomorphism of $A$-algebras, and let $C$ be an $A$-algebra. If $f$ is integral, prove that $f \otimes \mathds{1}_C: B \otimes_A C \rightarrow B' \otimes_A C$ is integral (This includes Proposition 5.6 (ii) as a special case)
+\end{problem}
+
+\begin{proof}
+    Note that the integral closure is a subring, we only need to show the basic elements $b' \otimes c$ (where $b' \in B, c \in C$) are integral over $f \otimes \mathds{1}_C(B \otimes_A C)$.
+
+    Since $f$ is integral, we have:
+    $$(b')^n + f(b_1)(b')^{n - 1} + \cdots + f(b_n) = 0$$
+    By tensoring $c^n$ on both sides, we have:
+    $$(b' \otimes c)^n + (f(b_1) \otimes c)(b' \otimes c)^{n - 1} + \cdots + f(b_n) \otimes c^{n} = 0$$
+    As a result, $b' \otimes c$ is the root of the following polynomial:
+    $$x^n + f(b_1 \otimes c)x^n + f(b_2 \otimes c^2) + \cdots + f(b_n \otimes c^n) = 0$$
+    which completes the proof.
+
+    Note that we can take $A = B, C = S ^{-1} B$ and apply Proposition 3.5 to derive part 2 of Proposition 5.6.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a subring of a ring $B$ such that $B$ is integral over $A$. Let $\mathfrak{n}$ be a maximal ideal of $B$ and let $\mathfrak{m} = \mathfrak{n} \cap A$ be the corresponding maximal ideal of $A$. Is $B_{\mathfrak{n}}$ necessarily integral over $A_{\mathfrak{m}}$?
+\end{problem}
+
+\begin{proof}
+    Follow the hint. Let $A = k[X^2 - 1], B = k[X]$ where $k$ is a field. Then $B$ is integral over $A$: ISTS $X$ is integral over $A$. But $X^2 - (X^2) = 0$ where the second $X^2 \in A$ is the monic polynomial satisfied by $X$.
+    
+    Let $\mathfrak{n} = (X - 1)B$, it is maximal as $B / \mathfrak{n} \cong k$. Then $\mathfrak{m} = (X - 1)B \cap A = (X^2 - 1)A$. Note $A \setminus \mathfrak{n}$ are all the constant polynomials and hence units $\Rightarrow A_{\mathfrak{n}} \cong A$.
+    
+    It is clear that $1 / (X + 1) \in B_{\mathfrak{m}}$ as $X + 1 \notin (X - 1)B$. We claim that it is not integral over $A_{\mathfrak{n}} = A$. Suppose otherwise, there is:
+    $$\frac{1}{(X + 1)^n} + a_1(X^2 - 1) \frac{1}{(X + 1)^{n - 1}} + \cdots + a_n(X^2 - 1) = 0$$
+    for some polynomials $a_i$'s. Multiply both sides by $(1 + X)^n$ and argue by module $(1 + X)$ out.
+\end{proof}
+
+{\color{red} The original argument in Proposition 5.6 fails because compared with $B_{\mathfrak{m}}$ that only invert $A - \mathfrak{m}$, in $B_{\mathfrak{n}}$ we invert $B - \mathfrak{n}$ which is larger than $A - \mathfrak{m}$, so $a_i / s$ will not be in $A_{\mathfrak{m}}$ in general.}
+
+\begin{problem}
+    Let $A \subset B$ be rings, $B$ integral over $A$.
+    \begin{enumerate}
+        \item If $x \in A$ is a unit in $B$ then it is a unit in $A$.
+        \item The Jacobson radical of $A$ is the contraction of the Jacobson radical of $B$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Since $x$ is a unit in $B$, we have $y \in B$ such that $xy = 0$. Then we have:
+        $$y^n + a_1 y^{n - 1} + \cdots + a_n = 0$$
+        for some $a_i \in A$ as $B$ is integral over $A$. Multiplying $x^{n - 1}$ on both sides, we have:
+        $$y + a_1 + a_2x + \cdots + a_nx^{n - 1} = 0 \Rightarrow y = -a_1 - a_2x - \cdots - a_nx^{n - 1} \in A$$
+        which implies $x$ is invertible in $A$, namely $x$ is a unit.
+        \item By Corollary 5.8, the maximal ideals in $B$ contract to maximal ideals of $A$. By definition of Jacobson radical, the contraction of the Jacobson radical of $B$ is an intersection of maximal ideals in $A$, and hence contains the Jacobson radical of $A$, namely $\mathfrak{R}_B^c \supset \mathfrak{R}_A$. On the other hand, let $x \in A$ be a nilradical of $B$, then for any $y \in A$, $1 + xy \in A$ is a unit in $B$ by Proposition 1.9, and hence a unit in $A$ by part 1. By Proposition 1.9 again, $x \in \mathfrak{R}_A$. Since $x$ is arbitrary, this shows that $\mathfrak{R}_B^c \subset \mathfrak{R}_A$, which completes the proof.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+    Let $B_1, \cdots, B_n$ be integral $A$-algebras. Show that $\prod\limits_{i = 1}^{n} B_i$ is an integral $A$-algebra.
+\end{problem}
+
+\begin{proof}
+    Note that as an $A$-algebra, $f: A \rightarrow \prod\limits_{i = 1}^{n} B_i$ is defined by $a \mapsto (f_i(a))_i$ where $f_i: A \rightarrow B_i$ is the corresponding map for $A$-algebra $B_i$. To save matters, we simply write $a$ instead of $f_i(a)$ as the coefficients.
+
+    For each $(b_1, \cdots, b_n) \in \prod\limits_{i = 1}^{n} B_i$, let $P_i(X) \in A[X]$ be the monic polynomial such that $P_i(b_i) = 0$. Then consider $P(X) = \prod\limits_{i = 1}^{n} P_i(X)$, it is still monic and clearly we have $P(b_i) = 0, \forall i$. Suppose $P(X) = X^m + a_1X^{m - 1} + \cdots + a_m$, we then have:
+    $$(b_1, \cdots, b_n)^m + a_1 (b_1, \cdots, b_n)^{m - 1} + \cdots + a_m(1, \cdots, 1) = 0$$
+    namely $(b_1, \cdots, b_n)$ is integral over $A$, by arbitrarity, $\prod\limits_{i = 1}^{n} B_i$ is integral over $A$.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a subring of a ring $B$, such that the set $B - A$ is closed under multiplication. Show that $A$ is integrally closed in $B$.
+\end{problem}
+
+\begin{proof}
+    Take arbitrary $x \in B$ integral over $A$, then there is:
+    $$x^n + a_1x^{n - 1} + \cdots + a_n = 0 \Rightarrow x^n = -a_1x^{n - 1} - \cdots - a_n \in A$$
+    But since $B - A$ is closed under multiplication, $x^n \in A$ implies $x \in A$, which completes the proof.
+\end{proof}
+
+\begin{problem}
+    \begin{enumerate}
+        \item Let $A$ be a subring of an integral domain $B$, and let $C$ be the integral closure of $A$ in $B$. Let $f, g$ be monic polynomials in $B[X]$ such that $fg \in C[X]$. Then $f, g$ are in $C[X]$
+        \item Prove the same result without assuming that $B$ (or $A$) is an integral domain.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Follow the hint. Let $K$ be a field extension of $k(B)$ such that $f, g$ splits completely in $B$, say $f = \prod\limits_{i = 1}^{n} (X - \xi_i), g = \prod\limits_{i = 1}^{m} (X - \eta_i)$. Note that the $\xi_i, \eta_i$'s are roots of $fg \in C[X]$, so they are integral over $C$ and thus, over $A$. ({\color{red}But they are not in $C$ necessarily since $C$ is only the closure of $A$ \textbf{in $B$}}) Since the integral closure of $A$ in $K$ is a subring, the coefficients of $f, g$ are all integral over $A$. But since $f, g \in B[X]$ and $C$ is the integral closure of $A$ in $B$, we must have $f, g \in C[X]$
+        \item By the argument of part 1, it suffices to find a ring $D \supset B$ such that $f, g$ splits completely in $D$. See the lemma below. ({\color{red}I was looking for a method that directly find the polynomial for each coefficient of $f, g$ to show that they are integral over $C$. Clearly we already have $fg \in C[X] \Rightarrow c_i = \sum\limits_{j = 0}^{i} a_jb_{i - j}$, where $c_i, a_i, b_i$ are coefficients for $fg, f, g$ respectively and $a_0 = b_0 = 1$. But I do not know how to proceed. I mean, the case for $f, g$ quadratic can be easily solved, right?})
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    Let $A$ be a ring, $f \in A[X]$ monic. Then there is a ring $D \supset A$ such that $f$ splits completely.
+\end{lemma}
+
+\begin{proof}
+    The construction is basically the same as the construction for the splitting field. (It is actually simpler since we do not care to verify the new ring is a field in each step.) We argue by induction of $\deg (f)$. If $\deg(f) = 1$, there is nothing to prove. If $\deg(f) \gt 1$, consider the ring $A_1 = A[X] / (f)$, then $\overline{X}$ will be a root of $f$, so we have $f = (X - \overline{X})g$ for some monic $g \in A_1[X]$. Replace $A$ by $A_1$ and $f$ by $g$, use the induction hypothesis.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a subring of a ring $B$ and let $C$ be the integral closure of $A$ in $B$. Prove that $C[X]$ is the integral closure of $A[X]$ in $B[X]$
+\end{problem}
+
+\begin{proof}
+    Follow the hint. Take $f \in B[X]$ integral over $A[X]$. Then we have:
+    $$f^m + g_1f^{m - 1} + \cdots + g_m = 0(g_i \in A[X])$$
+    Now take $r$ larger than the degree of all $g_i$ and $f$. Let $f' = f - X^r$. Then we have:
+    $$(f' + X^r)^m + g_1(f' + X^r)^{m - 1} + \cdots + g_m = 0$$
+    by grouping the terms according to power of $f'$, we have:
+    $$(f')^m + h_1(f')^{m - 1} + \cdots + h_m = 0$$
+    where:
+    $$h_i = \sum\limits_{0 \le j \le i} g_j (X^r)^{i - j} {{m - j}\choose{m - i}} \in A[X]$$
+    (we consider $g_0 = 1$) and as a result, $\deg(h_i) \lt ri$. 
+
+    Then we have:
+    $$f'\left((f')^{m - 1} + h_1 (f')^{m - 2} + \cdots + h_{m - 1}\right) = -h_m \in A[X]$$
+    and the leading term in $(f')^{m - 1} + h_1 (f')^{m - 2} + \cdots + h_{m - 1}$ is $(-1)^{m - 1} X^{r(m - 1)}$ by our estimation of $\deg(h_i)$, and the leading term of $f'$ is $-X^r$. As a result, both differ from monic polynomial by $\pm 1$. Then apply Problem 8 to show that $f' \in C[X]$ and hence $f \in C[X]$. This completes the proof that the integral closure of $A[X]$ is contained in $C[X]$.
+
+    For the other direction, since the integral closure is a subring, we only need to show polynomials of the form $cX^r$ is integral over $A[X]$ where $c \in C$. Since $C$ is the integral closure of $A$, we must have $c^n + a_1c^{n - 1} + \cdots + a_n = 0$ for some $a_i \in A$. This suggests that:
+    $$(cX^r)^n + (a_1 X^r) (cX^r)^{n - 1} + \cdots + a_n X^{rn} = 0$$
+    which completes the proof.
+\end{proof}
+
+\begin{problem}
+    A ring homomorphism $f: A \rightarrow B$ is said to have the \textit{going-up property} (resp. \textit{going-down property}) if the conclusion of the going-up theorem (5.11) (resp. the going down theorem 5.16) holds for $B$ and its subring $f(A)$.
+
+    \begin{enumerate}
+        \item Consider the following three statements:
+        \begin{enumerate}[(a)]
+            \item $\mathrm{Spec}(f)$ is a closed mapping.
+            \item $f$ has the going-up property.
+            \item Let $\mathfrak{q}$ be any prime ideal of $B$ and let $\mathfrak{p} = \mathfrak{q}^c$, then $\mathrm{Spec}(f): \mathrm{Spec}(B / \mathfrak{q}) \rightarrow \mathrm{Spec}(A / \mathfrak{p})$ is surjective.
+        \end{enumerate}
+        Prove that (a) $\Rightarrow$ (b) $\Leftrightarrow$ (c). (See also Chapter 6, Problem 11)
+        \item Consider the following three statements:
+        \begin{enumerate}[(a)]
+            \item $\mathrm{Spec}(f)$ is an open mapping.
+            \item $f$ has the going-down property.
+            \item Let $\mathfrak{q}$ be any prime ideal of $B$ and let $\mathfrak{p} = \mathfrak{q}^c$, then $\mathrm{Spec}(f): \mathrm{Spec}(B_{\mathfrak{q}}) \rightarrow \mathrm{Spec}(A_\mathfrak{p})$ is surjective.
+        \end{enumerate}
+        Prove that (a) $\Rightarrow$ (b) $\Leftrightarrow$ (c). (See also Chapter 7, Problem 23)
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item For (a) $\Rightarrow$ (c), note that $\mathrm{Spec}(B / \mathfrak{q}) \simeq V(\mathfrak{q}), \mathrm{Spec}(A / \mathfrak{p}) \simeq V(\mathfrak{p})$. Clearly $\mathrm{Spec}(f)(V(\mathfrak{q})) \subset \mathrm{Spec}(f) (V(\mathfrak{q}))$, ISTS $\mathrm{Spec}(f)(V(\mathfrak{q})) = V(\mathfrak{p})$. By (a), $\mathrm{Spec}(f)(V(\mathfrak{q})) = V(I)$ for some $I \supset \mathfrak{p}$. But note that $\mathrm{Spec}(f)(\mathfrak{q}) = \mathfrak{p}$, we must have $\mathfrak{p} \in V(I)$, so $I = \mathfrak{p}$ and we have $\mathrm{Spec}(f)(V(\mathfrak{q})) = V(\mathfrak{p})$. ({\color{red}From the statement part (c) is no stronger than (a) since we only require closed sets of the form $V(\mathfrak{p})$, namely the irreducible ones, are mapped to closed sets.})
+        
+        For (b) $\Leftrightarrow$ (c), note that $f$ has the going-up property if and only if it has the going-up property for the special case $n = 2, m = 1$. (c) $\Rightarrow$ (b): By surjectiveness, $\mathrm{Spec}(V(\mathfrak{q}_1)) = V(\mathfrak{p}_1)$, in particular there is $\mathfrak{q}_2 \in V(\mathfrak{q}_1)$ such that $\mathfrak{q}_2^c = \mathfrak{p}_2$, which completes the proof. (b) $\Rightarrow$ (c): Reverse the above argument.
+        
+        \item For (a) $\Rightarrow$ (c), note that $\mathrm{Spec}(B_{\mathfrak{q}})$ is identified with prime ideals of $B$ that contained in $\mathfrak{q}$ and similar for $\mathrm{Spec}(A)_{\mathfrak{p}}$. Note that the map $f$ induces a map $A \rightarrow B_t$ for arbitrary $t \notin \mathfrak{q}$, we call this map $f_t$. By Problem 23 of Chapter 3, $B_{\mathfrak{q}} = \varinjlim_{t \notin \mathfrak{q}} B_t$, note that the map $f_{\mathfrak{q}}: A \rightarrow B_{\mathfrak{q}}$ is the composition of $f_t$ and the projection $B_t \rightarrow B_{\mathfrak{q}}$ for arbitrary $t$, by Problem 26, we have:
+        $$\mathrm{Spec}(f)(\mathrm{Spec}(B_{\mathfrak{q}})) = \bigcap\limits_{t \notin \mathfrak{q}} \mathrm{Spec}(f_t)(\mathrm{Spec}(B_{t}))$$
+        We only need to show the RHS contains $\mathrm{Spec}(A_{\mathfrak{p}})$. But by Problem 22, $\mathrm{Spec}(A_{\mathfrak{p}})$ is identified with the intersection of all open neighborhood of $\mathfrak{p}$ in $\mathrm{Spec}(A)$, so ISTS each term in the RHS is an open neighborhood of $\mathfrak{p}$. However, $\mathrm{Spec}(f)(\mathfrak{q}) = \mathfrak{p}$ and $\mathrm{Spec}(B_t)$ is an open neighborhood of $\mathfrak{q}$, by openess, $\mathrm{Spec}(f_t)(\mathrm{Spec}(B_t))$ is an open neighborhood of $\mathfrak{p}$.
+        
+        For (b) $\Leftrightarrow$ (c), note that $f$ has the going-down property if and only if it has the going-down property for the special case $n = 2, m = 1$. (c) $\Rightarrow$ (b): Note that $\mathfrak{p}_2 \in \mathrm{Spec}(A_{\mathfrak{p}})$, by surjectiveness, there is some $\mathfrak{q}_2 \in \mathrm{Spec}(B)_{\mathfrak{q}_1}$, namely $\mathfrak{q}_2 \subset \mathfrak{q}_1$ such that $\mathfrak{q}^c_2 = \mathfrak{p}_2$, which completes the proof. For (b) $\Rightarrow$ (c), reverse the above argument.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+    Let $f: A \rightarrow B$ be a flat homomorphism of rings. Then $f$ has the going-down property.
+\end{problem}
+
+\begin{proof}
+    By Problem 18 of Chapter 3 and part 2 of Problem 10.
+\end{proof}
+
+\begin{problem}
+    Let $G$ be a finite group of automorphisms of a ring $A$, and let $A^G$ denote the subring of $G$-invariants, that is all $x \in A$ such that $\sigma(x) = x$ for all $\sigma \in G$. Prove that $A$ is integral over $A^G$.
+
+    Let $S$ be a multiplicatively closed subset of $A$ such that $\sigma(S) \subset S$ for all $\sigma \in G$, and let $S^G = S \cap A^G$. Show that the action of $G$ on $A$ extends to an action on $S ^{-1} A$, and that $(S^G) ^{-1} A^G \cong(S ^{-1} A)^G$
+\end{problem}
+
+\begin{proof}
+    It is clear that $A^G$ is a subring as $\sigma$'s are all ring homomorphisms. For any $x \in A$, consider the monic polynomial $f(X) = \prod\limits_{\sigma \in G} (X - \sigma(x))$:
+    \begin{enumerate}
+        \item $f(X) \in A^G[X]$: We only need to show that if we apply $\sigma' \in G$ on the coefficients of $f$, we get $f$. Since the $\sigma$'s are ring homomorphisms, we have $\sigma'(f(X)) = \prod\limits_{\sigma \in G} (X - \sigma'(\sigma(x))) = \prod\limits_{\sigma \in G} (X - (\sigma'\sigma)(x))$. Since multiplication by $\sigma'$ is an automorphism on $G$ (true for any group), we have $\sigma'(f(X)) = f(X)$, which completes the proof.
+        \item $x$ is a root of $f(X)$: Simply note that $1 \in G$.
+    \end{enumerate}
+    So $x$ is integral over $A^G$, by arbitrarity of $x$, $A$ is integral over $A^G$.
+
+    Take $\sigma \in G$, define $\sigma: S ^{-1} A \rightarrow S ^{-1} A: x / s \mapsto \sigma(x) / \sigma(s)$. It is easy to verify that $\sigma$ is well-defined. Note that $A^G$ is closed under multiplication, so $S^G$ is also a multiplicatively closed subset of $A$. Consider $A^G \rightarrow S ^{-1} A$ the restriction of the canonical homomorphism. For any $\sigma \in G$ and $x \in A^G$, we have $\sigma(x / 1) = x / 1$, so the image of the restriction is contained in $(S ^{-1} A)^G$, and we obtain a homomorphism $\varphi: A^G \rightarrow (S ^{-1} A)^G$. To show that it induces an isomorphism $(S^G)^{-1} A^G \cong (S ^{-1} A)^G$, by Corollary 3.2, ISTS:
+    \begin{enumerate}
+        \item For any $s \in S^G$, $\varphi(s)$ is a unit: $\varphi(s) = s / 1 = (1 / s) ^{-1}$ as $\sigma(1 / s) = (1 / s)$ (so $1 / s \in (S ^{-1} A)^G$). 
+        \item For any $\varphi(x) = 0, x \in A^G$, there is some $s \in S^G$ such that $xs = 0$: If $\varphi(x) = 0$, then there is some $s' \in S$ such that $s'x = 0$. Then for any $\sigma \in G$, we have $\sigma(s'x) = \sigma(s')x = 0$. Then take $s = \prod\limits_{\sigma \in G} \sigma(s')$ (check $s \in S^G$)
+        \item Any element in $(S ^{-1}A)^G$ can be written as $\varphi(x) \varphi(s)^{-1}$ for some $x \in A^G, s \in S^G$: Take $y / t \in (S ^{-1} A)^G$, where $y \in A, t \in S$. Since $\sigma(y / t) = y / t$, we have:
+        $$(\sigma(y) t - y \sigma(t))r_{\sigma} = 0$$
+        for some $r_{\sigma} \in S$. Now take $r = \prod\limits_{\sigma \in G} \prod\limits_{\sigma' \in G} \sigma'(r_{\sigma})$, then $r \in S^G$. Note that:
+        $$\frac{y}{t} = \frac{y r\prod\limits_{\sigma \ne 1} \sigma(t)}{r\prod\limits_{\sigma \in G} \sigma(t)}$$
+        and the denominator is in $S^G$, ISTS the numerator is in $A^G$. For arbitrary $\gamma \in G$, we have:
+        $$
+            \begin{aligned}
+            \gamma\left(yr \prod\limits_{\sigma \ne 1} \sigma(t)\right) - yr \prod\limits_{\sigma \ne 1} \sigma(t) &= \gamma(y) \gamma(r) \prod\limits_{\sigma \ne \gamma} \sigma(t) - yr \prod\limits_{\sigma \ne 1} \sigma(t) \\
+            &= (\gamma(y) r t - yr \gamma(t)) \prod\limits_{\sigma \ne 1, \gamma} \sigma(t) = 0
+            \end{aligned}
+        $$
+        where the last step follows from the fact that $r = r_{\gamma} r'$ for some $r' \in A$ by definition.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+    In the situation of Problem 12, let $\mathfrak{p}$ be a prime ideal of $A^G$, and let $P$ be the set of prime ideals of $A$ whose contraction is $\mathfrak{p}$. Show that $G$ acts transitively on $P$. In particular, $P$ is \textit{finite}.
+\end{problem}
+
+\begin{proof}
+    Follow the hint. First note that $\sigma$'s are automorphisms, $\sigma(\mathfrak{p}) = (\sigma ^{-1})^{-1}(\mathfrak{p})$ is a contraction of prime, and thus a prime. Moreover, for any $x \in A$ and $\sigma \in G$, then
+    $$
+        \begin{aligned}
+        \sigma(x) \in A^G &\Leftrightarrow \forall \sigma' \in G, \sigma'(\sigma(x)) = \sigma(x) \Leftrightarrow \forall \sigma' \in G, \sigma'(x) = \sigma(x) \\
+        &\Rightarrow 1(x) = \sigma(x) \in A^G
+        \end{aligned}
+    $$
+    On the other hand, $x \in A^G$ clearly implies $\sigma(x) \in A^G$ for arbitrary $\sigma$. So for any $\sigma \in G$, $x \in A^G$ if and only if $\sigma(x) \in A^G$. Then take any $\mathfrak{q} \in P$, we have:
+    $$\sigma(\mathfrak{q}) \cap A^G = \mathfrak{q} \cap A^G = \mathfrak{p}$$
+    namely $\sigma(\mathfrak{q}) \in P$. This completes the proof that $G$ acts on $P$.
+    
+    Now take arbitrary $\mathfrak{q}_1, \mathfrak{q}_2 \in P$, and $x \in \mathfrak{q}_1$, then we have $\prod\limits_{\sigma \in G} \sigma(x) \in \mathfrak{q}_1 \cap A^G = \mathfrak{p} \subset \mathfrak{q}_2$ (Note: $\prod\limits_{\sigma \in G} \sigma(x) \in \mathfrak{q}_1$ since $x$ is in the product). It follows that there is some $\sigma_x \in G$ such that $\sigma_x(x) \in \mathfrak{q}_2$. Then we have $\mathfrak{q}_1 \subset \bigcup\limits_{\sigma \in G} \sigma ^{-1}(\mathfrak{q}_2) = \bigcup\limits_{\sigma \in G} \sigma(\mathfrak{q}_2)$. By Proposition 1.11, we must have $\mathfrak{q}_1 \subset \sigma(\mathfrak{q}_2)$ for some $\sigma$. By Problem 12, $A$ is integral over $A^G$, then by Corollary 5.9, $\sigma(\mathfrak{q}_2) \cap A^G = \mathfrak{p} = \mathfrak{q}_1 \cap A^G$ and $\mathfrak{q}_1 \subset \sigma(\mathfrak{q}_2)$ implies that $\mathfrak{q}_1 = \sigma(\mathfrak{q}_2)$. This completes the proof that $G$ acts transitively.
+
+    To show that $P$ is finite, we can simply fix any $\mathfrak{q} \in P$, and by transitivity any $\mathfrak{q}' \in P$ can be represented as $\mathfrak{q}' = \sigma(\mathfrak{q})$ for some $\sigma \in G$, since $G$ is finite, $P$ is finite.
+\end{proof}
+
+\TODO {\color{red} I skip Problem 14 and 15, I will return after a revision of Galois Theory.}
+
+\begin{problem}
+    Let $A$ be an integrally closed domain, $K$ its field of fractions and $L$ a finite normal separable extension of $K$. Let $G$ be the Galois group of $L$ over $K$ and let $B$ be the integral closure of $A$ in $L$. Show that $\sigma(B) = B$ for all $\sigma \in G$, and that $A = B^G$
+\end{problem}
+
+\begin{problem}
+    Let $A, K$ be as in Problem 14, let $L$ be any finite extension field of $K$, and let $B$ be the integral closure of $A$ in $L$. Show that, if $\mathfrak{p}$ is any prime ideal of $A$, then the set of prime ideals $\mathfrak{q}$ of $B$ which contract to $\mathfrak{p}$ is finite. (In other words, that $\mathrm{Spec}(B) \rightarrow \mathrm{Spec}(A)$ has finite fibers.)
+\end{problem}
+
+\begin{problem}
+    (Noether's normalization lemma) Let $k$ be a field and let $A \ne 0$ be a finitely generated $k$-algebra. Then there exist elements $y_1, \cdots, y_r \in A$ which are algebraically independent over $k$ and such that $A$ is integral over $k[y_1, \cdots, y_r]$
+
+    We shall assume that $k$ is \textit{infinite}. (The result is still true if $k$ is finite, but a different proof is needed.) Let $x_1, \cdots, x_n$ generate $A$ as a $k$-algebra. We can renumber the $x_i$ so that $x_1, \cdots, x_r$ are algebraically independent over $k$ and each of $x_{r + 1}, \cdots, x_n$ is algebraic over $k[x_1, \cdots, x_r]$. Now proceed by induction on $n$. If $n = r$ there is nothing to do, so suppose $n \gt r$ and the result true for $n - 1$ generators. The generator $x_n$ is algebraic over $k[x_1, \cdots, x_{n - 1}]$, hence there exists a polynomial $f \ne 0$ in $n$ variables such that $f(x_1, \cdots, x_{n - 1}, x_n) = 0$. Let $F$ be the homogeneous part of the highest degree in $f$. Since $k$ is infinite, there exist $\lambda_1, \cdots, \lambda_{n - 1} \in k$ such that $F(\lambda_1, \cdots, \lambda_{n - 1}, 1) \ne 0$. Put $x_i' = x_i - \lambda_i x_n (1 \le i \le n - 1)$. Show that $x_n$ is integral over the ring $A' = k[x_i', \cdots, x_{n - 1}']$, and hence that $A$ is integral over $A'$. Then apply the inductive hypothesis to $A'$ to complete the proof.
+
+    From the proof it follows that $y_1, \cdots, y_r$ may be chosen to be linear combinations of $x_1, \cdots, x_n$. This has the following geometrical interpretation: If $k$ is algebraically closed and $X$ is an affine algebraic variety in $k^n$ with coordinate ring $A \ne 0$, then there exists a linear subspace $L$ of dimension $r$ in $k^n$ and a linear mapping of $k^n$ onto $L$ which maps $X$ onto $L$.
+\end{problem}
+
+\begin{proof}
+    Below are the missing steps and a few notices about the proof.
+
+    The ordering of $x_i$'s: We simply select $x_r$ from the rest of generators so that $x_1, \cdots, x_r$ are algebraically independent over $k$. If there is no such $x_r$, the rest of the generators and thus $A$ itself must be algebraic over $k[x_1, \cdots, x_{r - 1}]$ and the process stops.
+
+    The existence of $\lambda_i$'s: We claim that if $F \in k[X_1, \cdots, X_n]$ is nonzero, then there is always $\lambda_1, \cdots, \lambda_n \in k$ such that $F(\lambda_1, \cdots, \lambda_n) \ne 0$. We can prove by induction. The case $n = 1$ is by the fact that polynomial of degree $n$ can have at most $n$ zeros in $k$. Now for the general case. If $F(\lambda_1, X_2, \cdots, X_n) = 0$ as polynomials in $X_2, \cdots, X_n$, then write $F$ as a polynomial in $X_1 - \lambda_1$, the constant must be zero, namely $X_1 - \lambda_1 | F$. Argue by degrees that there are only finitely many $\lambda_1$, then use IH. Also, in the proof, we can always take $\lambda_n = 1$, since otherwise $X_n - 1$ divides $F$, but $F$ is homogeneous, a contradiction (The factors of a homogeneous polynomial must be homogeneous).
+
+    $x_n$ is integral over $A' = k[x_1', \cdots, x_{n - 1}']$: Note that by definition $f(x_1' + \lambda_1 x_n, \cdots, x_{n - 1}' + \lambda_{n - 1} x_n, x_n) = 0$. Consider the polynomial $P(X) = f(x_1' + \lambda_1 X, \cdots, x_{n - 1}' + \lambda_{n - 1}X, X) \in A'[X]$, the leading term is exactly
+    $$F(\lambda_1 X, \cdots, \lambda_{n - 1}X, X) = F(\lambda_1, \cdots, \lambda_{n - 1}, 1) X^d$$
+    By our selection of $\lambda_i$, constant $c = F(\lambda_1, \cdots, \lambda_{n - 1}, 1) \ne 0$. So $\frac{1}{c} P(X)$ is a monic polynomial such that $P(x_n) = 0$, namely $x_n$ is integral over $A'$.
+
+    The geometric interpretation: To make it more succinct, we replace the statement in the problem with: We can find a linear mapping $\psi: k^n \rightarrow L = k^r$ such that $\psi|_X$ is surjective.
+    
+    The coordinate ring
+    $$A = k[X] = k[X_1, \cdots, X_n] / I(X)$$
+    is a finitely generated $k$-algebra generated by $\overline{X_i}$'s. Consider  the affine space $L = k^r$, it has the coordinate ring
+    $$B = k[L] = k[Y_1, \cdots, Y_r]$$
+    By the Noether's normalization lemma, there is an integral homomorphism $\varphi: k[L] \rightarrow k[X]$ where $Y_i \mapsto \sum\limits_{j = 1}^{n} c_{i, j} \overline{X_i}$ for $1 \le i \le r$.
+    
+    Note that we have the correspondence between polynomial maps of affine varieties and homomorphisms of coordinate rings. Let $X, Y$ be affine varieties in $k^n, k^m$ respectively:
+    \begin{enumerate}
+        \item The ring homomorphism $\varphi: k[X] \rightarrow k[Y]$ corresponds to polynomial map $\psi: (\varphi(\overline{X_1}), \varphi(\overline{X_2}), \cdots, \varphi(\overline{X_n})): Y \rightarrow X$, which can be extended to $k^m \rightarrow k^n$ by its formula. (But the extension will not be unique, as despite $\overline{Y_i}$ is well-defined on $Y$, it is not well-defined in $k^m$. However, we do not need uniqueness throughout our argument below)
+        \item The polynomial map $\psi: Y \rightarrow X$ will correspond to ring homomorphism $\varphi: f \mapsto f \circ \psi: k[X] \rightarrow k[Y]$(by regarding elements in $k[X], k[Y]$ as well-defined functions on $X, Y$)
+    \end{enumerate}
+    
+    Then by the correspondence we obtain:
+    $$\psi: X \rightarrow L: (x_1, \cdots, x_n) \mapsto (\sum\limits_{j = 1}^{n} c_{1, j} x_j, \cdots, \sum\limits_{j = 1}^{n} c_{n, j} x_j)$$
+    which can be extended to a linear map $k^n \rightarrow k^r$. We only need to show that $\psi$ is onto $L$. For each $(y_1, \cdots, y_r) \in L$, it induces a homomorphism $k[L] \rightarrow k$, namely the evaluation map $\mathrm{Ev}_{(y_1, \cdots, y_r)}$. By Problem 2 and the fact that $k[L] \rightarrow k[X]$ is integral, we can lift the homomorphism to $k[X] \rightarrow k$. But then the homomorphism will be an evaluation map $\mathrm{Ev}_{(x_1, \cdots, x_n)}$ by considering its value at $\overline{X_i}$. Then we have
+    $$\mathrm{Ev}_{(x_1, \cdots, x_n)} \circ \varphi = \mathrm{Ev}_{(y_1, \cdots, y_r)}$$
+    as a mapping $k[L] \rightarrow k$. Finally, plug in $\overline{Y_i}$ on both sides, we have: $y_i = \psi(x_1, \cdots, x_n)$, which implies $(y_1, \cdots, y_r) = \psi_i(x_1, \cdots, x_n)$. This completes the proof that $\psi$ is surjective.
+\end{proof}
+
+{\color{red} In Fulton's book about algebraic curves, $r$ is the transcendence degree of $k(X)$ over $k$. Fulton defines this to be the dimension of the algebraic variety. It can be shown that this definition is compatible with the general definition of dimension for Noetherian space. (Krull's height theorem) Noether's normalization lemma, which is magic to me, shows that an affine algebraic variety of dimension $r$ is nothing more than a ramified version of $k^r$, and the isomorphism is even linear! I guess that's why Fulton introduces some results about ramification points in last chapter's exercises.}
+
+\begin{problem}
+    (Nullstellensatz, weak form) Let $X$ be an affine algebraic variety in $k^n$, where $k$ is an algebraically closed field, and let $I(X)$ be the ideal of $X$ in the polynomial ring $k[X_1, \cdots, X_n]$. If $I(X) \ne (1)$, then $X$ is not empty.
+\end{problem}
+
+\begin{proof}
+    {\color{red}I've seen many proofs of the weak form. The simplest way is to show that the maximal ideals in $k[X_1, \cdots, X_n]$ are all of the form $(X_1 - x_1, \cdots, X_n - x_n)$. (But this fact is nontrivial, all the proof of this fact that I have seen appeal to Zariski's lemma(Corollary 5.24)). Then any non-unit ideal is contained in some maximal ideal, and thus the corresponding variety vanishes on at least one point.}
+
+    Here we prove the weak form following the hint. Let $A = k[X_1, \cdots, X_n] / I(X)$ be the coordinate ring of $X$. Then $I(X) \ne (1)$ implies $A \ne 0$. By Problem 16, there is some surjective linear map $X \rightarrow k^r$ for $r \ge 0$, so $X \ne \emptyset$
+\end{proof}
+
+\begin{problem}
+    Let $k$ be a field and let $B$ be a finitely generated $k$-algebra. Suppose that $B$ is a field. Then $B$ is a finite algebraic extension of $k$. (This is another version of Hilber's Nullstellensatz. The following proof is due to Zariski. For other proofs, see 5.24 and 7.9)
+
+    Let $x_1, \cdots, x_n$ generate $B$ as a $k$-algebra. The proof is by induction on $n$. If $n = 1$ the result is clearly true, so assume $n \gt 1$. Let $A = k[x_1]$ and let $K = k(x_1)$ be the field of fractions of $A$. By the inductive hypothesis, $B$ is a finite algebraic extension of $K$, hence each of $x_2, \cdots, x_n$ satisfies a monic polynomial equation with coefficients in $K$. i.e. coefficients of the form $a / b$ where $a, b$ are in $A$. If $f$ is the product of the denominators of all these coefficients, then each of $x_2, \cdots, x_n$ is integral over $A_f$. Hence $B$ and therefore $K$ is integral over $A_f$.
+
+    Suppose  $x_1$ is transcendental over $k$. Then $A$ is integrally closed, because it is a unique factorization domain. Hence $A_f$ is integrally closed (5.12), and therefore $A_f = K$, which is clearly absurd. Hence $x_1$ is algebraic over $k$, hence $K$ (and therefore $B$) is a finite extension of $k$.
+\end{problem}
+
+\begin{proof}
+    Below are a few notices about the proof:
+
+    The case $n = 1$: If $x_1$ is algebraic over $k$, then $B = k[x_1]$ is clearly finite over $k$ (it is generated by $1, x_1, \cdots, x_1^r$ for some $r$ as a $k$-vector space). If $x_1$ is transcendence over $k$, then $k[x_1] \cong k[X]$. But then $X$ is not invertible and $B$ is thus not a field.
+
+    $A$ integrally closed when $x_1$ transcendental over $k$: Then $A \cong k[X]$, a UFD. Any UFD is integrally closed, the proof is basically the same as proving $\mathbb{Z}$ integrally closed.
+
+    $A_f$ integrally closed when $A \cong k[X]$ integrally closed: Note that $A$ is a domain, let $B = k(A)$ in Proposition 5.12 and note that $B_f \cong B$.
+\end{proof}
+
+\begin{problem}
+    Deduce the result of Problem 17 from Problem 18.
+\end{problem}
+
+\begin{proof}
+    As commented in Problem 17, we only need to show maximal ideals in $k[X_1, \cdots, X_n]$ are exactly ideals of the form $(X_1 - x_1, \cdots, X_n - x_n)$.
+
+    Since $k[X_1, \cdots, X_n] / (X_1 - x_1, \cdots, X_n - x_n) \cong k$, these ideals are maximal. For the other direction, let $\mathfrak{m}$ be a maximal ideal in $k[X_1, \cdots, X_n]$. Note that $k[X_i] \hookrightarrow k[X_1, \cdots, X_n]$ is a homomorphism of finitely generated $k$-algebras, by the lemma below, $\mathfrak{m} \cap k[X_i]$ is maximal and thus is $(X_i - x_i)$ for some $x_i \in k$(Easy to check. {\color{red} Note that without the lemma below, it could well be $0$ instead.}) Then we have $(X_1 - x_1, \cdots X_n - x_n) \subset \mathfrak{m}$. But the former is a maximal ideal, so the two are equal.
+\end{proof}
+
+\begin{lemma}
+    Let $f: A \rightarrow B$ be a homomorphism of finitely generated $k$-algebras, where $k$ is a field. Then the contraction of maximal ideals in $B$ are maximal in $A$.
+\end{lemma}
+
+\begin{proof}
+    Let $\mathfrak{n}$ be a maximal ideal in $B$, $\mathfrak{m} = \mathfrak{n}^c$. Consider $k \hookrightarrow A / \mathfrak{m} \hookrightarrow B / \mathfrak{n}$. Since $B / \mathfrak{n}$ is a field of finite type over $k$, by Zariski's lemma (Problem 18), $B / \mathfrak{n}$ is a finite algebraic extension of $k$. Then $A / \mathfrak{m}$ is also integral over $k$. But since $\mathfrak{m}$ is a prime ideal, $A / \mathfrak{m}$ is a domain. By Proposition 5.7, $A / \mathfrak{m}$ is a field, and thus $\mathfrak{m}$ is maximal.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a subring of an integral domain $B$ such that $B$ is finitely generated over $A$. Show that there exists $s \ne 0$ in $A$ and elements $y_1, \cdots, y_n$ in $B$, algebraically independent over $A$ and such that $B_s$ is integral over $B'_s$, where $B' = A[y_1, \cdots, y_n]$.
+\end{problem}
+
+\begin{proof}
+    {\color{red} Note: The reason that we cannot directly use similar proof as in Problem 18 is that $B$ is not necessarily a $k(A)$-algebra}
+
+    Before we start, we should note that since $A, B$ are domains, the localizations discussed below are all domains, so $a / b = 0$ if and only if $a = 0$.
+
+    Follow the hint. Let $S = A \setminus \left\lbrace 0 \right\rbrace$, and $k = S ^{-1}A$ the field of fraction of $A$. Then $S ^{-1} B$ will be a finitely generated $k$-algebra. Then by Noether's normalization lemma, there are $x_1, \cdots, x_n \in S ^{-1} B$ algebraically independent over $k$ such that $S ^{-1} B$ is integral over $k[x_1, \cdots, x_n]$. Since $B$ is finitely generated over $A$, we have $B = A[z_1, \cdots, z_l]$ for some $z_i \in B$. Then for each $z_i \in B \subset S ^{-1} B$ (Note that $B$ is a domain, so $B \hookrightarrow S ^{-1} B \hookrightarrow k(B)$ are injective, we can regard $B$ as a subring of $S ^{-1} B$), we have:
+    $$z_i^{n_i} + a_{i, 1}z_i^{n_i - 1} + \cdots + a_{i, n_i} = 0$$
+    where $a_{i, j} \in k[x_1, \cdots, x_m]$, namely $a_{i, j}$ is a polynomial of $x_i$'s with coefficients in $k$. Let $s$ be the multiplication of the denominators of all polynomial coefficients for each $a_{i, j}$ and the denominators of each $x_i$. Then we have $x_i = y_i / s$ for some $y_i \in B$ and $a_{i, j} \in A[y_1, \cdots, y_n]_s = B'_s$. This shows that $z_i$'s are integral over $B'_s$. So $B$ is integral over $B'_s$. It follows that $B_s$ is also integral over $B'_s$. Finally, we need to show that $y_i$'s are algebraically independent over $A$. Suppose otherwise, $f(y_1, \cdots, y_n) = 0$ for some non-zero polynomial $f$. But then $f(x_1s, \cdots, x_ns) = 0$, and $g(X_1, \cdots, X_n) = f(sX_1, \cdots, sX_n)$ is still nonzero since $s$ is a unit in $k$ (if $g = 0$ then $f(X_1, \cdots, X_n) = g(s ^{-1} X_1, \cdots, s ^{-1} X_n) = 0$), a contradiction to $x_i$'s algebraically independent.
+\end{proof}
+
+{\color{red} The above result shows that despite we cannot have $B$ integral over $A[x_1, \cdots, x_n]$ for some $x_i \in B$. (A direct generalization of Noether's normalization lemma from $A$ being a field to $A$ being a ring.) We can accomplish this by simply inverting one element.}
+
+\begin{problem}
+    Let $A, B$ be as in Problem 20. Show that there exists $s \ne 0$ in $A$ such that, if $\Omega$ is an algebraically closed field and $f: A \rightarrow \Omega$ is a homomorphism for which $f(s) \ne 0$, then $f$ can be extended to a homomorphism $B \rightarrow \Omega$
+\end{problem}
+
+\begin{proof}
+    Use the same notation as in Problem 20 (namely take $s$ as in Problem 20). Then clearly $f$ can be extended to $B' = A[y_1, \cdots, y_n]$ by mapping $y_i$ to $0$. By the universal property of the localization, if $f(s) \ne 0$, $f$ can be extended to $B'_s$. Finally, by Problem 2, we can extend $f$ to $B$ since $B$ is integral over $B'_s$ by our construction. Then take the restriction to $B$
+\end{proof}
+
+{\color{red} I am a little lost here. If we take $v = 1$ in Proposition 5.23, we should be able to get Problem 21, right? So this problem just provides an alternate proof to a special case of Proposition 5.23?}
+
+\begin{problem}
+    Let $A, B$ be as in Problem 20. If the Jacobson radical of $A$ is zero, then so is the Jacobson radical of $B$
+\end{problem}
+
+\begin{proof}
+    Follow the hint. Take arbitrary $v \ne 0$ in $B$, we need to show that there is a maximal ideal of $B$ that does not contain $v$. We do so by construction a homomorphism $B \rightarrow k$ for some field $k$ such that $v$ is not mapped to $0$, and we have to make the kernel maximal.
+
+    Apply Problem 21 to $A \subset B_v$($B_v$ is clearly finitely generated over $A$, we can simply add $\frac{1}{v}$ to the set of generators of $B$) and we obtain $s \in A, s \ne 0$. Since the Jacobson radical of $A$ is zero, we can pick maximal ideal $\mathfrak{m}$ of $A$ such that $s \notin \mathfrak{m}$. Then consider the homomorphism $A \rightarrow k = A / \mathfrak{m} \hookrightarrow \Omega = \overline{k}$, $s$ does not vanish as $s \notin \mathfrak{m}$. By Problem 21, it can be extended to $g: B_v \rightarrow \Omega$. As $v$ is a unit in $B_v$, $g(v) \ne 0$, namely $v \notin \mathrm{ker}(g)$. Now ISTS $\mathrm{ker}(g) \cap B$ is a maximal ideal of $B$.
+    
+    Note that $\mathrm{ker}(g) \cap A = \mathfrak{m}$ maximal, and since $\mathrm{ker}(g) \cap A = (\mathrm{ker}(g) \cap B) \cap A$, we have:
+    $$k = A / \mathfrak{m} \hookrightarrow B / (\mathrm{ker}(g) \cap B) \hookrightarrow \Omega$$
+    By the lemma below, $\Omega$ is algebraic over $k$ and hence $B$ is integral over $k$. Moreover, $\mathrm{ker}(g) \cap B$ is prime as $\Omega$ is a field (integral domain suffices), so $B / (\mathrm{ker}(g) \cap B)$ is a domain. By Proposition 5.7, $B / (\mathrm{ker}(g) \cap B)$ is a field, namely $\mathrm{ker}(g) \cap B$ is maximal.
+\end{proof}
+
+\begin{lemma}
+    The algebraic closure $\Omega$ of a field $k$ is algebraic over $k$
+\end{lemma}
+
+\begin{proof}
+    Take the algebraic closure of $k$ in $\Omega$. Argue that it is not $\Omega$ then we have a strictly smaller algebraic closure.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a ring. Show that the followings are equivalent:
+    \begin{enumerate}
+        \item Every prime ideal in $A$ is an intersection of maximal ideals.
+        \item In every homomorphic image of $A$ the nilradical is equal to the Jacobson radical.
+        \item Every prime ideal in $A$ which is not maximal is equal to the intersection of the prime ideals which contain it strictly
+    \end{enumerate}
+    A ring with these properties is called a \textit{Jacobson ring}.
+\end{problem}
+
+\begin{proof}
+    (1) $\Rightarrow$ (2): The homomorphic images of $A$ are isomorphic to a quotient ring of $A / I$, and the nilradical corresponds to $\sqrt{I}$. So ISTS
+    \begin{equation}\label{eq:prob23}
+        \sqrt{I} = \bigcap\limits_{\mathfrak{m} \in \mathrm{MSpec}(A), I \subset \mathfrak{m}} \mathfrak{m}
+    \end{equation}
+    for arbitrary $I$. But we know that
+    $$\sqrt{I} = \bigcap\limits_{\mathfrak{p} \in \mathrm{Spec}(A), I \subset \mathfrak{p}} \mathfrak{p} = \bigcap\limits_{\mathfrak{p} \in \mathrm{Spec}(A), I \subset \mathfrak{p}} \bigcap\limits_{\mathfrak{m} \in M(\mathfrak{p})}^{}\mathfrak{m} \supset \bigcap\limits_{\mathfrak{m} \in \mathrm{MSpec}(A), I \subset \mathfrak{m}} \mathfrak{m}$$
+    where $M(\mathfrak{p})$ is the set of maximal ideals that intersect to $\mathfrak{p}$ by our hypothesis. On the other hand, since maximal ideals are prime, we have:
+    $$\sqrt{I} = \bigcap\limits_{\mathfrak{p} \in \mathrm{Spec}(A), I \subset \mathfrak{p}} \mathfrak{p} \subset \bigcap\limits_{\mathfrak{m} \in \mathrm{MSpec}(A), I \subset \mathfrak{m}} \mathfrak{m}$$
+    which completes the proof.
+    
+    (2) $\Rightarrow$ (3): By Eq \ref{eq:prob23}, for arbitrary non-maximal prime ideal $\mathfrak{p}$ we have:
+    $$\bigcap\limits_{\mathfrak{p} \subsetneq \mathfrak{q} \in \mathrm{Spec}(A)} \mathfrak{q} = \bigcap\limits_{\mathfrak{p} \subsetneq \mathfrak{q} \in \mathrm{Spec}(A)} \bigcap\limits_{\mathfrak{q} \subset \mathfrak{m} \in \mathrm{MSpec}(A)} \mathfrak{m}$$
+    But on the other hand:
+    $$\mathfrak{p} = \bigcap\limits_{\mathfrak{p} \subset \mathfrak{m} \in \mathrm{MSpec}(A)} \mathfrak{m}$$
+    The two equations are actually taking intersection of the same set of maximal ideals. Details omitted(Hint: $\mathfrak{q}$ can be a maximal ideal over $\mathfrak{p}$)
+
+    (3) $\Rightarrow$ (1): We argue by contradiction. Suppose there is some prime ideal $\mathfrak{p}$ that is not the intersection of maximal ideals. Then the Jacobson radical $\mathfrak{R}_{A / \mathfrak{p}} \ne 0$. If we can find a non-maximal prime ideal in $A / \mathfrak{p}$ that is not the intersection of all prime ideals strictly larger, then contract to $A$ we have a non-maximal prime ideal that is not the intersection of all prime ideals strictly larger. So we may replace $A$ by $A / \mathfrak{p}$ and ISTS for any integral domain $A$ whose Jacobson radical $\mathfrak{R}_A$ is non-zero, there is some non-maximal prime not equal to the intersection of all prime ideals strictly larger.
+
+    By our hypothesis, we may take $x \in \mathfrak{N}_A, x \ne 0$. Consider $A_x$. Since $A$ is a domain, we may regard $A \subset A_x$. Take a maximal ideal $\mathfrak{n}$ of $A_x$, let $\mathfrak{p} = \mathfrak{n} \cap A$. Then $\mathfrak{p}$ is a prime ideal as a contraction of prime ideal. And since $x$ is a unit in $A_x$, $x \notin \mathfrak{n}$ and thus $x \notin \mathfrak{p}$ ({\color{red}Here is why we need $A$ to be a domain, otherwise $A \rightarrow A_x$ may not be injective, and we do not get $x \notin \mathfrak{p}$ trivially}). So $\mathfrak{p}$ is not maximal as $x$ is in every maximal ideal (it is in the Jacobson radical). Finally, $\mathfrak{p}$ is not an intersection of maximal ideals also because $x \notin \mathfrak{p}$.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Jacobson ring (Problem 23) and $B$ an $A$-algebra. Show that if $B$ is either \begin{inparaenum}
+        \item integral over $A$ or
+        \item finitely generated as an $A$-algebra,
+    \end{inparaenum} then $B$ is Jacobson.
+
+    In particular, every finitely generated ring, and every finitely generated algebra over a field, is a Jacobson ring.
+\end{problem}
+
+\begin{proof}
+    By Problem 23, ISTS the Jacobson radical of $B / \mathfrak{q}$ is zero for arbitrary prime ideal $\mathfrak{q}$ of $B$. Take $\mathfrak{p} = \mathfrak{q}^c$ in $A$. Then the induced algebra $A / \mathfrak{p} \hookrightarrow B / \mathfrak{q}$ is injective, and we may think $A / \mathfrak{p} \subset B / \mathfrak{q}$. Note that if $B$ is integral (resp. of finite type) over $A$ then $B / \mathfrak{q}$ is integral (resp. of finite type) over $A / \mathfrak{p}$. Also, by part 3 of Problem 23, if $A$ is Jacobson, then so is $A / \mathfrak{p}$. So we have reduced the problem to: For any integral domain $A \subset B$ such that $B$ is integral (resp. of finite type) over $A$, if $A$ is Jacobson, then $\mathfrak{R}_B = 0$. Moreover, since $A$ is a Jacobson domain, the Jacobson radical of $A$ is the same as the nilradical of $A$, which is zero.
+
+    \begin{enumerate}
+        \item By Problem 5, $0 = \mathfrak{N}_A = \mathfrak{N}_B \cap A$, then apply the lemma below.
+        \item By Problem 22
+    \end{enumerate}
+
+    A comment on the 'in particular part': By finitely generated rings, we mean a ring finitely generated as a $\mathbb{Z}$-algebra. And $\mathbb{Z}$ is clearly Jacobson.
+\end{proof}
+
+\begin{lemma}
+    Let $A \subset B$ be integral domains, $B$ integral over $A$. Then ideal $J$ of $B$ is zero if and only if the ideal $J \cap A$ is zero.
+\end{lemma}
+
+\begin{proof}
+    The "only if" part is trivial. For the "if" part. Suppose otherwise, for arbitrary $x \in J, x \ne 0$, we have:
+    $$x^n + a_1x^{n - 1} + \cdots + a_n = 0$$
+    for some $n \gt 0, a_i \in A$ since $B$ is integral over $A$. But since $a_1x^{n - 1} + \cdots + a_{n - 1}x \in J \cap A$, it must be $0$ by our hypothesis. It follows that $x^n = -a_n \Rightarrow a_n \in J \cap A  \Rightarrow a_n = 0$. Since $B$ is a domain, this implies $x = 0$, a contradiction.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a ring. Show that the followings are equivalent:
+    \begin{enumerate}
+        \item $A$ is a Jacobson ring
+        \item Every finitely generated $A$-algebra $B$ which is a field is finite over $A$
+    \end{enumerate}
+\end{problem}
+
+{\color{red} So this is a generalization of Zariski's lemma by generalizing $A$ from a field to a Jacobson ring. }
+
+\begin{proof}
+    (1) $\Rightarrow$ (2): Let $f: A \rightarrow B$ be the algebra. Note that $f(A)$ is still a Jacobson ring by Problem 23. We may replace $A$ by $f(A)$ and hence assume $A$ is a subring of $B$. By Corollary 5.2 (finite type + integral = finite), ISTS $B$ is integral over $A$. Note that by our hypothesis, $B$ is a field, and hence $A, B$ are integral domains. Apply Problem 21 to $A \subset B$ and select $s \in A$. Since $A$ is a Jacobson ring, $\mathfrak{N}_A = \mathfrak{R}_A = 0$. So we may select maximal ideal $\mathfrak{m}$ of $A$ such that $s \notin \mathfrak{m}$. Let $k = A / \mathfrak{m}$.  Consider the homomorphism $A \rightarrow k = A / \mathfrak{m} \hookrightarrow \Omega = \overline{k}$, clearly $s$ is not mapped to $0$, so by our selection of $s$ in Problem 21, we may extend the homomorphism to $g: B \rightarrow \Omega$. Since $B$ is a field, $g$ is injective, and we have inclusion $A \subset B \subset \Omega$, namely $g(B)$ is algebraic over $k = g(A)$. Write out explicitly, for arbitrary $x \in B, x \ne 0$, we have
+    $$g(x)^n + g(a_1)g(x)^{n - 1} + \cdots + g(a_n) = 0$$
+    for some $a_i \in A, n \gt 0$. But since $g$ is injective, we must have $x^n + a_1 x^{n - 1} + \cdots + a_n = 0$, which completes the proof that $B$ is integral over $A$. ({\color{red}There is another simple proof: Since $g$ is injective, its restriction on $A$ must be injective, but since $A \rightarrow \Omega$ is a composition $A \rightarrow A / \mathfrak{m} \rightarrow \Omega$, this implies $\mathfrak{m} = 0$, namely $A$ must be a field. Then appeal to Zariski's lemma. However, do note that this only suggests that the homomorphic image of $A$ is a field, not $A$ itself is a field.})
+
+    (2) $\Rightarrow$ (1): Take $\mathfrak{p}$ a non-maximal prime ideal of $A$. Denote $B = A / \mathfrak{p}$. By part 3 of Problem 23, ISTS the intersection of non-zero primes in $B$ is zero, namely for arbitrary $f \ne 0, f \in B$, we have a nonzero-prime ideal $\mathfrak{q}$ in $B$ such that $f \notin \mathfrak{q}$. By Proposition 3.11, it then suffices to show that $B_f$ contains at least one non-zero prime ideals $\Leftrightarrow$ $B_f$ is not a field. Suppose $B_f$ is a field. Clearly $B_f$ is of finite type over $A$ (it is generated by $\frac{1}{f}$), by our hypothesis, $B_f$ is finite over $A$, and hence finite over $B$. By Proposition 5.1, $B_f$ is integral over $B$. Then by Proposition 5.7, $B$ is a field, namely $\mathfrak{p}$ is maximal, a contradiction.
+\end{proof}
+
+\begin{problem}
+    Let $X$ be a topological space. A subset of $X$ is \textit{locally closed} if it is the intersection of an open set and a closed set, or equivalently if it is open in its closure.
+
+    The following conditions on a subset $X_0$ of $X$ are equivalent:
+    \begin{enumerate}
+        \item Every non-empty locally closed subset of $X$ meets $X_0$
+        \item For every closed set $E$ in $X$ we have $\overline{E \cap X_0} = E$
+        \item The mapping $U \mapsto U \cap X_0$ of the collection of open sets of $X$ onto the collection of open sets of $X_0$ is bijective.
+    \end{enumerate}
+
+    A subset $X_0$ satisfying these conditions is said to be \textit{very dense} in $X$.
+
+    If $A$ is a ring, show that the followings are equivalent:
+    \begin{enumerate}
+        \item $A$ is a Jacobson ring
+        \item The set of maximal ideals of $A$ is very dense in $\mathrm{Spec}(A)$
+        \item Every locally closed subset of $\mathrm{Spec}(A)$ consisting of a single point is closed
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    For the facts about $X_0$:
+    \begin{enumerate}
+        \item (1) $\Rightarrow$ (2): Since $E$ is closed and contains $E \cap X_0$, clearly $\overline{E \cap X_0} \subset E$. On the other hand, take any closed set $C$ that contains $E \cap X_0$, suppose it does not contain $E$, then $(X \setminus C) \cap E$ is a non-empty locally closed set and hence intersects $X_0$ by definition, namely $(X \setminus C) \cap E \cap X_0 \ne \emptyset \Rightarrow E \cap X_0 \not\subset C$, a contradiction.
+        \item (2) $\Rightarrow$ (3): The map is surjective by definition. Now suppose there are open sets $O_1 \ne O_2$ of $X$ such that $O_1 \cap X_0 = O_2 \cap X_0$, Denote $C_i = X \setminus O_i$, we must have $C_1 \cap X_0 = C_2 \cap X_0$, and by our hypothesis, $C_1 = \overline{C_1 \cap X_0} = \overline{C_2 \cap X_0} = C_2 \Rightarrow O_1 = O_2$, a contradiction.
+        \item (3) $\Rightarrow$ (1): Take arbitrary nonempty locally closed set $O \cap C \ne \emptyset$ of $X$ where $O$ open and $C$ closed. Suppose it does not meet $X_0$, namely $O \cap C \cap X_0 = \emptyset$. Then we have:
+        $$O \cap X_0 \subset X \setminus C \Rightarrow O \cap X_0 \subset (X \setminus C) \cap X_0 \Rightarrow O \cap X_0 = (O \cap (X \setminus C)) \cap X_0$$
+        By our hypothesis, we must have $O = O \cap (X \setminus C) \Rightarrow O \subset X \setminus C \Rightarrow O \cap C = \emptyset$, a contradiction.
+    \end{enumerate}
+
+    A notice before we proceed: Note that open sets are all locally closed (it is the intersection of itself and the whole set), so a set that is very dense is dense (I just can't stop laughing every time I saw the phrase 'very dense').
+
+    To show the equivalence, we directly show that part 2 and 3 of this problem is equivalent to part 2 and 3 of Problem 23 respectively.
+
+    For part 2: Note that locally closed sets are of the form $C_{I, J} = V(I) \cap (X \setminus V(J)) = \left\lbrace \mathfrak{p} \in \mathrm{Spec}(A): I \subset \mathfrak{p}, J \not \subset \mathfrak{p} \right\rbrace$ for some $I, J$. Since $X_f$'s form a basis of the Zariski topology, the maximal spectrum is very dense in the prime spectrum if and only if every non-empty locally closed sets of the form $C_{I, (f)}$ contains some maximal ideal. Moreover, note that $C_{I, (f)}$ is nonempty if and only $f \notin \sqrt{I}$.
+
+    Note that part 2 of Problem 26 is equivalent to:
+    $$\sqrt{I} \supset \bigcap\limits_{I \subset \mathfrak{m} \in \mathrm{MSpec}(A)} \mathfrak{m}$$
+    for arbitrary $I$(part 2 of Problem 26 actually states equality, but the other direction always holds), which is then equivalent to for any ideal $I$, $x \notin \sqrt{I}$, there is some maximal ideal $\mathfrak{m} \supset$ such that $x \notin \mathfrak{m} \Leftrightarrow \mathfrak{m} \in C_{I, (x)}$. Namely, $\mathrm{MSpec}(A)$ intersects every non-empty locally closed sets of the form $C_{I, (f)}$, and by our previous argument this is equivalent to $\mathrm{MSpec}(A)$ very dense.
+
+    For part 3: Note that $\left\lbrace C_{I, (f)}: f \notin \sqrt{I}, f \in J \right\rbrace$ form a cover of $C_{I, J}$. So the locally closed subset that are singletons can be written as $C_{I, (f)}$ for some $f \notin \sqrt{I}$. Furthermore, suppose $C_{I, (f)} = \left\lbrace \mathfrak{p} \right\rbrace$, then clearly $C_{I, (f)} = C_{\mathfrak{p}, (f)}$ and $f \notin \mathfrak{p}$, so we can write every singleton locally closed subset as $C_{\mathfrak{p}, (f)}$.
+    
+    Note that a closed singleton of $\mathrm{Spec}(A)$ can be written as $V(\mathfrak{m})$ for some $\mathfrak{m} \in \mathrm{MSpec}(A)$. So part 3 of Problem 26 is equivalent to for any $C_{\mathfrak{p}, (f)}$ that is a singleton, we have $C_{\mathfrak{p}, (f)} = V(\mathfrak{m}) \Leftrightarrow \mathfrak{p}$ is maximal. Then it is equivalent to for any non-maximal prime $\mathfrak{p}$, there is no $f \notin \mathfrak{p}$ such that $C_{\mathfrak{p}, (f)}$ is a singleton $\Leftrightarrow$ for any $f \notin \mathfrak{p}$, there is a prime ideal $\mathfrak{p}'$ strictly larger than $\mathfrak{p}$ and avoids $f$ $\Leftrightarrow$ $\mathfrak{p} = \bigcap\limits_{\mathfrak{p} \subseteq \mathfrak{p}'} \mathfrak{p}'$, which completes the proof.
+\end{proof}
+
+\begin{problem}
+    Let $A, B$ be two local rings. $B$ is said to \textit{dominate} $A$ if $A$ is a subring of $B$ and the maximal ideal $\mathfrak{m}$ of $A$ is contained in the maximal ideal $\mathfrak{n}$ of $B$ (or, equivalently, if $\mathfrak{m} = \mathfrak{n} \cap A$). Let $K$ be a field and let $\Sigma$ be the set of all local subrings of $K$. If $\Sigma$ is ordered by the relation of domination, show that $\Sigma$ has maximal elements and that $A \in \Sigma$ is maximal if and only if $A$ is a valuation ring of $K$.
+\end{problem}
+
+\begin{proof}
+    For the first part we use Zorn's lemma argument. Let $(A_i, \mathfrak{m}_i)$ be a chain of local rings of $K$. We claim that $(A = \bigcup\limits_{i = 1}^{\infty} A_i, \mathfrak{m} = \bigcup\limits_{i = 1}^{\infty}\mathfrak{m}_i)$ is a local subring of $K$. It is clear that $\bigcup\limits_{i = 1}^{\infty} A_i$ is a subring of $K$ with ideal $\bigcup\limits_{i = 1}^{\infty} \mathfrak{m}_i$. To show that it is local, we prove that every element $x \in A \setminus \mathfrak{m}$ is a unit in $A$. Note that $x \in A$ implies $x \in A_i$ for some $i$, then $x \notin \mathfrak{m}$ implies $x \notin \mathfrak{m}_i$, since $(A_i, \mathfrak{m}_i)$ is local, $x ^{-1}$ (the inverse in $K$) is in $A_i$ and hence in $A$, namely $x$ is a unit in $A$.
+
+    Suppose $(A, \mathfrak{m})$ is a valuation ring and is not maximal such that $(B, \mathfrak{n})$ (strictly) dominates $(A, \mathfrak{m})$. Take $x \in B \setminus A$, by definition of valuation ring, $x ^{-1} \in A$. Since $x \notin A$, $x ^{-1}$ is not a unit in $A$ and thus $x ^{-1} \in \mathfrak{m} \subset \mathfrak{n}$, a contradiction since $x \in B$.
+
+    For the other direction, suppose $A$ is not a valuation ring, consider the homomorphism $f: A \rightarrow k = A / \mathfrak{m} \hookrightarrow \Omega = \overline{k}$. By Theorem 5.21, it can be extended to some larger $(B, g: B \rightarrow \Omega)$. By Lemma 5.19, $B$ is local with maximal ideal $\mathrm{ker}(g)$. But note that $\mathrm{ker}(f) = \mathfrak{m}$ and since $g$ is an extension of $f$, $\mathrm{ker}(g) \cap A = \mathfrak{m}$, which shows that $(B, \mathrm{ker}(g))$ dominates $(A, \mathfrak{m})$, a contradiction of the fact that $A$ is maximal.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be an integral domain, $K$ its field of fractions. Show that the followings are equivalent:
+    \begin{enumerate}
+        \item $A$ is a valuation ring of $K$
+        \item If $I, J$ are any two ideals of $A$, then either $I \subset I$ or $J \subset I$
+    \end{enumerate}
+    Deduce that if $A$ is a valuation ring and $\mathfrak{p}$ is a prime ideal of $A$, then $A_{\mathfrak{p}}$ and $A / \mathfrak{p}$ are valuation rings of their fields of fractions.
+\end{problem}
+
+\begin{proof}
+    For the equivalence: We add one more claim between (1) and (2): For any two elements $x, y \in A$, nonzero, either $x | y$ or $y | x$.
+    \begin{enumerate}
+        \item (1) $\Rightarrow$ Claim: If $A$ is a valuation ring, then for arbitrary $x, y$ nonzero, either $xy ^{-1}$ or $x ^{-1} y$ is in $A$ by definition, which completes the proof.
+        \item Claim $\Rightarrow$ (1): Note that any nonzero element in $K$ can be written as $x / y$ for some $x, y$ nonzero. Then the claim says that either $x / y$ or $(x / y) ^{-1} = y / x$ is in $A$.
+        \item (2) $\Rightarrow$ Claim: Simply note that the claim is a special case for $I = (x), J = (y)$.
+        \item Claim $\Rightarrow$ (2): Suppose there are $I, J$ such that $I \not\subset J, J \not\subset I$, then take $x \in I \setminus J, y \in J \setminus I$, we must have $x \in (y) \subset J$ or $y \in (x) \subset I$ by the claim, a contradiction.
+    \end{enumerate}
+
+    By the equivalence it is clear that $A / \mathfrak{p}$ is a valuation ring of its field of fractions (we still need $\mathfrak{p}$ to be a prime ideal since we need $A / \mathfrak{p}$ to be a domain). For $A_{\mathfrak{p}}$, first note that the localization of domains are domains. Take any ideal in $A_{\mathfrak{p}}$, note that by Proposition 3.11, it can be written as $I^e$ where $I$ is an ideal in $A$. The rest is trivial. 
+\end{proof}
+
+{\color{red} The result shows that the elements in a valuation ring is of some 'one-dimensional' order structure. And that structure can be expressed clearly as a 'valuation', see Problem 30+.}
+
+\begin{problem}
+    Let $A$ be a valuation ring of a field $K$. Show that every subring of $K$ which contains $A$ is a local ring of $A$. (By local ring of $A$, we mean any ring of the form $A_{\mathfrak{p}}$ where $\mathfrak{p}$ is a prime)
+\end{problem}
+
+\begin{proof}
+    ({\color{red}The key point here is that if $B = A_{\mathfrak{p}}$, we can calculate $\mathfrak{p}$ from $B$.}) By part 2 of Proposition 5.8, $B$ is a valuation ring of $K$. Then by part 1 of Proposition 5.18, $B$ is a local ring with maximal $\mathfrak{n}$. Let $\mathfrak{p} = A \cap \mathfrak{n}$, the $\mathfrak{p}$ is prime. We claim that $B \cong A_{\mathfrak{p}}$.
+
+    Note that $S_\mathfrak{p} = A - \mathfrak{p} = \left\lbrace x \in A: 1 / x \in B \right\rbrace$ ('the denominators of $B$'). Then it is clear that $A_{\mathfrak{p}} = S_{\mathfrak{p}} ^{-1} A \subset B$. Take any element of $B$, since $B \subset K$, we can write it as $x / y$ for some $x, y \in A, y \ne 0$. If $x = 0$, then clearly $B \in A_{\mathfrak{p}}$. So we may assume $x \ne 0$. Since $A$ is a valuation ring of $K$, either $x / y \in A$, or $y / x \in A$. For the former case, $x / y \in A \subset A_{\mathfrak{p}}$. For the latter case, $y = ax$ for some $a \in A$, so $x / y = 1 / a$, this suggests that $a ^{-1} \in B \Rightarrow a \in S_{\mathfrak{p}} \Rightarrow x / y \in A_{\mathfrak{p}}$.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a valuation ring of a field $K$. The group $U$ of units of $A$ is a subgroup of the multiplicative group $K^*$ of $K$.
+
+    Let $\Gamma = K^* / U$. If $\xi, \eta \in \Gamma$ are represented by $x, y \in K$, define $\xi \ge \eta$ to mean $x y ^{-1} \in A$. Show that this defines a total ordering on $\Gamma$ which is compatible with the group structure(i.e. $\xi \ge \eta \Rightarrow \xi \omega \ge \eta \omega$ for all $\omega \in \Gamma$). In other words, $\Gamma$ is totally ordered abelian group. It is called the \textit{value group} of $A$.
+
+    Let $v: K^* \rightarrow \Gamma$ be the canonical homomorphism. Show that $v(x + y) \ge \min (v(x), v(y))$ for all $x, y \in K^*$
+\end{problem}
+
+\begin{proof}
+    The order is well-defined: Let $x', y'$ be another representations of $\xi, \eta$, then $x' = ux, y' = vy$ for some units $u, v$ in $A$. Then $xy ^{-1} = u ^{-1} v x'(y') ^{-1}$, since $u ^{-1} v, u v ^{-1} \in A$, we have $xy ^{-1} \in A \Leftrightarrow x' (y')^{-1} \in A$.
+
+    The order is total: We first verify that it is an order, then verify it is total:
+    \begin{enumerate}
+        \item Reflexive: It is clear that $\xi \le \xi$ for all $\xi$
+        \item Transitive: Take three arbitrary elements represented by $x, y, z$ respectively, if $x y ^{-1}, y z ^{-1} \in A$, then clearly $x z ^{-1} = (xy ^{-1})(y z ^{-1}) \in A$.
+        \item Antisymmetric: Take two arbitrary elements represented by $x, y$ respectively, if $x y ^{-1}, y x ^{-1} \in A$, then $x y ^{-1}$ is a unit in $A$, so $x = (x y ^{-1})y$ implies that the two elements are equal.
+        \item Total: Take two arbitrary elements represented by $x, y$, since $A$ is a valuation ring, either $x y ^{-1} \in A$ or $x ^{-1} y \in A$, namely the two elements are comparable.
+    \end{enumerate}
+
+    The order is compatible with the group structure: If $\xi \ge \eta$, for arbitrary $\omega \in \Gamma$, suppose $\xi, \eta, \omega$ are represented by $x, y, z$. Then $x y ^{-1} \in A \Rightarrow (xz)(yz)^{-1} \in A \Rightarrow \xi \omega \ge \eta \omega$.
+
+    $v(x + y) \ge \min (v(x), v(y))$: Since $A$ is a valuation ring, either $yx ^{-1}$ or $x y ^{-1}$ is in $A$ $\Rightarrow$ either $(x + y) x ^{-1} = 1 + x ^{-1} y$ or $(x + y) y ^{-1} = 1 + x y ^{-1}$ is in $A$ $\Rightarrow$ either $v(x + y) \ge v(x)$ or $v(x + y) \ge v(y)$
+\end{proof}
+
+\begin{problem}
+    Conversely, let $\Gamma$ be a totally ordered abelian group (written additively), and let $K$ be a field. A \textit{valuation of $K$ with values in $\Gamma$} is a mapping $v: K^* \rightarrow \Gamma$ such that:
+    \begin{enumerate}
+        \item $v(xy) = v(x) + v(y)$
+        \item $v(x + y) \ge \min (v(x), v(y))$
+    \end{enumerate}
+    for all $x, y \in K^*$. Show that the set of elements $x \in K^*$ such that $v(x) \ge 0$ is a valuation ring of $K$. This ring is called the \textit{valuation ring} of $v$, and the subgroup $v(K^*)$ of $\Gamma$ is the \textit{value group} of $v$.
+
+    Thus, the concepts of valuation ring and valuation are essentially equivalent.
+\end{problem}
+
+\begin{proof}
+    Let's first show that the set $\left\lbrace v \ge 0 \right\rbrace$ is a subring: By property 1, the subset is closed under addition. By Property 2, the subset is closed under addition. Also by property 1, $v(1) = 0$ so the subset contains $1$.
+    
+    Then let's show that it is a valuation ring: For arbitrary $x \in K^*$, if $v(x) \ge 0$, then $x \in A$. Otherwise, $v(x x ^{-1}) = v(1) = 0 \Rightarrow v(x ^{-1}) + v(x) = 0 \Rightarrow v(x ^{-1}) \ge 0$. The last step is by contradiction: Suppose $v(x ^{-1}) \lt 0$, then by the compatibility of the order with abelian group structure, we have $v(x ^{-1}) + v(x) \lt v(x)$. But then $v(x) \lt 0$, conclude by transitivity.
+
+    {
+        \color{red}
+        A notice before we close this problem: To show that the two concepts are equivalent, we need to establish the correspondence between the two concepts. However, the statements in Problem 30 and Problem 31 leaves a few loose ends:
+        \begin{enumerate}
+            \item If we start with valuation ring, and define the value group. Then the valuation satisfies property 1 since it is a group homomorphism. (Note that in Problem 30 we write the group structure multiplicatively while in Problem 31 we write additively) And it satisfies property 2 by Problem 31. And if we get back from the valuation to the valuation ring, we should verify that the valuation ring is exactly the set of elements $\left\lbrace v \ge 0 \right\rbrace$, which is trivial. (Again, here $0$ is actually the multiplicative identity, namely $1$ in $\Gamma$)
+            \item If we start with valuation, define the valuation ring, and then get back to valuation, we will find that $\Gamma$ is not necessarily isomorphic to the value group that we start from. This is because the valuation is clearly not unique. For example, value on $\mathbb{Z}$ can be viewed as value on $\mathbb{Q}$. (I suppose the $\Gamma$ in Problem 30 is the minimum?)
+        \end{enumerate}
+    }
+\end{proof}
+
+\begin{problem}
+    Let $\Gamma$ be a totally ordered abelian group. A subgroup $\Delta$ of $\Gamma$ is \textit{isolated} in $\Gamma$ if, whenever $0 \le \beta \le \alpha$ and $\alpha \in \Delta$, we have $\beta \in \Delta$. Let $A$ be a valuation ring of a field $K$, with value group $\Gamma$(Problem 31). If $\mathfrak{p}$ is a prime ideal of $A$, show that $v(A - \mathfrak{p})$ is the set of elements $\ge 0$ in an isolated subgroup $\Delta$ of $\Gamma$, and that the mapping so defined of $\mathrm{Spec}(A)$ into the set of isolated subgroups of $\Gamma$ is bijective.
+
+    If $\mathfrak{p}$ is a prime ideal of $A$, what are the value groups of the valuation rings $A / \mathfrak{p}, A_{\mathfrak{p}}$?
+\end{problem}
+
+\begin{proof}
+    In this problem we shall think $\Gamma$ as an additive group.
+
+    Note that since $A - \mathfrak{p}$ is closed under multiplication, so $v(A  -\mathfrak{p})$ is closed under addition. Moreover, since $A - \mathfrak{p} \subset A$, all elements in $v(A - \mathfrak{p})$ are $\ge 0$. Moreover, $1 \in A - \mathfrak{p}$, so $0 \in v(A - \mathfrak{p})$. To make it a subgroup, we only need to take $\Delta(\mathfrak{p}) = -v(A - \mathfrak{p}) \cup v(A - \mathfrak{p})$ and clearly $v(A - \mathfrak{p})$ is the set of elements $\ge 0$ in the subgroup $\Delta$ of $\Gamma$.
+
+    Now consider the map $\mathfrak{p} \mapsto \Delta(\mathfrak{p})$:
+    \begin{enumerate}
+        \item It is injective: Suppose $\mathfrak{p} \ne \mathfrak{q}$ are two prime ideals. We need to show that $\Delta(\mathfrak{p}) \ne \Delta(\mathfrak{q})$. Suppose otherwise, for arbitrary $x \in A - \mathfrak{p}$, there is some $y \in A - \mathfrak{q}$ such that $v(x) = v(y) \Rightarrow x = uy$ for some unit $u \in A$. But since all units of $A$ are in $A - \mathfrak{q}$, which is closed under multiplication, we must have $x \in A - \mathfrak{q}$. The $A - \mathfrak{p} \subset A - \mathfrak{q}$ and by symmetry $A - \mathfrak{p} = A - \mathfrak{q} \Rightarrow \mathfrak{p} = \mathfrak{q}$, a contradiction.
+        \item It is surjective: Take any isolated subgroup $\Delta$, let $S$ be the preimage of its $\ge 0$ part in $K^*$. We claim that $S = A - \mathfrak{p}$ for some $\mathfrak{p}$, then it follows easily that $v(A - \mathfrak{p}) = \Delta$. Clearly $S \subset A$. Take $x, y \notin S, r \in A$, since $v(x + y) \ge \min (v(x), v(y))$, we must have $x + y \notin S$ (otherwise one of $x, y$ will have value $\le v(x + y)$ and by definition of isolated sets will be in $S$) and $rx \notin S$(since $v(rx) = v(r) + v(x) \ge v(x)$). So $A - S$ is an ideal, ISTS $S$ is multiplicatively closed. Take $x, y \in S$, then $v(xy) = v(x) + v(y) \in \Delta$ since $\Delta$ is a subgroup. Moreover, as $v(xy) = v(x) + v(y) \ge 0$, $xy \in S$
+    \end{enumerate}
+
+    \TODO The value groups of $A / \mathfrak{p}, A_{\mathfrak{p}}$
+\end{proof}
+
+\begin{problem}
+    Let $\Gamma$ be a totally ordered abelian group. We shall show how to construct a field $K$ and a valuation $v$ of $K$ with $\Gamma$ as value group. Let $k$ be any field and let $A = k[\Gamma]$ the group algebra of $\Gamma$ over $k$. By definition, $A$ is freely generated as a $k$-vector space by elements $x_{\alpha}(\alpha \in \Gamma)$ such that $x_{\alpha} x_{\beta} = x_{\alpha + \beta}$. Show that $A$ is an integral domain.
+
+    If $u = \lambda_1 x_{\alpha_1} + \cdots + \lambda_n x_{\alpha_n}$ is any non-zero element of $A$, where the $\lambda_i$ are all $\ne 0$ and $\alpha_1 \lt \cdots \lt \alpha_n$, define $v_0(u)$ to be $\alpha_1$. Show that the mapping $v_0: A - \left\lbrace 0 \right\rbrace \rightarrow \Gamma$ satisfies conditions (1) and (2) of Problem 31.
+
+    Let $K$ be the field of fractions of $A$, Show that $v_0$ can be uniquely extended to a valuation $v$ of $K$, and that the value group of $v$ is precisely $\Gamma$.
+\end{problem}
+
+\begin{proof}
+    $A$ is an integral domain: Take arbitrary $x = \sum\limits_{\alpha} a_\alpha x_\alpha, y = \sum\limits_{\alpha} b_{\alpha} y_\alpha$ from $k[\Gamma]$, where the sum is finite by definition. Then $xy = 0$ implies:
+    $$\sum\limits_{\alpha + \beta = \gamma} a_{\alpha} b_{\beta} = 0, \forall \gamma \in \Gamma$$
+    Since $\Gamma$ is totally ordered, take $\alpha_0, \beta_0$ the smallest element such that $a_{\alpha_0} \ne 0, b_{\beta_0} \ne 0$. Then it follows that $a_{\alpha_0} b_{\beta_0} = 0 \Rightarrow a_{\alpha_0} = 0$ or $b_{\beta_0} = 0$. WLOG $a_{\alpha_0} = 0$, a contradiction to our definition of $\alpha_0$ ({\color{red}The proof is analogous to the proof of polynomials})
+
+    $v_0$ satisfies conditions 1 and 2 in Problem 31: Omitted, it is similar to the case of polynomial where $\alpha_i = X^i$. It should be noted that $v(x + y) \gt \min(v(x), v(y))$ only if $v(x) = v(y)$
+
+    Extend $v_0$ to a valuation $v$ of $K$: Note that elements in $K$ is of the form:
+    $$x = \frac{\sum\limits_{i = 1}^{n} \lambda_i x_{\alpha_i}}{\sum\limits_{j = 1}^{m} \mu_j x_{\beta_j}}$$
+    where $\alpha_1 \le \cdots \le \alpha_n, \beta_1 \le \cdots \le \beta_m$. Define $v(x) = \alpha_1 / \beta_1$, it is an extension of $v_0$ and clearly unique by considering the special case $x = 1 / \beta$. The value group is $\Gamma$ (But note that the value group is not $K^* / U$ this time)
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a valuation ring and $K$ its field of fractions. Let $f: A \rightarrow B$ be a ring homomorphism such that $\mathrm{Spec}(f): \mathrm{Spec}(B) \rightarrow \mathrm{Spec}(A)$ is a \textit{closed} mapping. Then if $g: B \rightarrow K$ is any $A$-algebra homomorphism (i.e., if $g \circ f$ is the embedding of $A$ in $K$) we have $g(B) = A$.
+\end{problem}
+
+\begin{proof}
+    Follow the hint. Let $C = g(B)$, since $g \circ f$ is the embedding, $C \supset A$. So $C$ is also a valuation ring of $K$ and is thus local (Proposition 5.18)Let $\mathfrak{n}$ be the maximal ideal of $C$. Since $\mathrm{Spec}(f)$ is closed, $\mathfrak{m} = \mathfrak{n} \cap A$ is maximal (the contraction of $\mathfrak{n}$ in $B$ is maximal since $g: B \rightarrow C$ is surjective, then by close, maximal ideals contract to maximal ideal: First obtain the going-up property by Problem 10 and the rest should be clear). Then $(C, \mathfrak{n})$ dominates $(A, \mathfrak{m})$. By Problem 27, we must have $C = A$
+\end{proof}
+
+\begin{problem}
+    From Problem 1 and 3 it follows that, if $f: A \rightarrow B$ is integral and $C$ is any $A$-algebra, then the mapping $\mathrm{Spec}(f \otimes \mathds{1}): \mathrm{Spec}(B \otimes_A C) \rightarrow \mathrm{Spec}(C)$ is a closed map.
+
+    Conversely, suppose that $f: A \rightarrow B$ has this property and that $B$ is an integral domain. Then $f$ is integral.
+
+    Show that the result just proved remains valid if $B$ is a ring with only finitely many minimal prime ideals (e.g. if $B$ is Noetherian). 
+\end{problem}
+
+\begin{proof}
+    A notice about the first statement: $C = A \otimes_A C$, and then the meaning of $f \otimes \mathds{1}$ should be clear.
+
+    For the second statement, we may replace $A$ by $f(A)$ and assume $A \subset B$ (this is because the $A$-algebras $C$ we consider later all include $B$, so the corresponding homomorphic $A \rightarrow C$ are can all be replaced by $f(A) \hookrightarrow C$). Then $A$ will be a domain since $B$ is. Let $K$ be the field of fraction of $A$. By Proposition 5.22, ISTS for arbitrary valuation ring $A'$ of $K$ containing $A$, we have $B \subset A'$. By our hypothesis $\mathrm{Spec}(B \otimes_A A') \rightarrow \mathrm{Spec}(A')$ is closed. Apply Problem 34 to the homomorphism $B \otimes_A A' \rightarrow K: b \otimes a' \mapsto a'b$, and let $a' = 1$, we prove that $B \subset A'$.
+
+    For the third statement, let $\mathfrak{p}_1, \cdots, \mathfrak{p}_n$ be the minimal prime ideals of $A$. Then each $f_i: A \rightarrow B \rightarrow B / \mathfrak{p}_i$ has the property in the first part (check), and hence is integral by the second part. By Problem 6 $A \rightarrow \prod\limits_{i = 1}^{n} B / \mathfrak{p}_i$ is integral. By Chinese Remainder Theorem, $A \rightarrow B / \mathfrak{N}_B$ is integral. It follows easily that $A \rightarrow B$ is integral.
+\end{proof}
+
+
+\end{document}

@@ -1,0 +1,699 @@
+\documentclass{solution}
+
+\begin{document}
+
+\begin{problem}{6.1}
+    Let $Z \subset Y \subset X$, $X$ a topological space. Give $Y$ the induced topology. Show that the topology induced by $Y$ on $Z$ is the same as that induced by $X$ on $Z$.
+\end{problem}
+
+\begin{proof}
+    $V \subset Z$ is open in the topology induced by $Y$ $\Leftrightarrow$ $V = Z \cap U$ for some $U$ open in $Y$ $\Leftrightarrow$ $V = Z \cap W \cap Y = Z \cap W$ for some $W$ open in $X$ (since the topology on $Y$ is induced by $X$) $\Leftrightarrow$ $V$ is open in the topology induced by $X$
+\end{proof}
+
+\begin{problem}{6.2}
+    \begin{inparaenum}
+        \item Let $X$ be a topological space, $X = \cup_{\alpha \in \mathcal{A}} U_{\alpha}$, $U_\alpha$ open in $X$. Show that a subset $W$ of $X$ is closed iff each $W \cap U_{\alpha}$ is closed in $U_{\alpha}$.
+        \item Suppose similarly $Y = \cup_{\alpha \in \mathcal{A}} V_{\alpha}$, $V_{\alpha}$ open in $Y$, and suppose $f: X \rightarrow Y$ is a mapping such that $f(U_\alpha) \subset V_\alpha$. Show that $f$ is continuous iff the restriction of $f$ to each $U_{\alpha}$ is a continuous mapping from $U_{\alpha}$ to $V_{\alpha}$.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that $X \setminus W = \cup_{\alpha \in \mathcal{A}} U_{\alpha} \setminus W$. If $W$ is closed, $X \setminus W$ is open, and $U_{\alpha} \setminus W = U_\alpha \cap (X \setminus W)$, which is open for any $\alpha$. If each $U_\alpha \cap W$ is closed, $U_\alpha \setminus W$ is open in $U_\alpha$ and therefore open in $X$ as $U_\alpha$ open. Then $X \setminus W$ is a union of open sets and thus open.
+        \item We prove by showing the preimage of every closed set is closed. This can be easily done using part 1.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.3}
+    \begin{inparaenum}
+        \item Let $V$ be an affine variety, $f \in \Gamma(V)$. Considering $f$ as a mapping from $V$ to $k = \mathbb{A}^1$. Show that $f$ is continuous.
+        \item Show that any polynomial map of affine varieties is continuous.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    We only need to prove part 2 since $k$ is an affine variety and $f \in \Gamma(V)$ is a polynomial map from $V$ to $k$.
+
+    Since a subset of a variety is closed iff it is closed, ISTS the preimage of each algebraic set is algebraic. This is by Problem 2.7
+\end{proof}
+
+\begin{problem}{6.4}
+    Let $U_i \in \mathbb{P}^n, \varphi_i: \mathbb{A}^n \rightarrow U_i$ as in Chapter 4. Give $U_i$ the topology induced from $\mathbb{P}^n$. \begin{inparaenum}
+        \item Show that $\varphi_i$ is a homeomorphism.
+        \item Show that a set $W \subset \mathbb{P}^n$ is closed iff each $\varphi^{-1}_i(W)$ is closed in $\mathbb{A}^n, i = 1, \cdots, n + 1$
+        \item Show that if $V \subset \mathbb{A}^n$ is an affine variety, then the projective closure $V^*$ of $V$ is the closure of $\varphi_{n + 1}(V)$ in $\mathbb{P}^n$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item It is clear that $\varphi_i$ is bijective.
+        \begin{enumerate}
+            \item $\varphi_i$ is continuous: For closed set $V$ in $U_i$, we have $V = W \cap U_i$ for some algebraic set $W$ in $\mathbb{P}^n$. Then $\varphi_i ^{-1}(V) = W_*$, which is algebraic and thus closed. 
+            \item $\varphi_i ^{-1}$ is continuous: For closed set $V \subset \mathbb{A}^n$, $\varphi_i(V) = V^* \cap U_i$ by property (1) in Sec 4.3, which is closed in $U_i$ since $V^*$ is algebraic.
+        \end{enumerate}
+        \item If $W$ is closed, for any $i$, $\varphi_i ^{-1}(W)$ is closed since $\varphi_i$ is continuous. On the other hand, $W = \bigcup\limits_{i = 1}^{n + 1} W \cap U_i$, so $W$ is closed if each $W \cap U_i$ is. By part 1, $W \cap U_i$ is closed iff $\varphi_i ^{-1}(W)$ is closed.
+        \item By property (5) in Sec 4.3 and the definition of closure.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.5}
+    Any infinite subset of an irreducible plane curve $V$ is dense in $V$. Any one-to-one mapping from one irreducible plane curve onto another is a homeomorphism.
+\end{problem}
+
+\begin{remark}
+    I have changed the statement of the problem. The original one does not require $V$ to be irreducible. I think there are counter example to this: Let $V = V((X - 1)(X - 2))$, then $X - 2$ is an infinite subset of $V$ that is closed.
+\end{remark}
+
+\begin{proof}
+    ISTS every infinite closed set of $V$ is $V$. Let $U$ be a closed set of $V$. Then $U$ is algebraic, and suppose $U = V(F_1, \cdots, F_r)$. Suppose $V = V(F)$ where $F$ is irreducible. Note that if $F_i \notin (F)$, then $F_i \cap F$ is a finite set by Proposition 2 of Sec 1.6. So either $U$ is finite or $F_i \in (F), \forall i$, which leads to $U = V$.
+
+    Let $\varphi$ be a one-to-one mapping from irreducible plane curve $V$ onto $U$. It is bijective by definition. By the first part of the problem, we know that the closed set of a irreducible plane curves are the whole set and finite sets. For any bijective function $f: A \rightarrow B$, the preimage of finite sets is finite and the preimage of $B$ is $A$. So any bijection $f$ between plane curves is continuous. Apply the same argument to $f ^{-1}$ to show $f ^{-1}$ is also continuous, therefore any bijection between plane curves is a homeomorphism.
+\end{proof}
+
+\begin{problem}{6.6}
+    Let $X$ be a topological space, $f: X \rightarrow \mathbb{A}^n$ a mapping. Then $f$ is continuous iff for each hypersurface $V = V(F)$ of $\mathbb{A}^n$, $f ^{-1}(V)$ is closed in $X$. A mapping $f: X \rightarrow k$ is continuous iff $f ^{-1}(\lambda)$ is closed for any $\lambda \in k$
+\end{problem}
+
+\begin{proof}
+    "only if": If $f$ is continuous, since $V(F)$ is closed, $f ^{-1} (V)$ is also closed. "if": For any closed set $V \ne \mathbb{A}^n$ of $\mathbb{A}$, $V = V(I) = V(F_1, \cdots, F_r) = V(F_1) \cap \cdots \cap V(F_r)$, then $f ^{-1}(V) = \bigcap\limits_{i = 1}^{r} f ^{-1} (V(F_i))$, which is closed.
+
+    For the special case of $n = 1$, simply note that closed sets are either finite or the whole $k$ and apply similar argument as above (replacing intersections with unions).
+\end{proof}
+
+Note that the Zariski topology on $k$ is just the cofinite topology.
+
+\begin{problem}{6.7}
+    Let $V$ be an affine variety, $f \in \Gamma(V)$. \begin{inparaenum}
+        \item Show that $V(f) = \left\lbrace P \in V: f(P) = 0 \right\rbrace$ is a closed subset of $V$, and $V(f) \ne V$ unless $f = 0$.
+        \item Suppose $U$ is a dense subset of $V$ and $f(P) = 0$ for all $P \in U$, then $f = 0$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Suppose $f$ is the residue class of $F$. Then $V(f) = V(F) \cap V$, which is closed as the intersection of closed sets. If $V(f) = V$, then $V \subset V(F) \Rightarrow F \in I(V) \Rightarrow f = 0$.
+        \item Note that $V(f)$ is a closed dense set by part 1, so $V(f) = V \Rightarrow f = 0$ also by part 1. (We can also prove this by the fact that $f$ is continuous, see Problem 6.3)
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.8}
+    Let $U$ be an open subset of a variety $V, z \in k(V)$. Suppose $z \in \mathcal{O}_{P}(V)$ for all $P \in U$. Show that $U_z = \left\lbrace P \in U: z(P) \ne 0 \right\rbrace$ is open, and that the mapping from $U$ to $k = \mathbb{A}^1$ defined by $P \mapsto z(P)$ is continuous.
+\end{problem}
+
+\begin{proof}
+    The first part is by $U$ open and the lemma below. For the second part, by Problem 6.6, ISTS $z ^{-1}(\lambda)$ is closed for each $\lambda \in k$ (where $z$ is regarded as the function $U \rightarrow k$). Note that $z ^{-1}(\lambda) = \left\lbrace P \in U: z(P) = \lambda \right\rbrace$. Since $z - \lambda \in k(V)$ and is also defined on $U$, we have $z ^{-1}(\lambda) = U \setminus U_{z - \lambda}$, which is closed in $U$.
+\end{proof}
+
+\begin{lemma} \label{lem:nonvanishing-open}
+    $V$ is a variety, $z \in k(V)$, then $U = \left\lbrace P: z \in \mathcal{O}_{P}(V), z(P) \ne 0 \right\rbrace$ is an open subset of $V$
+\end{lemma}
+
+\begin{proof}
+    For each $P$ such that $z \in \mathcal{O}_{P}(V)$, then there is $f, g \in \Gamma_u(V)$ that $z = f / g$ and $g(P) \ne 0$. By $\Gamma_u(V)$, we mean the corresponding coordinate rings for the variety, namely $\Gamma_u(V) = k[\cdots] / I(V)$(it could be $\Gamma, \Gamma_h, \Gamma_b$ or the more general coordinate ring for $\mathbb{P}^{n_1} \times \cdots \times \mathbb{P}^{n_r} \times \mathbb{A}^m$) Suppose $f, g$ are the residue class of $F, G$, then $z \in \mathcal{O}_{P}(V)$ and $z(P) = F(P) / G(P)$ for all $P \in V \setminus V(G)$. Therefore, $z(P) \ne 0$ for $P \in V \setminus V(G, F)$. Denote $W_P = V \setminus V(G, F)$, it is an open set (could be empty) in $V$. As a result, $U = \bigcup\limits_{z \in \mathcal{O}_{P}(V)} W_P$ is open in $V$.
+\end{proof}
+
+\begin{problem}{6.9}
+    Let $X = \mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace$, an open subvariety of $\mathbb{A}^2$. Show that $\Gamma(X) = \Gamma(\mathbb{A}^2) = k[X, Y]$
+\end{problem}
+
+\begin{proof}
+    It's clear that $\Gamma(\mathbb{A}^2) = k[X, Y]$ since $\mathbb{A}^2$ is a variety and $I(\mathbb{A}^2) = 0$
+
+    $k[X, Y] \subset \Gamma(X)$ is obvious, we only need to show the other direction. By definition, $k(X) = k(\mathbb{A}^2)$ is the quotient field of $k[X, Y]$, which is a UFD. By Problem 1.2, any $z \in k(X)$ has a unique (up to units in $k[X, Y]$) representation $z = F / G$ where $F, G \in k[X, Y]$ have no common factors. If $G$ is non-constant, then $z$ is defined iff $G(X, Y) \ne 0$. By Problem 1.14, $z$ is undefined at an infinite number of points. As a result, $z \notin \Gamma(X)$. Therefore, $G$ must be a constant and $z \in k[X, Y]$.
+\end{proof}
+
+\begin{remark}
+    The same argument can be applied to any $X = \mathbb{A}^2 \setminus C$ where $C$ is a finite set
+\end{remark}
+
+\begin{problem}{6.10}
+    Let $U$ be an open subvariety of a variety $X$, $Y$ a closed subvariety of $U$. Let $Z$ be the closure of $Y$ in $X$. Show that:
+    \begin{enumerate}
+        \item $Z$ is a closed subvariety of $X$
+        \item $Y$ is an open subvariety of $Z$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item By definition, $Z$ is closed in $X$. We only need to show $Z$ is irreducible in $X$. Suppose otherwise, there are $Z_1, Z_2$ closed subsets of $X$ that contain properly in $Z$ such that $Z = Z_1 \cup Z_2$. Then $Y_i = Z_i \cap U, i = 1, 2$ are closed in $U$. Moreover,
+        \begin{enumerate}
+            \item $Y_i \ne Y$: Suppose otherwise, WLOG, $Y_1 = Y$. Then $Y \subset Z_1 \subsetneq Z$, a contradiction since $Z$ is the closure of $Y$.
+            \item $Y = Y_1 \cup Y_2$: ISTS $Y = Z \cap U$:
+            $$
+                \begin{aligned}
+                Z \cap U &= U \cap \bigcap\limits_{Y \subset W, W \text{ closed in } X} W \\
+                &= \bigcap\limits_{Y \subset W, W \text{ closed in } X} W \cap U\\
+                &= \bigcap\limits_{Y \subset V, V \text{ closed in } U} V \\
+                &= Y
+                \end{aligned}
+            $$
+        \end{enumerate}
+        This contradicts the fact that $Y$ is irreducible.
+        \item We have shown in the first part that $Y = Z \cap U$, since $U$ is open in $X$, $Y$ is open in $Z$
+    \end{enumerate}
+\end{proof}
+
+\begin{remark}
+    The argument in the text uses the case where $X$ is an irreducible algebraic set(a closed variety).
+\end{remark}
+
+\begin{problem}{6.11}
+    \begin{inparaenum}
+        \item Show that every family of closed subsets of a variety has a minimal member.
+        \item Show that if a variety is a union of a collection of open subsets, it is a union of a finite number of theses subsets. (All varieties are 'quasi-compact'.)
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item By Zorn's lemma, ISTS every chain of closed sets $U_1 \supset U_2 \supset \cdots$ in variety $X$ has a lower bound. By definition, suppose $X$ is an open subset of an irreducible algebraic set $V$. Then $U_i = W_i \cap X$ where $W_i$ is some closed set in $V$ for every $i$. Since $V$ is algebraic, $W_i$'s are algebraic. Now we have a chain of algebraic set $W_1 \supset W_2 \supset \cdots$, which corresponds to a chain of ideals $I_1 \subset I_2 \subset \cdots$. By the Lemma in Sec 1.5 (the ascending chain condition of Noetherian rings) the chain contains a maximal ideal $I_i$, which corresponds to a minimal $W_i$ and hence a minimal $U_i$.
+        \item Suppose otherwise, any finite number of open subsets from the covering will not cover the variety. Let $\mathcal{C} = \left\lbrace U_i \right\rbrace_{i \in J}$ be the covering and denote $\mathcal{U} = \left\lbrace X \setminus \bigcup\limits_{i = 1}^{n} U_{j_i} \right\rbrace$. Then $\mathcal{U}$ is a collection of closed subsets that does not contain the empty set. By part 1, there is some minimal member $X \setminus \bigcup\limits_{i = 1}^{n} U_{j_i} \ne \emptyset$. However, since the set of $U_i$'s covers $X$, there is some $U_{j_0} \cap X \setminus \bigcup\limits_{i = 1}^{n} U_{j_i} \ne \emptyset$ and therefore $X \setminus \bigcup\limits_{i = 0}^{n} U_{j_i}\in \mathcal{U}$ is strictly smaller than $X \setminus \bigcup\limits_{i = 1}^{n} U_{j_i}$, a contradiction to minimality
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.12}
+    Let $X$ be a variety, $z \in k(X)$. Show that the pole set of $z$ is closed. If $z \in \mathcal{O}_{P}(X)$, there is a neighborhood $U$ of $P$ such that $z \in \Gamma(U)$. So $\mathcal{O}_{P}(X)$ is the union of all $\Gamma(U)$, where $U$ runs through all neighborhoods of $P$.
+\end{problem}
+
+\begin{proof}
+    For the first part, ISTS the complement of the pole set is open. Suppose $z \in \mathcal{O}_{P}(X)$, then $z = f / g, f, g \in \Gamma_u(V)$ where $V$ is the irreducible algebraic set containing $X$. Let $G$ be the polynomial with residue class $g$ in $\Gamma_u(V)$, then $z$ is defined on $X \setminus V(G)$, which is a neighborhood of $P$. Therefore $\left\lbrace P: z \in \mathcal{O}_{P}(X) \right\rbrace$ is open.
+    
+    If $z \in \mathcal{O}_{P}(X)$, take $U$ to be the complement of $z$'s pole set in $X$. Then $U$ is a neighborhood of $P$ such that $z \in \Gamma(U)$. The last part is trivial.
+\end{proof}
+
+As a result, we have:
+
+$$\mathcal{O}_{P}(X) = \bigcup\limits_{P \in U, U \text{ open}} \Gamma(U), \Gamma(U) = \bigcap\limits_{P \in U} \mathcal{O}_{P}(X)$$
+
+\begin{problem}{6.13}
+    Let $R$ be a domain with quotient field $K$, $f \ne 0$ in $R$. Let $R[1 / f] = \left\lbrace a / f^n: a \in R, n \in \mathbb{Z} \right\rbrace$, a subring of $K$. \begin{inparaenum}
+        \item Show that if $\varphi: R \rightarrow S$ is any ring homeomorphism such that $\varphi(f)$ is a unit in $S$, then $\varphi$ extends uniquely to a ring homomorphism from $R[1 / f]$ to $S$.
+        \item Show that the ring homomorphism from $R[X] / (Xf - 1)$ to $R[1 / f]$ that takes $X$ to $1/f$ is an isomorphism
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Simply map $a / f^n \in R[1 / f]$ to $\varphi(a) \varphi(f)^{-n}$. It is easy to verify that this map is well-defined and is a homomorphism that restricts to $\varphi$ on $R$
+        \item Define the map $\varphi: R \rightarrow R[X] / (Xf - 1)$ that has $\varphi(a) = \overline{a}, \forall a \in R$. It can be easily verified that $\varphi$ is a ring homomorphism. Moreover, $\varphi(f) = \overline{f}$ has an inverse $X$, so by part 1 it extends to a ring homomorphism $R[1 / f] \rightarrow R[X] / (Xf - 1)$ that maps $1 / f$ to $X$, which is the inverse of the ring homomorphism defined in the problem statement. (Of course, we may have to verify the ring homomorphism defined in the problem is well-defined, but this is trivial)
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.14}
+    Let $X, Y$ be varieties, $f: X \rightarrow Y$ a mapping. Let $X = \bigcup\limits_{\alpha} U_{\alpha}, Y = \bigcup\limits_{\alpha} V_{\alpha}$, with $U_{\alpha}, V_{\alpha}$ open subvarieties, and suppose $f(U_{\alpha}) \subset V_{\alpha}$ for all $\alpha$. \begin{inparaenum}
+        \item Show that $f$ is a morphism iff each restriction $f_\alpha: U_\alpha \rightarrow V_\alpha$ of $f$ is a morphism.
+        \item If each $U_\alpha, V_\alpha$ is affine, $f$ is a morphism iff each $\tilde{f}(\Gamma(V_\alpha)) \subset \Gamma(U_\alpha)$
+    \end{inparaenum}
+\end{problem}
+
+
+\begin{proof}
+    \begin{enumerate}
+        \item The continuity part is by Problem 6.2, here we only deal with condition (2) in the definition, which is trivial by the lemma below.
+        \item By Proposition 2 of Sec 6.3, $f_\alpha$ is a morphism iff $\tilde{f_\alpha}$ is a ring homomorphism $\Gamma(V_\alpha) \rightarrow \Gamma(U_\alpha)$. Note that $\tilde{f_{\alpha}}$ is always a homomorphism between the function rings, the condition is equivalent to: $\forall z \in \Gamma(V_\alpha), \tilde{f}(z) \in \Gamma(U_\alpha)$, namely $\tilde{f}(\Gamma(V_\alpha)) \subset \Gamma(U_\alpha)$
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}\label{lem:morphism-definition}
+    $X, Y$ varieties, $f: X \rightarrow Y$ is a morphism iff $f$ is continuous and for all $z \in k(Y)$, $\tilde{f}(z) \in k(X)$ and is defined on $f^{-1}(U_z)$ where $U_z$ is the subset of $Y$ where $z$ is defined.
+\end{lemma}
+
+\begin{proof}
+    "only if": If $f$ is a morphism, then $f$ is continuous by definition. Note that $U_z$ is open (by Problem 6.12) and $z \in \Gamma(U_z)$, by definition $\tilde{f}(z) \in \Gamma(f ^{-1}(U_z))$.
+
+    "if": For any open set $U \subset Y$ and $z \in \Gamma(U)$, we have $U \subset U_z$ by definition of $U_z$. Then $\tilde{f}(z) \in \Gamma(f ^{-1} (U_z)) \subset \Gamma(f ^{-1}(U))$
+\end{proof}
+
+Contrast this lemma with Proposition 2. To establish morphism between any variety, we need to consider the action of $\tilde{f}$ on all $z \in k(Y)$ that is defined in at least one point of $Y$. But if the variety is affine, we only need to consider $z \in \Gamma(Y)$.
+
+\begin{problem}{6.15}
+    \begin{inparaenum}
+        \item If $Y$ is an open or closed subvariety of $X$, the inclusion $i: Y \rightarrow X$ is a morphism.
+        \item The composition of morphisms is a morphism.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item This is trivial by Lemma \ref{lem:morphism-definition}.
+        \item Omitted 
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.16}
+    Let $f: X \rightarrow Y$ be a morphism of varieties, $X' \subset X, Y' \subset Y$ subvarieties(open or closed). Assume $f(X') \subset Y'$. Then the restriction of $f$ to $X'$ is a morphism from $X'$ to $Y'$
+\end{problem}
+
+\begin{proof}
+    Trivial by Lemma \ref{lem:morphism-definition}.
+\end{proof}
+
+\begin{lemma} \label{lem:isomorphism}
+    If $X, Y$ are affine variety, then $\varphi: X \rightarrow Y$ is an isomorphism iff $\tilde{\varphi}: \Gamma(Y) \rightarrow \Gamma(X)$ is an isomorphism.
+\end{lemma}
+
+This is used without proof in the text. But the proof is not that trivial so I will state it here.
+
+\begin{proof}
+    Note that $\varphi$ is an isomorphism iff there is morphism $\psi: Y \rightarrow X$ such that $\varphi \circ \psi = id_{Y}, \psi \circ \varphi = id_{X}$.
+
+    "only if": it can be easily verified that $\tilde{\psi}$ is the inverse of $\tilde{\varphi}$.
+
+    "if": Let $\psi: Y \rightarrow X$ be the morphism such that $\tilde{\psi}$ is the inverse of $\tilde{\varphi}$. Then $\tilde{\psi \circ \varphi} = \tilde{\psi} \circ \tilde{\varphi} = id_{\Gamma(X)} = \tilde{id_{X}}$, by the one-to-one correspondence, we have $\psi \circ \varphi = id_X$, similar for $\varphi \circ \psi = id_Y$
+\end{proof}
+
+\begin{problem}{6.17}
+    \begin{inparaenum}
+        \item Show that $\mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace$ is not an affine variety.
+        \item The union of two open affine subvarieties of a variety may not be affine.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Suppose otherwise, then $\mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace$ and $\mathbb{A}^2$ are both affine variety. By Proposition 2, there is a one-to-one correspondence between isomorphism $\varphi: \mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace \rightarrow \mathbb{A}^2$ and the isomorphism $\tilde{\varphi}: \Gamma(\mathbb{A}^2) \rightarrow \Gamma(\mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace)$. By Problem 9, $\Gamma(\mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace) = k[X, Y] = \Gamma(\mathbb{A}^2)$, if we take $\varphi = i: \mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace \hookrightarrow \mathbb{A}^2$, then $\tilde{\varphi}$ is the identity and therefore an isomorphism. But clearly $\varphi$ is not an isomorphism since it is not surjective.
+        \item By Proposition 5, $V_{X} = \left\lbrace (x, y) \in \mathbb{A}^2: x \ne 0 \right\rbrace$ and $V_{Y} = \left\lbrace (x, y) \in \mathbb{A}^2: y \ne 0 \right\rbrace$ are open affine subvarieties of $\mathbb{A}^2$. But $V_X \cup V_Y = \mathbb{A}^2 \setminus \left\lbrace (0, 0) \right\rbrace$, which is not affine by part 1.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.18}
+    Show that the natural map $\pi$ from $\mathbb{A}^{n + 1} \setminus \left\lbrace (0, \cdots, 0) \right\rbrace$ to $\mathbb{P}^n$ is a morphism of varieties, and that a subset $U$ of $\mathbb{P}^n$ is open iff $\pi ^{-1}(U)$ is open.
+\end{problem}
+
+\begin{proof}
+    "$\pi$ is a morphism":
+    \begin{enumerate}
+        \item $\pi$ is continuous: Let $V$ be an arbitrary closed set of $\mathbb{P}^n$, then $V$ is algebraic. $\pi ^{-1}(V) = C(V) \setminus \left\lbrace (0, \cdots, 0) \right\rbrace$. Since $C(V)$ is algebraic by Sec 4.2, $\pi ^{-1}(V)$ is closed.
+        \item For an arbitrary open set $U \subset \mathbb{P}^n$ and $z \in \Gamma (U)$, then $z = F / G$ where $F, G$ are forms with same degree $d$ such that $G$ is non-vanishing on $U$. Then $\tilde{\pi}(z) = F / G$ and clearly $G$ also does not vainish on $\pi ^{-1} (U)$, therefore $\tilde{\pi}(z) \in \Gamma(\pi ^{-1} (U))$
+    \end{enumerate}
+
+    If $U \subset \mathbb{P}^n$ is open, then $\pi ^{-1}(U)$ is open since $\pi$ is continuous. If $\pi ^{-1}(U)$ is open, let $V = \mathbb{A}^{n + 1} \setminus (\pi ^{-1}(U) \cup \left\lbrace (0, \cdots, 0) \right\rbrace)$, then $V$ is closed and therefore $V = V(I) \setminus \left\lbrace (0, \cdots, 0) \right\rbrace$ for some ideal $I$. Since $V$ is a cone, $I$ is homogeneous. And $\mathbb{P}^n \setminus U = \pi(V) = V_p(I)$ is closed. So $U$ is open.
+\end{proof}
+
+\begin{problem}{6.19}
+    Let $X$ be a variety, $f \in \Gamma(X)$. Let $\varphi: X \rightarrow \mathbb{A}^1$ be the mapping defined by $\varphi(P) = f(P)$ for $P \in X$. \begin{inparaenum}
+        \item Show that for $\lambda \in k, \varphi ^{-1}(\lambda)$ is the pole set of $z = 1 / (f - \lambda)$.
+        \item Show that $\varphi$ is a morphism of varieties.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item ISTS the pole set $z$ is the set where $f(P) = \lambda$. Note that for any $g, h \in \Gamma_u(X)$ such that $1 / (f - \lambda) = g / h$, we must have $h = g(f - \lambda)$ in $\Gamma_u(X)$, namely $h(P) = g(f - \lambda)(P)$ for all $X$. Therefore, if $f(P) = \lambda$, $z$ has a pole at $P$. On the other hand if $f(P) \ne \lambda$, then $z$ is clearly defined at $P$.
+        \item By Problem 6.12, $\varphi ^{-1} (\lambda)$ is closed. Then by Problem 6.6, $\varphi$ is continuous. The rest is easy to prove.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.20}
+    Let $A = \mathbb{P}^{n_1} \times \cdots \times \mathbb{A}^n, B = \mathbb{P}^{m_1} \times \cdots \times \mathbb{A}^m$. Let $y \in B, V$ a closed subvariety of $A$. Show that $V \times \left\lbrace y \right\rbrace = \left\lbrace (x, y) \in A \times B: x \in V \right\rbrace$ is a closed subvariety of $A \times B$, and that the map $V \rightarrow V \times \left\lbrace y \right\rbrace$ taking $x$ to $(x, y)$ is an isomorphism.
+\end{problem}
+
+\begin{proof}
+    Note that singletons are closed. So $V \times \left\lbrace y \right\rbrace$ is closed by the lemma below. Suppose $V \times \left\lbrace y \right\rbrace$ is reducible, then we have $V \times \left\lbrace y \right\rbrace = V_1 \times \left\lbrace y \right\rbrace \cup V_2 \times \left\lbrace y \right\rbrace$ for some $V_1, V_2 \subsetneq V$ such that $V_i \times \left\lbrace y \right\rbrace$ closed. Suppose $V_i \times \left\lbrace y \right\rbrace = V(I)$, replace every polynomial $F(X, Y)$ in $I$ by $F' = F(X, y)$ to obtain $I' \subset k[X]$. Then we have $V_i = V(I')$. As a result, $V_i$'s are closed, a contradiction to the fact that $V$ is irreducible.
+    
+    By similar argument as above, we can prove the map $\varphi: x \mapsto (x, y)$ is continuous. It is clearly a bijection with inverse $\varphi ^{-1}: (x, y) \mapsto x$. The inverse is also continuous since $\varphi(V(I)) = V(I, J)$ where $V(J) = \left\lbrace y \right\rbrace$. The rest is easy to verify since $f$ is a rational map.
+\end{proof}
+
+\begin{lemma}
+    If $A = \mathbb{P}^{n_1} \times \cdots \times \mathbb{A}^n, B = \mathbb{P}^{m_1} \times \cdots \times \mathbb{A}^m$, $U \subset A, V \subset B$ are closed, then $U \times V$ is closed in $A \times B$
+\end{lemma}
+
+\begin{proof}
+    Let $X = V(I), Y = V(J)$ where $I \subset k[X], J \subset k[Y]$ ($X, Y$ denotes the tuple of variebles corresponding to $A, B$ respectively), then consider the ideal $H$ generated by $I, J$ in $k[X, Y]$. We have $U \times V = V(H)$.
+\end{proof}
+
+One may try to prove the Zariski topology on $A \times B$ is equivalent to the product topology. \textbf{This is wrong}. For example, when $k$ is infinite and algebraically closed, then the Zariski topology on $\mathbb{A}^1$ is the cofinite topology, which is non-Hausdorff. It then follows that the diagonal in $\mathbb{A}^1 \times \mathbb{A}^1$ (equipped with product topology) is not closed. However, the diagonal in $\mathbb{A}^2$ with Zariski topology is closed (It is the algebraic set $V(Y - X)$). As a result, the Zariski topology and product topology is different.
+
+\begin{problem}{6.21}
+    Any variety is the union of a finite number of open affine subvarieties.
+\end{problem}
+
+\begin{proof}
+    By quasi-compactness(see Problem 6.11), ISTS any variety $X$ is the union of open affine subvarieties. Then apply the Corollary in Sec 6.3(let $U = X$) to select an open affine subvariety $V \subset X$ for each point $P$ such that $P \in V$.
+\end{proof}
+
+\begin{problem}{6.22}
+    Let $X$ be a projective variety in $\mathbb{P}^n$, and let $H$ be a hyperplane in $\mathbb{P}^n$ that doesn't contain $X$. \begin{inparaenum}
+        \item Show that $X \setminus H$ is isomorphic to an affine variety $X_* \subset \mathbb{A}^n$.
+        \item If $L$ is the linear form defining $H$, and $l$ is its image in $\Gamma_h(X) = k[x_1, \cdots, x_{n + 1}]$, then $\Gamma(X_*)$ may be identified with $k[x_1 / l, \cdots, x_{n + 1} / l]$.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that change of coordinates are clearly isomorphism, then we may assume $H = H_{\infty}$, as a result, $X \setminus H = X \cap U_{n + 1} \cong X_*$ by Proposition 3 in Sec 6.3
+        \item Since both $X_*$ and $X \setminus H$ are affine varieties. By Proposition 2 in Sec 6.3 and Lemma \ref{lem:isomorphism}, $\Gamma(X_*)$ is isomorphic to $\Gamma(X)$. {\color{red}I am confused by the problem, why $\Gamma_h(X) = k[x_1, \cdots, x_{n + 1}]$? Shouldn't we take the quotient of $I(X)$?}
+    \end{enumerate}
+\end{proof}
+
+I think the condition that $X$ does not contain $H$ is nothing special here, since the only exception is $X = \mathbb{P}^n$ and $X_* = \mathbb{A}^n$.
+
+\begin{problem}{6.23}
+    Let $P, Q \in X$, $X$ a variety. Show that there is an affine open set $V$ on $X$ that contains $P, Q$. 
+\end{problem}
+
+\begin{proof}
+    By Proposition 4 of Sec 6.3, we may assume $X$ is an open subvariety of a projective variety in $\mathbb{P}^n$. By a change of coordinates if necessary, we may further assume $P, Q \in U_{n + 1}$. Replace $X$ by $X \cap U_{n + 1}$ and by Proposition 3, we may assume $X$ is an open subset of an affine variety $V$ in $\mathbb{A}^n$. Since $V \setminus X$ is closed in $V$, it is algebraic. By Problem 1.17, we may select $F, G \in I(V \setminus X)$ such that $F(P) = 1, F(Q) = 0, G(P) = 0, G(Q) = 1$, then $P, Q \in V_{f + g}$ where $f, g$ are the residue class for $F, G$ in $\Gamma(V)$. Clearly $V_{f + g} \subset X$. The proof is complete by Proposition 5.
+\end{proof}
+
+\begin{problem}{6.24}
+    Let $X$ be a variety, $P, Q$ two distinct points of $X$. Show that there is an $f \in k(X)$ that is defined at $P$ and at $Q$, with $f(P) = 0, f(Q) \ne 0$. So $f \in \mathfrak{m}_P(X), 1 / f \in \mathcal{O}_{Q}(X)$. The local rings $\mathcal{O}_{P}(X)$, as $P$ varies in $X$, are distinct.
+\end{problem}
+
+\begin{proof}
+    By similar argument as in Problem 6.23, we can select $g, h \in \Gamma_u(X)$ such that $g$ is nonvanishing on $P, Q$ and $h(P) = 0, h(Q) \ne 0$, take $f = h / g$ to satisfy the conditions.
+\end{proof}
+
+\begin{problem}{6.25}
+    Show that $\varphi: [x_1: \cdots: x_n] \mapsto [x_1:\cdots:x_n:0]$ gives an isomorphism of $\mathbb{P}^{n - 1}$ with $H_{\infty} \subset \mathbb{P}^n$. If a variety $V$ in $\mathbb{P}^n$ is contained in $H_{\infty}$, $V$ is isomorphic to a variety in $\mathbb{P}^{n - 1}$. Any projective variety is isomorphic to a closed subvariety $V \subset \mathbb{P}^n$ (for some $n$) such that $V$ is not contained in any hyperplane in $\mathbb{P}^n$
+\end{problem}
+
+\begin{proof}
+    It is easily verified that $\varphi$ is bijective with inverse $\varphi ^{-1}: [x_1: \cdots : x_n : x_{n + 1}] \mapsto [x_1:\cdots:x_n]$. Note that $\varphi(U_i) \subset U_i$ for $i = 1, \cdots, n$ and $\varphi ^{-1}(U_i) \subset U_i$ for $i = 1, \cdots, n$ and $\varphi ^{-1}(U_{n + 1}) = \emptyset$, since $U_i$'s are affine variety and $\varphi, \varphi ^{-1}$ are polynomial maps on them, $\varphi$ and $\varphi ^{-1}$ are morphisms locally. By Problem 6.14, $\varphi, \varphi ^{-1}$ are morphisms and therefore $\varphi$ is an isomorphism.
+
+    The second part is by successive application of the first part.
+\end{proof}
+
+\begin{problem}{6.26}
+    \begin{inparaenum}
+        \item Let $f: X \rightarrow Y$ be a morphism of varieties such that $f(X)$ is dense in $Y$. Show that the homomorphism $\tilde{f}: \Gamma(Y) \rightarrow \Gamma(X)$ is one-to-one.
+        \item If $X, Y$ are affine, show that $f(X)$ is dense in $Y$ iff $\tilde{f}: \Gamma(Y) \rightarrow \Gamma(X)$ is one-to-one. Is this true if $Y$ is not affine?
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $z \in \Gamma(Y)$ and suppose $\tilde{f}(z) = 0$, then $z = 0$ on $f(X)$. By Problem 6.7, $z = 0$.
+        \item The "only if" part is by part 1. For the "if" part, we may assume $X, Y$ are closed subvarieties in affine spaces and $f$ is a polynomial map. If $\tilde{f}: \Gamma(Y) \rightarrow \Gamma(X)$ is one-to-one and suppose $f(X)$ not dense. Then there is a proper closed subset $U$ of $Y$ such that $f(X) \subset U$. Take $G \in I(V) \setminus I(Y)$, then its residue class $g \in \Gamma(Y)$ satisfies $\tilde{f}(g) = 0$ but $g \ne 0$, a contradiction to the injectivity of $f$. \TODO
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.27}
+    Let $U, V$ be open subvarieties of a variety $X$. \begin{inparaenum}
+        \item Show that $U \cap V$ is isomorphic to $(U \times V) \cap \Delta_X$.
+        \item If $U, V$ are affine, show that $U \cap V$ is affine.
+    \end{inparaenum}
+    (Compare Problem 6.17)
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that $U \times V = X \times X \setminus (((X \setminus U) \times X) \cup (X \times (X \setminus V)))$ is open in $X \times X$. So $(U \times V) \cap \Delta_X$ is a variety. Define the correspondence $\varphi: x \mapsto (x, x)$. It is a bijection between $U \cap V$ and $(U \times V) \cap \Delta_X$. Since $\varphi$ is the restriction of $\delta_X$ on $U \cap V$ and $\varphi ^{-1}$ is the restriction of $\textrm{pr}_1$ on $(U \times V) \cap \Delta_X$, by Problem 6.16 and Proposition 7 of Sec 6.4, both $\varphi$ and $\varphi ^{-1}$ are morphisms, namely $\varphi$ is an isomorphism.
+        \item If $U, V$ are affine, so is $U \times V$. Since $(U \times V) \cap \Delta_X$ is a closed subset of $U \times V$ and is itself a variety(by arguments in part 1), it is also an affine variety.
+    \end{enumerate}
+\end{proof}
+
+{\color{red} Are all subvarieties either open or closed?}
+
+\begin{problem}{6.28}
+    Let $d \ge 1, N = \frac{(d + 1)(d + 2)}{2}$, and let $M_1, \cdots, M_N$ be the monomials of degree $d$ in $X, Y, Z$. Let $T_1, \cdots, T_N$ be homogeneous coordinates for $\mathbb{P}^{N - 1}$. Let $V = V(\sum\limits_{i = 1}^{N} M_iT_i) \subset \mathbb{P}^2 \times \mathbb{P}^{N - 1}$, and let $\pi: V \rightarrow \mathbb{P}^{N - 1}$ be the restriction of the projection map. \begin{inparaenum}
+        \item Show that $V$ is an irreducible closed subvariety of $\mathbb{P}^2 \times \mathbb{P}^{N - 1}$, and $\pi$ is a morphism.
+        \item For each $t = (t_1, \cdots, t_N) \in \mathbb{P}^{N - 1}$, let $C_t$ be the corresponding curve. Show that $\pi ^{-1}(t) = C_t \times \left\lbrace t \right\rbrace$
+    \end{inparaenum}
+    We may thus think of $\pi: V \rightarrow \mathbb{P}^{N - 1}$ as a "universal family" of curves of degree $d$. Every curve appears as a fibre $\pi ^{-1}(t)$ over some $t \in \mathbb{P}^{N - 1}$
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item $V$ is closed by definition and is irreducible since $\sum\limits_{i = 1}^{N} M_iT_i$ is irreducible (prove by discussing the possible degrees of $T_i$ for the terms in the factorization). By Problem 6.16, for $\pi$ to be a morphism ISTS $\pi(V)$ is a variety. But $\pi(V)$ is an intersection of hyperplanes and thus a linear subvariety of $\mathbb{P}^{N - 1}$.
+        \item Trivial.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.29}
+    Let $V$ be a variety, and suppose $V$ is also a group, i.e., there are mappings $\varphi: V \times V \rightarrow V$ (multiplication or addition), and $\psi: V \rightarrow V$ (inverse) satisfying the group axioms. If $\varphi$ and $\psi$ are morphisms, $V$ is said to be an algebraic group. Show that each of the following is an algebraic group:
+    \begin{enumerate}
+        \item $\mathbb{A}^1 = k$, with the usual addition on $k$. This group is often denoted $\mathbb{G}_a$.
+        \item $\mathbb{A}^1 \setminus \left\lbrace 0 \right\rbrace = k \setminus \left\lbrace 0 \right\rbrace$, with the usual multiplication on $k$. This is denoted $\mathbb{G}_m$.
+        \item $\mathbb{A}^n(k)$ with addition: likewise $M_n(k) = k^{n \times n}$ under addition may be identified with $\mathbb{A}^{n^2}$
+        \item $GL_n(k)$ is an affine open subvariety of $M_n(k)$, and a group under multiplication.
+        \item $C$ a nonsingular plane cubic, $O \in C$, $\oplus$ the resulting addition.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \TODO
+\end{proof}
+
+\begin{problem}{6.30}
+    \TODO
+\end{problem}
+
+\begin{problem}{6.31}
+    (Theorem of the Primitive Element) Let $K$ be a field of a characteristic zero, $L$ a finite extension of $K$. Then there is a $z \in L$ such that $L = K(z)$. Outline of Proof:
+    \begin{enumerate}
+        \item Suppose $L = K(x, y)$. Let $F, G$ be monic irreducible polynomials in $K[T]$ such that $F(x) = 0, G(y) = 0$. Let $L'$ be a field in which $F = \prod\limits_{i = 1}^{n} (T - x_i), G = \prod\limits_{j = 1}^{m} (T - y_i), x = x_1, y = y_1, L' \supset L$. Choose $\lambda \ne 0$ in $K$ so that $\lambda x + y \ne \lambda x_i + y_j$ for all $i \ne 1, j \ne 1$. Let $z = \lambda x + y, K' = K(z)$. Set $H(T) = G(z - \lambda T) \in K'[T]$. Then $H(x) = 0, H(x_i) \ne 0$ if $i \gt 0$. Therefore $(H, F) = (T - x) \in K'(T)$. Then $x \in K'$ so $y \in K'$ so $L = K'$.
+        \item If $L = K(x_1, \cdots, x_n)$, use induction on $n$ to find $\lambda_1, \cdots, \lambda_n \in k$ such that $L = K(\sum \lambda_i x_i)$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item There isn't much to say about this proof. It aims to find $\lambda x + y$ that can represent $x, y$ as rationals. To do so, it first factors out the minimal polynomials $F, G$ for $x, y$ in some ambient field and then constructs $H \in K(\lambda x + y)[T]$ that shares only one factor $T - x$ with $F$, which is equavalent to $H$ nonvanishing on other roots of $F$.
+        \item By IH, $L = K(x_1, \cdots, x_{n - 1})(x_n) = K(\sum\limits_{i = 1}^{n - 1} \lambda_i x_i)(x_n) = K(x_n, \sum\limits_{i = 1}^{n - 1} \lambda_i x_i)$. Then apply part 1
+    \end{enumerate}
+\end{proof}
+
+Note that there is still a small gap between Problem 6.31 and Proposition 9(2). In Proposition 9(2), we want to prove $K = k(x)(y)$ for some $y$ based on the fact that $K$ is algebraic over $k(x)$ \textbf{and $K$ is finitely generated over $k$}. To use Problem 6.31, we need $K$ to be finite generated over $k(x)$. \textbf{Not all algebraic extension are finite, for example, the set of all algebraic numbers over rational numbers}. However, an algebraic extension that is finitely generated is indeed a finite extension. This is because $k(a_1, \cdots, a_n) = k[a_1, \cdots, a_n]$ if $a_i$'s are all algebraic. Then apply Zariski's Lemma (Sec 1.10)
+
+\begin{problem}{6.32}
+    Let $L = K(x_1, \cdots, x_n)$ as in Problem 6.31. Suppose $k \subset K$ is an algebraically closed subfield, and $V \subsetneq \mathbb{A}^n(k)$ is an algebraic set. Show that $L = K(\sum\limits_{i} \lambda_i x_i)$ for some $(\lambda_1, \cdots, \lambda_n) \in \mathbb{A}^n \setminus V$
+\end{problem}
+
+\begin{proof}
+    When we choose $\lambda_1$ in step 1 of Problem 6.31, we further require that $V \cap V(X_1 - \lambda_1)$ is a proper algebraic subset of $\left\lbrace \lambda_1 \right\rbrace \times \mathbb{A}^{n - 1}$, then use induction to conclude. We claim that this is possible as there are inifinite number of $\lambda$ such that $V \cap V(X_1 - \lambda) \subsetneq \left\lbrace \lambda \right\rbrace \times \mathbb{A}^{n - 1}$. Suppose otherwise, let $\mu_1, \mu_2, \cdots, \mu_r$ be the set where $\left\lbrace \mu \right\rbrace \times \mathbb{A}^{n - 1} \nsubseteq V$. Consider the variety $U = V(\prod\limits_{i = 1}^{r} (X_1 - \mu_i))$, then we have $U \cup V = \mathbb{A}^{n}$ but $U, V \subsetneq \mathbb{A}^{n}$, a contradiction since $\mathbb{A}^n$ is irreducible by Problem 1.29.
+\end{proof}
+
+\begin{problem}{6.33}
+    The notion of transcendence degree is analogous to the idea of the dimension of a vector space. If $k \subset K$, we say that $x_1, \cdots, x_n \in K$ are algebraically independent if there is no nonzero polynomial $F \in k[X_1, \cdots, X_n]$ such that $F(x_1, \cdots, x_n) = 0$. By methods entirely analogous to those for bases of vector spaces, one can prove:
+    \begin{enumerate}
+        \item Let $x_1, \cdots, x_n \in K$, $K$ a finitely generated extension of $k$. Then $x_1, \cdots, x_n$ is a minimal set such that $K$ is algebraic over $k(x_1, \cdots, x_n)$ iff $x_1, \cdots, x_n$ is a maximal set of algebraically independent elements of $K$. Such $\left\lbrace x_1, \cdots, x_n \right\rbrace$ is called a transcendence basis of $K$ over $k$.
+        \item Any algebraically independent set may be completed to a transcendence basis. Any set $\left\lbrace x_1, \cdots, x_n \right\rbrace$ such that $K$ is algebraic over $k(x_1, \cdots, x_n)$ contains a transcendence basis.
+        \item $\textrm{tr.deg}_k K$ is the number of elements in any transcendence basis of $K$ over $k$.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item "if": For any $x \in K$, by maximality of $\left\lbrace x_1, \cdots, x_n \right\rbrace$, we must have $F(x_1, \cdots, x_n, x) = 0$ for some polynomial $F$. Since $\left\lbrace x_1, \cdots, x_n \right\rbrace$ are algebraically independent, there are terms in $F$ containing $x$. Write $F$ as a polynomial of $x$, then $x$ is algebraic over $k(x_1, \cdots, x_n)$. This proves $K$ is algebraic over $k(x_1, \cdots, x_n)$. For any proper subset of $\left\lbrace x_1, \cdots, x_n \right\rbrace$, say $\left\lbrace x_1, \cdots, x_{n - 1} \right\rbrace$, then $x_n$ is not algebraic over $k(x_1, \cdots, x_{n - 1})$ by definition(algebraic over $k(x_1, \cdots, x_{n - 1})$ is equivalent to algebraic over $k[x_1, \cdots, x_{n - 1}]$), namely $K$ is not algebraic over $k(x_1, \cdots, x_{n - 1})$. This proves the minimality.
+        
+        "only if": The maximality is by $K$ algebraic over $k(x_1, \cdots, x_n)$ and details are omitted. If $\left\lbrace x_1, \cdots, x_n \right\rbrace$ is not algebraically independent, then $F(x_1, \cdots, x_n) = 0$ for some polynomial $F$. WLOG, there are terms of $x_n$ in $F$. Then $x_n$ is algebraically over $k(x_1, \cdots, x_{n - 1})$, since $K$ is algebraic over $k(x_1, \cdots, x_{n})$, $k$ is also algebraic over $k(x_1, \cdots, x_{n - 1})$ by Problem 1.46, a contradiction to the minimality.
+        \item We first claim that $\left\lbrace x_1, \cdots, x_n \right\rbrace$ is a transcendence basis of $K$ over $k$ iff it is an algebraically independent set such that $K$ is algebraic over $k(x_1, \cdots, x_n)$. The "only if" part is by part 1. For the "if" part, we can prove the minimality (or maximality) of $\left\lbrace x_1, \cdots, x_n \right\rbrace$ by similar arguments as in part 1.
+        
+        For the second part, if $x_1, \cdots, x_n$ are algebraically dependent, namely $F(x_1, \cdots, x_n) = 0$ for some polynomial $F$. WLOG We may assume there are terms of $x_n$ in $F$. Then $x_n$ is algebraic over $x_1, \cdots, x_{n - 1}$ and therefore $K$ is algebraic over $k(x_1, \cdots, x_{n - 1})$ by similar argument as in part 1. Continue this process until there is no elements to delete. Then we arrive at an algebraically independent set, which is a basis by the claims above. For the first part, suppose $\left\lbrace x_1, \cdots, x_n \right\rbrace$ are an algebraically independent set. Let $K = k(y_1, \cdots, y_m)$ since $K$ is finitely generated. Then $K$ is algebraic over $k(x_1, \cdots, x_n, y_1,\cdots, y_m)$, repeat the deleting procedure of the second part, except do not delete any $x_i$ during the process. This is possible since any polynomial $F(x_1, \cdots, x_n, y_1, \cdots, y_r) = 0$ will contain terms in $Y$, otherwise $\left\lbrace x_1, \cdots, x_n \right\rbrace$ will be algebraically dependent.
+
+        \item This is by part 1 and the definition of transcendence degree. However, Sec 6.5 does not tell us why transcendence degree is well-defined and I suppose this is what the problem truely asks about. Suppose $\left\lbrace x_1, \cdots, x_n \right\rbrace$ and $\left\lbrace y_1, \cdots, y_m \right\rbrace$ are two basis. WLOG, $n \le m$. Consider the set $\left\lbrace x_1, \cdots, x_n, y_1 \right\rbrace$. Clearly $K$ is algebraic over $k(x_1, \cdots, x_n, y_1)$. Since $K$ is algebraic over $k(x_1, \cdots, x_n)$, we must have $F(x_1, \cdots, x_n, y_1) = 0$ for some polynomials. Note that $F$ cannot be a polynomial in $Y_1$, we may assume $F$ contains terms in $X_n$. By similar argument as above, $K$ is algebraic over $k(x_1, \cdots, x_{n - 1}, y_1)$. Continue this process until we have $K$ algebraic over $k(y_1, \cdots, y_n)$. By minimality, $m \le n$ and therefore $m = n$, which completes the proof.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.34}
+    Show that $\dim \mathbb{A}^n = \dim \mathbb{P}^n = n$
+\end{problem}
+
+\begin{proof}
+    Note that $k(\mathbb{A}^n) = k(X_1, \cdots, X_n)$. Clearly $X_1, \cdots, X_n$ forms a transcendence basis of $k(\mathbb{A}^n)$. By Problem 6.33, $\dim \mathbb{A}^n = n$. Note that $(\mathbb{A}^n)^* = \mathbb{P}^n$, by Proposition 10 in Sec 6.5, $\dim \mathbb{P}^n = n$.
+\end{proof}
+
+\begin{problem}{6.35}
+    Let $Y$ be a closed subvariety of a variety $X$. Then $\dim Y \le \dim X$, with equality iff $Y = X$.
+\end{problem}
+
+This is the supplement of part 1 in Proposition 10.
+
+\begin{proof}
+    By Proposition 4 of Sec 6.3, we may assume $X$ is an open subvariety of a projective variety $V$ in $\mathbb{P}^n$ for some $n$. From Sec 6.2, we know that $Y = \overline{Y} \cap X$ is an open subvariety of the closed subvariety $\overline{Y}$ of $V$. By part 1 in Proposition 10 of Sec 6.5, $\dim X = \dim V, \dim Y = \dim \overline{Y}$. Also $Y = X$ iff $X \subset \overline{Y}$ iff $\overline{Y} = V$ since any open set is dense. As a result, we may assume $X, Y$ are both closed subvarieties of $\mathbb{P}^n$. Moreover, by Proposition 10 (3) in Sec 6.5, we may further assume $X, Y$ are closed subvariety of $\mathbb{A}^n$
+
+    The rest is by the following lemmas.
+\end{proof}
+
+To simplify the notation, define the transcendence degree of a domain to be the transcendence degree of its fraction field.
+
+\begin{lemma} \label{lem:transcendence-basis-in-domain}
+    Let $R$ be a domain, ring-finite over a field $k \subset R$, then there is a transcendence basis of $Frac(R)$ in $R$
+\end{lemma}
+
+\begin{proof}
+    Since $R$ is ring-finite, let $R = k[x_1, \cdots, x_n]$, then clearly $Frac(R)$ is algebraic over $k(x_1, \cdots, x_n)$. (Actually $Frac(R) = k(x_1, \cdots, x_n)$) By part 2 of Problem 6.33, there is a subset of $\left\lbrace x_1, \cdots, x_n \right\rbrace$ that forms a transcendence basis.
+\end{proof}
+
+\begin{lemma}
+    Let $R$ be a domain, ring-finite over a field $k \subset R$, $p \subset R$ a prime ideal. Then $td_k R \ge td_k R / p$ with equality holds exactly when $p = 0$.
+\end{lemma}
+
+\begin{proof}
+    If $p = 0$, the statement is clear. So we will assume $p \ne 0$.
+
+    Suppose otherwise, let $td_k(R) \le td_k (R / p) = n$. By Lemma \ref{lem:transcendence-basis-in-domain}, there are $x_1, \cdots, x_n$ in $R$ such that their residue classes in $R / p$ form a basis. Take $y \in p, y \ne 0$, since $td_k(R) \le n$, $x_1, \cdots, x_n, y$ must be algebraically dependent, namely $F(x_1, \cdots, x_n, y) = 0$ for some polynomial $F \in k[X_1, \cdots, X_n, Y]$. Write $F = \sum\limits_{i = 0}^{m} F_i(X_1, \cdots, X_n) Y^{m - i}$. By dividing $Y$ if necessary($R$ is a domain), we may assume $F_0 \ne 0$. Then by taking the natural homomorphism of $F$, we obtain $F_0(\overline{x_1}, \cdots, \overline{x_n}) = 0$ in $R / p$, a contradiction.
+\end{proof}
+
+The proof is a generalization of part 3 in Proposition 9. In fact, it can be used to prove that part.
+
+Actually, more of Problem 6.35 is true. In fact, if $Y \subsetneq X$ is closed subvariety with no closed subvariety $Z$ of $X$ between $X, Y$ (namely, no $Y \subsetneq Z \subsetneq X$), then $\dim Y = \dim X - 1$. As a result, \textbf{the dimension of a variety is the length of the maximal ascending chains of closed subvarieties}. I found that many other texts use this as the definition of dimension. But the definition itself is harder to justify(for example, it is not immediately true that it is well-defined. Although it is also not immediate that the transcendence degree is well-defined, but at least Problem 6.33 takes care of it). The proof of this fact requires the following proposition from commutative algebra:
+
+\begin{proposition}
+    (Krull’s Hauptidealsatz) $R$ is a domain, ring-finite over a field $k \subset R$, $0 \ne f \in R$, $p \subset R$ a minimal prime ideal containing $f$. Then $td_k(R / p) = td_k(R) - 1$
+\end{proposition}
+
+\begin{problem}{6.36}
+    Let $K = k(x_1, \cdots, x_n)$ be a function field in $r$ variables over $k$.
+    \begin{inparaenum}
+        \item Show that there is an affine variety $V \subset \mathbb{A}^n$ with $k(V) = K$.
+        \item Show that we may find $V \subset \mathbb{A}^{r + 1}$ with $k(V) = K, r = \dim V$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Let $I$ be the set of all polynomials $F \in k[X_1, \cdots, X_n]$ such that $F(x_1, \cdots, x_n) = 0$. It is clearly an prime ideal. Then take $V = V(I)$ and we have $\Gamma(V) = k[X_1, \cdots, X_n] / I \cong k[x_1, \cdots, x_n]$ by first isomorphism theorem. Therefore $k(V) = k(x_1, \cdots, x_n)$
+        \item {\color{red} I am confused, the dimension of $V$ is decided by its function field. However, if $k(V) = K$, the dimension of $V$ is already decided, there is nothing we can do to change it as long as $K$ is fixed.}
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.37}
+    Let $C = V(X^2 + Y^2 - Z^2) \subset \mathbb{P}^2$. For each $t \in k$, let $L_t$ be the line between $P_0 = [-1:0:1]$ and $P_t = [0:t:1]$. \begin{inparaenum}
+        \item If $t \ne \pm 1$, show that $L_t \cdot C = P_0 + Q_t$ where $Q_t = [1 - t^2:2t:1 + t^2]$.
+        \item Show that the map $\varphi: \mathbb{A}^1 \setminus \left\lbrace \pm 1 \right\rbrace \rightarrow C$ taking $t$ to $Q_t$ extends to an isomorphism of $\mathbb{P}^1$ with $C$.
+        \item Any irreducible conic in $\mathbb{P}^2$ is rational; in fact, a conic is isomorphic to $\mathbb{P}^1$.
+        \item Give a prescription for finding all integer solutions $(x, y, z)$ to the Pythagorean equation $X^2 + Y^2 = Z^2$.
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item We first find the intersections between $L_t$ and $C$. By solving equations, the intersections are $P_0$ and $Q_t$. By Bezout's theorem, these two intersections are simple. Then $L_t \cdot C = P_0 + Q_t$
+        \item Define the mapping $\varphi: \mathbb{P}^1 \rightarrow C$ as $[1:t] \mapsto Q_t$ and $[0:1] \mapsto P_0$. We claim that $\varphi$ is an isomorphism. It is easy to verify that $\varphi$ is a bijection. Note that $\varphi$ is a polynomial map when restrict to each $U_i \rightarrow U_3, i = 1, 2$, so $\varphi$ is a morphism. The same can be said about the inverse.
+        \item By problem 5.9, there is only one irreducible conic under projective equivalence (which is a birational map) $Z^2 = XY$, which equals to $Z^2 = X^2 + y^2$ by change of coordinates $T = (Z + X, Z - X, Y)$, which is then isomorphic to $\mathbb{P}^1$ by part 2.
+        \item We only need to find $t \in k$ such that $1 - t^2, 2t, 1 + t^2 \in \mathbb{Z}$. It turns out that only $t \in \mathbb{Z}$ satisfies this condition.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.38}
+    An irreducible cubic with a multiple point is rational.
+\end{problem}
+
+\begin{proof}
+    By Problem 5.10 and 5.11, cubic with a multiple point is either $Z^3 = XY^2$ or $Z^3 = XYZ$. By problem 6.30, they are both isomorphic to $\mathbb{A}^1$ and hence rational.
+\end{proof}
+
+\begin{problem}{6.39}
+    $\mathbb{P}^n \times \mathbb{P}^m$ is birationally equivalent to $\mathbb{P}^{n + m}$. Show that $\mathbb{P}^1 \times \mathbb{P}^1$ is not isomorphic to $\mathbb{P}^2$.
+\end{problem}
+
+\begin{proof}
+    $U_{n + 1} \times U_{m + 1}$ in $\mathbb{P}^n \times \mathbb{P}^m$ is isomorphic to $\mathbb{A}^{n + m}$, which is then isomorphic to open set $U_{n + m + 1}$ in $\mathbb{P}^{n + m}$.
+
+    Suppose $\mathbb{P}^1 \times \mathbb{P}^1$ is isomorphic to $\mathbb{P}^2$. Follow the hint, by Proposition 10 (5) in Sec 6.5, closed subvarieties of dimension $1$ in $\mathbb{P}^2$ are projective curves. By Bezout's theorem, any two distinct curves must intersect. Since isomorphism between $\mathbb{P}^1 \times \mathbb{P}^1$ and $\mathbb{P}^2$ will restrict to isomorphism (and hence birational map) between corresponding closed subvarieties, the dimensions of corresponding closed subvarieties are equal by Proposition 12. As a result, ISTS there are two closed subvarieties of dimension $1$ in $\mathbb{P}^1 \times \mathbb{P}^1$ that do not intersect. We claim that $H_{1, \infty} \times H_{2, \infty}$ and $H_{2, \infty} \times H_{1, \infty}$ do the job where $H_{i, \infty} = V(X_i)$: They are closed subvarieties by Proposition 6 in Sec 6.4. By first part of the proof and Problem 6.34, $\dim (\mathbb{P}^1 \times \mathbb{P}^1) = 2$. By Problem 6.35, and Proposition 10(3), these closed subvarieties can only have dimension $1$.
+\end{proof}
+
+\begin{problem}{6.40}
+    If there is a dominative rational map from $X$ to $Y$, then $\dim(Y) \le \dim (X)$
+\end{problem}
+
+\begin{proof}
+    By Proposition 11(1) in Sec 6.6, $k(Y)$ can be regarded as a subfield of $k(X)$ and therefore $\dim (Y) \le \dim (X)$.
+\end{proof}
+
+\begin{problem}{6.41}
+    Every $n$-dimensional variety is birationally equivalent to a hypersurface in $\mathbb{A}^{n + 1}$ (or $\mathbb{P}^{n + 1}$)
+\end{problem}
+
+\begin{proof}
+    This is a generalization to the proof of the Corollary in Sec 6.6. Denote the variety as $V$. Let $x_1, \cdots, x_n \in k(V)$ form an transcendence basis. Then $k(V)$ is algebraic over $k(x_1, \cdots, x_n)$. By Problem 6.31(Theorem of Primitive Element), $k(V) = k(x_1, \cdots, x_n, y)$ for some $y \in V$. Define the natural homomorphism $\varphi: k[X_1, \cdots, X_n, X_{n + 1}] \rightarrow k(V)$ where $X_i$ is mapped to $x_i$ for $1 \le i \le n$ and $X_{n + 1}$ is mapped to $k(V)$. Let $I = \ker \varphi$, since $k(V)$ is a domain(it is a field), $I$ is prime. As a result, $k[X_1, \cdots, X_{n + 1}] / I \cong k[x_1, \cdots, x_n, y]$. Let $U = V(I)$ and we have $k(U) = k(x_1, \cdots, x_n, y) = k(V)$. What is left to show is that $I = (F)$ for some irreducible $F \in k[X_1, \cdots, X_n, Y]$.
+
+    Note that $\left\lbrace x_1, \cdots, x_n \right\rbrace$ are algebraically dependent, we have $k[X_1, \cdots, X_n] \cong k[x_1, \cdots, x_n]$(the natural homomorphism has zero kernal by definition). Denote this ring as $R$ and its fraction field as $K$.
+
+    Since $y$ is algebraic over $K$, there is a minimal polynomial $F$ of $y$ in $K[Y]$. By clearing the denominators, we obtain $F' \in R[Y]$ of the same degree. $F'$ is irreducible by Gauss' lemma and the property of minimal polynomials. Let $G$ be a polynomial in $R[Y]$ such that $G(x_1, \cdots, x_n, y) = 0$, then by properties of minimal polynomials $G$ is divisable by $F$ in $K[Y]$ and therefore divisable by $F'$ in $K[Y]$. It follows that $G$ is divisable by $F'$ in $R[Y] = k[X_1, \cdots, X_n, Y]$ by Gauss' lemma. This shows that $I = (F')$
+\end{proof}
+
+\begin{problem}{6.42}
+    Suppose $X, Y$ varieties, $P \in X, Q \in Y$, with $\mathcal{O}_{P}(X)$ isomorphic (over $k$) to $\mathcal{O}_{Q}(Y)$. Then there are neighborhoods $U$ of $P$ on $X$, $V$ of $Q$ on $Y$, such that $U$ is isomorphic to $U$. This is another justification for the assertion that properties of $X$ near $P$ should be determined by the local ring $\mathcal{O}_{P}(X)$
+\end{problem}
+
+\begin{proof}
+    We basically copy the proof of Proposition 12 except the function field is replaced by the local ring.
+
+    We may assume $X, Y$ are affine. Note that $\Gamma(X) \subset \mathcal{O}_{P}(X)$ and $\Gamma(X) = k[x_1, \cdots, x_n]$, let $\varphi: \mathcal{O}_{P}(X) \rightarrow \mathcal{O}_{Q}(Y)$ be the isomorphism. Suppose $\varphi(x_i) = a_i / b_i$ where $b_i(Q) \ne 0$, take $b = \prod\limits_{i = 1}^{n} b_i$ and we have $\varphi(\Gamma(X)) \subset \Gamma(Y_b)$. By similar method, $\varphi ^{-1}(\Gamma(Y)) \subset \varphi(\Gamma(X_d))$. Then the restriction of $\varphi$ on $\Gamma((X_b)_{\varphi ^{-1} (d)})$ is an isomorphism to $\Gamma((Y_d)_{\varphi(b)})$ (By the way, this is by application of $\Gamma(X_b) = \Gamma(x)[1 / b]$). Since $(X_b)_{\varphi ^{-1} (d)}$ and $\Gamma((Y_d)_{\varphi(b)})$ are affine open subvarieties of $X, Y$, they are isomorphic by Proposition 2.
+\end{proof}
+
+\begin{problem}{6.43}
+    Let $C$ be a projective curve, $P \in C$. Then there is a birational morphism $f: C \rightarrow C'$, $C'$ a projective plane curve, such that $f ^{-1}(f(P)) = \left\lbrace P \right\rbrace$. We outline the proof:
+    \begin{enumerate}
+        \item We can assume: $C \subset \mathbb{P}^{n + 1}$. Let $T, X_1, \cdots, X_n, Z$ be coordinates for $\mathbb{P}^{n + 1}$. Then $C \cap V(T)$ is finite; $C \cap V(T, Z) = \emptyset$; $P = [0:\cdots:0:1]$;and $k(C)$ is algebraic over $k(u)$ where $u = \overline{T} / \overline{Z} \in k(C)$.
+        \item For each $\lambda = (\lambda_1, \cdots, \lambda_n) \in k^n$, let $\varphi_\lambda: C \rightarrow \mathbb{P}^2$ be defined by the formula $\varphi([t: x_1 : \cdots : x_n : z]) = [t: \sum\limits_{i} \lambda_ix_i : z]$. Then $\varphi_\lambda$ is a well-defined morphism, and $\varphi_\lambda(P) = [0:0:1]$. Let $C'$ be the closure of $\varphi_\lambda(C)$.
+        \item The varieble $\lambda$ can be chosen so $\varphi_\lambda$ is a birational morphism from $C$ to $C'$, and $\varphi_\lambda ^{-1}([0:0:1]) = \left\lbrace P \right\rbrace$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Since $C \cap V(T)$ is a closed subset of $C$, it can be decomposed to a union of closed subvarieties. By Problem 6.35, the proper closed subvarieties of $C$ have $\dim = 0$, then they are points by Proposition 10(3). On the other hand, by Problem 4.22, if $V(T) \subset C$, then $C$ is an open subvariety of $\mathbb{P}^{n + 1}$ and therefore has dimension $n + 1$, a contradiction. (I assume $n \gt 0$, otherwise it is trivial). As a result, $C \cap V(T)$ is a finite union of points, and therefore finite. By by change of coordinates if necessary, we may assume these points do not lie on $V(Z)$, namely $C \cap V(T, Z) = \emptyset$, and $P = [0:\cdots:0:1]$. Finally, $\overline{Z} \ne 0$ in $k(C)$ since otherwise $C \subset V(Z)$, contradicting the first two conditions. If $\overline{T} / \overline{Z} = c \in k$ in $k(C)$, then $\overline{T} - c \overline{Z} = 0$ in $k(C)$, which implies $C \subset V(T - cZ)$, but $P \in C$, $c$ can only be $0$, then $C \subset V(T)$, which is absurd.
+        \item It's clear that $\varphi_\lambda$ is well-defined. It is a morphism since it is the restriction of a polynomial map $\mathbb{P}^{n + 1} \rightarrow \mathbb{P}^2$.
+        \item Since $\varphi_\lambda$ is a morphism, it induces a one-to-one homomorphism $\tilde{\varphi}_\lambda: k(C') \rightarrow k(C)$. To make it birational, it suffice to make the induced homomorphism $\tilde{\varphi}_\lambda$ surjective. By part 1, $k(C)$ is algebraic over $k(\overline{T}, \overline{Z})$ and clearly $k(C) = k(\overline{T}, \overline{Z})(\overline{X}_1, \cdots, \overline{X}_n)$. By the formula of $\varphi_\lambda$, $\overline{T}, \overline{Z} \in im(\varphi_\lambda)$, we only need to select $\lambda_i$ such that $k(C) = k(\overline{T}, \overline{Z})(\sum\limits_{i} \lambda_i \overline{X}_i)$. Moreover, we would like $\sum\limits_{i} \lambda_i x_i = 0, t = 0$ only if $x_i = 0, \forall i$. Note that $C \cap V(T)$ is finite, this constraint corresponds to $\sum\limits_{i} \lambda_i x_i \ne 0$ for all $C \cap V(T)\setminus \left\lbrace P \right\rbrace$. The $(\lambda_i)$ that do not satisfy this condition form a union of hyperplanes and thus is algebraic. By Problem 6.31, we can find $\lambda_i$'s that satisfy the above conditions.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.44}
+    Let $V = V(X^2 - Y^3, Y^2 - Z^3) \subset \mathbb{A}^3$, $f: \mathbb{A}^1 \rightarrow V$ as in Problem 2.13. (The map is $f: t \mapsto (t^9, t^6, t^4)$) \begin{inparaenum}
+        \item Show that $f$ is birational, so $V$ is a rational curve.
+        \item Show that there is no neighborhood of $(0, 0, 0)$ on $V$ that is isomorphic to an open subvariety of a plane curve.
+    \end{inparaenum}
+\end{problem}
+
+Note that part 2 shows that it is impossible that $V$ is isomorphic to a plane curve. This gives an example of a rational curve that is not essentially a plane curve.
+
+\begin{proof}
+    \begin{enumerate}
+        \item By Problem 2.13, $f$ is bijective and hence dominate. $f$ is a polynomial map and hence a morphism. By Proposition 11 in Sec 6.6, $f$ induces one-to-one homomorphism $\tilde{f}: k(V) \rightarrow k(\mathbb{A}^1)$. Then by Proposition 12, ISTS $\tilde{f}$ is surjective. Since $k(\mathbb{A}^1) = k(T)$, we only need to find $g \in k(V)$ such that $\tilde{f}(g) = T$. Take $g = YZ / X$.
+        \item Suppose otherwise, let $P$ be the corresponding point of $(0, 0, 0)$ on the plane curve $F$, then $\mathcal{O}_{(0, 0, 0)}(V) \cong \mathcal{O}_{P}(F)$ \TODO
+    \end{enumerate}
+\end{proof}
+
+We should note that although $\tilde{f}: k(V) \rightarrow k(\mathbb{A}^1)$ is an isomorphism, but $\tilde{f}: \Gamma(V) \rightarrow \Gamma(\mathbb{A}^1)$ is not. (Otherwise $f$ will be an isomorphism, contradicting Problem 2.13)
+
+\begin{problem}{6.45}
+    Let $C, C'$ be curves, $F$ a rational map from $C'$ to $C$. Prove:
+    \begin{inparaenum}
+        \item Either $F$ is dominating, or $F$ is constant. 
+        \item If $F$ is dominating, then $k(C')$ is a finite algebraic extension of $\tilde{F}(k(C))$
+    \end{inparaenum}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Consider the closure of $im(F)$. It is a closed subset of $C$. Since $\dim C = 1$, by Problem 6.36, the irreducible components of $\overline{im(F)}$ are of dimension $0$ or $1$ and when the component is of dimension $1$, it equals $C$. As a result, either $im(F)$ is dense, or $im(F)$ is finite. If it is the second case, denote the domain of $F$ as $U$, consider $F ^{-1} (\lambda)$ for some $\lambda \in im(F)$. It is closed in $U$ by continuity. By similar arguments as above, either $F ^{-1}(\lambda) = U$ or $F ^{-1}(\lambda)$ is finite. Since $C$ contains infinite points, at least one of $\lambda$ will have $F ^{-1}(\lambda) = U$, namely $F$ is constant.
+        \item We already know by Proposition 11 that $k(C')$ is a field extension of $\tilde{F}(k(C))$. Note that $\tilde{F}$ fixes $k$, since $k(C) \ne k$ (otherwise $C$ is a point), $\tilde{F}(k(C))$ contains an element $x \notin k$. By Proposition 9 in Sec 6.5, $k(C')$ is algebraic over $\tilde{F}(k(C))$. Then it is a finite extension since $k(C')$ is finitely generated over $\tilde{F}(k(C'))$.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}{6.46}
+    Let $k(\mathbb{P}^1) = k(T), T = X / Y$. For any variety $V$, and $f \in k(V), f \notin k$, the subfield $k(f)$ generated by $f$ is naturally isomorphic to $k(T)$. Thus a nonconstant $f \in k(V)$corresponds a homomorphism from $k(T)$ to $k(V)$, and hence to a dominating rational map from $V$ to $\mathbb{P}^1$. The corresponding map is usually denoted also by $f$. If this rational map is a morphism, show that the pole set of $f$ is $f ^{-1}([1:0])$
+\end{problem}
+
+\begin{proof}
+    To avoid confusion, let us denote $\varphi: V \rightarrow \mathbb{P}^1$ and $f: k(\mathbb{P}^1) \rightarrow k(V)$ and $f = \tilde{\varphi}$. By definition,
+    $$\frac{X}{Y} \circ \varphi = f$$
+    So the pole set of $f$ is where the LHS is undefined. Namely $\varphi ^{-1}([1:0])$
+\end{proof}
+
+\begin{problem}{6.47}
+    (The dual curve) Let $F$ be an irreducible projective plane curve of degree $n \gt 1$. Let $\Gamma_h(F) = k[X, Y, Z] / (F) = k[x, y, z]$, and let $u, v, w \in \Gamma_h(F)$ be the residues of $F_X, F_Y, F_Z$ respectively. Define $\alpha: k[U, V, W] \rightarrow \Gamma_h(F)$ by setting $\alpha(U) = u, \alpha(V) = v, \alpha(W) = w$. Let $I$ be the kernel of $\alpha$.
+    \begin{enumerate}
+        \item Show that $I$ is a homogeneous prime ideal in $k[U, V, W]$, so $V(I)$ is a closed subvariety of $\mathbb{P}^2$.
+        \item Show that for any simple point $P$ on $F$, $[F_X(P): F_Y(P): F_Z(P)]$ is in $V(I)$, so $V(I)$ contains the points corresponding to tangent lines to $F$ at simple points.
+        \item If $V(I) \subset \left\lbrace [a:b:c] \right\rbrace$, use Euler's Theorem to show that $F$ divides $aX + bY + cZ$, which is impossible. Conclude that $V(I)$ is a curve. It is called the dual curve of $F$.
+        \item Show that the dual curve is the only irreducible curve containing all the points of (b). 
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Since $\Gamma_h$ is a domain, $I$ is prime. If $\sum\limits_{i} G_i(u, v, w) = 0$ where $G_i$ is a form of degree $i$. Then $\sum\limits_{i} G_i(F_X, F_Y, F_Z) \in (F)$. Since $F$ is a form and $G_i(F_X, F_Y, F_Z)$'s are forms of distinct degrees, there must be $G_i(F_X, F_Y, F_Z) = 0, \forall i$, namely $G_i \in I$. This proves that $I$ is homogeneous.
+        \item Take arbitrary $G \in I$, $G(F_X, F_Y, F_Z) \in (F)$, so $G(F_X(P), F_Y(P), F_Z(P)) = cF(P) = 0$. (Note that we need $P$ simple so that $F_X(P), F_Y(P), F_Z(P)$ are not all zero, otherwise the coordinate does not make sense)
+        \item When $V(I) \subset \left\lbrace [a:b:c] \right\rbrace$, by part 2, $[F_X(P):F_Y(P):F_Z(P)] = [a:b:c]$ for all simple point $P$. By Euler's Theorem, $nF = XF_X + YF_Y + ZF_Z$, so the simple points of $F$ all falls on $aX + bY + cZ$. Since there is only a finite number of multiple points of $F$, the simple points of $F$ is an open subset of $F$, and hence dense. As a result, $F$ is the closure of the set of simple points and therefore $V(F) \subset V(aX + bY + cZ)$, which implies $F$ divides $aX + bY + cZ$, a contradiction to $F$ irreducible and $n \gt 1$. Also $V(I) \ne \mathbb{P}^2$: Note that $F$ is coprime with at least one of $F_X, F_Y, F_Z$ (In fact, if any of them is nonzero $F$ will be coprime with it), WLOG, $F$ is coprime with $F_X$, then $F_X^n \notin (F)$ for all $n \gt 0$, so $I$ does not contain $U^n$ for all $n \gt 0$, by Hilbert's Nullstellensatz for homogeneous ideals, $V(I) \ne \mathbb{P}^2$. Then $V(I)$ will have to be a curve.
+        \item Suppose $G$ is an irreducible curve in $\mathbb{P}^2$ that contains $[F_X(P): F_Y(P): F_Z(P)]$ for all simple points $P$ on $F$. Then $G(F_X(P), F_Y(P), F_Z(P)) = 0$ for inifinite many $P$. However, $V(G(F_X, F_Y, F_Z))$ is closed, by similar argument as in part 3, $V(F) \subset V(G(F_X, F_Y, F_Z))$ and therefore $G(F_X, F_Y, F_Z) \in (F)$, namely $G \in I$.
+    \end{enumerate}
+\end{proof}
+
+\end{document}
