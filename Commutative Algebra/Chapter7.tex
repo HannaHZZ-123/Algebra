@@ -261,7 +261,204 @@
 \begin{proof}
     {\color{red} A little notice before the proof: It is true that irreducible ideals in a Noetherian ring are primary. But a minimal decomposition of $I$ as intersections of irreducible ideals is not necessarily a minimal prime decomposition: It only requires that no ideals in the decomposition contain the intersection of all other ideals, it does not require that they have distinct radicals. This is because the intersection of $\mathfrak{p}$-primary ideals are $\mathfrak{p}$-primary, but the intersection of irreducible ideals are not necessarily irreducible, so we cannot impose the constraint of radical ideals on irreducible decomposition.}
 
-    Now for the proof. Pick any $i_0$ from $1$ to $r$, denote $\tilde{I}_{i_0} = \bigcap\limits_{i \ne i_0}$. Since $I_{i_0}$ is irreducible, $I_{i_0} \cap \tilde{I}_{i_0}$ is irreducible (as $A$-module) in the 
+    The result for modules: Let $A$ be a Noetherian ring, $M$ be an arbitrary $A$-module. Let $N$ be a submodule of $M$, then by Problem 17 there $N$ has irreducible decompositions. Suppose
+    $$N = \bigcap\limits_{i = 1}^{r} P_i = \bigcap\limits_{j = 1}^{s} Q_j$$
+    are two minimal irreducible decompositions of $N$, then $r = s$ and after re-indexing, $r_M(P_i) = r_M(Q_i)$.
+
+    Note that the result for ideals is a special case of the result for modules: we can take $M = A$ and note that $r_A(I) = \sqrt{(I : A)} = \sqrt{I}$. So we only prove the result for modules.
+
+    Now for the proof. By replacing $M$ by $M / N$, we may assume $N = 0$.  For arbitrary $i_0 = 1, \cdots, r$, denote $\tilde{P}_{i_0} = P_1 \cap \cdots P_{i_0 - 1} \cap P_{i_0 + 1} \cap \cdots \cap P_r$. Note that $\tilde{P}_{i_0} \cap P_{i_0} = 0 = \bigcap\limits_{j = 1}^{s} \tilde{P}_{i_0} \cap Q_j$, by the proposition below, we must have $\tilde{P}_{i_0} \cap P_{i_0} = \tilde{P}_{i_0} \cap Q_{j_0}$ for some $j_0$, namely:
+    $$0 = P_1 \cap \cdots \cap P_{i_0 - 1} \cap Q_{j_0} \cap P_{i_0 + 1} \cap \cdots \cap P_{r}$$
+    So for each $i$, we can trade $P_i$ with some $Q_j$, start from $i = 1$ to $i = r$, repeatedly replace $P_i$ with some $Q_{j}$, we obtain:
+    $$0 = Q_{j_1} \cap Q_{j_2} \cap \cdots \cap Q_{j_r}$$
+    By minimality of the decomposition $\bigcap\limits_{j = 1}^{s} Q_j$, each $j = 1, \cdots, s$ must appear at least once in the $j_1, \cdots, j_r$. This proves that $r \ge s$. By symmetry, $s \ge r$ and hence $r = s$. As a result, there is a one-to-one correspondence between $P_i$ and $Q_j$ in the trading process, and in each step we obtain a minimal decomposition. After re-indexing, we may assume $P_i$ corresponds to $Q_i$.
+
+    For the radical, WLOG we only show the case for $i = 1$. Note that $N = P_1 \cap \tilde{P}_1 = Q_1 \cap \tilde{P}_1$, by minimality, take $x \in \tilde{P}_1 \setminus P_1$, then $P_1 \cap \tilde{P}_1 = Q_1 \cap \tilde{P}_1$ implies $x \in \tilde{P}_1 \setminus Q_1$, we have $(P_1 : x) = (N : x) = (Q_1 : x)$. By Problem 17 and Problem 20 - 23 in Chapter 4, we have $r_M(P_1) = \sqrt{(P_1 : x)} = \sqrt{(Q_1 : x)} = r_M(Q_1)$
+    which completes the proof.
+\end{proof}
+
+\begin{proposition}
+    Let $N$ be an irreducible submodule of $A$-module $M$, and $P$ an arbitrary submodule of $M$, then $N \cap P$ is irreducible as a submodule of $P$.
+
+    As a special case ($M = A$): Let $I_0$ be an irreducible ideal of ring $A$, and $I$ an arbitrary ideal, then $I \cap I_0$ is irreducible as a submodule of $A$-module $I$
+\end{proposition}
+
+\begin{proof}
+    Take arbitrary submodule $P_1, P_2 \subset P$, we need to show if $P_1 \cap P_2 = P \cap N$, then we have $P_1 = P \cap N$ or $P_2 = P \cap N$.
+
+    By replacing $M$ by $M / P \cap N$, we may assume $P \cap N = 0$. Then ISTS $P_1 \cap P_2 = 0$ implies $P_1 = 0$ or $P_2 = 0$. Consider the natural homomorphism $\pi: M \rightarrow M / N$, since $P_1 \cap P_2 = 0$, we have $\pi(P_1) \cap \pi(P_2) = 0$: If $e \in \pi(P_1) \cap \pi(P_2)$, then there is $x \in P_1, y \in P_2$ such that $\overline{x} = \overline{y} = e \Rightarrow x - y \in N$, but $x - y \in P$ as $P_1, P_2 \subset P$, so we must have $x - y \in P \cap N \Rightarrow x = y$. But then as $x \in P_1, y \in P_2$, we have $x = y = 0$ since $P_1 \cap P_2 = 0$. By the irreducibility of $P_0$, this implies $\pi(P_1) = 0$ or $\pi(P_2) = 0$, then $P_1 \subset \mathrm{ker}(\pi) = N$ or $P_2 \subset N$, but $P_i \subset P$, so we have $P_1 = 0$ or $P_2 = 0$.
+\end{proof}
+
+\begin{problem}
+    Let $X$ be a topological space and let $\mathcal{F}$ be the smallest collection of subsets of $X$ which contains all open subsets of $X$ and is closed with respect to the formation of finite intersections and complements.
+
+    \begin{enumerate}
+        \item Show that a subset $E$ of $X$ belongs to $\mathcal{F}$ if and only if $E$ is a finite union of sets of the form $U \cap C$, where $U$ is open and $C$ is closed
+        \item Suppose that $X$ is irreducible and let $E \in \mathcal{F}$. Show that $E$ is dense in $X$ (i.e. that $\overline{E} = X$) if and only if $E$ contains a non-empty open set in $X$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item By definition, the sets of the form $\bigcup\limits_{i = 1}^{n} U_i \cap C_i$ where $U_i$ open and $C_i$ closed belongs to $\mathcal{F}$. ISTS that these elements are closed under finite intersections and complements, then ISTS these elements are closed intersection and complement:
+        \begin{enumerate}
+            \item Intersection: Note that:
+            $$\left(\bigcup\limits_{i = 1}^{n} U_i \cap C_i \right)\cap \left(\bigcup\limits_{j = 1}^{n} U_j' \cap C_j'\right) = \bigcup\limits_{i, j} (U_i \cap U_j') \cap (C_i \cap C_j')$$
+            and $U_i \cap U_j'$ is open, $C_i \cap C_j'$ is closed for arbitrary $i, j$
+            \item Complement: Note that:
+            $$\left(\bigcup\limits_{i = 1}^{n} U_i \cap C_i\right)^c = \bigcap\limits_{i = 1}^{n} U_i^c \cup C_i^c$$
+            By the previous part, ISTS each $U_i^c \cup C_i^c$ can be written as a finite union of $U \cap C$'s. But note that
+            $$U_i^c \cup C_i^c = (U_i^c \cap X) \cup (C_i^c \cap X)$$
+            and $X$ is both open and closed, which completes the proof.
+        \end{enumerate}
+        \item For the "if" part, simply note that any non-empty open set is dense as $X$ is irreducible. For the "only if" part, write $E = \bigcup\limits_{i = 1}^{n} (U_i \cap C_i)$, where the RHS does not contain any empty sets in the union. We claim that $C_i = X$ for some $i$, then $\emptyset \ne U_i \subset E$, which completes the proof. Consider the open set $X \setminus \bigcup\limits_{i = 1}^{n} C_i$, if it is non-empty, then it is a non-empty open set that does not intersect $E$, a contradiction as $E$ is dense. So we must have $\bigcup\limits_{i = 1}^{n} C_i = X$. Then by irreducibility of $X$, we must have $C_i = X$ for some $i$.
+    \end{enumerate}
+\end{proof}
+
+{\color{red} Note that $E$ contains a non-empty open sets $\Leftrightarrow$ $E^c$ is not dense. So the last part equivalently says $E$ dense $\Leftrightarrow$ $E^c$ not dense.}
+
+\begin{problem}
+    Let $X$ be a Noetherian topological space (Chapter 6, Problem 5) and let $E \subset X$. Show that $E \in \mathcal{F}$ (Problem 20) if and only if, for each irreducible closed set $X_0 \subset X$, either $\overline{E \cap X_0} \ne X_0$ or else $E \cap X_0$ contains a non-empty open subset of $X_0$.
+
+    The sets belonging to $\mathcal{F}$ are called the \textit{constructible} subsets of $X$
+\end{problem}
+
+\begin{proof}
+    Let $\mathcal{F}(X_0)$ denotes the family of sets constructed on $X_0$ according to Problem 20 (namely the smallest family closed under finite intersections and complements that contains all open set in $X_0$). Then it is easy to verify that sets in $\mathcal{F}(X_0)$ are all of the form $X_0 \cap E$ where $E \in \mathcal{F}$. By Problem 20, this proves the "only if" part.
+
+    Now for the "if" part. Follow the hint. Suppose $E \notin \mathcal{F}$, then the family $\Sigma = \left\lbrace X' \subset X: X' \text{ closed}, X' \cap E \notin \mathcal{F} \right\rbrace$ is non-empty (as $X \in \Sigma$). By Noetherian, there is a minimal element $X_0 \in \Sigma$. Then $X_0$ is irreducible: Suppose otherwise, $X_0 = X_1 \cup X_2$ for some proper closed subsets $X_1, X_2$ of $X_0$ (and thus of $X$ since $X_0$ is closed). By minimality of $X_0$, $X_1 \cap E, X_2 \cap E \in \mathcal{F}$, it follows that $X_0 \cap E = (X_1 \cap E) \cup (X_2 \cap E) \in \mathcal{F}$ as $\mathcal{F}$ is closed under finite union. This is a contradiction since $X_0 \in \Sigma$.
+
+    By our hypothesis, either $\overline{X_0 \cap E} \ne X_0$ or $X_0 \cap E$ contains some non-empty open subset of $X_0$. But then:
+    \begin{enumerate}
+        \item If $\overline{X_0 \cap E} \ne X_0$, then there is a proper closed subset $X'$ of $X_0$ (and thus of $X$) such that $X_0 \cap E \subset X'$. Then $X_0 \cap E = X' \cap E \in \mathcal{F}$, since $X_0$ is minimal, a contradiction.
+        \item If $X_0 \cap E$ contains some non-empty open subset of $X_0$, then $X_0 \cap E^c$ is not dense in $X_0$. Note that for any closed (or open, or any subset in $\mathcal{F}$) set $X'$, $X' \cap E \in \mathcal{F} \Leftrightarrow X' \cap E \in \mathcal{F}(X_0) \Leftrightarrow X' \cap E^c \in \mathcal{F}(X_0) \Leftrightarrow X' \cap E^c \in \mathcal{F}$, so $X'$ is also minimal in the family of closed subsets that intersect $E^c$ to $\mathcal{F}$. We have reduced to case 1.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+    Let $X$ be a Noetherian topological space and let $E$ be a subset of $X$. Show that $E$ is open in $X$ if and only if, for each irreducible closed subset $X_0$ in $X$, either $E \cap X_0 = \emptyset$ or else $E \cap X_0$ contains a non-empty open subset of $X_0$.
+\end{problem}
+
+\begin{proof}
+    The proof is similar to Problem 21, and we repeat it here:
+
+    The "if" part is trivial. For the "only if" part, denote $\tau$ the topology on $X$, and denote $\tau(X')$ the topology on subspace $X' \subset X$. Suppose $E$ is not open, then the family $\Sigma = \left\lbrace X' \subset X: X' \text{ closed}, X' \cap E \notin \tau(X') \right\rbrace$ is non-empty (as $X \in \Sigma$). By Noetherian, there is a minimal element $X_0 \in \Sigma$. Then $X_0$ is irreducible: Suppose otherwise, $X_0 = X_1 \cup X_2$ for some proper closed subsets $X_1, X_2$ of $X_0$ (and thus of $X$ since $X_0$ is closed). By minimality of $X_0$, $X_1 \cap E \in \tau(X_1) X_2 \cap E \in \tau(X_2)$, then $X_1 \setminus E$ is closed in $X_1$ and $X_2 \setminus E$ is closed in $X_2$ $\Rightarrow$ $X_1 \cap E, X_2 \cap E$ are closed in $X_0$ $\Rightarrow$ $X_0 \setminus E = (X_1 \cup X_2) \setminus E = (X_1 \setminus E) \cup (X_2 \setminus E)$ is closed in $X_0$ $\Rightarrow$ $E \cap X_0 \in \tau(X_0)$, a contradiction since $X_0 \in \Sigma$.
+
+    By our hypothesis, either $X_0 \cap E = \emptyset$ or $X_0 \cap E$ contains some non-empty open subset of $X_0$. But the first case is not possible as the empty set is open. If $X_0 \cap E$ contains some non-empty open subset $U$ of $X_0$, let $C = X_0 \setminus U$. Then $C$ is properly closed in $X_0$ and thus closed in $X$. By minimality of $X_0$, we have $C \cap E \in \tau(C)$. Then $C \setminus E$ is closed in $C$ and thus closed in $X_0$. But then:
+    $$X_0 \setminus E = (X_0 \setminus U) \setminus E = C \setminus E$$
+    it follows that $X_0 \cap E \in \tau(X_0)$, a contradiction.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring, $f: A \rightarrow B$ a ring homomorphism of finite type (so that $B$ is Noetherian). Let $X = \mathrm{Spec}(A), Y = \mathrm{Spec}(B)$ and let $\mathrm{Spec}(f): Y \rightarrow X$ be the mapping associated with $f$. Then the image under $\mathrm{Spec}(f)$ of a constructible subset $E$ of $Y$ is a constructible subset of $X$
+\end{problem}
+
+{\color{red} If $A$ is Noetherian, then $\mathrm{Spec}(A)$ is Noetherian, and every open subspace is quasi-compact by Problem 6 of Chapter 6. Then every open set can be written as a finite union of basic open sets $X_f$. This did show that the constructible sets are closed sets in the constructible topology (Problem 27 of Chapter 3). (In the constructible topology, basic open sets are closed by Problem 28 of Chapter 3, then by the above argument every open set is closed, so the closed sets in the constructible topology contains all open sets, closed sets and clearly the finite union / intersection of them) But does that imply that the constructible sets are \textbf{exactly} the closed sets in constructible topology? \TODO}
+
+\begin{proof}
+    By Problem 20, it suffices to consider the set of $Y$ of the form $U \cap C$, where $U$ open and $C$ closed. Suppose $C = V(J)$ for some ideal $J$ of $B$, then $U \cap C$ corresponds to an open set of the subspace $\mathrm{Spec}(B / J) \simeq V(J)$. Replace $B$ by $B / J$, note that $B / J$ is still Noetherian and $f: A \rightarrow B / J$ is still of finite type, ISTS the image of open set is constructible.
+
+    Since $B$ is Noetherian, any open subspace is quasi-compact by Problem 6 of Chapter 6. It follows that any open set $U$ of $B$ is covered by finitely many basic open set $B_{g_i}$ for some $i = 1, \cdots, n$. Then ISTS $\mathrm{Spec}(f)(B_{g_i})$ is constructible for each $i$. Replace $B$ by $B_{g_i}$, note that $B_{g_i}$ is Noetherian and $f: A \rightarrow B_{g_i}$ is of finite type, ISTS $\mathrm{Spec}(f)(\mathrm{Spec}(B))$ is constructible.
+
+    By Problem 21, ISTS $\mathrm{Spec}(f)(Y) \cap X_0$ dense in $X_0$ implies $\mathrm{Spec}(f)(Y) \cap X_0$ contains an open set of $X_0$ for arbitrary irreducible closed subspace $X_0$ of $X$. Let $X_0 = V(\mathfrak{p})$, consider the homomorphism $\overline{f}: A / \mathfrak{p} \rightarrow B / \mathfrak{p}^e$, since $\mathrm{Spec}(f)(\mathfrak{q}) \in V(\mathfrak{p}) \Leftrightarrow \mathfrak{p}^e \subset \mathfrak{q}$, we have $\mathrm{Spec}(f)(Y) \cap X_0 \simeq \mathrm{Spec}(\overline{f})(B / \mathfrak{p}^e)$. Replace $A$ by $A / \mathfrak{p}$ and $B$ by $B / \mathfrak{p}$, ISTS $\mathrm{Spec}(f)(Y)$ dense in $X$ implies that $\mathrm{Spec}(f)(Y)$ contains an open subset of $X$, for $X$ the spectra of domain $A$.
+
+    Suppose $\mathrm{Spec}(f)(Y)$ is dense in $X$. Since $Y$ is Noetherian, by Problem 7 of Chapter 6, the number of irreducible components of $Y$ is finite, denote them as $Y_1, \cdots, Y_n$. Then
+    $$\overline{\mathrm{Spec}(f) \left(\bigcup\limits_{i = 1}^{n} Y_i\right)} = \bigcup\limits_{i = 1}^{n} \overline{\mathrm{Spec}(f)(Y_i)} = X$$
+    By irreducibility of $X$ ($A$ is a domain), we have $\mathrm{Spec}(f(Y_i)) = X$ for some $i$. Suppose $Y_i = \mathrm{Spec}(B / \mathfrak{q})$ for some prime ideal $\mathfrak{q}$ of $B$. Replace $B$ by $B / \mathfrak{q}$, ISTS $\mathrm{Spec}(f)(Y)$ dense in $X$ implies that $\mathrm{Spec}(f)(Y)$ contains an open subset of $X$, for $f: A \rightarrow B$ of finite type, $A, B$ integral domain and $X = \mathrm{Spec}(A), Y = \mathrm{Spec}(B)$.
+
+    By part 5 of Problem 21, Chapter 1, if $\mathrm{Spec}(f)(Y)$ is dense, $\mathrm{ker}(f) \subset \mathfrak{N}_A = 0$, then $f$ is injective, and we may assume $A \subset B$. By Problem 21 of Chapter 5, there is $s \in A$ such that for any algebraically closed field $\Omega$ and $\varphi: A \rightarrow \Omega$ such that $\varphi(s) \ne 0$, then $\varphi$ can be extended to a homomorphism $B \rightarrow \Omega$. Let $\mathfrak{p}$ be an arbitrary prime ideal of $A$ that avoids $s$, or equivalently $\mathfrak{p}$ is a prime ideal of $A_s$, take $\varphi: A \rightarrow A / \mathfrak{p} \rightarrow k = k(A / \mathfrak{p}) \rightarrow \Omega = \overline{k}$. Clearly $\varphi(s) \ne 0$, by our selection of $s$, $\varphi$ can be extended to $\psi: B \rightarrow \Omega$. Now consider $\mathfrak{q} = \mathrm{ker}(\psi)$, we clearly have $\mathfrak{q} \cap A = \mathrm{ker}(\varphi) = \mathfrak{p}$. This shows that $\mathrm{Spec}(B) \rightarrow \mathrm{Spec}(A_s)$ is surjective, namely $\mathrm{Spec}(f)(Y)$ contains the open set $\mathrm{Spec}(A_s)$, which completes the proof.
+\end{proof}
+
+\begin{problem}
+    With the notation and hypothesis of Problem 23, $\mathrm{Spec}(f)$ is an open mapping $\Leftrightarrow$ $f$ has the going-down property.
+\end{problem}
+
+\begin{proof}
+    The "only if" part is proved in Problem 10 of Chapter 5. As in Problem 23, ISTS $\mathrm{Spec}(f)(Y)$ is open in $X$. By Problem 22, ISTS for any irreducible closed subspace $X_0$ of $X$, $\mathrm{Spec}(f)(Y) \cap X_0 \ne \emptyset$ implies $\mathrm{Spec}(f)(Y) \cap X_0$ contains an open subset of $X_0$. Suppose $X_0 = V(\mathfrak{p})$, replace $A$ by $A / \mathfrak{p}$ and $B$ by $B / \mathfrak{p}^e$, ISTS $\mathrm{Spec}(f)(Y) \ne \emptyset$ implies $\mathrm{Spec}(f)(Y)$ contains a non-empty open subset of $X$, where $A$ is a domain. But $\mathrm{Spec}(f)(Y) = \emptyset$ if and only if $Y = \emptyset$. So ISTS $Y \ne \emptyset$ implies $\mathrm{Spec}(f)(Y)$ contains an open subset of $X$. By Problem 10 of Chapter 5, for arbitrary $\mathfrak{q}$ of $B$, take $\mathfrak{p} = \mathfrak{q}^c$ then $\mathrm{Spec}(f)(B_{\mathfrak{q}}) = \mathrm{Spec}(A_{\mathfrak{p}})$, a non-empty open set. 
+\end{proof}
+
+\begin{problem}
+    Let $A$ be Noetherian, $f: A \rightarrow B$ of finite type and flat. Then $\mathrm{Spec}(f): \mathrm{Spec}(B) \rightarrow \mathrm{Spec}(A)$ is an open mapping.
+\end{problem}
+
+\begin{proof}
+    By Problem 11 of Chapter 5 and Problem 24.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring and let $F(A)$ denote the set of all isomorphism classes of finitely generated $A$-modules. Let $C$ be the free abelian group generated by $F(A)$. With each short exact sequence $0 \rightarrow M' \rightarrow M \rightarrow M'' \rightarrow 0$ of finitely generated $A$-modules we associate the element $(M') - (M) + (M'')$ of $C$, where $(M)$ is the isomorphism class of $M$, etc. Let $D$ be the subgroup of $C$ generated by these elements, for all short exact sequences. The quotient group $C / D$ is called the \textit{Grothendieck group} of $A$, and is denoted by $K(A)$. If $M$ is a finitely generated $A$-module, let $\gamma(M)$, or $\gamma_A(M)$, denote the image of $(M)$ in $K(A)$.
+    \begin{enumerate}
+        \item Show that $K(A)$ has the following universal property: for each additive function $\lambda$ on the class of finitely generated $A$-modules, with values in an abelian group $G$, there exists a unique homomorphism $\lambda_0: K(A) \rightarrow G$ such that $\lambda(M) = \lambda_0(\gamma(M))$ for all $M$
+        \item Show that $K(A)$ is generated by the elements $\gamma(A / \mathfrak{p})$, where $\mathfrak{p}$ is a prime ideal of $A$.
+        \item If $A$ is a field, or more generally if $A$ is a principal ideal domain, then $K(A) \cong \mathbb{Z}$
+        \item Let $f: A \rightarrow B$ be a \textit{finite} ring homomorphism. Show that restriction of scalars gives rise to a homomorphism $f_{!}: K(B) \rightarrow K(A)$ such that $f_{!}(\gamma_B(N)) = \gamma_A(N)$ for a $B$-module $N$. If $g: B \rightarrow C$ is another finite ring homomorphism, show that $(g \circ f)_{!} = f_{!} \circ g_{!}$
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item For arbitrary isomorphism class $\gamma(M)$, define $\lambda_0(\gamma(M)) = \lambda(M)$. If $\lambda_0$ is well-defined, then it is clearly uniquely defined by $\lambda$. So ISTS $\lambda_0$ is well-defined. Let $\gamma(M) = \gamma(N)$, then
+        \begin{equation} \label{eq:prob26-1}
+            (M) - (N) = \sum\limits_{i = 1}^{n} (M_i') - (M_i) + (M_i'')
+        \end{equation}
+        for $n$ exact sequences $0 \rightarrow M_i' \rightarrow M_i \rightarrow M_i'' \rightarrow 0$. Apply $\lambda$ to the both sides of Eq \ref{eq:prob26-1} to conclude (it is clear that $\lambda$ is well-defined for the isomorphism classes).
+        \item By Problem 18, for each finitely generated $A$-module $M$, we have exact sequences:
+        \begin{equation} \label{eq:prob26-2}
+            0 \rightarrow M_{i - 1} \rightarrow M_{i} \rightarrow A / \mathfrak{p}_i \rightarrow 0
+        \end{equation}
+        for each $i = 1, \cdots, r$ where $0 = M_0 \subset M_1 \subset \cdots \subset M_r = M$ and $\mathfrak{p}_i$'s are prime ideals of $A$. By Eq \ref{eq:prob26-2}, we have:
+        $$\gamma(M_{i - 1}) - \gamma(M_i) + \gamma(A / \mathfrak{p}_i) = 0$$
+        Adding all $i$ equations together, we have $\gamma(M) = \sum\limits_{i = 1}^{n} \gamma(A / \mathfrak{p}_i)$. Since $M$ is arbitrary, the proof is complete.
+        \item We directly prove the case for $A$ a PID. Then the prime ideals in $A$ are of the form $(p)$ for $p$ irreducible. Consider the exact sequence:
+        $$0 \rightarrow A \xrightarrow{\times p} A \rightarrow A / (p) \rightarrow 0$$
+        Then we have $\gamma(A / (p)) = 0$ unless $p = 0$. So $K(A)$ is the free abelian group generated by $\gamma(A)$, namely $K(A) \cong \mathbb{Z}$
+        \item Note that for categories based on sets, the exact sequences are a property concerning only set map. So a $B$-module exact sequence will be an $A$-module exact sequence. Moreover, since $f: A \rightarrow B$ finite, a finite $B$-module will be a finite $A$ module ({\color{red}But not vice versa as $A$-module is not even necessarily a $B$-module}). So restriction of scalars induces a homomorphism $f_{!}: K(B) \rightarrow K(A)$. Then $(g \circ f)_{!} = f_{!} \circ g_{!}$ is trivial.
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring and let $F_1(A)$ be the set of all isomorphism classes of finitely generated \textit{flat} $A$-modules. Repeating the construction of Problem 26 we obtain a group $K_1(A)$. Let $\gamma_1(M)$ denote the image of $(M)$ in $K_1(A)$.
+    \begin{enumerate}
+        \item Show that tensor product of modules over $A$ induces a commutative ring structure on $K_1(A)$, such that $\gamma_1(M) \cdot \gamma_1(N) = \gamma_1(M \otimes N)$. The identity element of this ring is $\gamma_1(A)$.
+        \item Show that tensor product induces a $K_1(A)$-module structure on the group $K(A)$, such that $\gamma_1(M) \cdot \gamma(N) = \gamma(M \otimes N)$.
+        \item If $A$ is a (Noetherian) local ring, then $K_1(A) \cong \mathbb{Z}$
+        \item Let $f: A \rightarrow B$ be a ring homomorphism, $B$ being Noetherian. Show that extension of scalars gives rise to a ring homomorphism $f^{!}: K_1(A) \rightarrow K_1(B)$ such that $f^{!}(\gamma_1(M)) = \gamma_1(B \otimes_A M)$. If $g: B \rightarrow C$ is another ring homomorphism (with $C$ Noetherian), then $(f \circ g)^{!} = f^{!} \circ g^{!}$
+        \item If $f: A \rightarrow B$ is a finite ring homomorphism then
+        $$f_{!}(f^{!}(x)y) = x f_{!}(y)$$
+        for $x \in K_1(A), y \in K(B)$. In other words, regarding $K(B)$ as a $K_1(A)$-module by restriction of scalars, the homomorphism $f^{!}$ is a $K_1(A)$-module homomorphism.
+    \end{enumerate}
+    Remark. Since $F_1(A)$ is a subset of $F(A)$ we have a group homomorphism $\epsilon: K_1(A) \rightarrow K(A)$, given by $\epsilon(\gamma_1(M)) = \gamma(M)$. If the ring $A$ is finite-dimensional and regular, i.e. if all its local rings $A_{\mathfrak{p}}$ are regular (Chapter 11) it can be shown that $\epsilon$ is an isomorphism.
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item We need to verify:
+        \begin{enumerate}
+            \item For finitely-generated flat modules $M, N$, $M \otimes N$ is finitely-generated and flat: Clear.
+            \item The multiplication is well-defined. Suppose $\gamma_1(M) = \gamma_1(M'), \gamma_1(N) = \gamma_1(N')$, then we have:
+            \begin{equation} \label{eq:prob27-1}
+                (M) - (M') = \sum\limits_{i = 1}^{m} (M_i') - (M_i) + (M_i'')
+            \end{equation}
+            and
+            \begin{equation}\label{eq:prob27-2}
+                (N) - (N') = \sum\limits_{i = 1}^{n} (N_i') - (N_i) + (N_i'')
+            \end{equation}
+            for some exact sequences $0 \rightarrow M_i' \rightarrow M_i \rightarrow M_i'' \rightarrow 0, 0 \rightarrow N_i' \rightarrow N_i \rightarrow N_i'' \rightarrow 0$. Note that:
+            $$(M \otimes N) - (M' \otimes N') = (M \otimes N) - (M \otimes N') + (M \otimes N') - (M' \otimes N')$$
+            Conclude by tensoring Eq \ref{eq:prob27-1} by $N'$ and tensoring Eq \ref{eq:prob27-2} by $M$ and apply flatness.
+        \end{enumerate}
+        \item Similar as part 1.
+        \item By Problem 15, flat $A$-modules are free. Moreover, consider the exact sequence:
+        $$0 \rightarrow A^n \rightarrow A^{n + 1} \rightarrow A \rightarrow 0$$
+        so we have $\gamma_1(A^{n + 1}) - \gamma_1(A^n) = \gamma_1(A)$ and by induction $\gamma_1(A^{n}) = n \gamma_1(A)$. Also, $A^n \otimes A^m = A^{n + m}$. It follows that $K_1(A) \cong \mathbb{Z}$ by the isomorphism $(A^n) \mapsto n$.
+        \item We need to verify:
+        \begin{enumerate}
+            \item $B \otimes_A M$ is a flat finitely generated $A$-module. \TODO
+            \item $f^{!}$ is compatible with multiplication and addition: Clear by definition.
+        \end{enumerate}
+        The rest is trivial.
+        \item \TODO
+    \end{enumerate}
 \end{proof}
 
 \end{document}
