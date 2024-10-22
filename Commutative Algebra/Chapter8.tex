@@ -1,0 +1,100 @@
+\documentclass{solution}
+
+\begin{document}
+
+\begin{problem}
+    Let $\mathfrak{q}_1 \cap \cdots \cap \mathfrak{q}_n = 0$ be a minimal primary decomposition of the zero ideal in a Noetherian ring, and let $\mathfrak{q}_i$ be $\mathfrak{p}_i$-primary. Let $\mathfrak{p}_i^{(r)}$ be the $r$th \textit{symbolic power} of $\mathfrak{p}_i$ (Chapter 4, Problem 13). Show that for each $i = 1, \cdots, n$ there exists an integer $r_i$ such that $\mathfrak{p}_i^{(r_i)} \subset \mathfrak{q}_i$.
+
+    Suppose $\mathfrak{q}_i$ is an isolated primary component. Then $A_{\mathfrak{p}_i}$ is an Artin local ring, hence if $\mathfrak{m}_i$ is its maximal ideal we have $\mathfrak{m}_i^r = 0$ for all sufficiently large $r$, hence $\mathfrak{q}_i = \mathfrak{p}_i^{(r)}$ for all large $r$.
+
+    If $\mathfrak{q}_i$ is an embedded primary component, then $A_{\mathfrak{p}_i}$ is \textit{not} Artinian, hence the powers $\mathfrak{m}_i^r$ are all distinct, and so the $\mathfrak{p}_i^{(r)}$ are all distinct. Hence in the given primary decomposition we can replace $\mathfrak{q}_i$ by any of the infinite set of $\mathfrak{p}_i$-primary ideals $\mathfrak{p}_i^{(r)}$ where $r \ge r_i$, and so there are infinitely many minimal primary decomposition of $0$ which differ only in the $\mathfrak{p}_i$-component.
+\end{problem}
+
+\begin{proof}
+    Find $r_i$: For each $i$, by Proposition 7.14, there is some $r_i$ such that $\mathfrak{p}_i^{r_i} \subset \mathfrak{q}_i$. Then by Proposition 4.8, apply $S_{\mathfrak{p}}$ on both sides, and we have $\mathfrak{p}^{(r_i)} \subset \mathfrak{q}_i$
+
+    Why $A_{\mathfrak{p}_i}$ is Artinian: If $\mathfrak{q}_i$ is isolated, then $\mathfrak{p}_i$ is a minimal prime ideal associated with $0$, and by Proposition 4.6 a minimal prime ideal. It follows that $A_{\mathfrak{p}_i}$ has only one prime ideal. 
+
+    Why $\mathfrak{q}_i = \mathfrak{p}_i^{(r_i)}$: Note that $\mathfrak{m}_i = \mathfrak{p}_i A_{\mathfrak{p}_i} = \mathfrak{p}_i^e$, then $\mathfrak{m}_i^r = (\mathfrak{p}_i^e)r = (\mathfrak{p}_i^r)^e = 0 \Rightarrow \mathfrak{p}_i^{(r)} = S_{\mathfrak{p}_i}(\mathfrak{p}_i^r) = S_{\mathfrak{p}_i}(0) = \mathfrak{q}_i$ (the last equality is by $\mathfrak{q}_i$ isolated and Proposition 4.9) for all large $i$.
+
+    Why we can replace $\mathfrak{q}_i$ by $\mathfrak{p}_i^{(r)}$ while still maintaining the decomposition: By $\mathfrak{p}_i^{(r)} \subset \mathfrak{q}_i$ if $r \ge r_i$ and note that we are decomposing $0$.
+
+    The other parts should be clear. It should be noted that $\mathfrak{p}_i^{(r)}$ are $\mathfrak{p}_i$-primary by Problem 13 of Chapter 4.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring. Prove that the followings are equivalent:
+    \begin{enumerate}
+        \item $A$ is Artinian;
+        \item $\mathrm{Spec}(A)$ is discrete and finite;
+        \item $\mathrm{Spec}(A)$ is discrete.
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    (1) $\Rightarrow$ (2): Finite by Proposition 8.1 and 8.3. Discrete by finite and the fact that singletons are closed (as they are all maximal ideals)
+
+    (2) $\Rightarrow$ (3): Clear.
+
+    (3) $\Rightarrow$ (1): Discrete $\Rightarrow$ Every prime ideal is maximal (every singleton is closed) $\Rightarrow$ $\dim(A) = 0$ $\Rightarrow$ $A$ Artinian by Theorem 8.5
+\end{proof}
+
+\begin{problem}
+    Let $k$ be a field and $A$ a finitely generated $k$-algebra. Prove that the followings are equivalent:
+    \begin{enumerate}
+        \item $A$ is Artinian;
+        \item $A$ is a finite $k$-algebra.
+    \end{enumerate}
+\end{problem}
+
+{\color{red} This is yet another generalization of Zariski's lemma}
+
+\begin{proof}
+    (1) $\Rightarrow$ (2): By Theorem 8.7, $A = \prod\limits_{i = 1}^{n} A_i$ where $A_i$ is a local Artin ring. Then $k \rightarrow A \rightarrow A_i$ induces the finitely generated $k$-algebra structure on $A_i$. Replace $A$ by $A_i$, we may assume $A$ is local. Let $\mathfrak{m}$ be the maximal ideal of $A$ and $k' = A / \mathfrak{m}$ the residue field. Consider the map $k \rightarrow A \rightarrow k'$, then $k'$ will be a finitely generated $k$-algebra and hence by Zariski's lemma finite over $k$. To show that $A$ is finite over $k$, it suffices to find a finite composite series of $A$ as $k$-vector space by Proposition 6.10. By Proposition 8.6, $\mathfrak{m}^r = 0$ for some $r$. Then $A \supset \mathfrak{m} \supset \mathfrak{m}^2 \supset \cdots \supset \mathfrak{m}^r = 0$ will be a $k$-subspace chain. Now consider $\mathfrak{m}^i / \mathfrak{m}^{i + 1}$, this is a finite dimensional $k'$-vector space as $\mathfrak{m}^i$ is finitely generated (then apply Proposition 2.8). Since $k'$ is finite over $k$, $\mathfrak{m}^{i} / \mathfrak{m}^{i + 1}$ is also a finitely dimensional $k$-vector space. So is $A / \mathfrak{m} = k'$. So we can insert at most finitely many $k$-subspaces into the chain and thus $A$ is of finite length as a $k$-vector space, which completes the proof.
+
+    (2) $\Rightarrow$ (1): Note that the ideals of $A$ are subspaces of $A$ as $k$-vector space. And since $A$ is finite-dimensional, d.c.c. on ideals clearly holds.
+\end{proof}
+
+\begin{problem}
+    Let $f: A \rightarrow B$ be a ring homomorphism of finite type. Consider the following statements:
+    \begin{enumerate}
+        \item $f$ is finite;
+        \item the fibres of $\mathrm{Spec}(f)$ are discrete subspaces of $\mathrm{Spec}(B)$;
+        \item for each prime ideal $\mathfrak{p}$ of $A$, the ring $B \otimes_A k(\mathfrak{p})$ is a finite $k(\mathfrak{p})$-algebra;
+        \item the fibres of $\mathrm{Spec}(f)$ are finite.
+    \end{enumerate}
+    Prove that (1) $\Rightarrow$ (2) $\Leftrightarrow$ (3) $\Rightarrow$ (4)
+
+    If $f$ is integral and the fibres of $\mathrm{Spec}(f)$ are finite, is $f$ necessarily finite?
+\end{problem}
+
+\begin{proof}
+    (1) $\Rightarrow$ (2): Take any $\mathfrak{p} \in \mathrm{Spec}(A)$, finite $f: A \rightarrow B$ of induces finite $\tilde{f}: k(\mathfrak{p}) \rightarrow B_{\mathfrak{p}} / \mathfrak{p} B_{\mathfrak{p}}$. By Problem 3 $B_{\mathfrak{p}} / \mathfrak{p} B_{\mathfrak{p}}$ is Artinian. And by Problem 2, $\mathrm{Spec}(f) ^{-1}(\mathfrak{p}) = \mathrm{Spec}(B_{\mathfrak{p}} / \mathfrak{p} B_{\mathfrak{p}})$ is discrete.
+
+    (2) $\Leftrightarrow$ (3): Note that the fibres of $f$ are all of the form $\mathrm{Spec}(B \otimes_A k(\mathfrak{p}))$. We already know that $f$ induces $\tilde{f}: k(\mathfrak{p}) \rightarrow B_{\mathfrak{p}} / \mathfrak{p} B_{\mathfrak{p}} \cong k(\mathfrak{p}) \otimes_A B$, of finite type. By Problem 2 and 3, we have:
+    $$\tilde{f} \text{ finite} \Leftrightarrow  \mathrm{Spec}(f)^{-1}(\mathfrak{p}) = B_{\mathfrak{p}} / \mathfrak{p} B_{\mathfrak{p}} \text{ Artinian} \Leftrightarrow \mathrm{Spec}(f)^{-1}(\mathfrak{p}) \text{ discrete}$$
+    Let $\mathfrak{p}$ runs though $\mathrm{Spec}(A)$ to conclude.
+
+    (3) $\Rightarrow$ (4): The fibres of $\mathrm{Spec}(f)$ are of the form $B \otimes_A k(\mathfrak{p})$. By our hypothesis and Problem 3, the fibres are Artinian and hence by Problem 2 finite.
+
+    {\color{red} The last part looks strange to me. We already have integral + of finite type = finite. We don't need conditions about fibres of $\mathrm{Spec}(f)$.}
+\end{proof}
+
+\begin{problem}
+    In Chapter 5, Problem 16, show that $X$ is a finite covering of $L$ (i.e. the number of points of $X$ lying over a given point of $L$ is finite and bounded).
+\end{problem}
+
+\begin{proof}
+    The linear map $\varphi$ in Problem 16 of Chapter 5 induces an integral (and thus finite since it is clearly of finite type) homomorphism $f: k[L] \rightarrow k[X]$ where $k[L], k[X]$ denotes the coordinate rings of $L, X$ respectively. Note that the maximal ideals in the coordinate rings of an algebraic variety corresponds to points. So the fibres of some maximal ideal corresponds to the fibres of $\varphi$, which are finite by Problem 4.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring and $\mathfrak{q}$ a $\mathfrak{p}$-primary ideal in $A$. Consider chains of primary ideals from $\mathfrak{q}$ to $\mathfrak{p}$. Show that all such chains are of finite bounded length, and that all maximal chains have the same length.
+\end{problem}
+
+\begin{proof}
+    Replace $A$ by $A_\mathfrak{p} / \mathfrak{q} A_{\mathfrak{p}}$. It is a local Noetherian ring with nilpotent maximal ideal (nilpotent by Proposition 7.14). By Proposition 8.6, it is an Artinian local ring. Let $\mathfrak{m}$ be the maximal ideal and suppose $\mathfrak{m}^r = 0$, then consider the chain $(1) \supset \mathfrak{m} \supset \mathfrak{m}^2 \supset \cdots \supset \mathfrak{m}^r = 0$, we can insert at most finitely many ideals into it as we can insert at most finitely many $k$-subspaces into it by the same argument in Problem 3. So $A$ is now of finite length. Conclude by Proposition 6.7.
+\end{proof}
+
+
+\end{document}
