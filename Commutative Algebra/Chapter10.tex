@@ -1,0 +1,261 @@
+\documentclass{solution}
+
+\begin{document}
+
+\begin{problem}
+    Let $\alpha_n: \mathbb{Z} / p \mathbb{Z} \rightarrow \mathbb{Z} / p^n \mathbb{Z}$ be the injection of abelian groups given by $\alpha_n(1) = p^{n - 1}$, and let $\alpha: A \rightarrow B$ be the direct sum of all the $\alpha_n$ (where $A$ is a countable direct sum of copies of $\mathbb{Z} / p \mathbb{Z}$, and $B$ is the direct sum of the $\mathbb{Z} / p^n \mathbb{Z}$). Show that the $p$-adic completion of $A$ is just $A$ but that the completion of $A$ for the topology induced from the $p$-adic topology on $B$ is the direct \textit{product} of the $\mathbb{Z} / p \mathbb{Z}$. Deduce that $p$-adic completion is \textit{not} a right exact functor on the category of all $\mathbb{Z}$-modules.
+\end{problem}
+
+\begin{proof}
+    Since $p (\mathbb{Z} / p \mathbb{Z}) = 0$, by definition the $p$-adic completion of $\mathbb{Z} / p \mathbb{Z}$ is $\mathbb{Z} / p \mathbb{Z}$ itself. Hence the $p$-adic completion of $A$ is $A$ itself.
+
+    Now for $B = \bigoplus_{n = 1}^{\infty} \mathbb{Z} / p^n \mathbb{Z}$, we have:
+    $$p^kB = \bigoplus\limits_{n = 1}^{k} 0 \oplus \bigoplus\limits_{n = k + 1}^{\infty} p^k(\mathbb{Z} / p^n \mathbb{Z})$$
+    Note that $\alpha_n(\mathbb{Z} / p \mathbb{Z}) = p^{n - 1}(\mathbb{Z} / p^n \mathbb{Z}) \subset p^k(\mathbb{Z} / p^n \mathbb{Z})$ for arbitrary $k \lt n$, we must have:
+    $$\alpha_n ^{-1}(p^k(\mathbb{Z} / p^n \mathbb{Z})) = \mathbb{Z} / p \mathbb{Z}$$
+    So the topology on $A$ induced by the $p$-adic topology on $B$ is defined by the set of subgroups $A_0 \supset A_1 \supset \cdots$ where
+    $$A_k = \bigoplus\limits_{n = 1}^{k} 0 \oplus \bigoplus\limits_{n = k + 1}^{\infty} \mathbb{Z} / p \mathbb{Z}$$
+    and hence $\hat{A}$ is the set of coherent sequence $(a_i)$ where $a_i \in A / A_i = \bigoplus\limits_{n = 1}^{i} \mathbb{Z} / p \mathbb{Z}$ and $\theta_{i + 1}: A / A_{i + 1} \rightarrow A / A_i$ is the projection. We can define $\varphi: \hat{A} \rightarrow \prod\limits_{n = 1}^{\infty} \mathbb{Z} / p \mathbb{Z}$ by $(a_i)_{i = 1}^{\infty} \mapsto (a_{i, i})_{i = 1}^{\infty}$ where $a_{i, i}$ is the $i$-th component of $a_i$. It is clear that this is a well-defined isomorphism and therefore $\hat{A} = \prod\limits_{n = 1}^{\infty} \mathbb{Z} / p \mathbb{Z}$.
+
+    Now consider the exact sequence:
+    $$0 \rightarrow A \xrightarrow{\alpha} B \xrightarrow{p} C \rightarrow 0$$
+    where $C = \bigoplus\limits_{n = 1}^{\infty} \mathbb{Z} / p^{n - 1} \mathbb{Z} \cong B / A$ and $p$ is defined by $p_n: \mathbb{Z} / p^n \mathbb{Z} \rightarrow \mathbb{Z} / p^{n - 1} \mathbb{Z}: \overline{x} \mapsto \overline{x}$. Apply Corollary 10.3 to the $p$-adic topology on $B$, the following sequence is exact:
+    $$0 \rightarrow \hat{A} \rightarrow \hat{B} \rightarrow \hat{C} \rightarrow 0$$
+    where $\hat{A}$ is the completion of $A$ with respect to the topology induced by $B$, i.e. defined by $\alpha ^{-1} (B_n)$. And $\hat{C}$ is the completion of $C$ with respect to the topology induced by $B$, i.e. defined by $p(B_n)$, which is equivalent to the $p$-adic topology on $C$. So the above exact sequence is equivalent to:
+    $$0 \rightarrow \hat{A} \rightarrow B_{(p)} \rightarrow C_{(p)} \rightarrow 0$$
+    On the other hand, note that the homomorphism $\alpha_{(p)}: A_{(p)} \rightarrow B_{(p)}$ induced by the homomorphism $\alpha: A \rightarrow B$ is still injective. But $\hat{A} \not \cong A_{(p)}$, as we just showed. So their images in $B_{(p)}$ cannot be the same. As a result, the below sequence:
+    $$0 \rightarrow A_{(p)} \rightarrow B_{(p)} \rightarrow C_{(p)} \rightarrow 0$$
+    is not exact (in the middle), which proves that $p$-adic completion is not right-exact (nor is it left-exact).
+\end{proof}
+
+{\color{red} The key difference with Corollary 10.3: The $p$-adic topology on the subgroup is not necessarily the same as the topology induced by the $p$-adic topology in the original group.}
+
+\begin{problem}
+    In Problem 1, let $A_n = \alpha ^{-1}(p^n B)$, and consider the exact sequence
+    $$0 \rightarrow A_n \rightarrow A \rightarrow A / A_n \rightarrow 0$$
+    Show that $\varprojlim$ is not right exact, and compute $\varprojlim^1 A_n$
+\end{problem}
+
+\begin{proof}
+    Note that $A_n = \bigoplus\limits_{i = 1}^{n} 0 \oplus \bigoplus\limits_{i = n + 1}^{\infty} \mathbb{Z} / p \mathbb{Z}$, define $\theta_{n + 1}: A_{n + 1} \rightarrow A_n$ as the natural injection. Since $A_{n + 1} \subset A_n$, we can define $\gamma_{n + 1}: A / A_{n + 1} \rightarrow A / A_n$ as the natural projection. Then the diagram below
+    % https://q.uiver.app/#q=WzAsMTAsWzAsMCwiMCJdLFsxLDAsIkFfe24gKyAxfSJdLFsyLDAsIkEiXSxbMywwLCJBIC8gQV97biArIDF9Il0sWzQsMCwiMCJdLFswLDEsIjAiXSxbMSwxLCJBX24iXSxbMiwxLCJBIl0sWzMsMSwiQSAvIEFfbiJdLFs0LDEsIjAiXSxbMCwxXSxbMSwyXSxbMiwzXSxbMyw0XSxbNSw2XSxbNiw3XSxbNyw4XSxbOCw5XSxbMSw2LCJcXHRoZXRhX3tuICsgMX0iXSxbMiw3LCIxX0EiXSxbMyw4LCJcXGdhbW1hX3tuICsgMX0iXV0=
+    \[\begin{tikzcd}
+        0 & {A_{n + 1}} & A & {A / A_{n + 1}} & 0 \\
+        0 & {A_n} & A & {A / A_n} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow["{\theta_{n + 1}}", from=1-2, to=2-2]
+        \arrow[from=1-3, to=1-4]
+        \arrow["{1_A}", from=1-3, to=2-3]
+        \arrow[from=1-4, to=1-5]
+        \arrow["{\gamma_{n + 1}}", from=1-4, to=2-4]
+        \arrow[from=2-1, to=2-2]
+        \arrow[from=2-2, to=2-3]
+        \arrow[from=2-3, to=2-4]
+        \arrow[from=2-4, to=2-5]
+    \end{tikzcd}\]
+    commutes, and thus we have the exact sequence of inverse system:
+    $$0 \rightarrow \left\lbrace A_n, \theta_n \right\rbrace \rightarrow \left\lbrace A, \mathds{1}_A \right\rbrace \rightarrow \left\lbrace A / A_n, \gamma_n \right\rbrace \rightarrow 0$$
+    which induces a sequence:
+    $$0 \rightarrow \varprojlim A_n \xrightarrow{i} \varprojlim A \xrightarrow{p} \varprojlim (A / A_n) \rightarrow 0$$
+    By verifying the definition, we have:
+    \begin{enumerate}
+        \item $\varprojlim A = A$, $\varprojlim A_n = A$ and $\varprojlim A / A_n \cong \prod\limits_{i = 1}^{\infty} \mathbb{Z} / p \mathbb{Z}$(by Problem 1)
+        \item $i$ is the identity, $p$ is defined by $(a_i) \rightarrow (a_i)$, namely the inclusion $\bigoplus\limits_{i = 1}^{\infty} \mathbb{Z} / p \mathbb{Z} \hookrightarrow \prod\limits_{i = 1}^{\infty} \mathbb{Z} / p \mathbb{Z}$
+    \end{enumerate}
+    So the sequence is clearly not right exact as $A \rightarrow \prod\limits_{i = 1}^{\infty} \mathbb{Z} / p \mathbb{Z}$ cannot be surjective.
+
+    Let $B = \prod\limits_{i = 1}^{n} A_n$, by definition, $\varprojlim^1 A_n = \mathrm{coker}(d^{B})$ where $d^{B}: B \rightarrow B$ is defined by $d^B((a_{0}), (a_1), \cdots) = ((a_0) - \theta_1((a_1)), (a_1) - \theta_2((a_2)), \cdots)$ where $(a_i) \in A_n$. But it seems impossible to calculate $\mathrm{coker}(d^B)$ by brute force.
+
+    By the snake lemma, we have exact sequence:
+    $$0 \rightarrow \varprojlim A_n \rightarrow \varprojlim A \rightarrow \varprojlim A / A_n \rightarrow \varprojlim\nolimits^1 A_n \rightarrow \varprojlim\nolimits^1 A$$
+    But it is clear that $\varprojlim\nolimits^1 A = 0$ as $\left\lbrace A, \mathds{1}_A \right\rbrace$ is a surjective system. Then by the first isomorphism theorem, we have:
+    $$\varprojlim\nolimits^1 A_n = \prod\limits_{i = 1}^{n} \mathbb{Z} / p \mathbb{Z} / \bigoplus\limits_{i = 1}^{n} \mathbb{Z} / p \mathbb{Z}$$
+\end{proof}
+
+{\color{red} I wonder if it is possible to calculate $\mathrm{coker}(d^B)$ directly? }
+
+\begin{problem}
+    Let $A$ be a Noetherian ring, $I$ an ideal and $M$ a finitely generated $A$-module. Using Krull's Theorem and Problem 14 of Chapter 3, prove that:
+    $$\bigcap\limits_{n = 1}^{\infty} I^n M = \bigcap\limits_{\mathfrak{m} \supset I} \mathrm{ker}(M \rightarrow M_{\mathfrak{m}})$$
+    where $\mathfrak{m}$ runs over all maximal ideals containing $I$.
+
+    Deduce that:
+    $$\hat{M} = 0 \Leftrightarrow \mathrm{Supp}(M) \cap V(I) = \emptyset$$
+
+    The reader should think of $\hat{M}$ as the 'Taylor expansion' of $M$ transversal to the subscheme $V(I)$: The above result then shows that $M$ is determined in a neighborhood of $V(I)$ by its Taylor expansion.
+\end{problem}
+
+\begin{proof}
+    By Krull's Theorem, $m \in \bigcap\limits_{n = 1}^{\infty} I^n M \Leftrightarrow$ $rm = 0$ for some $r \in 1 + I$. Then for any maximal ideal $\mathfrak{m} \supset I$, we must have $r \notin \mathfrak{m}$. It follows that $m = 0$ in $M_{\mathfrak{m}}$. This proves "$\subset$". For the other direction, consider the $A$-module $(m)$. By Problem 14 of Chapter 3, $(m)_{\mathfrak{m}} = 0$ for arbitrary maximal ideal $\mathfrak{m} \supset I$ implies that $(m) = I(m)$. Then there is some $a \in I$ such that $m = am \Rightarrow (1 - a)m = 0$. Since $1 - a \in 1 + I$, this completes the proof.
+
+    Note that the above result also holds if we replace maximal ideals by prime ideals, namely:
+    $$\bigcap\limits_{n = 1}^{\infty} I^n M = \bigcap\limits_{\mathfrak{p} \supset I} \mathrm{ker}(M \rightarrow M_{\mathfrak{p}})$$
+    The proof for "$\subset$" is the same as above. And the proof for "$\supset$" simply follows from the fact that maximal ideals are prime.
+
+    For the second part, note that $\hat{M} = 0 \Leftrightarrow \mathrm{ker}(M \rightarrow \hat{M}) = M$: "$\Leftarrow$" is clear, for the other direction, take any $m_0 \in M$, the constant sequence $(m_i = m_0)$ is equivalent to $0$ by our hypothesis, then every neighborhood of $0$ contains $m_0$. It follows that the topology on $M$ is trivial and hence $\hat{M} = 0$.
+
+    Then by the first part, we have $\hat{M} = 0 \Leftrightarrow \mathrm{ker}(M \rightarrow \hat{M}) = M \Leftrightarrow \mathrm{ker}(M \rightarrow M_{\mathfrak{p}}) = M, \forall \mathfrak{p} \supset I \Leftrightarrow M_\mathfrak{p} = 0, \forall \mathfrak{p} \supset I \Leftrightarrow \mathrm{Supp} (M) \cap V(I) = \emptyset$
+\end{proof}
+
+\begin{proposition}
+    Let $M$ be an $A$-module and $I$ an ideal of $A$. Denote $\hat{M}$ the $I$-adic completion of $M$. If $\hat{M} = 0$, then $IM = M$
+\end{proposition}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring, $I$ an ideal in $A$, and $\hat{A}$ the $I$-adic completion. For any $x \in A$, let $\hat{x}$ be the image of $x$ in $\hat{A}$. Show that:
+    $$x \text{ not a zero-divisor in $A$} \Rightarrow \hat{x} \text { not a zero-divisor in } \hat{A}$$
+    Does this imply that:
+    $$A \text{ is an integral domain } \Rightarrow \hat{A} \text{ is an integral domain}$$
+\end{problem}
+
+\begin{proof}
+    Note that $x$ is not a zero-divisor in $A$ if and only if $A \xrightarrow{x} A$ is injective. Then consider the exact sequence $0 \rightarrow A \xrightarrow{x} A$. By Proposition 10.12, it induces the exact sequence $0 \rightarrow \hat{A} \xrightarrow{\hat{x}} \hat{A}$. So $\hat{x}$ is not a zero-divisor.
+
+    The second part is not necessarily true, for $\hat{A}$ contains more element than the constant sequence $\hat{x}$'s. \TODO
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring and let $I, J$ be ideals in $A$. If $M$ is any $A$-module, let $M^I, M^J$ denote its $I$-adic and $J$-adic completions respectively. If $M$ is finitely generated, prove that $(M^I)^J \cong M^{I + J}$
+\end{problem}
+
+\begin{proof}
+    Follow the hint. By Proposition 10.13, we have:
+    $$(M^I)^J \cong A^J \otimes_A (A^I \otimes_A M) = (A^J \otimes_A A^I) \otimes_A M = (A^I)^J \otimes_A M$$
+    So ISTS $(A^I)^J \cong A^{I + J}$, namely we may assume $M = A$.
+
+    \TODO
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring and $I$ an ideal in $A$. Prove that $I$ is contained in the Jacobson radical of $A$ if and only if every maximal ideal of $A$ is closed for the $I$-topology. (A Noetherian topological ring in which the topology is defined by an ideal contained in the Jacobson radical is called a \textit{Zariski ring}. Examples are local rings and (by (10.15)(iv)) $I$-adic completions.)
+\end{problem}
+
+\begin{proof}
+    Note that $I$ is contained in the Jacobson radical if and only if every maximal ideal contains $I$. Suppose $I \subset \mathfrak{R}_A$, then for arbitrary maximal ideal $\mathfrak{m}$ and arbitrary $x \notin \mathfrak{m}$, we have $x + I \cap \mathfrak{m} = \emptyset$, as otherwise $x + y \in \mathfrak{m}$ for some $y \in I \subset \mathfrak{m} \Rightarrow x \in \mathfrak{m}$, a contradiction. This shows that $\mathfrak{m}$ is closed in the $I$-topology. For the other direction, suppose $I$ is not contained in the Jacobson radical, then there is some maximal ideal $\mathfrak{m}$ such that $I \not \subset \mathfrak{m}$. Then there is some $x \in I \setminus \mathfrak{m}$ and thus $x^n \notin \mathfrak{m}$ for arbitrary $n$ since $\mathfrak{m}$ is prime. It follows that $I^n \not \subset \mathfrak{m}$. By maximality, this implies there is some $x_n \in I_n$ such that $x_n \in 1 + \mathfrak{m}$, namely $I^n \cap 1 + \mathfrak{m} \ne \emptyset \Rightarrow 1 + I^n \cap \mathfrak{m} \ne 0$. But $1 \notin \mathfrak{m}$ and every neighborhood of $1$ must contain $1 + I^n$ for some $n$. This shows that the complement of $\mathfrak{m}$ is not open and hence $\mathfrak{m}$ not closed in the $I$-adic topology.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a Noetherian ring, $I$ an ideal of $A$, and $\hat{A}$ the $I$-adic completion. Prove that $\hat{A}$ is faithfully flat over $A$ (Chapter 3, Problem 16) if and only if $A$ is a Zariski ring
+\end{problem}
+
+\begin{proof}
+    By Proposition 10.14, we already know that $\hat{A}$ is flat. By Lem \ref{lem:faithfully-flat-module-test}, $\hat{A}$ faithfully flat if and only if $M \rightarrow \hat{M}$ injective for all finitely generated $A$-module $M$. By Proposition 10.19, this proves the "only if" part.
+
+    For the "if" part, note that by taking $M = k = A / \mathfrak{m}$ (which is Noetherian and thus finitely generated) in Lem \ref{lem:faithfully-flat-module-test}, we have $A$-module homomorphism $f: k \rightarrow \hat{k}$ injective. Note that $I^n (A / \mathfrak{m}) = (I^n + \mathfrak{m}) / \mathfrak{m}$, by injectiveness, we have $\mathrm{ker}(f) = \bigcap\limits_{n = 1}^{\infty} (I^n + \mathfrak{m}) / \mathfrak{m} = 0$, which implies $\bigcap\limits_{n = 1}^{\infty} I^n + \mathfrak{m} \subset \mathfrak{m}$. Now for any $x \notin \mathfrak{m}$, we have $x \notin \bigcap\limits_{n = 1}^{\infty} I^n + \mathfrak{m}$, then there is some $n$ such that $x \notin I^n + \mathfrak{m} \Leftrightarrow x + I^n \cap \mathfrak{m} = \emptyset$. Since $x$ is arbitrary, it follows that the complement of $\mathfrak{m}$ is open and thus $\mathfrak{m}$ is closed in the $I$-adic topology of $A$. By Problem 6, $A$ is a Zariski ring.
+\end{proof}
+
+\begin{lemma}\label{lem:faithfully-flat-module-test}
+    $f: A \rightarrow B$ is flat, then $B$ is faithfully flat if and only if $M \rightarrow M_B = B \otimes_A M: m \mapsto 1 \otimes_A m$ is injective for arbitrary finitely generate $A$-module $M$.
+\end{lemma}
+
+\begin{proof}
+    By Problem 16 of Chapter 3, $f$ is faithfully flat if and only if for arbitrary $A$-module $M$, $M \rightarrow M_B$ is injective. Then the "only if" part of the lemma is trivial. For the "if" part, suppose $f$ is not faithfully flat, then there is some $A$-module $M$ such that $M \rightarrow M_B$ is not injective, namely there is $m \in M, m \ne 0$ such that $1 \otimes_A m = 0$ in $M_B$. By Corollary 2.13, there is some finitely generated submodule $M' \subset M$ such that $1 \otimes_A m = 0$ in $B \otimes_A M'$. It follows that $M' \rightarrow B \otimes_A M'$ is not injective, a contradiction.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be the local ring of the origin in $\mathbb{C}^n$(i.e. the ring of all rational functions $f / g \in \mathbb{C}(z_1, \cdots, z_n)$ with $g(0) \ne 0$), let $B$ be the ring of power series in $z_1, \cdots, z_n$ which converge in some neighborhood of the origin, and let $C$ be the ring of formal power series in $z_1, \cdots, z_n$, so that $A \subset B \subset C$. Show that $B$ is a local ring and that its completion for the maximal ideal topology is $C$. Assuming that $B$ is Noetherian, prove that $B$ is $A$-flat.
+\end{problem}
+
+\begin{proof}
+    Before the proof we should first note that $g = c_0 + \text{ higher terms}$ where $c_0 \ne 0$, so we can always expand $1 / g$ near $0$ and hence $A \subset B$.
+
+    $B$ is a local ring: The maximal ideal is $\mathfrak{n} = \left\lbrace f \in B: f(0) = 0 \right\rbrace$. It is clear that $\mathfrak{n}$ is an ideal. ISTS any element $f = c_0 + \text{ higher terms}$ not in $\mathfrak{m}$ is invertible. We can expand $1 / f$ directly for that purpose. Details omitted (see any complex analysis book for details)
+
+    $C$ is the completion of $B$ for the maximal ideal topology: By the previous part, $B$ is local with maximal ideal $\mathfrak{m} = (z_1, \cdots, z_n)$. Then $B / \mathfrak{m}^k \cong \mathbb{C}[z_1, \cdots, z_n]_{\lt k}$ and therefore by definition $\hat{B} = C$, the set of formal power series.
+    
+    Moreover, regard $A$ as a subring of $B$, then the maximal ideal of $A$ is $\mathfrak{m} = A \cap \mathfrak{n}$. By similar argument, $\hat{A} = C$ and the completion factors through $B$, namely we have $A \xrightarrow{f} B \xrightarrow{g} C$ where $g \circ f$ is the completion $A \rightarrow \hat{A}$
+
+    $B$ is $A$-flat: Since $B$ is local, $B$ with the maximal ideal topology is a Zariski ring. Then by Problem 7, the completion $C$ is faithfully flat. Note also that $A$ is a Zariski ring, so $A \rightarrow \hat{A} = C$ is also flat. By Problem 17 of Chapter 3 and the "moreover" part above, $A \rightarrow B$ is flat.
+\end{proof}
+
+\begin{problem}
+    Let $A$ be a local ring, $\mathfrak{m}$ its maximal ideal. Assume that $A$ is $\mathfrak{m}$-adically complete. For any polynomial $f \in A[X]$, let $\overline{f}(X) \in (A / \mathfrak{m})[X]$ denote its reduction mod $\mathfrak{m}$. Prove \textit{Hensel's lemma}: If $f(X)$ is monic of degree $n$ and if there exist coprime monic polynomials $\overline{g}(X), \overline{h}(X) \in (A / \mathfrak{m})[X]$ of degree $r, n - r$ with $\overline{f}(X) = \overline{g}(X) \overline{h}(X)$, then we can lift $\overline{g}(X), \overline{h}(X)$ back to monic polynomials $g(X), h(X) \in A[X]$ such that $f(X) = g(X) h(X)$.
+\end{problem}
+
+\begin{proof}
+    Follow the hint. First, we aim to find a sequence of polynomials $\left\lbrace g_k, h_k \right\rbrace_{k = 1}^{\infty}$ such that:
+    \begin{enumerate}
+        \item $g_k, h_k$ are monic polynomial of degree $r, n - r$ respectively.
+        \item $g_{k + 1} \equiv g_{k} \pmod{\mathfrak{m}^k}, h_{k + 1} \equiv h_{k} \pmod{\mathfrak{m}^k}$.(By equality mod $I$, we mean their difference is in $I[X]$)
+        \item $a g_k + bh_k \equiv 1 \pmod {\mathfrak{m}}$ for some fixed $a, b \in A[X]$ such that $\deg(a) \le n - r, \deg(b) \le r$.
+        \item $f - g_k h_k \equiv 0 \pmod {\mathfrak{m}^k}$
+    \end{enumerate}
+    And we find them inductively. For the base case $k = 1$, simply take $g_1, h_1$ from the residue class of $\overline{g}, \overline{h}$ such that they are monic and of degree $r, n - r$ respectively (Always possible, take the example of $g_1$, we can set the coefficients of terms of degree higher than $r$ to $0$, and the coefficient for $X^r$ to $1$, such polynomial is in the residue class of $\overline{g}$). Then by our hypothesis, we have $f - g_1h_1 \in \mathfrak{m}[X]$. Also, by Bezout's Identity, we have $ag_1 + bh_1 \equiv 1 \pmod {\mathfrak{m}}$ for $a, b \in A[X]$ with $\deg(a) \le n - r, \deg(b) \le r$.
+
+    Now for the induction step. We aim to find $\delta^k_g, \delta^k_h$ such that $g_{k + 1} = \delta^k_g + g_k, h_{k + 1} = \delta^k_h + h_k$ satisfy our inductive hypothesis. Then it suffices to find $\delta_g^k, \delta_h^k$ such that:
+    \begin{enumerate}
+        \item $\deg(\delta_g^k) \lt r, \deg(\delta_h^k) \lt n - r$
+        \item $\delta_g^k, \delta_h^k \in \mathfrak{m}^k[X]$
+        \item $a \delta_g^k + b \delta_g^k \in \mathfrak{m}[X]$
+        \item $f - (g_k + \delta^k_g)(h_k + \delta^k_h) \in \mathfrak{m}^{k + 1}[X]$
+    \end{enumerate}
+    Denote $\delta_f^k = f - g_k h_k$. By our hypothesis, $\delta_f^k \in \mathfrak{m}^{k}[X]$. Moreover, since $f, g_k h_k$ are monic with the same leading coefficients, we have $\deg(\delta_f^k) \lt n$. Expand condition 3, we need to find $\delta_g^k, \delta_h^k$ such that:
+    \begin{equation} \label{eq:prob-9}
+        \delta_f^k - \delta_g^k h_k - \delta_h^k g_k - \delta_g^kh^k \in \mathfrak{m}^{k + 1}[X]
+    \end{equation}
+    However, since $ag_k + bh_k \equiv 1 \pmod {\mathfrak{m}}$ by our hypothesis, and $\delta_f^k \in \mathfrak{m}^{k}[X]$, we have:
+    $$\delta_f^k \equiv a g_k\delta_f^k + bh_k \delta_f^k \pmod {\mathfrak{m}^{k + 1}}$$
+    Plug it into Eq \ref{eq:prob-9}, it suffices to find $\delta_g^k, \delta_h^k$ such that:
+    $$(a \delta_f^k - \delta_h^k) g_k + (b \delta_f^k - \delta_g^k) h_k + \delta_g^k \delta_h^k \in \mathfrak{m}^{k + 1}[X]$$
+    Since $g_k, h_k$ are monic, we can apply Euclidean's algorithm and get
+    $$a \delta_f^k = q_h h_k + c_h, b \delta_f^k = q_g g_k + c_g$$
+    where $\deg(c_h) \lt n - r, \deg(c_g) \lt r$. Moreover, by analyzing every step of the algorithm, we have $q_h, c_h, q_g, c_g \in \mathfrak{m}^k[X]$. Take $\delta_g^k = c_g, \delta_h^k = c_h$, we claim that they satisfy our condition:
+    \begin{enumerate}
+        \item $\deg(\delta_g^k) \lt r, \deg(\delta_h^k) \lt n - r$: Clear by our construction.
+        \item $\delta_g^k, \delta_h^k \in \mathfrak{m}^k[X]$: Clear by our construction.
+        \item $a \delta_g^k + b \delta_h^k \in \mathfrak{m}[X]$: By our construction, we have:
+        $$a \delta_g^k + b \delta_h^k = 2ab \delta_f^k - bq_h h_k - aq_g g_k \in \mathfrak{m}[X]$$
+        since every term on the RHS is in $\mathfrak{m}[X]$.
+        \item $(a \delta_f^k - \delta_h^k) g_k + (b \delta_f^k - \delta_g^k) h_k + \delta_g^k \delta_h^k \in \mathfrak{m}^{k + 1}[X]$: Plug in our definition, we have:
+        $$\textrm{LHS} = (q_h + q_{g})g_kh_k + \delta_g^k \delta_h^k$$
+        Since $\delta_g^k, \delta_h^k \in \mathfrak{m}^k$, we have $\delta_g^k \delta_h^k \in \mathfrak{m}^{2k} \subset \mathfrak{m}^{k + 1}$ as $k \gt 1$. For the first term on the RHS, by multiplying $g_k$ on both sides of $a \delta_f^k = q_h h_k + c_h$ and multiplying $h_k$ on both sides of $b \delta_f^k = q_g g_k + c_g$ and add the results, we have:
+        $$(q_h + q_g) h_kg_k = a g_k \delta_f^k + b h_k \delta_f^k - c_hg_k - c_g h_k \equiv \delta_f^k - c_hg_k - c_gh_k \pmod {\mathfrak{m}^{k + 1}}$$
+        Note that the RHS has degree $\lt n$. Since $h_kg_k$ is monic of degree $n$, we must have $q_h + q_g \in \mathfrak{m}^{k + 1}[X]$ (because the leading term must be in $\mathfrak{m}^{k + 1}[X]$, then argue inductively), which completes the proof.
+    \end{enumerate}
+
+    By our construction, denote $c_{k, i}, d_{k, i}$ the coefficients of polynomial $g_k, h_k$, then we have $\left\lbrace \overline{c_{k, i}} \right\rbrace_{i}, \left\lbrace \overline{d_{k, i}} \right\rbrace_i$ coherent sequences in the inverse system $\left\lbrace A / \mathfrak{m}^k \right\rbrace$. They define polynomial $g, h \in \hat{A}[X] = A[X]$ since $A$ is $\mathfrak{m}$-adically complete. Moreover, it is clear by our construction that $\overline{g} = \overline{g_1}$ which agrees with $\overline{g}$ given in the problem, so there is no confusion of the notation. Similar for $h$. Finally, $\overline{f} = \overline{g} \overline{h}$ in every $(A / \mathfrak{m}^k)[X]$, so we have $f = gh$. Moreover, $g, h$ are monic of degree $r, n - r$ respectively, which completes the proof.
+\end{proof}
+
+\begin{problem}
+    \begin{enumerate}
+        \item With the notation of Problem 9, deduce from Hensel's lemma that if $\overline{f}(X)$ has a simple root $\alpha \in A / \mathfrak{m}$, then $f(X)$ has a simple root $a \in A$ such that $\alpha = a + \mathfrak{m}$
+        \item Show that $2$ is a square in the ring of $7$-adic integers.
+        \item Let $f(X, Y) \in k[X, Y]$, where $k$ is a field, and assume that $f(0, Y)$ has $Y = a_0$ as a simple root. Prove that there exists a formal power series $y(X) = \sum\limits_{n = 0}^{\infty} a_n X^n$ such that $f(X, y(X)) = 0$
+        (This gives the "analytic branch" of the curve $f = 0$ through the point $(0, a_0)$)
+    \end{enumerate}
+\end{problem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item If $\overline{f}$ has a simple root $\alpha \in A / \mathfrak{m}$, then $\overline{f} = \overline{g}(X)\overline{h}(X)$ where $\overline{g}(X) = X - \alpha, \overline{h}(\alpha) \ne 0$. By Hensel's Lemma, we can lift $\overline{g}, \overline{h}$ to $A[X]$ and have $f = h(X) g(X)$ for some $h, g \in A[X]$. Then we $h(X) = X - a$ (note that the lifting process does not change the degree by Problem 9) for some $a \equiv 0 \pmod {\mathfrak{m}}$ and $g(a) \ne 0$ since otherwise $\overline{g}(\alpha) = 0$ by taking quotient. It follows that $a$ is a simple root of $f$ and $\alpha = a + \mathfrak{m}$.
+        \item Denote $\mathfrak{m} = 7 \mathbb{Z}$, a maximal ideal of $\mathbb{Z}$, then the $\mathfrak{m}$-adic completion of $\mathbb{Z}$ is $A$, the $7$-adic integers. By Proposition 10.15 and Proposition 10.16(Note: The condition of Proposition 10.6 that $A$ is local is redundant. It does not affect the proof.), $A$ is local with maximal ideal $\hat{\mathfrak{m}}$ and complete for the $\hat{m}$ topology. Also by the proof of Proposition 10.15, $A / \hat{\mathfrak{m}} \cong \mathbb{Z} / \mathfrak{m} = \mathbb{Z} / 7 \mathbb{Z}$. By part 1, ISTS $X^2 - 2$ has a simple root in $\mathbb{Z} / 7 \mathbb{Z}$. But clearly $\pm 3$ are the simple roots.
+        \item Let $A = k[[X]]$ and $\mathfrak{m} = (X)$. Consider $f(X, Y) \in A[Y]$, it has simple root $a_0$ in $(A / \mathfrak{m})[Y] = k[Y]$ since $f(0, a_0) = 0$. By part 1, $f(X, Y)$ also has a simple root in $A$. Namely $f(X, y(Y)) = 0$ for some $y(Y) \in A = k[[X]]$. Moreover, $\overline{y} = a_0$ in $A / \mathfrak{m}[X]$, so $y(Y) = a_0 + \text{ higher terms}$
+    \end{enumerate}
+\end{proof}
+
+\begin{problem}
+    Show that the converse of (10.26) is false, even if we assume that $A$ is local and that $\hat{A}$ is a finitely-generated $A$-module.
+\end{problem}
+
+\begin{proof}
+    Let $A$ be the ring of germs of $C^{\infty}$ functions of $x$ at $x = 0$. Let $\mathfrak{m}$ be the ideals of all functions in $A$ that vanishes at $x = 0$. Then it is clear by inverse function theorem that $A$ is local with maximal ideal $\mathfrak{m}$.
+
+    By the same argument as in Remarks 2 on page 110, $\mathfrak{m}$ is generated by $x$ and $\mathfrak{m}^k$ is the set of all functions $f$ such that $f^{(j)}(0) = 0$ for all $j \lt k$. By Corollary 10.18, this shows that $A$ is not Noetherian, as $\bigcap\limits_{n = 1}^{\infty} \mathfrak{m}^n \ne 0$ since $e^{-1 / x^2} \in \bigcap\limits_{n = 1}^{\infty} \mathfrak{m}^n$ (see the remarks quoted above).
+
+    Note that for any $C^{\infty}$ function $f$, and arbitrary $k$, we have $f(x) = f(0) + f'(0) x + \cdots + \frac{f^{(k - 1)}(0)}{(k - 1)!}x^{k - 1} + g(x)$ where $g^{(j)}(0) = 0$ for $0 \le j \lt k$, namely $g \in \mathfrak{m}^k$. As a result, $f(x)$ is equivalent to a polynomial of degree $k$ in $C^{\infty} / \mathfrak{m}^k$. It follows that $C^{\infty} / \mathfrak{m}^k = \mathbb{R}[X] / X^{k}$. Then it is clear that $\hat{C}^{\infty} = \varprojlim C^{\infty} / \mathfrak{m}^k = \mathbb{R}[[X]]$. We know that this is Noetherian by Corollary 10.27.
+
+    Finally, we show that $\hat{A}$ is a finitely generated $A$-module. By Borel's theorem, the map $A \rightarrow \hat{A}$ that sends $f$ to its Taylor expansion is surjective. Then $\hat{A}$ is clearly generated by $1$ element, namely $1$.
+\end{proof}
+
+\begin{problem}
+    If $A$ is Noetherian, then $A[[X_1, \cdots, X_n]]$ is a faithfully flat $A$-algebra.
+\end{problem}
+
+\begin{proof}
+    We first show that $A \rightarrow A[[X_1, \cdots, X_n]]$ is flat. By Problem 8 of Chapter 2, ISTS $A[[X]]$ is flat. Consider the homomorphism $A \rightarrow A[X] \rightarrow A[[X]]$. The first homomorphism is flat by Problem 5 of Chapter 2, the second is flat as it is the $(X)$-adic completion (see Proposition 10.14). It follows that $A \rightarrow A[[X]]$ is flat by Problem 8 of Chapter 2.
+
+    Now take any maximal ideal $\mathfrak{m}$ of $A$, consider $\mathfrak{m}^e = \mathfrak{m}[[X_1, \cdots, X_n]]$. It is not $(1)$ by Problem 5, part 1 in Chapter 1. Then by Condition 3 of Problem 16 in Chapter 3, $A \rightarrow A[[X_1, \cdots, X_n]]$ is faithfully flat.
+\end{proof}
+
+\end{document}
