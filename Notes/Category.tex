@@ -1,0 +1,852 @@
+\documentclass{note-eng}
+
+\title{Categories}
+\author{Jingyi Long}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\epigraph{Mathematics is the illusion created by logic and sets.}{Qinghai Zhang, My undergraduate professor in Numerical Analysis}
+
+Mathematicians (especially algebraist) have the hobby to abstract the concepts. The benefit of doing so is clear: We always get more general results. But the shortcoming of this process is also obvious: By abstracting things, we lose the special properties tied to the specific concepts. The more abstract we get, the less support we have from the definitions. So mathematicians usually define a hierarchy of concepts, starting from the concrete concepts and going upward, each level is a little more abstract than the level below. If the reader happens to be a programmer like me, he will find the striking similarity between writing math notes and writing C++ programs, both of which I enjoy.
+
+However, it is neither realistic nor necessary to introduce every level in every possible hierarchy that former mathematicians build. In this note, we only introduce categories and one useful type of category, namely the Abelian category.
+
+\newpage
+
+\section{Categories}
+
+If one has to name two concepts that appear in every math courses she took, the answer is probably clear: \textbf{Sets} and \textbf{Maps}. While maps can be viewed as subsets of the Cartesian products, we distinguish them to emphasize that mathematicians study 'objects' and the 'connections' between them. Sometimes the sets are decorated: abelian groups, commutative rings, modules, vector spaces. And correspondingly, the maps have to satisfy certain requirements: group homomorphisms, ring homomorphisms, module homomorphisms, linear maps. The concept of \textbf{Category} is the ultimate (ultimate to me, not to those people who study the foundation of mathematics) abstraction of all such structures:
+
+\begin{definition}
+    (Category) A \textbf{category} $\mathcal{C}$ consists of
+    \begin{enumerate}
+        \item A class of \textbf{objects}, denoted as $\mathrm{ob}(\mathcal{C})$
+        \item A class of \textbf{morphisms} for each pair of objects $(X, Y)$, denoted as $\mathrm{Hom}_{\mathcal{C}}(X, Y)$. The class of morphisms for different pairs $(X, Y)$ are disjoint
+    \end{enumerate}
+    and a \textbf{composite rule} of morphisms: For $f \in \mathrm{Hom}_{\mathcal{C}}(X, Y), g \in \mathrm{Hom}_{\mathcal{C}}(Y, Z)$, there is an element $g \circ f \in \mathrm{Hom}_{\mathcal{C}}(X, Z)$ called the composition of $f$ and $g$, such that:
+    \begin{enumerate}
+        \item Composition is associative: $h \circ (g \circ f) = (h \circ g) \circ f$
+        \item For each object $X$, there is a morphism $\mathds{1}_X \in \mathrm{Hom}_{\mathcal{C}}(X, X)$, called the \textbf{identity morphism}, such that for arbitrary $X, Y \in \mathrm{ob}(\mathcal{C}), f \in \mathrm{Hom}_{\mathcal{C}}(X, Y)$:
+        $$\mathds{1}_Y \circ f = f \circ \mathds{1}_X = f$$
+    \end{enumerate}
+
+    We shall write $f: X \rightarrow Y$ to denote $f \in \mathrm{Hom}_{\mathcal{C}}(X, Y)$, and call $X$ the \textbf{domain} of $f$, $Y$ the \textbf{codomain} of $f$. We call a morphism with identical domain and codomain as an \textbf{endomorphism}, and denote $\mathrm{End}_{\mathcal{C}}(X) = \mathrm{Hom}_{\mathcal{C}}(X, X)$
+\end{definition}
+
+From the definition, it is clear that:
+
+\begin{proposition}
+    (Identity morphism is unique) Let $\mathcal{C}$ be a category, for each $X \in \mathrm{ob}(\mathcal{C})$, $\mathds{1}_X$ is unique.
+\end{proposition}
+
+\begin{proof}
+    Suppose $\mathds{1}_X, \mathds{1}_X'$ are two identity morphisms, then $\mathds{1}_X = \mathds{1}_X \circ \mathds{1}_X' = \mathds{1}_X'$ by definition, which completes the proof.
+\end{proof}
+
+The reader may notice that we use the word \textbf{class} in the definition of categories. Why not simply use \textbf{set}? The answer is that in many cases, the objects we want to study do not form a set! Actually, as we will see later, the objects of the simplest example of category $\mathscr{Sets}$, which are all the sets, do not form a set: It will trigger Russell's paradox otherwise, which is forbidden by modern set theory.
+
+So \textit{what is a class}? Is there a clear definition of class? The answer is yes, but we will not go into details here. Basically, a \textbf{class is a collection of sets}. This implies the following facts, which are all we need to know about classes for the rest of the notes:
+
+\begin{enumerate}
+    \item We can always take a union of class and still get a class. Hence, we can speak of the \textbf{class of morphisms for category $\mathcal{C}$}, or $\mathrm{Hom}_{\mathcal{C}}$, which means the union of all $\mathrm{Hom}_{\mathcal{C}}(A, B)$ where $A, B$ run through all object pairs.
+    \item We can always take a sub-collection of a class and still get a class. We often call this a sub-class.
+    \item We cannot, however, form a class with classes as elements unless the classes themselves are sets: This is basically how we get rid of the Russel's paradox.
+\end{enumerate}
+
+However, in some occasions, we do need the morphisms or the objects to form sets, and therefore we define:
+
+\begin{definition}
+    (Small Category, Locally Small Category) Let $\mathcal{C}$ be a category, $\mathcal{C}$ is called:
+    \begin{enumerate}
+        \item \textbf{small} if $\mathrm{ob}(\mathcal{C})$ and $\mathrm{Hom}_{\mathcal{C}}$ are sets;
+        \item \textbf{locally small} if $\mathrm{Hom}_{\mathcal{C}}(X, Y)$ is a set for all $X, Y \in \mathrm{ob}(\mathcal{C})$
+    \end{enumerate}
+\end{definition}
+
+It is clear that small categories are locally small.
+
+\begin{example}
+    A few common categories are listed below, the reader may check that they satisfy the axioms.
+    \begin{enumerate}
+        \item $\mathscr{Sets}$: The class of all sets with set maps as morphisms.
+        \item $\mathscr{Ab}$: The class of all abelian groups with group homomorphisms as morphisms.
+        \item $\mathscr{Rings}$: The class of all \textbf{commutative} rings with identity, with ring homomorphisms as morphisms. (Yes, in this note, unless otherwise specified, we only consider commutative rings with identity)
+        \item $\mathscr{Mod}_R$: The class of all $R$-modules with module homomorphisms as morphisms, where $R$ is a commutative ring with identity.
+        \item $\mathscr{mod}_R$: The class of all \textbf{finitely generated} $R$-modules with module homomorphisms as morphisms, where $R$ is a commutative ring with identity.
+        \item $\mathscr{Vec}_k$: The class of all $k$-vector spaces with linear maps as morphisms.
+        \item $\mathscr{vec}_k$: The class of all \textbf{finitely dimensional} $k$-vector spaces with linear maps as morphisms.
+    \end{enumerate}
+\end{example}
+
+The objects for the above categories are all 'decorated' sets, and the morphisms are the corresponding 'decorated' set maps. To describe this relationship, we introduce the notion of \textit{subcategory}:
+
+\begin{definition}
+    (Subcatetory) Let $\mathcal{C}$ be a category. A \textbf{subcategory} $\mathcal{D}$ of $\mathcal{C}$ consists of:
+    \begin{enumerate}
+        \item A sub-class $\mathrm{ob}(\mathcal{D}) \subset \mathrm{ob}(\mathcal{C})$ of objects
+        \item For each pair of objects $(X, Y)$ in $\mathrm{ob}(\mathcal{D})$, a sub-class $\mathrm{Hom}_{\mathcal{D}}(X, Y) \subset \mathrm{Hom}_{\mathcal{C}}(X, Y)$ of morphisms, such that $\mathds{1}_X \in \mathrm{Hom}_{\mathcal{D}}(X, X)$ for each $X \in \mathrm{ob}(\mathcal{D})$
+    \end{enumerate}
+    And the composite rule of morphisms of $\mathcal{D}$ is the restriction of the composite rule of $\mathcal{C}$: For $X, Y, Z \in \mathrm{ob}(\mathcal{D})$, the composite rule $\mathrm{Hom}_{\mathcal{D}}(X, Y) \times \mathrm{Hom}_{\mathcal{D}}(Y, Z) \rightarrow \mathrm{Hom}_{\mathcal{D}}(X, Z)$ is the restriction of the corresponding composite rule in $\mathcal{C}$
+\end{definition}
+
+The reader can verify that the subcategory is a category in itself. It is tempting to define subcategories as categories with objects, morphisms and composite rules contained in the original category. However, the extra requirement that $\mathds{1}_X \in \mathrm{Hom}_{\mathcal{D}}(X, X)$ is necessary. (Rotman made this mistake in his Algebraic Topology book, which leads to the consequence that subcategories may have different identity morphisms from the original category) Consider the example below.
+
+\begin{example}
+    Let $\mathcal{C}$ be the category defined by:
+    \begin{enumerate}
+        \item $\mathrm{ob}(\mathcal{C}) = \left\lbrace X\right\rbrace$ where $X$ is a set.
+        \item $\mathrm{Hom}_{\mathcal{C}}(X, X) = \left\lbrace \mathds{1}_X, f \right\rbrace$ and $f: X \rightarrow X$ is a non-trivial ($f \ne \mathds{1}_X$) idempotent ($f^2 = f$): For example, $f$ can be a (non-trivial) projection.
+        \item The composite rule is the restriction of the composite rule of $\mathscr{Sets}$.
+    \end{enumerate}
+    Now consider the category $\mathcal{D}$:
+    \begin{enumerate}
+        \item $\mathrm{ob}(\mathcal{D}) = \left\lbrace X \right\rbrace$
+        \item $\mathrm{Hom}_{\mathcal{D}}(X, X) = \left\lbrace f \right\rbrace$
+        \item The composite rule is the restriction of the composite rule of $\mathscr{Sets}$.
+    \end{enumerate}
+    Then $\mathcal{D}$ is a category itself ($f$ is the identity morphism of $X$ in $\mathcal{D}$ by definition, but it is not the identity morphism of $X$ in $\mathcal{C}$ since $f \circ \mathds{1}_X \ne \mathds{1}_X$.) And clearly $\mathcal{D}$ satisfies all requirement of our definition of subcategory of $\mathcal{C}$, except that $\mathds{1}_X \notin \mathrm{Hom}_{\mathcal{D}}(X, X)$.
+\end{example}
+
+By far, all the categories we considered are subcategories of $\mathscr{Sets}$, and by definition of class, the objects must be sets. This may give us the illusion that all categories are subcategories of $\mathscr{Sets}$. This is not true, since the category $\mathscr{Sets}$ is locally small, and we will see an example of category that is not locally small in the following sections. However, even if a category is a subcategory of $\mathscr{Sets}$ (or it can be 'embedded' into $\mathscr{Sets}$), one may choose not to regard the morphisms as set maps. One useful example is:
+
+\begin{example}\label{exp:quasi-ordered}
+    Let $(I, \le)$ be a quasi-ordered set: The relation $\le$ is reflective and transitive. Define the category $\mathcal{C}$ associated with $(I, \le)$ as:
+    \begin{enumerate}
+        \item $\mathrm{ob}(\mathcal{C}) = I$,
+        \item $\mathrm{Hom}_{\mathcal{C}}(x, y) = \left\lbrace i_{x, y} \right\rbrace$ if $x \le y$, or $\emptyset$ otherwise,
+    \end{enumerate} 
+    and we define the composite rule $i_{y, z} \circ i_{x, y} = i_{x, z}$. The reader can check that this is indeed a category. If the context is clear, we also denote it as $(I, \le)$.
+\end{example}
+
+We usually use directed diagram to represent the category associated with $(I, \le)$, where vertices correspond to elements and edges correspond to morphisms. To reduce the number of edges, we can also omit certain edges:
+\begin{enumerate}
+    \item The loops representing identity morphisms are usually omitted.
+    \item If $i_{x, y}, i_{y, z}$ are already represented in the graph, we may omit $i_{x, z}$.
+\end{enumerate}
+For example, we may use the following diagram to represent the category associated with $(\mathbb{Z}, \le)$:
+% https://q.uiver.app/#q=WzAsNSxbMiwwLCIwIl0sWzMsMCwiMSJdLFsxLDAsIi0xIl0sWzQsMCwiXFxjZG90cyJdLFswLDAsIlxcY2RvdHMiXSxbMiwwXSxbMCwxXSxbMSwzXSxbNCwyXV0=
+\[\begin{tikzcd}
+	\cdots & {-1} & 0 & 1 & \cdots
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-2, to=1-3]
+	\arrow[from=1-3, to=1-4]
+	\arrow[from=1-4, to=1-5]
+\end{tikzcd}\]
+
+\begin{remark}
+    Exp \ref{exp:quasi-ordered} is not a subcategory of $\mathscr{Sets}$ in general as morphisms are not necessarily set-maps (They could be, for example if $I = \mathcal{P}(X)$ and $\le$ is the partial order of inclusion). But we can embed (see the next section) it into $\mathscr{Sets}$ as follows: For each object $x \in I$, replace it by the singleton $\left\lbrace x \right\rbrace$. For each morphism $i_{x, y}$, replace it by the set map $\left\lbrace x \right\rbrace \rightarrow \left\lbrace y \right\rbrace$ defined by $x \mapsto y$.
+\end{remark}
+
+Since the categories may not be subcategories of $\mathscr{Sets}$, we cannot directly apply the concepts associated to $\mathscr{Sets}$ to general categories. To do so, we need to find a way to describe those concepts with only morphisms and objects. Some concepts are already written in the categorical flavor:
+
+\begin{definition}
+    (Isomorphism) Let $\mathcal{C}$ be a category, $X, Y \in \mathrm{ob}(\mathcal{C})$, the morphism $f: X \rightarrow Y$ is called an \textbf{isomorphism} if there is $g: Y \rightarrow X$ such that $f \circ g = \mathds{1}_Y, g \circ f = \mathds{1}_X$, then we call $g$ the \textbf{inverse} of $f$ and denote $g = f ^{-1}$. It is clear that $g$ is unique if exists and $(f ^{-1})^{-1} = g ^{-1} = f$. If there is an isomorphism between objects $X, Y$, then we say $X, Y$ are \textbf{isomorphic} or \textbf{equivalent}.
+    
+    If $X, X'$ are equivalent with isomorphism $f: X \rightarrow X'$ and $Y, Y'$ are equivalent with isomorphism $g: Y \rightarrow Y'$, then we call two morphisms $\varphi: X \rightarrow Y, \psi: X' \rightarrow Y'$ \textbf{equivalent (up to isomorphism)} if $\psi = g \circ \varphi \circ f ^{-1}$.
+\end{definition}
+
+For other concepts, we have to abstract them a bit. The first examples would be injections and surjections. There are multiple ways to define them in the category of sets. Treat them as half-isomorphism, we have:
+
+\begin{definition}
+    (Section / Right Inverse, Retract / Left Inverse) Let $\mathcal{C}$ be a category, $f: X \rightarrow Y$ be a morphism. If there is morphism $g: Y \rightarrow X$ such that:
+    \begin{enumerate}
+        \item $g \circ f = \mathds{1}_X$, then we call $f$ a \textbf{section}, or a \textbf{right inverse}
+        \item $f \circ g = \mathds{1}_Y$, then we call $f$ a \textbf{retract}, or a \textbf{left inverse}
+    \end{enumerate}
+\end{definition}
+
+However, the requirements in the definition are too stringent, so this generalization is seldom used. Perhaps the 'correct' generalization of injections and surjections is the below:
+
+\begin{definition}
+    (Monomorphism, Epimorphism) Let $\mathcal{C}$ be a category, $X, Y \in \mathrm{ob}(\mathcal{C})$, the morphism $f: X \rightarrow Y$ is called:
+    \begin{enumerate}
+        \item a \textbf{monomorphism} if for all $Z \in \mathrm{ob}(\mathcal{C})$ and $g_1, g_2: Z \rightarrow X$ such that $f \circ g_1 = f \circ g_2$, then $g_1 = g_2$
+        \item an \textbf{epimorphism} if for all $Z \in \mathrm{ob}(\mathcal{C})$ and $g_1, g_2: Y \rightarrow Z$ such that $g_1 \circ f = g_2 \circ f$, then $g_1 = g_2$
+    \end{enumerate}
+\end{definition}
+
+And this is indeed more general than left / right inverses:
+
+\begin{proposition}
+    (Sections are Monomorphisms, Retracts are Epimorphisms) Let $\mathcal{C}$ be a category, $f: X \rightarrow Y$ a morphism. Then if $f$ is a right (resp. left) inverse, $f$ must be a monomorphism (resp. epimorphism)
+\end{proposition}
+
+\begin{proof}
+    Let $f$ be a right inverse, and $g: Y \rightarrow X$ such that $g \circ f = \mathds{1}_X$. Take arbitrary $h_1, h_2: Z \rightarrow X$ such that $f \circ h_1 = f \circ h_2$, then $h_1 = g \circ f \circ h_1 = g \circ f \circ h_2 = h_2$. Similar for the left inverse.
+\end{proof}
+
+Clearly, in any subcategories of $\mathscr{Sets}$, surjections will be epimorphisms and injections will be monomorphisms. Moreover, in $\mathscr{Sets}$, surjections / injections and epimorphisms / monomorphisms are exactly the same concept. However, even in the subcategories of $\mathscr{Sets}$, monomorphisms and epimorphisms are not restricted to surjections and injections:
+
+\begin{example}
+    \begin{enumerate}
+        \item Epimorphism but not surjection: Consider the inclusion $i: \mathbb{Z} \hookrightarrow \mathbb{Q}$ in the category $\mathscr{Rings}$, it is not a surjection, but it is an epimorphism: If two ring homomorphisms $g_1, g_2: \mathbb{Q} \rightarrow R$ agrees on $\mathbb{Z}$, they must agree on $\mathbb{Q}$ as $g_i(m / n) g_i(n) = g_i(m)$ (We leave it to the readers to show that $g_i(n)$ is not a zero-divisor in $R$)
+        \item Monomorphism but not injection: This one is harder. A classic example is in the category of divisible abelian groups $\mathscr{Div}$. The homomorphism $\pi: \mathbb{Q} \rightarrow \mathbb{Q} / \mathbb{Z}$ is not injective, but it is a monomorphism: Take any divisible abelian group $D$ and $g: D \rightarrow \mathbb{Q}$, ISTS $\pi \circ g = 0$ implies $g = 0$. Take arbitrary $x \in D$, since $\pi \circ g(x) = 0$, we have $g(x) \in \mathbb{Z}$, say $g(x) = n$, WLOG $n \ge 0$. If $n \gt 0$, by divisibility, there is $y \in D$ such that $y(n + 1) = x$, and therefore $0 \lt g(y) = \frac{n}{n + 1}\lt 1$. However, $g(y) \in \mathbb{Z}$ as $\pi \circ g(y) = 0$, a contradiction. This shows that $g = 0$.
+    \end{enumerate}
+\end{example}
+
+The reader may discover that the notion of epimorphism and monomorphism are inherently symmetric: We can get the definition of monomorphism from the definition of epimorphism by 'reversing all the arrows(morphisms)'. We shall see more of this later when we formally introduce opposite categories.
+
+Before we close the section, it should be noted that morphisms are best represented by arrows and thus diagrams:
+
+\begin{definition}
+    (Diagram) Let $\mathcal{C}$ be a category. A \textbf{diagram} in $\mathcal{C}$ (omitted when the category is clear) is a directed graph with vertices labeled by objects and edges labeled by morphisms, such that the edge from (vertices labeled by) $X$ to $Y$ is labeled by morphism $f: X \rightarrow Y$. A \textbf{commutative diagram} is a diagram which the labels for every two paths with identical initial and terminate vertices compose to the same morphism.
+\end{definition}
+
+The idea is better demonstrated with examples:
+
+\begin{example}
+    Let $\mathcal{C}$ be a category, $X, Y, Z \in \mathrm{ob}(\mathcal{C})$, $f: X \rightarrow Y, g: Y \rightarrow Z, h: X \rightarrow Z$, then the below is a diagram:
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJYIl0sWzEsMSwiWSJdLFsyLDAsIloiXSxbMCwxLCJmIl0sWzEsMiwiZyJdLFswLDIsImgiXV0=
+    \[\begin{tikzcd}
+        X && Z \\
+        & Y
+        \arrow["h", from=1-1, to=1-3]
+        \arrow["f", from=1-1, to=2-2]
+        \arrow["g", from=2-2, to=1-3]
+    \end{tikzcd}\]
+    And the diagram commutes if and only if $h = g \circ f$.
+\end{example}
+
+
+
+\section{Functors}
+
+Once we define categories, a natural next step -- following the 'set and map' rational -- is to define connections between categories. These maps between categories are functors:
+
+\begin{definition}
+    ((Covariant) Functor) Let $\mathcal{C}$ and $\mathcal{D}$ be categories, a \textbf{(covariant) functor} $T: \mathcal{C} \rightarrow \mathcal{D}$ is a mapping that maps
+    \begin{enumerate}
+        \item objects to objects: If $X \in \mathrm{ob}(\mathcal{C})$, then $T(X) \in \mathrm{ob}(\mathcal{D})$,
+        \item morphisms to morphisms: If $f \in \mathrm{Hom}_{\mathcal{C}}(X, Y)$, then $T(f) \in \mathrm{Hom}_{\mathcal{D}}(T(X), T(Y))$,
+    \end{enumerate}
+    such that:
+    \begin{enumerate}
+        \item Composition rule is preserved by $T$: If $f, g$ are morphisms in $\mathcal{C}$ and $g \circ f$ is defined, then:
+        $$T(g \circ f) = (Tg) \circ (Tf)$$
+        \item Identities are preserved by $T$: $T(\mathds{1}_X) = \mathds{1}_{T(X)}$ for all $X \in \mathrm{ob}(\mathcal{C})$
+    \end{enumerate}
+\end{definition}
+
+The functors defined above are called covariant functors as they 'preserve the direction of arrows'. On the other hand, we will see later that sometimes we need to 'reverse the direction of arrows'. Instead of copy-pasting the above definition and modifying the corresponding part, we define the opposite category:
+
+\begin{definition}
+    (Opposite Category) Let $\mathcal{C}$ be a category, the \textbf{opposite category} $\mathcal{C}^{\mathrm{opp}}$ consists of:
+    \begin{enumerate}
+        \item A class of objects $\mathrm{ob}(\mathcal{C}^\mathrm{opp}) = \mathrm{ob}(\mathcal{C})$
+        \item A class of morphisms for each pair of objects $\mathrm{Hom}_{\mathcal{C}^\mathrm{opp}}(X, Y) = \mathrm{Hom}_{\mathcal{C}}(Y, X)$
+    \end{enumerate}
+    And the composite rule of morphisms: For $f \in \mathrm{Hom}_{\mathcal{C}^\mathrm{opp}}(X, Y), g \in \mathrm{Hom}_{\mathcal{C}^\mathrm{opp}}(Y, Z)$, $(g \circ f)_{\mathcal{C}^\mathrm{opp}} = (f \circ g)_{\mathcal{C}}$.
+\end{definition}
+
+Basically, the opposite category is the original category with arrows reversed.
+
+\begin{remark}
+    The word 'dual' is often used in the algebra context as a rigorous alternate of 'reversing all the arrows'. However, \textbf{I do not like the word and will not use it in this note}. The reason is that the word 'dual' usually refers to the same concept interpreted in the opposite category. But when there are more than one category involved in the definition, it is unclear which category we are taking the opposite. Things will probably be fine if there are only two categories involved, as inverting either of them may be the same. As the number of categories increases, things will be messy.
+\end{remark}
+
+\begin{definition}
+    (Contravariant Functor) Let $\mathcal{C}, \mathcal{D}$ be categories, a \textbf{contravariant functor} $T: \mathcal{C} \rightarrow \mathcal{D}$ is a covariant functor $\mathcal{C} \rightarrow \mathcal{D}^\mathrm{opp}$
+\end{definition}
+
+The reader may write out the definition of contravariant functor in similar form of covariant functor. By default, a functor means a covariant functor.
+
+\begin{definition}
+    (Opposite Functor) Let $\mathcal{C}, \mathcal{D}$ be categories, $F: \mathcal{C} \rightarrow \mathcal{D}$ be a covariant (resp. contravariant) functor, then $F ^\mathrm{opp}: \mathcal{C} ^\mathrm{opp} \rightarrow \mathcal{D} ^\mathrm{opp}$ defined by $F ^\mathrm{opp}(X) = F(X), F ^\mathrm{opp}(f) = F(f)$ is called the \textbf{opposite functor} of $F$. Note that the opposite functor of a covariant (resp. contravariant) functor is also a covariant (contravariant) functor.
+\end{definition}
+
+Just as we have identity morphisms for objects, we also have identity functors for categories:
+
+\begin{definition}
+    (Identity Functor) Let $\mathcal{C}$ be a category, the identity functor $\mathds{1}_{\mathcal{C}}: \mathcal{C} \rightarrow \mathcal{C}$ is the functor that maps everything (objects, morphisms) to itself.
+\end{definition}
+
+And it is tempting to define the category of categories. However, care should be to prevent Russel's paradox:
+
+\begin{definition}
+    The \textbf{category of small categories} $\mathscr{Cat}$ consists of:
+    \begin{enumerate}
+        \item A class of objects $\mathrm{ob}(\mathscr{Cat}) = \left\lbrace \mathcal{C}: \mathcal{C} \text{ is a small category} \right\rbrace$
+        \item A class of morphisms $\mathrm{Hom}_{\mathscr{Cat}}(\mathcal{C}, \mathcal{D}) = \left\lbrace F: F \text{ is a functor from $\mathcal{C}$ to $\mathcal{D}$} \right\rbrace$ for each pair of small categories $\mathcal{C}, \mathcal{D}$
+    \end{enumerate}
+    with the obvious composite rule.
+\end{definition}
+
+Then $\mathds{1}_\mathcal{C}$ would be the identity morphisms in $\mathscr{Cat}$, as expected. But the definition of $\mathscr{Cat}$ has the shortcoming that it is too rigid to use (at least it will not be used in the rest of the note). For two categories to be isomorphic in $\mathscr{Cat}$, there must be a one-to-one correspondence between the objects and the morphisms. More often, we would like to allow the flexibility of regarding isomorphic objects as the same. This leads to the following generalization of 'injective' and 'surjective' functors.
+
+\begin{definition}
+    (Faithful Functor, Full Functor)Let $\mathcal{C}, \mathcal{D}$ be locally small categories, $F: \mathcal{C} \rightarrow \mathcal{D}$ a functor, then $F$ is called:
+    \begin{enumerate}
+        \item \textbf{faithful} if $F: \mathrm{Hom}_{\mathcal{C}}(X, Y) \rightarrow \mathrm{Hom}_{\mathcal{D}}(X, Y)$ is injective
+        \item \textbf{full} if $F: \mathrm{Hom}_{\mathcal{C}}(X, Y) \rightarrow \mathrm{Hom}_{\mathcal{D}}(X, Y)$ is surjective
+    \end{enumerate}
+\end{definition}
+
+It should be noted that faithful functors need not be injective on the objects, neither it is necessary for it to be injective on morphisms ($f: X \rightarrow Y$ and $g: X' \rightarrow Y'$ may be mapped to the same morphism if $F(X) = F(X'), F(Y) = F(Y')$). However, a full and faithful functor is necessarily 'essentially injective':
+
+\begin{definition}
+    (Essentially Injective) Let $\mathcal{C}, \mathcal{D}$ be functors, $F: \mathcal{C} \rightarrow \mathcal{D}$ a functor. If $F$ is injective on objects 'up to isomorphism', namely $F(X) = F(Y)$ implies $X \cong Y$, then $F$ is called \textbf{essentially injective}.
+\end{definition}
+
+It is clear that if $F$ is essentially injective, then it is also injective on morphisms 'up to isomorphism': If $f: X \rightarrow Y, g: X' \rightarrow Y'$ are mapped to the same morphism by $F$, then $f, g$ are equivalent up to isomorphism, namely the following diagram commutes:
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJYIl0sWzAsMSwiWSJdLFsxLDAsIlgnIl0sWzEsMSwiWSciXSxbMCwxLCJmIiwyXSxbMiwzLCJnIl0sWzAsMiwiXFxjb25nIl0sWzEsMywiXFxjb25nIiwyXV0=
+\[\begin{tikzcd}
+	X & {X'} \\
+	Y & {Y'}
+	\arrow["\cong", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["g", from=1-2, to=2-2]
+	\arrow["\cong"', from=2-1, to=2-2]
+\end{tikzcd}\]
+
+\begin{proposition}
+    (Full and faithful functors are essentially injective) Let $\mathcal{C}, \mathcal{D}$ be locally small categories, $F: \mathcal{C} \rightarrow \mathcal{D}$ a full and faithful functor, then $F$ is essentially injective.
+\end{proposition}
+
+\begin{proof}
+    Take $X, Y \in \mathrm{ob}(\mathcal{C})$ such that $F(X) = F(Y)$. Since $F$ is full, there is $f: X \rightarrow Y$ such that $F(f) = \mathds{1}_{F(X)}$ and $g: Y \rightarrow X$ such that $F(g) = \mathds{1}_{F(X)}$. Now consider $f \circ g$ and $g \circ f$, since $F(f \circ g) = F(g \circ f) = \mathds{1}_{F(X)}$, and $F$ is faithful, we have $f \circ g = \mathds{1}_Y$ and $g \circ f = \mathds{1}_X$, which proves that $X \cong Y$
+\end{proof}
+
+\begin{definition}
+    (Embedding) Let $\mathcal{C}, \mathcal{D}$ be locally small categories and $F: \mathcal{C} \rightarrow \mathcal{D}$ be a functor. If $F$ is full and faithful, then $F$ is called an \textbf{embedding}.
+\end{definition}
+
+Before we proceed, let's first see a few examples of functors.
+
+\begin{example}
+    (Forgetful Functor) Let $\mathcal{D}$ be a subcategory of category $\mathcal{C}$, then the obvious embedding functor $T: \mathcal{D} \rightarrow \mathcal{C}$ is called the \textbf{forgetful functor} from $\mathcal{D}$ to $\mathcal{C}$. Concrete examples include $\mathscr{Ab} \rightarrow \mathscr{Sets}, \mathscr{Rings} \rightarrow \mathscr{Sets}$. The name comes from the fact that we are 'forgetting' the special structure of abelian groups / rings and simply treat them as sets.
+
+    If both categories are locally small, the forgetful functor is guaranteed to be faithful, but not necessarily full: Consider the example of $\mathscr{Ab} \rightarrow \mathscr{Sets}$, not every set map is an abelian group homomorphism.
+\end{example}
+
+\begin{definition}
+    Let $\mathcal{C}$ be a locally small category, fix an object $X \in \mathrm{ob}(\mathcal{C})$. Define the functor $\mathrm{Hom}_{\mathcal{C}}(X, \cdot): \mathcal{C} \rightarrow \mathscr{Sets}$ as:
+    \begin{enumerate}
+        \item For $Y \in \mathrm{ob}(\mathcal{C})$, define $\mathrm{Hom}_{\mathcal{C}}(X, \cdot)(Y) = \mathrm{Hom}_{\mathcal{C}}(X, Y)$
+        \item For $f: Y \rightarrow Z$, define $\mathrm{Hom}_{\mathcal{C}}(X, \cdot)(f) = f_*$, which is the map $\mathrm{Hom}_{\mathcal{C}}(X, Y) \rightarrow \mathrm{Hom}_{\mathcal{C}}(X, Z): \varphi \mapsto f \circ \varphi$
+    \end{enumerate}
+    We call the functor $\mathrm{Hom}_{\mathcal{C}}(X, \cdot)$ the \textbf{covariant Hom functor}, and denote it as $h_X$. Similarly, the reader may define the \textbf{contravariant Hom functor} $\mathrm{Hom}_{\mathcal{C}}(\cdot, X)$, or $h^X$, in which we use $f^*$ to denote the map $\mathrm{Hom}_{\mathcal{C}}(Z, X) \rightarrow \mathrm{Hom}_{\mathcal{C}}(Y, X): \varphi \mapsto \varphi \circ f$ for $f: Y \rightarrow Z$.
+\end{definition}
+
+Usually, the Hom-sets $\mathrm{Hom}_{\mathcal{C}}(X, Y)$ have more structures than sets. Accordingly, the Hom functors map $\mathcal{C}$ into some subcategories of $\mathscr{Sets}$. The following example should be familiar to the readers:
+
+\begin{example}\label{exp:vec-k-hom}
+    Let $k$ be a field, consider the Hom functor $h^k = \mathrm{Hom}_{\mathscr{Vec}_k}(\cdot, k)$. It maps any vector space $V$ over $k$ to its dual space $V^*$, which is also a vector space over $k$. So $h^k$ is actually a functor $\mathscr{Vec}_k \rightarrow \mathscr{Vec}_k$.
+\end{example}
+
+The Hom functors allow us to represent objects as functors. This encourages us to study the objects by studying the corresponding functors. For that purpose, we first need to construct a category with functors as objects, and the natural question is: What would be the morphisms between functors? Also, we need to show that the Hom functors embed the category into the corresponding category of functors. This is the Yonneda embedding.
+
+Let's first look at the 'morphisms' between functors.
+
+\begin{definition}\label{def:nat-trans}
+    (Natural Transformation) Let $\mathcal{C}, \mathcal{D}$ be categories and $F, G: \mathcal{C} \rightarrow \mathcal{D}$ be functors. Then a \textbf{natural transformation} $\tau$ from $F$ to $G$, denoted as $\tau: F \Rightarrow G$, is a class of morphisms $\left\lbrace \tau_X: F(X) \rightarrow G(X) \right\rbrace_{X \in \mathrm{ob}(\mathcal{C})}$, such that for arbitrary objects $X, Y$ in $\mathcal{C}$ and morphism $f: X \rightarrow Y$, we have $G(f) \circ \tau_X = \tau_{Y} \circ F(f)$, namely the diagram below commutes where $f: X \rightarrow Y$ is a morphism:
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJGKFgpIl0sWzEsMCwiRyhYKSJdLFswLDEsIkYoWSkiXSxbMSwxLCJHKFkpIl0sWzAsMiwiRihmKSIsMl0sWzEsMywiRyhmKSJdLFswLDEsIlxcdGF1X1giXSxbMiwzLCJcXHRhdV9ZIiwyXV0=
+    \[\begin{tikzcd}
+        {F(X)} & {G(X)} \\
+        {F(Y)} & {G(Y)}
+        \arrow["{\tau_X}", from=1-1, to=1-2]
+        \arrow["{F(f)}"', from=1-1, to=2-1]
+        \arrow["{G(f)}", from=1-2, to=2-2]
+        \arrow["{\tau_Y}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    Moreover, if $\tau_X$ is an isomorphism for each $X \in \mathrm{ob}(\mathcal{C})$, then $\tau$ is called a \textbf{natural equivalence} and $F, G$ are called \textbf{naturally isomorphic}, denoted as $F \cong G$.
+\end{definition}
+
+For functor $F: \mathcal{C} \rightarrow \mathcal{D}$, we shall denote the identity natural transformation $F \Rightarrow F$ defined by $\tau_X = \mathds{1}_{FX}: FX \rightarrow FX$ as $\mathds{1}_F$. Later after we introduce the functor category, the readers will find that $\mathds{1}_F$ is exactly the identity morphism in the functor category.
+
+Also, let $F, G: \mathcal{C} \rightarrow \mathcal{D}$ be two functors and $\tau: F \Rightarrow G$ a natural transformation. For arbitrary functor $H: \mathcal{D} \rightarrow \mathcal{E}$, we use $H \tau$ to denote the natural transformation $HF \Rightarrow HG$ where $(H \tau)_X = H \tau_X$ (check this is a natural transformation). Similarly, for arbitrary functor $H: \mathcal{E} \rightarrow \mathcal{C}$, we use $\tau H$ to denote the natural transformation $FH \Rightarrow GH$ where $(\tau H)_X = \tau_{HX}$ (check this is a natural transformation).
+
+Loosely speaking, natural equivalent functors are equivalent 'up to isomorphisms' (as the image of both the objects and the morphisms are equivalent up to isomorphisms). So natural equivalence is the correct way to express the equivalence between functors. With this flexibility, we define:
+
+\begin{definition}
+    (Inverse Functor, Equivalent Category) Let $\mathcal{C}, \mathcal{D}$ be two categories. If there are functors $F: \mathcal{C} \rightarrow \mathcal{D}, G: \mathcal{D} \rightarrow \mathcal{C}$ such that $\mathds{1}_{\mathcal{C}} \cong GF$ and $FG \cong \mathds{1}_{\mathcal{D}}$, we call $\mathcal{C}, \mathcal{D}$ \textbf{equivalent categories}, and $F, G$ \textbf{inverse functor} to each other.
+\end{definition}
+
+It should be noted that the commutative diagram in Def \ref{def:nat-trans} is crucial for the definition: Even if $F(X)$ and $G(X)$ are isomorphic for every $X$, it is possible that there is no natural equivalence between $F$ and $G$. A classic example would be:
+
+\begin{example}
+    Consider the category $\mathscr{vec}_k$, as before, we have contravariant functor $h^k$ that maps each vector space $V$ into its dual $V^*$. And we know that $V \cong V^*$ for arbitrary $V$. However, the isomorphism depends on our selection of basis and hence is not 'natural': There is no natural isomorphism $\mathds{1}_{\mathscr{vec}_k} \Rightarrow h^k$. Suppose otherwise, let $\tau$ be a natural isomorphism. Take arbitrary finite dimensional vector space $V$ over $k$ with dimension $n \gt 2$. We can select a basis $e_1, \cdots, e_n$ such that $\tau_V(e_i) = \delta_i$ where $\delta_i$ is the linear function defined by $\delta_{i}(e_j) = \delta_{ij}$. Now consider the linear map $f: V \rightarrow V$ that permutates the basis: $f(e_i) = e_{i + 1}$ for $i \lt n$ and $f(e_n) = e_1$. By definition, $h^k(f)$ is the linear map $f^*$. Now for $i \lt n - 1$, we have: $\tau_V(f(e_i)) = \tau_V(e_{i + 1}) = \delta_{i + 1}$. But we also have $f^*(\tau_V(e_i)) = f^*(\delta_i) = \delta_i \circ f$. The two are not equal as elements in $V^*$: Consider their images of $e_{i + 1}$, $\delta_{i + 1}(e_{i + 1}) = 1$ while $\delta_i \circ f(e_{i + 1}) = \delta_i(e_{i + 1}) = 0$. So $f^* \circ \tau_V \ne \tau_V \circ f$ and $\tau$ is not a natural transformation, a contradiction.
+
+    On the other hand, the functor $h^k h^k$ on $\mathscr{Vec}_k$, which maps each vector space $V$ into its double dual $V^{**}$, is natural equivalent to $\mathds{1}_{\mathscr{Vec}_k}$: For arbitrary vector space $V$, define $\tau_V: V \rightarrow V^{**}$ by $e \mapsto \mathrm{Ev}_e$, where $\mathrm{Ev}_e$ is the evaluation map $f \mapsto f(e)$ for $f \in V^*$. We leave it to the readers to check that $\tau$ is indeed a natural isomorphism.
+\end{example}
+
+Following our motivations, let's first look at an example natural transformation between Hom functors.
+
+\begin{example} \label{exp:hom}
+    Let $\mathcal{C}$ be a category, $X, Y \in \mathrm{ob}(\mathcal{C})$, fix a morphism $t: X \rightarrow Y$, we can define the natural transformation $\mathrm{Hom}_{\mathcal{C}}(Y, \cdot) \Rightarrow \mathrm{Hom}_{\mathcal{C}}(X, \cdot)$ by defining $t_X = t^*$ for each $X \in \mathrm{ob}(\mathcal{C})$. We can check that this is indeed a natural transformation by checking the diagram below commutes:
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhybXtIb219X3tcXG1hdGhjYWx7Q319KFksIFpfMSkiXSxbMSwwLCJcXG1hdGhybXtIb219X3tcXG1hdGhjYWx7Q319KFgsIFpfMSkiXSxbMCwxLCJcXG1hdGhybXtIb219X3tcXG1hdGhjYWx7Q319KFksIFpfMikiXSxbMSwxLCJcXG1hdGhybXtIb219X3tcXG1hdGhjYWx7Q319KFgsIFpfMikiXSxbMCwyLCJmXyoiLDJdLFsxLDMsImZfKiJdLFswLDEsInReKiJdLFsyLDMsInReKiIsMl1d
+    \[\begin{tikzcd}
+        {\mathrm{Hom}_{\mathcal{C}}(Y, Z_1)} & {\mathrm{Hom}_{\mathcal{C}}(X, Z_1)} \\
+        {\mathrm{Hom}_{\mathcal{C}}(Y, Z_2)} & {\mathrm{Hom}_{\mathcal{C}}(X, Z_2)}
+        \arrow["{t^*}", from=1-1, to=1-2]
+        \arrow["{f_*}"', from=1-1, to=2-1]
+        \arrow["{f_*}", from=1-2, to=2-2]
+        \arrow["{t^*}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    In fact, take arbitrary $\varphi: Y \rightarrow Z_1$, we have:
+    $$f_*(t^*(\varphi)) = f_*(\varphi \circ t) = f \circ \varphi \circ t = t^*(f \circ \varphi) = t^*(f_*(\varphi))$$
+\end{example}
+
+Therefore, by the Hom functors, objects are mapped to functors and morphisms are mapped to natural transformations. If the functors and natural transformations form a category, then we can regard $\mathrm{Hom}_{\mathcal{C}}(\cdot, \cdot)$ as a contravariant (resp. covariant) functor with respect to the first (resp. second) parameter from $\mathcal{C}$ to the category of functors by the previous example. This is almost true, except that we need to avoid set-theoretic problems by restricting $\mathcal{C}$ to be small:
+
+\begin{definition}
+    (Functor Category) Let $\mathcal{C}, \mathcal{D}$ be categories and $\mathcal{C}$ small, the \textbf{functor category} $\mathcal{D}^{\mathcal{C}}$ or $[\mathcal{C}, \mathcal{D}]$ consists of:
+    \begin{enumerate}
+        \item A class of objects $\mathrm{ob}([\mathcal{C}, \mathcal{D}]) = \left\lbrace F\mid F : \mathcal{C} \rightarrow \mathcal{D} \text{ a functor} \right\rbrace$
+        \item A class of morphisms $\mathrm{Hom}_{[\mathcal{C}, \mathcal{D}]}(F, G) = \left\lbrace t\mid t: F \Rightarrow G \text{ a natural transformation} \right\rbrace$ for each pair of objects $F, G$
+    \end{enumerate}
+    with obvious composite rule.
+
+    In the functor category, we denote $[F, G] = \mathrm{Hom}_{[\mathcal{C}, \mathcal{D}]}(F, G)$
+\end{definition}
+
+Functor category allows us to define the power of categories with itself, just as we may define the power $C^{\mathbb{N}}$ as the set of functions $\mathbb{N} \rightarrow C$ for arbitrary set $C$.
+
+\begin{definition}
+    Let $\mathcal{C}$ be a category. If there are only identity morphisms in $\mathrm{Hom}_{\mathcal{C}}$, then we call $\mathcal{C}$ a \textbf{discrete category}. Small discrete categories are in a one-to-one correspondence between its set of objects. So for arbitrary set $I$, we may also denote the discrete category corresponding to $I$ as $I$.
+\end{definition}
+
+Then given any category $\mathcal{C}$ and set $I$, the reader should check that the functor category $\mathcal{C}^{I}$ is exactly the 'product' of $I$ copies of $\mathcal{C}$ with component-wise morphisms.
+
+Finally, we are in the position to introduce Yoneda Lemma, a generalization of Exp \ref{exp:hom}, which leads to the Yoneda embedding that embeds every small category into its functor category.
+
+\begin{lemma}
+    (Yoneda Lemma) Let $\mathcal{C}$ be a small category, fix $X \in \mathrm{ob}(\mathcal{C})$, for arbitrary covariant (resp. contravariant) functor $F: \mathcal{C} \rightarrow \mathscr{Sets}$, we have $[h_X, F] \cong F(X)$ (resp. $[h^X, F] \cong F(X)$) as sets (namely, there is a one-to-one correspondence between the two sets) defined by $t \mapsto t_X(\mathds{1}_X)$
+\end{lemma}
+
+\begin{proof}
+    We only prove the covariant case, the contravariant case can be proved by reversing all the arrows.
+
+    The map $t \mapsto t_X(\mathds{1}_X)$ clearly maps $[h_X, F]$ into $F(X)$. We only need to prove that $t$ is uniquely determined by $t_X(\mathds{1}_X)$, which is arbitrary in $F(X)$.
+    
+    Take arbitrary natural transformation $t: h_X \Rightarrow F$, we aim to calculate $t_Y$ for arbitrary $Y \in \mathrm{ob}(\mathcal{C})$. Take arbitrary $f \in \mathrm{Hom}_{\mathcal{C}}(X, Y)$, by definition of the natural transformation, the following diagram commutes:
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhybXtIb219X3tcXG1hdGhjYWx7Q319KFgsIFgpIl0sWzAsMSwiXFxtYXRocm17SG9tfV97XFxtYXRoY2Fse0N9fShYLCBZKSJdLFsxLDAsIkYoWCkiXSxbMSwxLCJGKFkpIl0sWzAsMSwiZl8qIiwyXSxbMiwzLCJGKGYpIl0sWzAsMiwidF9YIl0sWzEsMywidF9ZIiwyXV0=
+    \[\begin{tikzcd}
+        {\mathrm{Hom}_{\mathcal{C}}(X, X)} & {F(X)} \\
+        {\mathrm{Hom}_{\mathcal{C}}(X, Y)} & {F(Y)}
+        \arrow["{t_X}", from=1-1, to=1-2]
+        \arrow["{f_*}"', from=1-1, to=2-1]
+        \arrow["{F(f)}", from=1-2, to=2-2]
+        \arrow["{t_Y}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+    So we must have $t_Y(f_*(\mathds{1}_X)) = F(f)(t_X(\mathds{1}_X))$. However, $t_Y(f_*(\mathds{1}_X)) = t_Y(f \circ \mathds{1}_X) = t_Y(f)$, and we have:
+    \begin{equation}\label{eq:Yoneda}
+        t_Y(f) = F(f)(t_X(\mathds{1}_X))
+    \end{equation}
+    This implies that $t_Y$ is uniquely determined by $t_X(\mathds{1}_X)$, namely $t \mapsto t_X(\mathds{1}_X)$ is injective. On the other hand, given any $g \in F(X)$, define $t: h_X \Rightarrow F$ by $t_X(\mathds{1}_X) = g$ and Eq \ref{eq:Yoneda}, then $t$ will be a natural transformation, which proves $t \mapsto t_X(\mathds{1}_X)$ is surjective.
+\end{proof}
+
+Take $g \in F(X)$, we denote the natural transformation $h_X \Rightarrow F$ defined by $t_X(\mathds{1}_X)$ as $t_g$. For the contravariant case, we use the notation $t^g$.
+
+\begin{corollary}
+    (Yoneda Embedding) Let $\mathcal{C}$ be a small category. Then $\mathcal{C} \rightarrow \mathscr{Sets}^\mathcal{C}$ defined by $X \mapsto h_X$ (resp. $X \mapsto h^X$) and $f \mapsto t_f$ (resp. $f \mapsto t^f$) is a contravariant (resp. covariant) embedding functor.
+\end{corollary}
+
+\begin{proof}
+    By the Yoneda Lemma, we have $[h_X, h_Y] \cong h_Y(X) = \mathrm{Hom}_{\mathcal{C}}(Y, X)$, and the correspondence is defined by $t \mapsto t_X(\mathds{1}_X)$, namely $f$ corresponds to $t_f$.
+
+    It should be noted that in this case $t_f$ is the map $f_*$ and $t^f$ is the map $f^*$ at each $X$.
+\end{proof}
+
+\section{Adjoint Functors}
+
+Functors are usually not invertible. For example, considering the forgetful functor $U: \mathscr{Ab} \rightarrow \mathscr{Sets}$, it is not possible to reconstruct the group from the sets (Remember the sets are determined only by its cardinality up to isomorphism, so $\mathbb{Z}$ and $\mathbb{Z}^2$ are mapped to isomorphic object in $\mathscr{Sets}$). The best thing we can do is to \textbf{approximate} the inverse. The approximation is called the adjoint of the functor.
+
+Let $F: \mathcal{C} \rightarrow \mathcal{D}$ be a functor, for arbitrary object $Y$ in $\mathcal{D}$, how to find $X$ such that $F(X)$ best approximate $Y$? Consider the image of $F$ in $\mathcal{D}$, it consists of objects $F(X)$'s in $\mathcal{D}$ and morphisms $F(f)$'s between them. We need to find $X$ such that $F(X)$ best approximate $Y$ in this substructure (the image of $F$ is not in general a subcategory, so I have to use the word 'substructure') of $\mathcal{D}$. Let's first look at an easy example:
+
+\begin{example}
+    Consider the categories defined by the posets $(\mathbb{Z}, \le), (\mathbb{Q}, \le)$ (see Exp \ref{exp:quasi-ordered}), and the embedding $F: (\mathbb{Z}, \le) \rightarrow (\mathbb{Q}, \le)$. WLOG, we may regard $(\mathbb{Z}, \le)$ as a subcategory of $(\mathbb{Q}, \le)$. Now given $x \in \mathbb{Q}$, what is the best approximation of $x$ in $\mathbb{Z}$?
+
+    % https://q.uiver.app/#q=WzAsNyxbMiwwLCJcXGxlZnRcXGxmbG9vciB4IFxccmlnaHRcXHJmbG9vciJdLFszLDEsIngiXSxbNCwwLCJcXGxlZnRcXGxjZWlsIHggXFxyaWdodFxccmNlaWwiXSxbNSwwLCJcXGxlZnRcXGxjZWlsIHggXFxyaWdodFxccmNlaWwgKyAxIl0sWzYsMCwiXFxjZG90cyJdLFsxLDAsIlxcbGVmdFxcbGZsb29yIHggXFxyaWdodFxccmZsb29yIC0gMSJdLFswLDAsIlxcY2RvdHMiXSxbMCwyXSxbMiwzXSxbMyw0XSxbNSwwXSxbNiw1XSxbMCwxXSxbMSwyXSxbNSwxXSxbMSwzXV0=
+    \[\begin{tikzcd}
+        \cdots & {\left\lfloor x \right\rfloor - 1} & {\left\lfloor x \right\rfloor} && {\left\lceil x \right\rceil} & {\left\lceil x \right\rceil + 1} & \cdots \\
+        &&& x
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow[from=1-2, to=2-4]
+        \arrow[from=1-3, to=1-5]
+        \arrow[from=1-3, to=2-4]
+        \arrow[from=1-5, to=1-6]
+        \arrow[from=1-6, to=1-7]
+        \arrow[from=2-4, to=1-5]
+        \arrow[from=2-4, to=1-6]
+    \end{tikzcd}\]
+
+    There are two natural candidates for this: $\lfloor x \rfloor$ and $\lceil x \rceil$. But why? How can we write our reasons for choosing them in the language of categories? Take the example of $\lfloor x \rfloor$, we consider it as the best approximation because no objects of $\mathbb{Z}$ 'lie between' $\lfloor x \rfloor$ and $x$, namely for arbitrary $y \in \mathbb{Z}$ such that $y \le x$, we have $y \le \lfloor x \rfloor$. Written categorically, this is equivalent to say that any morphism $i_{y, x}$ of $(\mathbb{Q}, \le)$ that ends in $x$ and starts from $y \in \mathbb{Z}$ factors through $i_{\lfloor x \rfloor, x}$: $i_{y, x} = i_{\lfloor x \rfloor, x} \circ i_{y, \lfloor x \rfloor}$. By reversing the arrows, we can say similar things about $\lceil x \rceil$
+\end{example}
+
+Generalizing the above example, we shall get the formal definition of adjoints. The key observation is: If $F(X)$ is the best approximation of $Y$, then there will be no objects 'between' $F(X)$ and $Y$ in the image of $F$. Namely, for every $X' \in \mathcal{C}$ and morphism $f': F(X') \rightarrow Y$, $f'$ must factor through $f: F(X) \rightarrow Y$ ($F(X)$ is 'between' $F(X')$ and $Y$) by way of a morphism $F(\varphi)$ in the image of $F$: $f' = f \circ F(\varphi)$. Moreover, $\varphi$ should be \textbf{unique}, a property we need if we want the best approximation to be unique:
+
+\begin{definition} \label{def:right-adjoint}
+    (Right Adjoint Functor, Left Adjoint Functor) Let $\mathcal{C}, \mathcal{D}$ be categories and $F: \mathcal{C} \rightarrow \mathcal{D}$ a functor. If for each object $Y$ in $\mathcal{D}$, there is an object $X$ in $\mathcal{C}$ and a morphism $\eta_Y: Y \rightarrow F(X)$ such that for every object $X'$ in $\mathcal{C}$ and every morphism $g: Y \rightarrow F(X')$, there is a unique morphism $f: X \rightarrow X'$ such that $g = F(f) \circ \eta_Y$, then we call $F$ a \textbf{right adjoint functor}.
+
+    We get the definition of left adjoint functors by reversing arrows: If $F ^\mathrm{opp}: \mathcal{C}^\mathrm{opp} \rightarrow \mathcal{D}^\mathrm{opp}$ is a right adjoint functor, then we call $F$ a \textbf{left adjoint functor}. Instead of $\eta_Y$, we use $\varepsilon_Y$ to denote the morphism $F(X) \rightarrow Y$.
+
+    We can express the relationship between $X$ and $Y$ as the following commutative diagrams:
+
+    \begin{figure}[H]
+        \centering
+        % https://q.uiver.app/#q=WzAsMTAsWzAsMCwiWSJdLFsxLDAsIkYoWCkiXSxbMSwxLCJGKFgnKSJdLFsyLDAsIlgiXSxbMiwxLCJYJyJdLFswLDIsIlkiXSxbMSwyLCJGKFgpIl0sWzEsMywiRihYJykiXSxbMiwzLCJYJyJdLFsyLDIsIlgiXSxbMCwxLCJcXGV0YV9ZIl0sWzEsMiwiRihmKSJdLFswLDIsImciLDJdLFszLDQsImYiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbNyw2LCJGKGYpIiwyXSxbNiw1LCJcXHZhcmVwc2lsb25fWSIsMl0sWzcsNSwiZyJdLFs4LDksImYiLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+        \[\begin{tikzcd}
+            Y & {F(X)} & X \\
+            & {F(X')} & {X'} \\
+            Y & {F(X)} & X \\
+            & {F(X')} & {X'}
+            \arrow["{\eta_Y}", from=1-1, to=1-2]
+            \arrow["g"', from=1-1, to=2-2]
+            \arrow["{F(f)}", from=1-2, to=2-2]
+            \arrow["f", dashed, from=1-3, to=2-3]
+            \arrow["{\varepsilon_Y}"', from=3-2, to=3-1]
+            \arrow["g", from=4-2, to=3-1]
+            \arrow["{F(f)}"', from=4-2, to=3-2]
+            \arrow["f"', dashed, from=4-3, to=3-3]
+        \end{tikzcd}\]
+        \caption{Commutative diagrams for right adjoint functors (top) and left adjoint functors (bottom)}
+    \end{figure}
+\end{definition}
+
+We usually call requirements for $(X, \eta_Y)$ (resp. $(X, \varepsilon_Y)$) in Def \ref{def:right-adjoint} the 'universal property' of $(X, \eta_Y)$. We shall give a formal definition of universal properties using adjoint functors in the next section. But before that, let's stick to the informal definition that 'universal property' refers to the type of properties that involves the magic phrase 'factors uniquely through'.
+
+The first observation about $X$ is that it is unique up to isomorphism, which allows us to say that $X$ is \textbf{the} best approximation.
+
+\begin{proposition} \label{prop:adjoint-local-unique}
+    Let $\mathcal{C}, \mathcal{D}$ be categories, $F: \mathcal{C} \rightarrow \mathcal{D}$ a right adjoint functor. Then for each $Y \in \mathrm{ob}(\mathcal{D})$, the pair $(X \in \mathrm{ob}(\mathcal{C}), \eta_Y: X \rightarrow F(X))$ (resp. $(X, \varepsilon_Y: F(X) \rightarrow Y)$) satisfying the universal property is uniquely determined up to isomorphism. Moreover, let $(X', \eta_Y')$ (resp. $(X', \varepsilon_Y')$) be another pair satisfying the universal property, the isomorphism $f: X \rightarrow X'$ (resp. $f: X' \rightarrow X$) such that $\eta_Y' = Ff \circ \eta_Y$ (resp. $\varepsilon_Y' = \varepsilon_Y \circ Ff$) is unique.
+\end{proposition}
+
+\begin{proof}
+    Suppose $X, X'$ are two objects satisfying the requirement. Then by the universal property, we have unique morphism $f: X \rightarrow X', f': X' \rightarrow X$ such that the diagram below commutes:
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJZIl0sWzEsMCwiRihYKSJdLFsxLDEsIkYoWCcpIl0sWzEsMiwiRihYKSJdLFswLDEsIlxcZXRhX1kiXSxbMSwyLCJGKGYpIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsMiwiXFxldGFfWSciXSxbMCwzLCJcXGV0YV9ZIiwyXSxbMiwzLCJGKGYnKSIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dXQ==
+    \[\begin{tikzcd}
+        Y & {F(X)} \\
+        & {F(X')} \\
+        & {F(X)}
+        \arrow["{\eta_Y}", from=1-1, to=1-2]
+        \arrow["{\eta_Y'}", from=1-1, to=2-2]
+        \arrow["{\eta_Y}"', from=1-1, to=3-2]
+        \arrow["{F(f)}", dashed, from=1-2, to=2-2]
+        \arrow["{F(f')}", dashed, from=2-2, to=3-2]
+    \end{tikzcd}\]
+    However, apply the universal property of $(X, \eta_Y)$ again, we know that $\eta_Y$ factors uniquely through $\eta_Y$, and that $f' \circ f$ is the unique morphism such that $\eta_Y = F(f' \circ f) \circ \eta_Y$. But clearly $\eta_Y = F(\mathds{1}_X) \circ \eta_Y$ and by uniqueness we have $f' \circ f = \mathds{1}_X$. Similarly, $f \circ f' = \mathds{1}_{X'}$. As a result, $X \cong X'$ with $f, f'$ as the isomorphism. But this implies $F(f), F(f')$ are isomorphisms, and therefore $\eta_Y, \eta_{Y'}$ are equivalent.
+\end{proof}
+
+The result above indicates that we can 'invert' $F$ locally at each $Y$. In fact, we can make the map $Y \rightarrow X$ into a functor, which gives us the desired 'inverse' of $F$:
+
+\begin{proposition}\label{prop:right-adjoint}
+    Let $\mathcal{C}, \mathcal{D}$ be categories, $F: \mathcal{C} \rightarrow \mathcal{D}$ a right (resp. left) adjoint functor. Then there is a functor $G: \mathcal{D} \rightarrow \mathcal{C}$ with natural transformation $\eta = \left\lbrace \eta_Y: Y \rightarrow FG(Y) \right\rbrace_{Y \in \mathrm{ob}(\mathcal{D})}: \mathds{1}_{\mathcal{D}} \Rightarrow FG$ (resp. $\varepsilon = \left\lbrace \varepsilon_Y: FG(Y) \rightarrow Y \right\rbrace: FG \Rightarrow \mathds{1}_{\mathcal{D}}$) such that $(G(Y), \eta_Y)$ (resp. $(G(Y), \varepsilon_Y)$) satisfies the universal property as in Def \ref{def:right-adjoint} for each $Y \in \mathrm{ob}(\mathcal{D})$. Moreover, the functor $G$ is determined by $F$ up to natural isomorphism.
+\end{proposition}
+
+\begin{proof}
+    For each $Y \in \mathcal{D}$, pick $G(Y)$ as one object in $\mathcal{C}$ satisfying the universal property by definition of right adjoint functors, with $\eta_Y: Y \rightarrow F(G(Y))$ the corresponding morphism. For any morphism $g: Y \rightarrow Y'$, apply the universal property of $(G(Y), \eta_Y)$, the morphism $\eta_{Y'} \circ g: Y \rightarrow FG(Y')$ factors uniquely through $\eta_Y$, namely there is a unique $f: G(Y) \rightarrow G(Y')$ such that $Ff \circ \eta_Y = \eta_{Y'} \circ g$. Then we define $G(g) = f$.
+
+    $G$ is a functor: By the commutative diagram below and the uniqueness of $f, f'$, we have $G(g' \circ g) = f' \circ f = G(g') \circ G(g)$. If we replace $Y' = Y$ and $g = \mathds{1}_Y$, by uniqueness of $f$, we also have $G(\mathds{1}_Y) = \mathds{1}_{G(Y)}$.
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJZIl0sWzEsMCwiRihHKFkpKSJdLFsxLDEsIkYoRyhZJykpIl0sWzAsMSwiWSciXSxbMCwyLCJZJyciXSxbMSwyLCJGKEcoWScnKSkiXSxbMCwxLCJcXGV0YV9ZIl0sWzEsMiwiRihmKSIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFswLDMsImciLDJdLFszLDIsIlxcZXRhX3tZJ30iLDJdLFszLDQsImcnIiwyXSxbMiw1LCJGKGYnKSIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs0LDUsIlxcZXRhX3tZJyd9IiwyXV0=
+    \[\begin{tikzcd}
+        Y & {F(G(Y))} \\
+        {Y'} & {F(G(Y'))} \\
+        {Y''} & {F(G(Y''))}
+        \arrow["{\eta_Y}", from=1-1, to=1-2]
+        \arrow["g"', from=1-1, to=2-1]
+        \arrow["{F(f)}", dashed, from=1-2, to=2-2]
+        \arrow["{\eta_{Y'}}"', from=2-1, to=2-2]
+        \arrow["{g'}"', from=2-1, to=3-1]
+        \arrow["{F(f')}", dashed, from=2-2, to=3-2]
+        \arrow["{\eta_{Y''}}"', from=3-1, to=3-2]
+    \end{tikzcd}\]
+
+    $G$ is unique up to natural isomorphism: Suppose we have two functors $G, G'$ that both satisfies the condition, by Prop \ref{prop:adjoint-local-unique}, there are unique isomorphisms $t_{Y}: G(Y) \rightarrow G'(Y)$ such that $F(t_Y) \circ \eta_Y = \eta_Y'$. We claim that $t = \left\lbrace t_X \right\rbrace_{X \in \mathrm{ob}(\mathcal{C})}$ is a natural equivalence between $G, G'$. ISTS the $t_{Y'} \circ Gf = G'f \circ t_Y$ for arbitrary morphism $f: Y \rightarrow Y'$ in $\mathcal{D}$.
+
+    By uniqueness in the definition of universal property, ISTS $F(t_{Y'} \circ G(f)) \circ \eta_Y = F(G'(f) \circ t_Y) \circ \eta_Y$. But then we have:
+    $$
+        \begin{aligned}
+        F(t_{Y'} \circ G(f)) \circ \eta_Y &= Ft_{Y'} \circ FGf \circ \eta_Y \\
+        &= Ft_{Y'} \circ \eta_{Y'} \circ f \\
+        &= \eta'_{Y'} \circ f
+        \end{aligned}
+    $$
+    where the second step is by definition of $Gf$ and the third step is by definition of $t_{Y'}$.
+    
+    Similarly, we have:
+    $$
+        \begin{aligned}
+        F(G'(f) \circ t_Y) \circ \eta_Y &= FG'f \circ Ft_Y \circ \eta_Y \\
+        &= FG' f \circ \eta'_Y \\
+        &= \eta'_{Y'} \circ f
+        \end{aligned}
+    $$
+    where the second step is by definition of $t_Y$ and the third step is by definition of $G'f$. This completes our proof.
+\end{proof}
+
+Note that I omit most diagrams that should appear in the proof as they would take up a lot of space. But it is strongly recommended that the readers draw the diagrams by themselves to figure out what we are proving and what properties we are applying in each step.
+
+\begin{definition}
+    (Left Adjoint / Right Adjoint) Let $\mathcal{C}, \mathcal{D}$ be categories, $F: \mathcal{C} \rightarrow \mathcal{D}$ a right (resp. left) adjoint functor. Let $G: \mathcal{D} \rightarrow \mathcal{C}$ be a functor satisfying the conditions in Prop \ref{prop:right-adjoint}, then we call $G$ a \textbf{left (resp. right) adjoint} of $F$. By Prop \ref{prop:right-adjoint}, left (resp. right) adjoints are unique up to natural isomorphism.
+\end{definition}
+
+Moreover, the notion is purely symmetric in nature:
+
+\begin{proposition} \label{prop:adjoint-symm}
+    Let $\mathcal{C}, \mathcal{D}$ be categories, $F: \mathcal{C} \rightarrow \mathcal{D}$ be a right (resp. left) adjoint functor, with $G: \mathcal{D} \rightarrow \mathcal{C}$ a left (resp. right) adjoint. Then $G$ itself is a left (resp. right) adjoint functor and $F$ is a right (resp. left) adjoint of $G$.
+\end{proposition}
+
+\begin{proof}
+    Let $\eta = \left\lbrace \eta_Y \right\rbrace: \mathds{1}_{\mathcal{D}} \Rightarrow FG$ be the natural transformation associated with $G$. Now take arbitrary $X \in \mathrm{ob}(\mathcal{C})$, by the universal property of $(F(X), \eta_{F(X)})$, we have the commutative diagram below:
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJGKFgpIl0sWzEsMCwiRkdGKFgpIl0sWzEsMSwiRihYKSJdLFswLDIsIjFfe0YoWCl9IiwyXSxbMCwxLCJcXGV0YV97RihYKX0iXSxbMSwyLCJGIFxcdmFyZXBzaWxvbl97WH0iLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+    \[\begin{tikzcd}
+        {F(X)} & {FGF(X)} \\
+        & {F(X)}
+        \arrow["{\eta_{F(X)}}", from=1-1, to=1-2]
+        \arrow["{1_{F(X)}}"', from=1-1, to=2-2]
+        \arrow["{F \varepsilon_{X}}", dashed, from=1-2, to=2-2]
+    \end{tikzcd}\]
+    where $\varepsilon_{X}: GF(X) \rightarrow X$ is the unique morphism in $\mathcal{C}$ that makes the diagram commutes.
+    
+    We first show that $\varepsilon = \left\lbrace \varepsilon_X \right\rbrace_{X \in \mathrm{ob}(\mathcal{C})}$ is a natural transformation $GF \Rightarrow \mathds{1}_{\mathcal{C}}$. Take arbitrary $X, X' \in \mathrm{ob}(\mathcal{C})$ and morphism $f: X \rightarrow X'$, we need to show that $\varepsilon_{X'} \circ GF(f) = f \circ \varepsilon_X$. By the universal property of $\eta_{FX}$, ISTS:
+    $$F(\varepsilon_{X'} \circ GFf) \circ \eta_{FX} = F(f \circ \varepsilon_X) \circ \eta_{FX}$$
+    But note that:
+    $$
+        \begin{aligned}
+        \mathrm{LHS} &= F \varepsilon_{X'} \circ FGFf \circ \eta_{FX} \\
+        &= F \varepsilon_{X'} \circ \eta_{FX'} \circ Ff \\
+        &= \mathds{1}_{FX'} \circ Ff = Ff
+        \end{aligned}
+    $$
+    where the first step is by naturality of $\eta$ and the second step is by definition of $\varepsilon$. Similarly, we have:
+    $$
+        \begin{aligned}
+        \mathrm{RHS} &= Ff \circ F \varepsilon_X \circ \eta_{FX} \\
+        &= Ff \circ \mathds{1}_{FX} = Ff
+        \end{aligned}
+    $$
+    which completes the proof.
+
+    Before we proceed, let's first prove the 'dual' of the definition of $\varepsilon$. We claim that for every $Y \in \mathrm{ob}(\mathcal{D})$, we have $\mathds{1}_{GY} = \varepsilon_{GY} \circ G \eta_Y$: By universal property of $\eta_Y$, ISTS $F(\varepsilon_{GY} \circ G \eta_Y) \circ \eta_Y = \eta_Y$. But then we have:
+    $$
+        \begin{aligned}
+        F(\varepsilon_{GY} \circ G \eta_Y) \circ \eta_Y &= F \varepsilon_{GY} \circ FG \eta_Y \circ \eta_Y \\
+        &= F \varepsilon_{GY} \circ \eta_{FGY} \circ \eta_Y \\
+        &= \mathds{1}_{FG Y} \circ \eta_Y = \eta_Y
+        \end{aligned}
+    $$
+    where the first step is by naturality of $\eta$ and the second step is by definition of $\varepsilon$, this completes the proof.
+
+    For the rest of the proof, we need to show that $(FX, \eta_X: GFX \rightarrow X)$ satisfies the universal property for each $X \in \mathrm{ob}(X)$. Namely, for arbitrary $Y \in \mathrm{ob}(\mathcal{D})$ and $f: GY \rightarrow X$, there is a unique morphism $g: Y \rightarrow FX$ such that $f = \varepsilon_X \circ Gg$.
+
+    Suppose $g$ satisfies the condition, by the universal property of $\eta_Y$, there is a unique $h: GY \rightarrow X$ such that $g = Fh \circ \eta_Y$. Then we have:
+    $$
+        \begin{aligned}
+        f &= \varepsilon_X \circ GFh \circ G \eta_Y \\
+        &= h \circ \varepsilon_{GY} \circ \eta_Y \\
+        &= h \circ \mathds{1}_{GY} = h
+        \end{aligned}
+    $$
+    where the first step is by naturality of $\varepsilon$ and the second step is by the property of $\varepsilon$ we have just proved. This suggests that $g = Ff \circ \eta_Y$ is the unique morphism that satisfies the condition, which completes the proof of both the uniqueness and existence part.
+\end{proof}
+
+Now the name should no longer cause confusion, a functor is called a \textbf{right (resp. left) adjoint functor} simply because it is a \textbf{right (resp. left) adjoint} of some functor. And as we have shown above, that particular functor is the left (resp. right) adjoint of the functor. Due to the symmetry, we can use $F \dashv G$ to denote $F$ is a left adjoint of $G$ (or equivalently, $G$ is the right adjoint of $F$). Note that without the previous proposition, we will have to use different notations for left and right adjoints as left adjoints in one direction do not lead to right adjoints in the other direction automatically.
+
+Our definition of adjoints is (to me) the most intuitive one and has few requirements. However, it is not handy to use. (This usually happens. If you use fewer conditions to define a certain concept, you will get a weaker support when you are applying the definitions) The proof of Prop \ref{prop:adjoint-symm} provides an alternate definition of adjoints (the reader should check the equivalence of the two definitions):
+
+\begin{definition}
+    (Definition of Adjoints Through Unit and Counit) Let $\mathcal{C}, \mathcal{D}$ be categories, $F: \mathcal{C} \rightarrow \mathcal{D}, G: \mathcal{D} \rightarrow \mathcal{C}$ be functors. If there are natural transformations $\varepsilon: GF \Rightarrow \mathds{1}_{\mathcal{C}}, \eta: \mathds{1}_{\mathcal{D}} \Rightarrow FG$, such that:
+    $$\mathds{1}_F = F \varepsilon \circ \eta F, \mathds{1}_G = \varepsilon G \circ G \eta$$
+    Then we call $F$ a right adjoint of $G$ and $G$ a left adjoint of $F$. The natural transformation $\eta$ is called \textbf{the front adjunction} or \textbf{the unit}, while the natural transformation $\varepsilon$ is called \textbf{the rear adjunction} or \textbf{the counit}.
+\end{definition}
+
+From the definition of adjoints through units and counits, we can easily obtain the definition through $\mathrm{Hom}$, which is the most standard definition which reveals the symmetry naturally.
+
+\begin{definition}
+    (Definition of Adjoints Through $\mathrm{Hom}$) Let $\mathcal{C}, \mathcal{D}$ be locally small categories, $F: \mathcal{C} \rightarrow \mathcal{D}, G: \mathcal{D} \rightarrow \mathcal{C}$ be functors. If there is a collection of bijections $\tau = \left\lbrace \tau_{XY}: \mathrm{Hom}_{\mathcal{C}}(GY, X) \rightarrow \mathrm{Hom}_{\mathcal{D}}(Y, FX) \right\rbrace_{X \in \mathrm{ob}(\mathcal{C}), Y \in \mathrm{ob}(\mathcal{D})}$ such that $\tau_{X, -} = \left\lbrace \tau_{X, Y} \right\rbrace_{Y \in \mathrm{ob}(\mathcal{D})}$ is natural in $Y$ and $\tau_{-, Y} = \left\lbrace \tau_{X, Y} \right\rbrace_{X \in \mathrm{ob}(\mathcal{C})}$ is natural in $X$, then we say $F$ is a right adjoint of $G$ and $G$ is a left adjoint of $F$.
+\end{definition}
+
+A few comments are in place about the naturality of $\tau_{X, -}$ and $\tau_{-, Y}$. By naturality of $\tau_{X, -}$, we regard $\tau_{X, -}$ as a natural transformation $h_{\mathcal{C}}^X G \Rightarrow h^{FX}_{\mathcal{D}}$. Similarly, by naturality of $\tau_{-, Y}$, we regard $\tau_{-, Y}$ as a natural transformation $h_{\mathcal{C}, GX} \Rightarrow h_{\mathcal{D}, Y} F$. Since $\tau_{XY}$'s are bijections, the natural transformations are actually natural equivalence.
+
+\begin{proposition}
+    For locally small categories, the definition for adjoints through $\mathrm{Hom}$ is equivalent to the definition through units and counits.
+\end{proposition}
+
+\begin{proof}
+    Given the definition through $\mathrm{Hom}$, we simply take $\varepsilon_X = \tau_{X, FX} ^{-1}(\mathds{1}_{FX})$ and $\eta_Y = \tau_{GY, Y}(\mathds{1}_{GY})$. And then verify they satisfy the requirements of counits and units. Details omitted.
+
+    On the other hand, given $\varepsilon, \eta$, we can construct $\tau_{X, Y}: f \mapsto Ff \circ \eta_Y$ with inverse $\tau_{X, Y} ^{-1}: g \mapsto \varepsilon_X \circ Gg$. And then verify. Details omitted.
+\end{proof}
+
+We close the section with an example.
+
+\begin{example}
+    Consider the forgetful functor $U: \mathscr{Ab} \rightarrow \mathscr{Sets}$ ('U' for 'underlying'). This is a right adjoint functor with left adjoint $F$, which is usually called the 'free functor' (In fact, some requires forgetful functors to be right adjoint so that 'forgetful functor' is only meaningful if there is a 'free functor'). $F$ is defined as below: For each set $X$, define $FX$ to be the \textbf{free abelian group} generated by $X$, usually denoted as $\mathbb{Z}^{(X)}$, which is the direct sum of copies of $\mathbb{Z}$ where each copy corresponds to an element in $X$. And $\eta_X$ is the natural embedding of $X$ into $FX$: Every element in $X$ corresponds to an element $e_X$ in the standard basis of $FX$. Now for any abelian group $Y$ and set map $f: X \rightarrow UY$, clearly $f$ factors uniquely through $FX$: The map $g: FX \rightarrow Y$ is uniquely defined by $e_X \mapsto f(X)$ (and extend by linearity).
+\end{example}
+
+The example given above shows that the free group is the simplest way of turning a set into an abelian group. Back to our motivation of adjoints, the simplicity comes from the fact that any (set) maps from $X$ to an abelian group (considered as a set) must factor through the free group. As mentioned before, such properties are called the 'universal property' and will be discussed in the next sections with more examples of adjoints.
+
+\section{Universal Constructions}
+
+The transition to the language of category disallows us from using explicit set-theoretic constructions. For example, we cannot properly define the 'cartesian product' of two objects. But luckily, there is a way to describe cartesian products with only morphisms:
+
+\begin{definition}
+    (Product, Coproduct) Let $\mathcal{C}$ be a category, $I$ be a set, $\left\lbrace X_i \right\rbrace_{i \in I} \subset \mathrm{ob}(\mathcal{C})$ be a collection of objects in $\mathcal{C}$. If there is a pair $(Z, \left\lbrace f_i: Z \rightarrow X_i \right\rbrace_{i \in I})$ such that any pair $(Z', \left\lbrace f'_i: Z' \rightarrow X_i \right\rbrace_{i \in I})$ factors uniquely through $(Z, \left\lbrace f_i \right\rbrace_{i \in I})$, namely there is unique morphism $\varphi: Z' \rightarrow Z$ such that $f'_i = f_i \circ \varphi, g'_i = g_i \circ \varphi$ for all $i \in I$, then we call the pair $(Z, \left\lbrace f_i \right\rbrace_{i \in I})$ a \textbf{product} of $\left\lbrace X_i \right\rbrace_{i \in I}$. If the morphisms are clear, we may also loosely speak $Z$ is the product of $\left\lbrace X_i \right\rbrace_{i \in I}$.
+
+    Similarly, we can define coproduct by reversing all the arrows: If the pair $(Z, \left\lbrace f_i \right\rbrace_{i \in I})$ is a product of $\left\lbrace X_i \right\rbrace_{i \in I}$ in $\mathcal{C}^\mathrm{opp}$, then we call the pair $(Z, \left\lbrace f_i \right\rbrace_{i \in I})$ a \textbf{coproduct} of $\left\lbrace X_i \right\rbrace_{i \in I}$ in $\mathcal{C}$. Note that in this case $f_i \in \mathrm{Hom}_{\mathcal{C}}(X_i, Z)$.
+    
+    In general categories, we use $\prod\limits_{i \in I} X_i$ to represent the product and $\coprod\limits_{i \in I} X_i$ to represent the coproduct.
+
+    The special cases where $\mathrm{card} (I) = 2$ can be represented by commutative diagrams as below:
+    \begin{figure}[H]
+        \centering
+        
+        % https://q.uiver.app/#q=WzAsOCxbMSwxLCJaIl0sWzAsMiwiWF8xIl0sWzIsMiwiWF8yIl0sWzEsMCwiWiciXSxbNCwwLCJaJyJdLFs0LDEsIloiXSxbMywyLCJYXzEiXSxbNSwyLCJYXzIiXSxbMCwxLCJmXzEiXSxbMCwyLCJmXzIiLDJdLFszLDEsImZfMSciLDJdLFszLDIsImZfMiciXSxbMywwLCJcXHZhcnBoaSIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs1LDQsIlxcdmFycGhpIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzYsNSwiZl8xIiwyXSxbNyw1LCJmXzIiXSxbNiw0LCJmXzEnIl0sWzcsNCwiZl8yJyIsMl1d
+        \[\begin{tikzcd}
+            & {Z'} &&& {Z'} \\
+            & Z &&& Z \\
+            {X_1} && {X_2} & {X_1} && {X_2}
+            \arrow["\varphi", dashed, from=1-2, to=2-2]
+            \arrow["{f_1'}"', from=1-2, to=3-1]
+            \arrow["{f_2'}", from=1-2, to=3-3]
+            \arrow["{f_1}", from=2-2, to=3-1]
+            \arrow["{f_2}"', from=2-2, to=3-3]
+            \arrow["\varphi"', dashed, from=2-5, to=1-5]
+            \arrow["{f_1'}", from=3-4, to=1-5]
+            \arrow["{f_1}"', from=3-4, to=2-5]
+            \arrow["{f_2'}"', from=3-6, to=1-5]
+            \arrow["{f_2}", from=3-6, to=2-5]
+        \end{tikzcd}\]
+        \caption{Product (left) and Coproduct (right)}
+    \end{figure}
+\end{definition}
+
+\begin{example}
+    Not all categories guarantee the existence of products and coproducts for every collection of objects. Some guarantee the existence of \textbf{finite} product / coproducts.
+
+    \begin{enumerate}
+        \item In $\mathscr{Ab}$ or $\mathscr{Mod}_{R}$ in general, the products of $\left\lbrace X_i \right\rbrace_{i \in I}$ is the direct product $\prod\limits_{i \in I} X_i$ and the coproduct is the direct sum $\bigoplus\limits_{i \in I} X_i$. (The readers should be able to write out the morphisms $f_i$'s themselves.) Note that the two only agrees on the case when $I$ is finite. (The reader should check why $\prod\limits_{i \in I}X_i$ is not the coproduct)
+        \item In $\mathscr{mod}_R$, the products and coproducts only exist if $I$ is finite, as infinite products / sums will result in an object outside $\mathscr{mod}_R$
+        \item In the category defined by poset $(\mathcal{P}(X), \subset)$ where $X$ is a fixed set and $\mathcal{P}(X)$ is the power set of $X$, the product of $\left\lbrace X_i \right\rbrace_{i \in I}$ is the intersection $\bigcap\limits_{i \in I} X_i$ and the coproduct is the union $\bigcup\limits_{i \in I} X_i$.
+        \item In general, product and coproduct in the category defined by poset $(I, \le)$ correspond to infimum and supremum. Therefore, product and coproduct exist for arbitrary finite collection of objects if and only if $(I, \le)$ is a lattice. This gives us a lot of examples where the product / coproduct do not exist.
+    \end{enumerate}
+\end{example}
+
+The reader may find our definition of product and coproduct resembles our definition of free abelian groups. The magical key phrase is 'factors uniquely through'. Similar definitions abound in algebra. As we have seen earlier in the example of free functor, we shall be able to unify such definitions under the framework of adjoints. Let's first redefine product and coproducts:
+
+\begin{proposition}
+    (Definition of Product and Coproduct through Adjoints) Let $\mathcal{C}$ be a category where every collection of objects admit a product and coproduct, $I$ be a set. Consider the constant functor $C: \mathcal{C} \rightarrow \mathcal{C}^I$, defined by $CX = \left\lbrace X_i \right\rbrace_{i \in I}$ where $X_i = X, \forall i \in I$ and $Cf = \left\lbrace f_i \right\rbrace_{i \in I}$ where $f_i = f, \forall i \in I$. Then the functor is both left adjoint and right adjoint, let $F$ be a left exact and $G$ be a right exact, namely $F \dashv C \dashv G$. For every collection of objects $\left\lbrace X_i \right\rbrace_{i \in I}$, $F \left\lbrace X_i \right\rbrace_{i \in I}$ is a coproduct of $\left\lbrace X_i \right\rbrace_{i \in I}$ with $f_i: X_i \rightarrow F \left\lbrace X_i \right\rbrace$ being the $i$-th component of $\eta_{\left\lbrace X_i \right\rbrace}$, and $G \left\lbrace X_i \right\rbrace_{i \in I}$ is a product of $\left\lbrace X_i \right\rbrace_{i \in I}$ with $f_i: G \left\lbrace X_i \right\rbrace \rightarrow X_i$ being the $i$-th component of $\varepsilon_{\left\lbrace X_i \right\rbrace}$
+\end{proposition}
+
+\begin{proof}
+    Omitted. Just write out the definition (Hint: I would apply our first definition of adjoints)
+\end{proof}
+
+Writing products and coproducts as adjoints has the benefit that we can now use general properties of adjoints. For example, by Prop \ref{prop:right-adjoint}, the product and coproduct are unique up to isomorphism if exist. Of course, as important concepts, product and coproduct have their unique properties other than those general ones. The following proposition should be obvious in the category of sets:
+
+\begin{proposition}
+    Let $\mathcal{C}$ be a category where $\mathrm{Hom}_{\mathcal{C}}(X, Y)$ is non-empty for arbitrary pair of objects $X, Y$, $\left\lbrace X_i \right\rbrace_{i \in I}$ be a collection of objects in $\mathcal{C}$. Suppose they admit a product (resp. coproduct) $(X, \left\lbrace f_i: X \rightarrow X_i \right\rbrace)$ (resp. $(X, \left\lbrace f_i: X_i \rightarrow X \right\rbrace)$), then $f_i$'s are left (resp. right) inverses, and hence epimorphisms (resp. monomorphisms)
+\end{proposition}
+
+\begin{proof}
+    Take arbitrary $i_0 \in I$, consider the set of morphisms $\left\lbrace g_i: X_{i_0} \rightarrow X_i \right\rbrace$ where $g_{i_0} = \mathds{1}_{X_{i_0}}$ and $g_{i}$ is arbitrary for $i \ne i_0$ (this is why we require $\mathcal{C}(X, Y)$ non-empty for arbitrary $X, Y$). By definition of products, there is a unique morphism $g: X_{i_0} \rightarrow X$ such that $g_i = f_i \circ g \Rightarrow \mathds{1}_{X_{i_0}} = f_{i_0} \circ g$, namely $f_{i_0}$ is a left inverse. Since $i_0$ is arbitrary, this completes the proof.
+\end{proof}
+
+As a result, we normally use $p_i: X \rightarrow X_i$ ($p$ for 'projection') to denote the morphisms in the product and $i_i: X_i \rightarrow X$ ($i$ for 'injection') to denote the morphisms in the coproduct.
+
+Here we adopt the notation of Hilton \& Stammbach: Let $\left\lbrace \varphi_i: X \rightarrow Y_i \right\rbrace_{i \in I}$ be a collection of morphisms, we denote the unique morphism $\varphi: X \rightarrow \prod\limits_{i \in I} Y_i$ induced by $\varphi_i$'s as $\prod\limits_{i \in I} \varphi_i$, or $\left\lbrace \varphi_1, \cdots, \varphi_n \right\rbrace$ when $I$ is finite. Similarly, let $\left\lbrace \varphi_i: X_i \rightarrow Y \right\rbrace$ be a collection of morphisms, we denote the unique morphism $\varphi: \coprod\limits_{i \in I}^{} X_i \rightarrow Y$ as $\coprod\limits_{i \in I} \varphi_i$ or $\left\langle \varphi_1, \cdots, \varphi_n \right\rangle$ when $I$ is finite. Moreover, if $\left\lbrace \varphi_i: X_i \rightarrow Y_i \right\rbrace_{i \in I}$ is a collection of morphisms, then by a little abuse of notation, we also use $\prod\limits_{i \in I} \varphi_i$ (resp. $\coprod\limits_{i \in I} \varphi_i$) to denote the unique morphism induced by $\left\lbrace \varphi_i \circ f_i \right\rbrace_{i \in I}$ (resp. $\left\lbrace g_i \circ \varphi_i \right\rbrace$) where $(X, \left\lbrace f_i: X \rightarrow X_i \right\rbrace_{i \in I})$ and $Y$ are the products of $\left\lbrace X_i \right\rbrace_{i \in I}$ and $\left\lbrace Y_i \right\rbrace_{i \in I}$ respectively (resp. $X$ and $(Y, \left\lbrace g_i: Y_i \rightarrow Y \right\rbrace_{i \in I})$ are the coproducts). The reader should verify that $\varphi = F(\left\lbrace \varphi_i \right\rbrace_{i \in I})$ (resp. $\varphi = G(\left\lbrace \varphi_i \right\rbrace)$) where $F, G$ are the left and right adjoints of $C$ as in our second definition.
+
+In the definition of product and coproduct, the collection of morphism $\left\lbrace f_i \right\rbrace_{i \in I}$ can be arbitrary. That makes product and coproduct the prototype of many universal constructions. Usually, we would require the collection of morphisms to satisfy certain conditions, the simplest such requirement is that the morphisms make some diagrams commute. For example:
+
+\begin{definition}
+    (Push-out, Pull-back) Let $\mathcal{C}$ be a category, $I$ be a set, $\left\lbrace \alpha_i: X_i \rightarrow Z \right\rbrace$ be a collection of morphisms where $X_i, Z$ are objects in $\mathcal{C}$. The pair $(X, \left\lbrace f_i: X \rightarrow X_i \right\rbrace_{i \in I})$ is called a \textbf{pull-back} of the collection of morphisms $\left\lbrace \alpha_i \right\rbrace_{i \in I}$ if:
+    \begin{enumerate}
+        \item It satisfies $\alpha_i \circ f_i = \alpha_j \circ f_j$, namely the diagram below commutes for arbitrary $i, j \in I$:
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJYIl0sWzEsMCwiWF9pIl0sWzAsMSwiWF9qIl0sWzEsMSwiWiJdLFsxLDMsIlxcYWxwaGFfaSJdLFsyLDMsIlxcYWxwaGFfaiIsMl0sWzAsMSwiZl9pIl0sWzAsMiwiZl9qIiwyXV0=
+        \[\begin{tikzcd}
+            X & {X_i} \\
+            {X_j} & Z
+            \arrow["{f_i}", from=1-1, to=1-2]
+            \arrow["{f_j}"', from=1-1, to=2-1]
+            \arrow["{\alpha_i}", from=1-2, to=2-2]
+            \arrow["{\alpha_j}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+        \item Any pair $(X', \left\lbrace f_i': X' \rightarrow X_i \right\rbrace)_{i \in I}$ that satisfies the first condition must factor uniquely through $(X, \left\lbrace f_i \right\rbrace_{i \in I})$. Namely there is a unique morphism $\varphi: X' \rightarrow X$ such that $f_i' = f_i \circ \varphi$ for arbitrary $i \in I$.
+    \end{enumerate}
+
+    Similarly, we can define push-out by reversing the arrows: If $(X, \left\lbrace f_i \right\rbrace_{i \in I})$ is the pull-back of $\left\lbrace \alpha_i \right\rbrace_{i \in I}$ in $\mathcal{C}^\mathrm{opp}$, then we call the pair $(X, \left\lbrace f_i \right\rbrace_{i \in I})$ a \textbf{push-out} of $\left\lbrace \alpha_i \right\rbrace_{i \in I}$. Note that in this case we have $\alpha_i: Z \rightarrow X_i$ and $f_i: X_i \rightarrow X$ by definition of opposite categories.
+
+    The special case where $\mathrm{card}(I) = 2$ cane be represented by commutative diagrams as below:
+    % https://q.uiver.app/#q=WzAsMTAsWzEsMSwiWCJdLFsyLDEsIlhfMSJdLFsxLDIsIlhfMiJdLFsyLDIsIloiXSxbMCwwLCJYJyJdLFs0LDAsIlgnIl0sWzUsMSwiWCJdLFs2LDEsIlhfMSJdLFs1LDIsIlhfMiJdLFs2LDIsIloiXSxbMSwzLCJcXGFscGhhXzEiXSxbMiwzLCJcXGFscGhhXzIiLDJdLFswLDEsImZfMSIsMl0sWzAsMiwiZl8yIl0sWzQsMSwiZl8xJyJdLFs0LDIsImZfMiciLDJdLFs0LDAsIlxcdmFycGhpIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzksNywiXFxhbHBoYV8xIiwyXSxbOSw4LCJcXGFscGhhXzIiXSxbOCw2LCJmXzIiLDJdLFs3LDYsImZfMSJdLFs3LDUsImZfMSciLDJdLFs4LDUsImZfMiciXSxbNiw1LCJcXHZhcnBoaSIsMSx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dXQ==
+
+    \begin{figure}[H]
+        \centering
+        \[\begin{tikzcd}
+            {X'} &&&& {X'} \\
+            & X & {X_1} &&& X & {X_1} \\
+            & {X_2} & Z &&& {X_2} & Z
+            \arrow["\varphi"{description}, dashed, from=1-1, to=2-2]
+            \arrow["{f_1'}", from=1-1, to=2-3]
+            \arrow["{f_2'}"', from=1-1, to=3-2]
+            \arrow["{f_1}"', from=2-2, to=2-3]
+            \arrow["{f_2}", from=2-2, to=3-2]
+            \arrow["{\alpha_1}", from=2-3, to=3-3]
+            \arrow["\varphi"{description}, dashed, from=2-6, to=1-5]
+            \arrow["{f_1'}"', from=2-7, to=1-5]
+            \arrow["{f_1}", from=2-7, to=2-6]
+            \arrow["{\alpha_2}"', from=3-2, to=3-3]
+            \arrow["{f_2'}", from=3-6, to=1-5]
+            \arrow["{f_2}"', from=3-6, to=2-6]
+            \arrow["{\alpha_1}"', from=3-7, to=2-7]
+            \arrow["{\alpha_2}", from=3-7, to=3-6]
+        \end{tikzcd}\]
+        \caption{Pull-back (Left) and Push-out (Right)}
+    \end{figure}
+\end{definition}
+
+As promised, pull-back and push-out can also be defined as adjoints. Let $\mathcal{D}$ be the category represented by the diagram below (see the comments after Exp \ref{exp:quasi-ordered}):
+% https://q.uiver.app/#q=WzAsMyxbMSwwLCJcXGJ1bGxldCJdLFswLDEsIlxcYnVsbGV0Il0sWzEsMSwiXFxidWxsZXQiXSxbMCwyXSxbMSwyXV0=
+\[\begin{tikzcd}
+	& \bullet \\
+	\bullet & \bullet
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+The for arbitrary category $\mathcal{C}$, consider the category $\mathcal{C}^{\mathcal{D}}$. The objects are functors $\mathcal{D} \rightarrow \mathcal{C}$, and therefore is essentially a collection of two morphisms $\alpha_1, \alpha_2$ with common codomain (the two morphisms assigned to the two non-identity morphisms in $\mathcal{D}$), and we denote it as $\left\lbrace \alpha_i \right\rbrace_{i = 1, 2}$
+
+Now consider the morphisms in $\mathcal{C}^{\mathcal{D}}$. They are natural transformations. A natural transformation $\tau$ between two functors represented by $\left\lbrace \alpha_i \right\rbrace, \left\lbrace \alpha_i' \right\rbrace$ is essentially the collection of three morphisms $\tau = \left\lbrace \tau_i \right\rbrace_{i = 1, 2, 3}$ that makes the following diagram commutes:
+% https://q.uiver.app/#q=WzAsNixbMCwwLCJYXzEiXSxbMSwwLCJYXzEnIl0sWzAsMSwiWiJdLFsxLDEsIlonIl0sWzAsMiwiWF8yIl0sWzEsMiwiWF8yJyJdLFswLDEsIlxcdGF1XzEiLDJdLFsyLDMsIlxcdGF1XzIiLDJdLFs0LDUsIlxcdGF1XzMiLDJdLFswLDIsIlxcYWxwaGFfMSIsMl0sWzQsMiwiXFxhbHBoYV8yIl0sWzUsMywiXFxhbHBoYV8yJyIsMl0sWzEsMywiXFxhbHBoYV8xJyJdXQ==
+\[\begin{tikzcd}
+	{X_1} & {X_1'} \\
+	Z & {Z'} \\
+	{X_2} & {X_2'}
+	\arrow["{\tau_1}"', from=1-1, to=1-2]
+	\arrow["{\alpha_1}"', from=1-1, to=2-1]
+	\arrow["{\alpha_1'}", from=1-2, to=2-2]
+	\arrow["{\tau_2}"', from=2-1, to=2-2]
+	\arrow["{\alpha_2}", from=3-1, to=2-1]
+	\arrow["{\tau_3}"', from=3-1, to=3-2]
+	\arrow["{\alpha_2'}"', from=3-2, to=2-2]
+\end{tikzcd}\]
+If we pick $X_1 = X_2 = Z$ and $\alpha_1, \alpha_2 = \mathds{1}_Z$, then $\tau$ is essentially a collection of two morphisms $\tau_1, \tau_3$ that makes the diagram below commutes:
+% https://q.uiver.app/#q=WzAsNCxbMCwwLCJaIl0sWzEsMCwiWF8xJyJdLFswLDEsIlhfMiciXSxbMSwxLCJaJyJdLFswLDEsIlxcdGF1XzEiXSxbMiwzLCJcXGFscGhhXzInIiwyXSxbMCwyLCJcXHRhdV8zIiwyXSxbMSwzLCJcXGFscGhhXzEnIl1d
+\[\begin{tikzcd}
+	Z & {X_1'} \\
+	{X_2'} & {Z'}
+	\arrow["{\tau_1}", from=1-1, to=1-2]
+	\arrow["{\tau_3}"', from=1-1, to=2-1]
+	\arrow["{\alpha_1'}", from=1-2, to=2-2]
+	\arrow["{\alpha_2'}"', from=2-1, to=2-2]
+\end{tikzcd}\]
+(and $\tau_2$ is determined by $\tau_1, \tau_3$)
+
+With that in mind, let's write push-out and pull-back as adjoints:
+
+\begin{definition}
+    (Definition of Push-out and Pull-back through Adjoints) Let $\mathcal{C}$ be a category, $I$ be a set. Define a quasi-order on $I' = I \cup \left\lbrace z \right\rbrace$ where $z \notin I$: For arbitrary $x, y \in I'$, $x \le y$ if and only if $x = y$ or $y = z$. Denote $\mathcal{I}$ the category associated with the quasi-ordered set $(I', \le)$.
+    
+    Now consider the category $\mathcal{C}^{\mathcal{I}}$. By the previous discussion, an object in $\mathcal{C}^{\mathcal{I}}$ is basically a collection of morphisms with common codomain $\left\lbrace f_i: X_i \rightarrow Z \right\rbrace_{i \in I}$. Define the constant functor $C: \mathcal{C} \rightarrow \mathcal{C}^{\mathcal{I}}$ that assigns each object $A \in \mathcal{C}$ to the functor $F_A: \mathcal{I} \rightarrow \mathcal{C}$ defined by $F(X) = A, \forall X \in I'$ and $F(i_{X, Y}) = \mathds{1}_A$ for all morphism $i_{X, Y}$ in $\mathcal{I}$.
+
+    Then $C$ is left adjoint. Let $F$ be a right adjoint of $C$, namely $C \dashv F$. Then for arbitrary collection of morphisms $\left\lbrace \alpha_i: X_i \rightarrow Z \right\rbrace_{i \in I}$ where $X_i, Z$ are objects in $\mathcal{C}$, $(F\left\lbrace \alpha_i \right\rbrace, \left\lbrace f_i \right\rbrace_{i \in I})$ is the pull-back of $\left\lbrace f_i \right\rbrace$ with $f_i: F \left\lbrace \alpha_i \right\rbrace \rightarrow X_i$ being the $i$-th component of $\varepsilon_{\left\lbrace f_i \right\rbrace}$.
+
+    For the push-out, we have to consider $\mathcal{I}^\mathrm{opp}$ instead. The reader should be able to write out the definition of push-out by herself.
+\end{definition}
+
+Another important example of universal construction would be limits and colimits. But I consider it premature to introduce them here. We will see them when we get more familiar with rings and modules.
+
+\end{document}
