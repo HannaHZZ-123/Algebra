@@ -1,0 +1,194 @@
+\documentclass{note-eng}
+
+\title{Modules (Cont.)}
+\author{Jingyi Long}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+Before we begin the chapter, the readers may verify themselves that $\mathscr{Mod}_{R}$ is an abelian category, so that we can apply the results from the previous chapter to $\mathscr{Mod}_R$. Moreover, $\mathrm{Hom}_{R}(M, \cdot)$ and $\mathrm{Hom}_{R}(\cdot, M)$ are functors $\mathscr{Mod}_R \rightarrow \mathscr{Mod}_R$.
+
+\newpage
+
+\section{Tensor Product}
+
+As promised in the previous chapter, we shall construct a right exact functor by constructing the left adjoint of the $\mathrm{Hom}$ functor.
+
+I assume that the readers has already proven that the Hom functors in $\mathscr{Mod}_R$ actually maps the category into itself (namely the Hom sets has an $R$-module structure). To distinct the source and target for the Hom functors, we introduce bimodules:
+
+\begin{definition}[Bimodules]
+    Let $R, S$ be rings, $(M, +)$ be an abelian group. If there are ring homomorphisms $\omega_R: R \rightarrow \mathrm{End}(M)$ and $\omega_S: S \rightarrow \mathrm{End}(M)$ such that $\omega_R(r) \circ \omega_S(s) = \omega_S(s) \circ \omega_R(r)$ for arbitrary $r \in R, s \in S$. Then we call $M$ an \textbf{$(R, S)$-bimodule}, and we denote $\omega_R(r) \circ \omega_S(s) (m)$ as $r \cdot m \cdot s$ or $rms$ for short.
+\end{definition}
+
+\begin{remark}
+    The requirement in the definition is equivalent to $(rm)s = r(ms)$. Since the ring is commutative, it makes no difference if we write $s$ on the left and $r$ on the right.
+\end{remark}
+
+\begin{proposition}
+    Let $R, S$ be rings. Fix $M$ an $(R, S)$-bimodule. Then the $\mathrm{Hom}$-functors $\mathrm{Hom}_{R}(M, \cdot), \mathrm{Hom}_{R}(\cdot, M)$ are functors $\mathscr{Mod}_R \rightarrow \mathscr{Mod}_S$.
+\end{proposition}
+
+\begin{proof}
+    We only show that $\mathrm{Hom}_{R}(M, N), \mathrm{Hom}_{R}(N, M)$ have an $S$-module structure (we already know that it has an $R$-module structure and actually the two structures are compatible and hence they are bimodules) and leave it to the readers to define the morphisms under the functor and the verify they are functors.
+
+    It suffices to define a multiplication by $S$ on the $\mathrm{Hom}$-sets. Given $s \in S$:
+    \begin{enumerate}
+        \item for arbitrary $\varphi: M \rightarrow N$ an $R$-module homomorphism, define $s \varphi: M \rightarrow N$ by $x \mapsto \varphi(sx)$;
+        \item for arbitrary $\psi: N \rightarrow M$ an $R$-module homomorphism, define $s \psi: N \rightarrow M$ by $x \mapsto s \psi(x)$.
+    \end{enumerate}
+\end{proof}
+
+It should be noted that we are not being demanding by requiring $M$ to be a bimodule, as an $R$-module is clearly an $(R, R)$-module, so everything we state below will apply the special case of $R = S$.
+
+We claim that for a fixed $(R, S)$-bimodule $M$, the functor $\mathrm{Hom}_{R}(M, \cdot): \mathscr{Mod}_R \rightarrow \mathscr{Mod}_S$ is right adjoint, with left adjoint functor $F: \mathscr{Mod}_S \rightarrow \mathscr{Mod}_R$. By the definition, given $S$-module $N$, we obtain $R$-module $FN$ and $S$-module morphism $\eta_{M, N}: N \rightarrow \mathrm{Hom}_{R}(M, FN)$ such that for arbitrary $R$-module $P$ and an $S$-module homomorphism $\varphi: N \rightarrow \mathrm{Hom}_{R}(M, P)$, there is a unique $R$-module homomorphism $f: FN \rightarrow P$ such that $\varphi = f_\ast \circ \eta_{M, N}$.
+% https://q.uiver.app/#q=WzAsNSxbMCwwLCJOIl0sWzEsMSwiXFxtYXRocm17SG9tfV9SKE0sIFApIl0sWzEsMCwiXFxtYXRocm17SG9tfV9SKE0sIEZOKSJdLFsyLDAsIkZOIl0sWzIsMSwiUCJdLFswLDIsIlxcZXRhX3tNLCBOfSJdLFswLDEsIlxcdmFycGhpIiwyXSxbMiwxLCJmX1xcYXN0IiwyXSxbMyw0LCJmIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+\[\begin{tikzcd}
+	N & {\mathrm{Hom}_R(M, FN)} & FN \\
+	& {\mathrm{Hom}_R(M, P)} & P
+	\arrow["{\eta_{M, N}}", from=1-1, to=1-2]
+	\arrow["\varphi"', from=1-1, to=2-2]
+	\arrow["{f_\ast}"', from=1-2, to=2-2]
+	\arrow["f"', dashed, from=1-3, to=2-3]
+\end{tikzcd}\]
+
+The key point in understanding the definition is to understand the $S$-module homomorphism $\varphi: N \rightarrow \mathrm{Hom}_{R}(M, P)$. For each $y \in N$, we associate an $R$-module homomorphism $M \rightarrow P$, namely for each $x \in M$, we have $\varphi(y)(x)$ an element in $P$. Since $\varphi$ is a homomorphism and $\varphi(y)$ is a homomorphism, we have:
+$$\varphi(sy)(x) = (s \varphi(y))(x) = \varphi(y)(xs)$$
+by definition. In the special case where $R = S$, we can extract $s$ and obtain $s\varphi(y)(x)$. This leads to:
+
+\begin{definition}[Multilinear Map]
+    Let $R$ be a ring, $N, M_1, \cdots, M_n$ be $R$-modules. A homomorphism $f: M_1 \times \cdots \times M_n \rightarrow N$ is called \textbf{$R$-multilinear} if $f$ is $R$-linear in each component, namely:
+    $$f(x_1, \cdots, rx_i + r'x_i', \cdots, x_n) = r f(x_1, \cdots, x_i, \cdots, x_n) + r' f(x_1, \cdots, x_i', \cdots, x_n)$$
+    for arbitrary $i$ and $r, r' \in R, x_i, x_i' \in M_i$
+
+    If $n = 2$, we call $f$ \textbf{$R$-bilinear}.
+\end{definition}
+
+With bilinear map, we can restate the definition of right-adjoint when $R = S$: Given $R$-module $N$, we obtain $R$-module $FN$ and an $R$-bilinear map $\eta_{M, N}: N \times M \rightarrow FN$ such that for arbitrary $R$-module $P$ and $R$-blinear map $\varphi: N \times M \rightarrow P$, there is a unique $R$-module homomorphism $f: FN \rightarrow P$ such that $\varphi = f \circ \eta_N$. This gives us the definition for the tensor product:
+
+\begin{definition}[Tensor Product]
+    Let $R$ be a ring and $M, N$ be $R$-modules. The tensor product is a pair $(P, \varphi: M \times N \rightarrow P)$ where $P$ is an $R$-module and $\varphi$ is an $R$-bilinear map, such that for any pair $(Q, \varphi': M \times N \rightarrow Q)$ where $\varphi'$ bilinear, there is a unique homomorphism $\psi: P \rightarrow Q$ such that $\varphi' = \psi \circ \varphi$
+
+    We use $(M \otimes_R N, T_{M, N})$ to denote the tensor product of $M, N$, and use $m \otimes_R n$ to denote $T_{M, N}(m, n)$.
+\end{definition}
+
+Since the tensor product is a universal construction, it will be unique if exists. Now we prove that tensor product exists for arbitrary pair of modules:
+
+\begin{proposition}
+    Let $R$ be a ring and $M, N$ be $R$-modules, then the tensor product $M \otimes_R N$ exists.
+\end{proposition}
+
+\begin{proof}
+    We construct the tensor product explicitly. Let $D = R^{(M \times N)}$, and $C$ be the submodule of $D$ generated by elements of the forms:
+    $$
+        \begin{aligned}
+        &ae_{(m, n)} - e_{(am, n)} \\
+        &ae_{(m, n)} - e_{(m, an)} \\
+        &e_{(m, n)} + e_{(m', n)} - e_{(m + m', n)} \\
+        &e_{(m, n)} + e_{(m, n')} - e_{(m, n + n')}
+        \end{aligned}
+    $$
+    Then we claim $(D / C, (m, n) \mapsto \overline{e_{(m, n)}})$ will be the desired tensor product. The reader may verify this herself.
+\end{proof}
+
+The reader may forget about the construction of tensor product if she prefers. Only the universal properties matter. Though some facts are clearer given the construction, among which is the warning: Not all elements in $N \otimes_R M$ has the form $x \otimes_R y$, although they do generate the tensor product (even as abelian groups, namely using additions only).
+
+Back to our definition. After we define the tensor product of two modules, how can we make it into a functor that is the left adjoint of $\mathrm{Hom}_{R}(M, \cdot): \mathscr{Mod}_R \rightarrow \mathscr{Mod}_R$? We already know that given object $N$, the corresponding object should be $N \otimes_R M$ and the natural transformation $\eta_{N, M}$ should be defined by the $R$-bilinear map $T_{N, M}: N \times M \rightarrow N \otimes_R M$. Then for the morphism $f: N \rightarrow N'$, it is defined by the commutative diagram:
+
+% https://q.uiver.app/#q=WzAsNixbMCwwLCJOIl0sWzEsMSwiXFxtYXRocm17SG9tfV9SKE0sIE4nIFxcb3RpbWVzX1IgTSkiXSxbMSwwLCJcXG1hdGhybXtIb219X1IoTSwgTiBcXG90aW1lc19SIE0pIl0sWzIsMCwiTiBcXG90aW1lc19SIE0iXSxbMiwxLCJOJyBcXG90aW1lc19SIE0iXSxbMCwxLCJOJyJdLFswLDIsIlxcZXRhX3tOLCBNfSJdLFsyLDEsIihmIFxcb3RpbWVzX1JNKV9cXGFzdCIsMl0sWzMsNCwiZiBcXG90aW1lc19SIE0iLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMCw1LCJmIiwyXSxbNSwxLCJcXGV0YV97TicsIE19Il1d
+\[\begin{tikzcd}
+	N & {\mathrm{Hom}_R(M, N \otimes_R M)} & {N \otimes_R M} \\
+	{N'} & {\mathrm{Hom}_R(M, N' \otimes_R M)} & {N' \otimes_R M}
+	\arrow["{\eta_{N, M}}", from=1-1, to=1-2]
+	\arrow["f"', from=1-1, to=2-1]
+	\arrow["{(f \otimes_RM)_\ast}"', from=1-2, to=2-2]
+	\arrow["{f \otimes_R M}"', dashed, from=1-3, to=2-3]
+	\arrow["{\eta_{N', M}}", from=2-1, to=2-2]
+\end{tikzcd}\]
+By writing out the definitions, we find that $f \otimes_R M$ is the morphism defined by $x \otimes_R y \mapsto f(x) \otimes_R y$ where $x \in N, y \in M$. So we usualy denote it as $f \otimes_R \mathds{1}_M$.
+
+Now our argument is complete, $\cdot \otimes_R M$ is the left adjoint of $\mathrm{Hom}_{R}(M, \cdot): \mathscr{Mod}_R \rightarrow \mathscr{Mod}_R$, as a result:
+
+\begin{corollary}
+    [Tensor Product is Right Exact] Let $R$ be a ring, $M$ an $R$-module, then the functor $\cdot \otimes_R M$ is right exact. Written explicitly, given arbitrary exact sequence of $R$-modules
+    $$0 \rightarrow N' \xrightarrow{f} N \xrightarrow{g} N'' \rightarrow 0$$
+    we have exact sequence:
+    $$N' \otimes_R M \xrightarrow{f \otimes_R \mathds{1}_M} N \otimes_R M \xrightarrow{g \otimes_R \mathds{1}_M} N'' \otimes_R M \rightarrow 0$$
+\end{corollary}
+
+\iffalse
+If the context is clear, we shall use $x \otimes y$ instead of $x \otimes_R y$ to denote $T_{M, N}(x, y)$. However, both notations are actually ambiguous, as the value of $x \otimes y$ depends on the modules $M, N$:
+
+\begin{example}
+    Let $M = \mathbb{Z}, N = \mathbb{Z}, N' = \mathbb{Z} / 2$, then $2 \otimes_\mathbb{Z} 1 \ne 0$ in $M \otimes_\mathbb{Z} N$, but $2 \otimes_\mathbb{Z} 1 = 2 (1 \otimes_\mathbb{Z} 1) = 1 \otimes_\mathbb{Z} 0 = 0$ in $M \otimes_\mathbb{Z} N'$.
+\end{example}
+\fi
+
+The exactness of $\mathrm{Hom}$ functors defines projectiveness and injectiveness. Here we have another property of objects defined by the property of the associated functor:
+
+\begin{definition}[Flat]
+    Let $R$ be a ring, $M$ be an $R$-module. If the functor $\cdot \otimes_R M$ is exact, then we call $M$ \textbf{flat}.
+\end{definition}
+
+Since tensor product is already right exact, an $R$-module $M$ is exact if and only if $\cdot \otimes_R M$ preserves monomorphism. In fact, we need not test the monomorphisms between arbitrary modules, we only need to test the finitely generated ones:
+
+\begin{proposition}[Finite Test of Flatness]
+    Let $R$ be a ring and $M$ be an $R$-module, then $M$ is exact if and only if $f \otimes_R \mathds{1}_M: N' \otimes_R M \rightarrow N \otimes_R M$ is injective for arbitrary injection $f: N' \rightarrow N$
+\end{proposition}
+
+The key ingredient of the proof is the following fact:
+
+\begin{lemma}
+    Let $R$ be a ring and $M, N$ be $R$-modules. If $x \otimes_R y = 0$ in $M \otimes_R N$, then there are finitely generated submodules $M', N'$ of $M, N$ such that $x \otimes_R y = 0$ in $M' \otimes_R N'$
+\end{lemma}
+
+It should be noted that the lemma is not trivial:
+
+\begin{example}
+    Let $R = \mathbb{Z}, M = \mathbb{Z}, N = \mathbb{Z} / 2 \mathbb{Z}, M' = 2 \mathbb{Z}, N' = N$, then $2 \otimes_R 1 = 2 (1 \otimes_R 1) (1 \otimes_R 2) = 0$ in $M \otimes_R N$ but $2 \otimes_R 1 \ne 0$ in $M' \otimes_R N'$. The key problem is that the element $1 \otimes_R 1$ is no longer in the tensor product. This suggests the proof that if we require those transitional elements to be in the tensor product, then the elements will vanish.
+\end{example}
+
+\begin{proof}
+    By our construction, $x \otimes_R y = 0$ implies that $e_{(x, y)} \in C$, namely $e_{(x, y)}$ is a finite sum of elements in $C$. Let $M', N'$ be the submodule of $M, N$ generated by all elements involved in the sum. Then it is clear that $x \otimes_R y = 0$ in $M' \otimes_R N'$. (\TODO Prove by universal property).
+\end{proof}
+
+But the converse of the lemma is always true: If $x \otimes_R y = 0$ in $M' \otimes_R N'$, then we always have $x \otimes_R y = 0$ in $M \otimes_R N$, the proof is the same.
+
+\begin{proof}[Proof of the proposition]
+    The "only if" part is trivial. For the "if" part, take arbitrary $f: N' \rightarrow N$ injective. Take $\sum\limits_{i = 1}^{n} x_i \otimes_R y_i \in \mathrm{ker}(f \otimes_R \mathds{1}_M)$, then we have:
+    $$f \otimes_R \mathds{1}_M\left(\sum\limits_{i = 1}^{n} x_i \otimes_R y_i\right) = \sum\limits_{i = 1}^{n} f(x_i) \otimes_R y_i = 0$$
+    Let $N_0$ be the finitely generated submodule of $M$ generated by $x_i$'s, and $N_0'$ tbe the finitely generated submodule containing $f(N_0)$ such that $\sum\limits_{i = 1}^{n} f(x_i) \otimes_R y_i = 0$ (by the previous lemma). Restrict $f$ to $N_0 \rightarrow N_0'$ to conclude.
+\end{proof}
+
+The reader may be confused that after we introduct bimodules, we do not use it in the definition of tensor products. Will the functor $\cdot \otimes_S M$ still be a left adjoint of $\mathrm{Hom}_{R}(M, \cdot)$ given that $R \ne S$ and $M$ is an $(R, S)$-bimodule? The answer is yes, but first we need to show that $N \otimes_S M$ is also an $(R, S)$-bimodule. We do so by defining $r(x \otimes_S y) = x \otimes_S ry$. The reader may verify that the multiplication by $R$ defined in this way does give an $(R, S)$-bomodule structure on $S$, as a result $\cdot \otimes_S M$ can be regarded as a functor $\mathscr{Mod}_S \rightarrow \mathscr{Mod}_R$.
+
+We close the secion by presenting a few properties of the tensor product:
+
+\begin{proposition}
+    Let $R, S$ be rings, $M, N$ be $R$-modules.
+    \begin{enumerate}
+        \item $M \otimes_R N \cong N \otimes_R M$. As a result, the functor $\cdot \otimes_R M$ and $M \otimes_R \cdot$ are natural equivalent.
+        \item If $P$ is an $R$-module, then $(M \oplus N) \otimes_R P \cong (M \otimes_R P) \oplus (N \otimes_R P)$
+        \item If $N$ is an $(R, S)$-bimodule and $P$ an $S$-module, then $(M \otimes_R N) \otimes_S P \cong M \otimes_R (N \otimes_S P)$. In particular, if $R = S$, we have $(M \otimes_R N) \otimes_R P \cong M \otimes_R (N \otimes_R P)$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Let $R$ be a ring, $M$ an $R$-module, $I$ be an ideal of $R$. Then we have:
+    \begin{enumerate}
+        \item $R \otimes_R M \cong M$
+        \item $I \otimes_R M \cong IM$
+        \item $R / I \otimes_R M \cong M / IM$
+    \end{enumerate}
+\end{proposition}
+
+\section{Resolutions}
+
+Our ultimate goal is to calculate the derived functor for both $\mathrm{Hom}_{R}(M, \cdot)$ and $\cdot \otimes_R M$. To do so, we need projective and injective resolutions. But first, what are the projective and injective objects in $\mathscr{Mod}_R$.
+
+\section{$\mathrm{Ext}$ and $\mathrm{Tor}$}
+
+Now we have left exact functor $\mathrm{Hom}_{R}(M, \cdot)$ and righr exact functor $\mathrm{Hom}_{R}(\cdot, M)$, following our discussion in the previous chapter, the nature thing to do next is to calculate the derived functors, so that we can judge flatness and projectiveness by computation.
+
+\end{document}

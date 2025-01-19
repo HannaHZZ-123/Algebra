@@ -1,0 +1,1601 @@
+\documentclass{note-eng}
+
+\title{Abelian Category}
+\author{Jingyi Long}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+In the last chapter, we talked about general categories and functors. To get more useful results, we have to assume certain properties of the categories. So in this chapter, we will talk about abelian category, which can be viewed as a generalization of $\mathscr{Ab}$, the category of abelian groups. It has useful properties yet generalizes well, almost all algebraic structures in the rest of the notes belong to abelian categories.
+
+\newpage
+
+\section{Additive Category}
+
+One property of $\mathscr{Ab}$ is that the $\mathrm{Hom}$-sets are not merely sets, they are abelian groups, allowing us to \textbf{add} two morphisms with common domain and codomain. Also, this means we must have an additive identity in the $\mathrm{Hom}$-sets: The 'zero' morphisms. In fact, we can define zero morphisms without the additive structure, so let's do it first.
+
+The key property of the zero morphism is that it annihilates the difference between any morphisms if composed with it, which leads to the definition:
+
+\begin{definition}
+    (Constant Morphism, Coconstant Morphism, Zero Morphism) Let $\mathcal{C}$ be a category, $f: X \rightarrow Y$ a morphism. If for arbitrary morphism $g, h: Z \rightarrow X$, we have $f \circ g = f \circ h$, then we call $f$ a \textbf{constant morphism} or \textbf{left zero morphism}. Similarly, if $f$ is a constant morphism in $\mathcal{C}^\mathrm{opp}$, then $f$ is called a \textbf{coconstant morphism} or \textbf{right zero-morphism}.
+
+    A morphism is called a \textbf{zero morphism} if it is both a constant morphism and a coconstant morphism.
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item In $\mathscr{Sets}$, any constant set maps are constant morphism. This is where the name comes from. But the only coconstant morphisms are the morphisms that start from the empty set, because if the range is non-empty, we can always map the elements in the range to different elements.
+        \item In $\mathscr{Ab}$, the zero homomorphisms are the only constant, coconstant and zero morphisms.
+        \item In $(I, \le)$, any morphism will be both constant, coconstant and zero morphisms as the morphisms are uniquely determined by their domain and codomain.
+    \end{enumerate}
+\end{example}
+
+In $\mathscr{Ab}$, we have easier ways to test whether a morphism is a zero morphism than directly applying the definition: Judge whether the image is zero. Since we can always decompose a morphism into the surjection onto the image and the injection from the image into the codomain, the above test is equivalent to judging whether the morphism factors through the 'zero object'.
+
+\begin{definition}
+    (Initial Object, Terminal Object) Let $\mathcal{C}$ be a category, $I$ be an object in $\mathcal{C}$. If for arbitrary object $X$ in $\mathcal{C}$, $\mathrm{Hom}_{\mathcal{C}}(I, X)$ is a singleton, then we call $I$ an \textbf{initial object} of $\mathcal{C}$.
+
+    We can define terminal objects by reversing the arrows: Let $T$ be an object in $\mathcal{C}$, if $T$ is an initial object in $\mathcal{C}^\mathrm{opp}$, then we call $T$ a \textbf{terminal object} of $\mathcal{C}$.
+\end{definition}
+
+It is clear that:
+
+\begin{proposition}\label{prop:initial-unique}
+    Let $\mathcal{C}$ be a category, then initial (resp. terminal) objects in $\mathcal{C}$ are isomorphic to each other. So the initial (resp. terminal) objects in a category are unique up to isomorphism if exist.
+\end{proposition}
+
+So we may speak of \textbf{the} initial (resp. terminal) object.
+
+\begin{example} \label{exp:initial-terminal}
+    \begin{enumerate}
+        \item In $\mathscr{Sets}$, the initial object is $\emptyset$, while the terminal object is the singleton. It should be noted that the empty sets are not terminal, as there is no map from a non-empty set to the empty set (The Hom set is empty instead of a singleton).
+        \item In $\mathscr{Ab}$, both the initial object and the terminal object are the zero group. This will be generalized into zero objects later.
+        \item In $\mathscr{Rings}$, the initial object is $\mathbb{Z}$ and the terminal object is $0$. Note that we require ring morphisms between commutative rings with identity to preserve multiplicative identity.
+        \item In $(I, \le)$, the initial object is the minimum element and the terminal object is the maximum element. So initial / terminal objects are not guaranteed to exist.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    (Zero Object) Let $\mathcal{C}$ be a category. If an object $X$ in $\mathcal{C}$ is both initial and terminal, then we call $X$ a \textbf{zero object}.
+\end{definition}
+
+By Prop \ref{prop:initial-unique}, zero objects are unique up to isomorphism. So we usually use $0$ to denote the zero objects. And also by Prop \ref{prop:initial-unique}, we have a simple way of judging whether a category contains zero objects given their initial and terminal objects:
+
+\begin{proposition}
+    Let $\mathcal{C}$ be a category, $I, T$ be one of its initial and terminal objects respectively. Then $\mathcal{C}$ has a zero object if and only if the unique morphism $I \rightarrow T$ is an isomorphism. Namely, $\mathcal{C}$ has zero objects if and only if it has initial and terminal objects, and they are isomorphic.
+\end{proposition}
+
+Therefore, the only category in Exp \ref{exp:initial-terminal} that guarantees to have zero objects is $\mathscr{Ab}$.
+
+As promised:
+
+\begin{proposition} \label{prop:zero-morphism-factor}
+    Let $\mathcal{C}$ be a category with zero objects. Then there is a zero morphism between any pair of objects $X, Y$, namely the morphism composed by $X \rightarrow 0 \rightarrow Y$.
+\end{proposition}
+
+\begin{proof}
+    Check the morphisms that start from initial objects are coconstant while the morphisms that end in terminal objects are constant.
+\end{proof}
+
+Note that the proposition above also asserts that $\mathrm{Hom}_{\mathcal{C}}(X, Y)$ is non-empty for arbitrary $X, Y$ if $\mathcal{C}$ has zero objects.
+
+Now we are finally in the position to introduce additive category:
+
+\begin{definition}
+    (Preadditive Category) Let $\mathcal{C}$ be a category with zero objects. If $\mathrm{Hom}_{\mathcal{C}}(X, Y)$ has the structure of an abelian group for each pair of objects $X, Y$ (so $\mathcal{C}$ must be locally small), such that composition is bilinear:
+    $$f \circ (g + h) = f \circ g + f \circ h, (f + g) \circ h = f \circ h + g \circ h$$
+    Then we call $\mathcal{C}$ a \textbf{preadditive category}.
+\end{definition}
+
+Care must be taken here. Previously we claim that we do not need the Hom-sets to be abelian groups to define zero morphisms. Now we have preadditive category, we must prove that there is no confusion about the zero morphisms:
+
+\begin{proposition} \label{prop:equiv-zero-morph}
+    Let $\mathcal{C}$ be a preadditive category, $f: X \rightarrow Y$ be a morphism. Then $f$ is a zero morphism if and only if $f$ is the additive identity in $\mathrm{Hom}_{\mathcal{C}}(X, Y)$
+\end{proposition}
+
+\begin{proof}
+    "if": By bilinearity of composition.
+
+    "only if": Note that $f \circ g = f \circ 0 = 0$ for arbitrary $g$ implies that $f = 0$, since we can take $g = \mathds{1}$. (So for this direction, we actually only need constant or coconstant morphisms)
+\end{proof}
+
+As a result, zero morphisms between two objects are unique, and we may speak of \textbf{the} zero morphism between $X, Y$. By the uniqueness and Prop \ref{prop:zero-morphism-factor}, we certainly have:
+
+\begin{proposition}\label{prop:0-factor-0}
+    Let $\mathcal{C}$ be a preadditive category, $f: X \rightarrow Y$ be a morphism. Then $f$ is a zero morphism if and only if $f$ factors through $0$
+\end{proposition}
+
+Now let's further enrich the category.
+
+\begin{definition}
+    (Additive Category) Let $\mathcal{C}$ be a preadditive category. If any two objects in $\mathcal{C}$ admit a product, then we call $\mathcal{C}$ an \textbf{additive category}.
+\end{definition}
+
+Previously, when we reverse the arrows, we are basically replacing a category $\mathcal{C}$ by its opposite $\mathcal{C} ^\mathrm{opp}$ and reinterpret the results back in $\mathcal{C}$. However, this requires that $\mathcal{C}^\mathrm{opp}$ has the same property as $\mathcal{C}$. There is no such problems before as $\mathcal{C}^\mathrm{opp}$ is a category and all we need is a category. But the definition of additive category does not have this symmetry: It is not clear whether $\mathcal{C}^\mathrm{opp}$ will be an additive category or not given that $\mathcal{C}$ is. The question is then essentially: Do two objects in an additive category always admit coproducts? And luckily the answer is yes.
+
+\begin{proposition}\label{prop:prod-coprod}
+    Let $\mathcal{C}$ be a preadditive category, $X, Y$ be two objects, $(X \times Y, p, q)$ be the product of $X, Y$. Then $(X \times Y, i, j)$ is the coproduct of $X, Y$ where $i = \left\lbrace \mathds{1}_X, 0 \right\rbrace: X \rightarrow X \times Y, j = \left\lbrace 0, \mathds{1}_Y \right\rbrace: Y \rightarrow X \times Y$
+\end{proposition}
+
+We first prove a lemma:
+
+\begin{proposition}
+    Let $\mathcal{C}$ be a preadditive category, $X, Y$ be two objects, $(X \times Y, p, q)$ be the product of $X, Y$. Define $i = \left\lbrace \mathds{1}_X, 0 \right\rbrace: X \rightarrow X \times Y, j = \left\lbrace 0, \mathds{1}_Y \right\rbrace: Y \rightarrow X \times Y$, then $i \circ p + j \circ q = \mathds{1}_{X \times Y}$
+\end{proposition}
+
+\begin{proof}
+    By uniqueness in the universal property of product, we only need to show that $p \circ (i \circ p + j \circ q) = p \circ \mathds{1}_{X \times Y} = p$ and $q \circ (i \circ p + j \circ q) = q \circ \mathds{1}_{X \times Y} = q$. Take the first equation for example. We have:
+    $$
+        \begin{aligned}
+        \mathrm{LHS} &= p \circ i \circ p + p \circ j \circ q \\
+        &= \mathds{1}_X \circ p + 0 \circ q \\
+        &= p
+        \end{aligned}
+    $$
+    where the second step is by definition of $i, j$. Similar for the second equation.
+\end{proof}
+
+Now back to the proposition.
+
+\begin{proof}
+    Take arbitrary object $Z$ with morphism $f: X \rightarrow Z, g: Y \rightarrow Z$, simply take $\varphi: X \times Y \rightarrow Z$ as $\varphi = f \circ p + g \circ q$. Then we have $\varphi \circ i = f \circ p \circ i + g \circ q \circ i = f$ and similarly $\varphi \circ j = g$. On the other hand, given any $\varphi$ that satisfies $\varphi \circ i = f, \varphi \circ j = g$, we must have:
+    $$\varphi = \varphi \circ \mathds{1}_{X \times Y} = \varphi \circ (i \circ p + j \circ q) = f \circ p + g \circ q$$
+    which proves the uniqueness.
+\end{proof}
+
+Also, existence of products and coproducts lead to existence of products and coproducts for arbitrary finite collection of objects by the proposition below.
+
+\begin{proposition}
+    Let $\mathcal{C}$ be a category where any two objects admit a product, $X, Y, Z$ be three objects. Let $(X \times Y, p, q)$ be the product of $X, Y$ and $((X \times Y) \times Z, r, s)$ be the product of $X \times Y, Z$. Then $((X \times Y) \times Z, pr, qr, s)$ is the product of $X, Y, Z$. Argue inductively, the product of arbitrary finite collection of objects exist.
+
+    By replacing $\mathcal{C}$ by $\mathcal{C}^\mathrm{opp}$, we have similar results about coproducts.
+\end{proposition}
+
+\begin{proof}
+    Omitted.
+\end{proof}
+
+As a result, in an additive category, the products and coproducts for arbitrary finite collection of objects exist.
+
+\iffalse
+In the previous chapter, we have written product and coproduct as adjoints. With that in mind, we can reinterpret the previous results in the language of adjoints. Let $C: \mathcal{C} \rightarrow \mathcal{C}^{I}$ be the constant functor where $I$ is a finite set, and $F \dashv C \dashv G$. Then we know that for arbitrary collection of objects $\left\lbrace X_i \right\rbrace_{i \in I}$, $(F \left\lbrace X_i \right\rbrace, \left\lbrace f_j = (\eta_{\left\lbrace X_i \right\rbrace})_j \right\rbrace)$ is the coproduct and $(G \left\lbrace X_i \right\rbrace, \left\lbrace g_j = (\varepsilon_{\left\lbrace X_i \right\rbrace})_j \right\rbrace)$ is the product. Note that $\eta \circ \varepsilon$ is a natural transformation $CG \Rightarrow CF$. Let $S_i$ be the functor $\mathcal{C}^I \rightarrow \mathcal{C}$ that select the $i$-th component, then we have $S_iC = \mathds{1}_{\mathcal{C}}$ for arbitrary $i \in I$. The previous results state that:
+$$\sum\limits_{i \in I} S_i \eta \circ \varepsilon: G \Rightarrow F$$
+is the natural equivalence between $G$ and $F$.
+\fi
+
+We have seen that the products and coproducts are compatible with the additive structure of morphisms by the equation $i \circ p + j \circ q = \mathds{1}_{X \times Y}$. Actually, this equation determines the additive structure, namely given the product and coproduct for each pair of objects, the sum of arbitrary morphisms are determined. See the corollary below.
+
+\begin{lemma}
+    Let $\mathcal{C}$ be an additive category, $X, Y, Z, W$ be objects. $\varphi: X \rightarrow Y, \psi: X \rightarrow Z, \gamma: Y \rightarrow W, \delta: Z \rightarrow W$ be morphisms. Consider the composition:
+    $$X \xrightarrow{\left\lbrace \varphi, \psi \right\rbrace} Y \times Z \xrightarrow{\left\langle \gamma, \delta \right\rangle} W$$
+    then we have:
+    $$\left\langle \gamma, \delta \right\rangle \left\lbrace \varphi, \psi \right\rbrace = \gamma \circ \varphi + \delta \circ \psi$$
+\end{lemma}
+
+\begin{proof}
+    Simply consider the composition below:
+    $$X \xrightarrow{\left\lbrace \varphi, \psi \right\rbrace} Y \times Z \xrightarrow{i \circ p + j \circ q = \mathds{1}_{Y \times Z}} Y \times Z \xrightarrow{\left\langle \gamma, \delta \right\rangle} W$$
+    where $(Y \times Z, p, q)$ and $(Y \times Z, i, j)$ are products and coproducts respectively.
+\end{proof}
+
+\begin{corollary}\label{cor:addition-as-prod}
+    Let $\mathcal{C}$ be an additive category, $f, g: X \rightarrow Y$ be two morphisms. Then we have    
+    $$f + g = \left\langle \mathds{1}_Y, \mathds{1}_Y \right\rangle \circ \left\lbrace f, g \right\rbrace = \left\langle f, g \right\rangle \left\lbrace \mathds{1}_X, \mathds{1}_X \right\rbrace$$
+    considered as composition $X \rightarrow Y \times Y \rightarrow Y$ and $X \rightarrow X \times X \rightarrow Y$ respectively.
+\end{corollary}
+
+Namely, given a category with zero objects and finite products, coproducts, then it is an additive category if and only if the addition of morphisms defined by the corollary above makes Hom-sets into abelian groups with bilinear composition.
+
+In additive categories, we use the word \textit{sum} and \textit{coproduct} interchangeably. And instead of writing $\coprod\limits_{i \in I} X_i$, we write $\bigoplus\limits_{i \in I} X_i$. These notations are compatible with the category of modules.
+
+Next we discuss functors between additive categories. Just as group homomorphisms preserve element additions, additive functors preserve object additions:
+
+\begin{definition}
+    Let $F: \mathcal{C} \rightarrow \mathcal{D}$ be a functor between additive categories. If $F$ preserves sums of two objects, then $F$ is called an \textbf{additive functor}.
+\end{definition}
+
+As with additive categories, we have to verify the symmetry:
+
+\begin{proposition}\label{prop:additive-functor}
+    Let $F: \mathcal{C} \rightarrow \mathcal{D}$ be a functor between additive categories. Then the following conditions are equivalent:
+    \begin{enumerate}
+        \item $F$ preserves products (of two objects)
+        \item $F$ preserves sums (of two objects)
+        \item For each object $X, X'$ in $\mathcal{C}$, $F: \mathrm{Hom}_{\mathcal{C}}(X, X') \rightarrow \mathrm{Hom}_{\mathcal{D}}(FX, FX')$ is a group homomorphism
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    $(1) \Rightarrow (2)$: Take arbitrary $X, Y$, let $(X \times Y, p, q)$ be the product in $\mathcal{C}$. By our hypothesis, $(F(X \times Y), Fp, Fq)$  is the product of $FX, FY$ in $\mathcal{D}$. By Prop \ref{prop:prod-coprod}, $(X \times Y, \left\lbrace \mathds{1}_X, 0 \right\rbrace, \left\lbrace 0, \mathds{1}_Y \right\rbrace)$ is a coproduct of $X, Y$ in $\mathcal{C}$, and any coproduct of $X, Y$ is equivalent to it up to isomorphism. So ISTS $(F(X \times Y), F \left\lbrace \mathds{1}_{X}, 0 \right\rbrace, F \left\lbrace 0, \mathds{1}_Y \right\rbrace)$ is the coproduct of $FX, FY$ in $\mathcal{D}$. (Check the details) By Prop \ref{prop:prod-coprod} again, ISTS $F \left\lbrace \mathds{1}_X, 0 \right\rbrace = \left\lbrace \mathds{1}_{FX}, 0 \right\rbrace$ and $F \left\lbrace 0, \mathds{1}_Y \right\rbrace = \left\lbrace 0, \mathds{1}_{FY} \right\rbrace$. WLOG, we only show the first one. By the definition of $\left\lbrace \mathds{1}_X, 0 \right\rbrace$, ISTS $F0 = 0$ where $0$ is the zero-morphism. Then by Prop \ref{prop:equiv-zero-morph}, ISTS $F0 = 0$ where $0$ is the zero object.
+
+    Take arbitrary object $X$ in $\mathcal{C}$, consider the product $(X \times 0, p, q)$ of $X, 0$. By Prop \ref{prop:prod-coprod}, $(X \times 0, i = \left\lbrace \mathds{1}_X, 0 \right\rbrace, j = \left\lbrace 0, \mathds{1}_0 \right\rbrace)$ is the coproduct such that $i \circ p + j \circ q = \mathds{1}_{X \times 0}$. However, by Prop \ref{prop:equiv-zero-morph}, $q = j = 0$, and therefore $i \circ p = \mathds{1}_{X \times 0}$. On the other hand, $p \circ i = \mathds{1}_X$ by definition. This shows that $X \times 0 \cong X$ with isomorphisms $i, p$. It then follows that $F(X \times 0) \cong FX$ with isomorphism $Fi, Fp$. Since $F$ preserves products by our hypothesis, $(F(X \times Y), Fp, Fq)$ is the product of $FX, FY$. Consider the morphism $\left\lbrace 0, \mathds{1}_{F0} \right\rbrace: F0 \rightarrow F(X \times 0)$, we must have $Fp \circ \left\lbrace 0, \mathds{1}_{F0} \right\rbrace = 0$ and $Fq \circ \left\lbrace 0, \mathds{1}_{F0} \right\rbrace = \mathds{1}_{F0}$. But since $Fp$ is an isomorphism, we must have $\left\lbrace 0, \mathds{1}_{F0} \right\rbrace = 0$ and hence $\mathds{1}_{F0} = 0$ by the second identity. This shows that $\mathrm{End}_{\mathcal{D}}(F0) = 0 \Rightarrow F0 = 0$.
+
+    $(2) \Rightarrow (1)$: Replace $\mathcal{C}, \mathcal{D}$ by $\mathcal{C} ^\mathrm{opp}, \mathcal{D} ^\mathrm{opp}$ and $F$ by $F ^\mathrm{opp}$. Then apply the previous part. 
+
+    $(1, 2) \Rightarrow (3)$: ISTS $F(f + g) = Ff + Fg$ for $f, g: X \rightarrow X'$. Then we have:
+    $$
+        \begin{aligned}
+        F(f + g) &= F(\left\langle \mathds{1}_Y, \mathds{1}_Y \right\rangle \circ \left\lbrace f, g \right\rbrace) \\
+        &= \left\langle F\mathds{1}_Y, F\mathds{1}_Y \right\rangle \circ \left\lbrace Ff, Fg \right\rbrace \\
+        &= Ff + Fg
+        \end{aligned}
+    $$
+    where the first step and the third step is by Prop \ref{cor:addition-as-prod}, and the second step is by our hypothesis.
+
+    $(3) \Rightarrow (1)$: Take arbitrary objects $X, Y$ in $\mathcal{C}$, let $(X \times Y, p, q), (X \times Y, i, j)$ be the product and coproduct respectively. We need to show that $(F(X \times Y), Fp, Fq)$ is the product of $FX, FY$. Let $(FX \times FY, p', q')$ be the product of $FX, FY$ in $\mathcal{D}$. By definition there is unique $\varphi = \left\lbrace Fp, Fq \right\rbrace: F(X \times Y) \rightarrow FX \times FY$. Define $\psi = Fi \circ p' + Fj \circ q'$. We claim that $\varphi$ and $\psi$ are inverse to each other, which completes the proof.
+
+    For $\psi \circ \varphi = \mathds{1}_{F(X \times Y)}$:
+    $$
+        \begin{aligned}
+        \psi \circ \varphi &= (Fi \circ p' + Fj \circ q') \circ \left\lbrace Fp, Fq \right\rbrace \\
+        &= Fi \circ Fp + Fj \circ Fq \\
+        &= F (i \circ p + j \circ q) = F \mathds{1}_{X \times Y} = \mathds{1}_{F(X \times Y)}
+        \end{aligned}
+    $$
+    where the second step is by definition of $\left\lbrace Fp, Fq \right\rbrace$ and the third step is by our hypothesis.
+
+    For $\varphi \circ \psi = \mathds{1}_{FX \times FY}$, ISTS $p' \circ \varphi \circ \psi = p', q' \circ \varphi \circ \psi = q'$ by the universal property of $FX \times FY$. WLOG, we prove the first identity:
+    $$
+        \begin{aligned}
+        p' \circ \varphi \circ \psi &= p' \circ \varphi \circ (Fi \circ p' + Fj \circ q') \\
+        &= Fp \circ Fi \circ p' + Fp \circ Fj \circ q' \\
+        &= F \mathds{1}_X \circ p' + F0 \circ q' \\
+        &= \mathds{1}_{FX} \circ p' + 0 = p'
+        \end{aligned}
+    $$
+    where the forth step is by our hypothesis ($F$ a homomorphism on the Hom group $\Rightarrow$ $F0 = 0$).
+\end{proof}
+
+So any of the above three conditions can be used to establish additive functors.
+
+\begin{example}\label{exp:hom-additive}
+    Let $\mathcal{C}$ be an additive category. Fix $X \in \mathrm{ob}(\mathcal{C})$, let $h_X = \mathrm{Hom}_{\mathcal{C}}(X, \cdot), h^X = \mathrm{Hom}_{\mathcal{C}}(\cdot, X)$ be the covariant and contravariant $\mathrm{Hom}$ functors. Previously we define them to be functors $\mathcal{C} \rightarrow \mathscr{Sets}$. Now for additive categories, by abuse of notation, we consider them as functors $\mathcal{C} \rightarrow \mathscr{Ab}$.
+
+    Both $h_X, h^X$ are additive functors. The readers will have no difficulty verifying it using the third condition of Prop \ref{prop:additive-functor}.
+\end{example}
+
+\section{Abelian Category}
+
+Perhaps the most important property of $\mathscr{Ab}$ is the first isomorphism theorem. It enables us to decompose an arbitrary homomorphism into a quotient and an embedding and study them separately.
+
+To generalize the first isomorphism theorem to the language of categories, we need to first redefine kernels and images so that they do not rely on the subset constructions. One way to do so is to replace subsets by the corresponding inclusions, and inclusions are essentially monomorphisms, which is a categorical concept.
+
+\begin{definition}
+    (Equalizer, Coequalizer) Let $\mathcal{C}$ be a category, $f, g: X \rightarrow Y$ be morphisms. If morphism $\varphi: Z \rightarrow X$ satisfies $f \circ \varphi = g \circ \varphi$, and the property is universal, namely any morphism $\psi: Z' \rightarrow X$ such that $f \circ \psi = g \circ \psi$ factors uniquely through $\varphi$, then we call $\varphi$ an \textbf{equalizer} of $f, g$
+
+    We can define coequalizer by reversing the arrows: If $\varphi$ is an equalizer of $f, g$ in $\mathcal{C}^\mathrm{opp}$, then we call $\varphi$ a \textbf{coequalizer} of $f, g$.
+
+    Since equalizer and coequalizer are defined through universal constructions, they are unique up to isomorphisms if exist. We denote the equalizer and coequalizer of $f, g$ as $\mathrm{eq}(f, g), \mathrm{coeq}(f, g)$ when they exist.
+\end{definition}
+
+\begin{proposition} \label{prop:equal-mono}
+    (Equalizers are Monomorphisms, Coequalizers are Epimorphisms) Let $\mathcal{C}$ be a category, $f, g: X \rightarrow Y$ be morphisms. If equalizer (resp. coequalizer) of $f, g$ exist, then $\mathrm{eq}(f, g)$ (resp. $\mathrm{coeq}(f, g)$) is a monomorphism (resp. epimorphism)
+\end{proposition}
+
+\begin{proof}
+    Take arbitrary $\varphi, \psi: W \rightarrow Z$ such that $\mathrm{eq}(f, g) \circ \varphi = \mathrm{eq}(f, g) \circ \psi$. It is clear that both $\mathrm{eq}(f, g) \circ \varphi, \mathrm{eq}(f, g) \circ \psi$ equalizes $f, g$, namely $f \circ \mathrm{eq}(f, g) \circ \varphi = g \circ \mathrm{eq}(f, g) \circ \varphi, f \circ \mathrm{eq}(f, g) \circ \psi = g \circ \mathrm{eq}(f, g) \circ \psi$. By the universal property, they factor uniquely through $\mathrm{eq}(f, g)$, which establishes $\varphi = \psi$.
+\end{proof}
+
+\begin{definition}
+    (Kernel, Cokernel) Let $\mathcal{C}$ be a category where there is a zero morphism between any two objects, $f: X, Y$ be a morphism. If $\varphi: Z \rightarrow X$ is an equalizer of $f$ and $0_{X, Y}$, then we call $\varphi$ a \textbf{kernel} of $f$. Similarly, if $\psi: Y \rightarrow Z$ is a coequalizer of $f$ and $0_{X, Y}$, then we call $\psi$ a \textbf{cokernel} of $f$. By uniqueness of equalizer and coequalizer, we may use $\kappa_{f}: K_f \rightarrow X, \gamma_f: Y \rightarrow C_f$ to denote the unique (up to isomorphism) kernel and cokernel of $f$.
+\end{definition}
+
+The reader should try to write out explicitly the definition of kernel and cokernel, without the language of equalizer and coequalizer. Check Wikipedia if you are unsure about the result. As a special case of 
+
+\begin{corollary}\label{cor:kernel-mono}
+    (Kernels are Monomorphisms, Cokernels are Epimorphisms) Let $\mathcal{C}$ be a category where there is a zero morphism between any two objects, $f: X, Y$ be a morphism. Then the kernel of $f$ is a monomorphism if exists, and the cokernel of $f$ is an epimorphism if exists.
+\end{corollary}
+
+Of course, if we can add morphisms, then the concept of equalizer (resp. coequalizer) and kernel (resp. cokernel) are essentially the same:
+
+\begin{proposition}
+    Let $\mathcal{C}$ be a preadditive category, $f, g: X \rightarrow Y$ be morphisms. Then $\varphi: Z \rightarrow X$ (resp. $\psi: Y \rightarrow Z$) is an equalizer (resp. coequalizer) of $f, g$ if and only if $\varphi$ (resp. $\psi$) is a kernel (resp. cokernel) of $f - g$
+\end{proposition}
+
+However, in other categories, it may be the case that equalizers exist while kernels do not. For example, in $\mathscr{Rings}$, the equalizer of any two identical morphisms is the identity morphism, but there is no zero morphism between two non-zero rings, as we require $1$ to be mapped to $1$.
+
+Now we are in position to introduce abelian category
+
+\begin{definition}
+    (Abelian Category) Let $\mathcal{C}$ be an additive category, if:
+    \begin{enumerate}
+        \item Every morphism has a kernel and cokernel
+        \item Every monomorphism is a kernel and every epimorphism is a cokernel
+    \end{enumerate}
+    Then we call $\mathcal{C}$ an \textbf{abelian category}.
+\end{definition}
+
+Usually, we use $\mathcal{A}, \mathcal{B}$ instead of $\mathcal{C}, \mathcal{D}$ to denote abelian categories.
+
+\begin{example}
+    Examples of abelian category: $\mathscr{Ab}, \mathscr{Mod}_R, \mathscr{mod}_R$
+\end{example}
+
+The second condition in the definition, together with Cor \ref{cor:kernel-mono}, states that in abelian categories, monomorphism is the synonym of kernel and epimorphism is the synonym of cokernel. By 'a kernel', we mean a kernel of some morphism. The natural question is, given a monomorphism $f$, how can we find the morphism $g$ such that $f$ is the kernel of $g$? A logical guess would be $g = \gamma_f$:
+
+\begin{proposition}\label{prop:kernel-cokernel-resp}
+    Let $\mathcal{A}$ be an abelian category, $f: X \rightarrow Y$ be a monomorphism (resp. epimorphism), then $f$ is the kernel of the cokernel of $f$ (resp. $f$ is the cokernel of the kernel of $f$), namely $f = \kappa_{\gamma_f}$ (resp. $f = \gamma_{\kappa_f}$).
+\end{proposition}
+
+\begin{proof}
+    Since $f$ is a monomorphism, by definition of abelian category, $f = \kappa_g$ for some $g: Y \rightarrow Z$. Then $g \circ f = 0$, and therefore $g$ factors through $\gamma_f$: $g = \varphi_g \circ \gamma_f$ for some $\varphi_g: C_f \rightarrow Z$. Now take $\kappa_{\gamma_f}: K_{\gamma_f} \rightarrow Y$ the kernel of $\gamma_f$. Since $\gamma_f \circ f = 0$, $f$ factors through $\kappa_{\gamma_f}$: $f = \kappa_{\gamma_f} \circ \varphi_f$ for some $\varphi_f: X \rightarrow K_{\gamma_f}$. Note that $g \circ \kappa_{\gamma_f} = \varphi_g \circ \gamma_f \circ \kappa_{\gamma_f} = 0$, so $\kappa_{\gamma_f}$ factors through $\varphi_{\kappa}$: $\kappa_{\gamma_f} = f \circ \varphi_{\kappa}$ for some $\varphi_{\kappa}: K_{\gamma_f} \rightarrow X$.
+
+    Now we know that $f = \kappa_{\gamma_f} \circ \varphi_f = f \circ \varphi_{\kappa} \circ \varphi_f$. But we also know that $f = f \circ \mathds{1}_{X}$, since $f$ is a monomorphism, this implies $\varphi_{\kappa} \circ \varphi_f = \mathds{1}_X$. By similar argument applied to $\kappa_{\gamma_f}$ and Cor \ref{cor:kernel-mono}, we have $\varphi_f \circ \varphi_{\kappa} = \mathds{1}_{K_{\gamma_f}}$. This shows that $X \cong K_{\gamma_f}$ and $f$ is equivalent to $\kappa_{\gamma_f}$ up to isomorphism, which completes the proof.
+
+    % https://q.uiver.app/#q=WzAsNSxbMCwxLCJYIl0sWzEsMSwiWSJdLFsyLDEsIkNfZiJdLFsxLDIsIloiXSxbMSwwLCJLX3tcXGdhbW1hX2Z9Il0sWzAsMSwiZj1cXGthcHBhX2ciLDJdLFsxLDIsIlxcZ2FtbWFfZiJdLFsxLDMsImciXSxbMiwzLCJcXHZhcnBoaV9nIl0sWzQsMSwiXFxrYXBwYV97XFxnYW1tYV9mfSJdLFswLDQsIlxcdmFycGhpX2YiLDAseyJvZmZzZXQiOi0xfV0sWzQsMCwiXFx2YXJwaGlfe1xca2FwcGF9IiwwLHsib2Zmc2V0IjotMX1dXQ==
+    \[\begin{tikzcd}
+        & {K_{\gamma_f}} \\
+        X & Y & {C_f} \\
+        & Z
+        \arrow["{\varphi_{\kappa}}", shift left, from=1-2, to=2-1]
+        \arrow["{\kappa_{\gamma_f}}", from=1-2, to=2-2]
+        \arrow["{\varphi_f}", shift left, from=2-1, to=1-2]
+        \arrow["{f=\kappa_g}"', from=2-1, to=2-2]
+        \arrow["{\gamma_f}", from=2-2, to=2-3]
+        \arrow["g", from=2-2, to=3-2]
+        \arrow["{\varphi_g}", from=2-3, to=3-2]
+    \end{tikzcd}\]
+\end{proof}
+
+The proposition gives us a way to test monomorphism (resp. epimorphism) in abelian categories: Calculate the cokernel (resp. kernel), and then test whether the morphism is the kernel of the cokernel (resp. cokernel of the kernel). However, in abelian categories, we clearly have more direct test from the definitions:
+
+\begin{proposition} \label{prop:mono-test}
+    Let $\mathcal{A}$ be an abelian category, $f: X \rightarrow Y$ a morphism. Then $f$ is a monomorphism (resp. epimorphism) if and only if $\kappa_f = 0: 0 \rightarrow X$ (resp. $\gamma_f = 0: Y \rightarrow 0$)
+\end{proposition}
+
+\begin{proof}
+    The result is simply a rewrite of the definition for monomorphism: Note that $f$ is a monomorphism $\Leftrightarrow$ $f \circ g = f \circ h$ implies $g = h$ for arbitrary $g, h: Z \rightarrow X$ $\Leftrightarrow$ $f \circ g = 0$ implies $g = 0$ for arbitrary $g: Z \rightarrow X$ $\Leftrightarrow$ $0 \rightarrow X$ is the kernel of $f$ (by Prop \ref{prop:0-factor-0}).
+\end{proof}
+
+With kernels and cokernels, we can guarantee the existence of more complex universal constructions than products and coproducts:
+
+\begin{proposition}\label{prop:abelian-pull-back}
+    Let $\mathcal{A}$ be an abelian category. $f: X \rightarrow Z, g: Y \rightarrow Z$ be two morphisms. Then the pull-back of $f, g$ exists. Moreover, let $(g': W \rightarrow X, f': W \rightarrow Y)$ be the pull-back, then:
+    \begin{enumerate}
+        \item $g'$ induces an isomorphism $K_f' \rightarrow K_f$;
+        \item $f$ is a monomorphism if and only if $f'$ is;
+        \item If $f$ is a monomorphism, then so is $f'$.
+    \end{enumerate}
+    % https://q.uiver.app/#q=WzAsNCxbMSwwLCJYIl0sWzAsMSwiWSJdLFswLDAsIlciXSxbMSwxLCJaIl0sWzAsMywiZiJdLFsxLDMsImciLDJdLFsyLDAsImcnIl0sWzIsMSwiZiciLDJdXQ==
+    \[\begin{tikzcd}
+        W & X \\
+        Y & Z
+        \arrow["{g'}", from=1-1, to=1-2]
+        \arrow["{f'}"', from=1-1, to=2-1]
+        \arrow["f", from=1-2, to=2-2]
+        \arrow["g"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+
+    And similar if we swap $f$ and $g$.
+\end{proposition}
+
+\begin{proof}
+    By definition of abelian categories, let $(X \times Y, p, q)$ be the product of $X, Y$. Define $\varphi = f \circ p - g \circ q: X \times Y \rightarrow Z$. Take $\kappa_{\varphi}: K_{\varphi} \rightarrow X \times Y$ the kernel of $\varphi$. We claim that $(p \circ \kappa_{\varphi}, q \circ \kappa_{\varphi})$ is the pull-back of $(f, g)$: Take arbitrary $(u: W \rightarrow X, v: W \rightarrow Y)$ such that $f \circ u = g \circ v$. By definition of $X \times Y$, $(u, v)$ factors through $p, q$, namely there is unique $\psi: W \rightarrow X \times Y$ such that $u = p \circ \psi, v = q \circ \psi$. Then note that $\varphi \circ \psi = f \circ u - g \circ v = 0$. So $\psi$ factors uniquely through $\kappa_{\varphi}$, which completes the proof.
+
+    % https://q.uiver.app/#q=WzAsNSxbMiwxLCJYIl0sWzEsMiwiWSJdLFsyLDIsIloiXSxbMSwxLCJYIFxcdGltZXMgWSJdLFswLDAsIktfe1xcdmFycGhpfSJdLFswLDIsImYiXSxbMSwyLCJnIiwyXSxbMywwLCJwIl0sWzMsMSwicSIsMl0sWzQsMywiXFxrYXBwYV97XFx2YXJwaGl9IiwxXV0=
+    \[\begin{tikzcd}
+        {K_{\varphi}} \\
+        & {X \times Y} & X \\
+        & Y & Z
+        \arrow["{\kappa_{\varphi}}"{description}, from=1-1, to=2-2]
+        \arrow["p", from=2-2, to=2-3]
+        \arrow["q"', from=2-2, to=3-2]
+        \arrow["f", from=2-3, to=3-3]
+        \arrow["g"', from=3-2, to=3-3]
+    \end{tikzcd}\]
+
+    Now let $(g': W \rightarrow X, f': W \rightarrow Y)$ be the pull-back. Since $f \circ g' \circ \kappa_{f'} = g \circ f' \circ \kappa_{f'}$, we have $g' \circ \kappa_{f'}$ factors through $\kappa_f$, namely there is unique morphism $\overline{g'}: K_{f'} \rightarrow K_f$ such that $g' \circ \kappa_{f'} = \kappa_f \circ \overline{g'}$. 
+
+    % https://q.uiver.app/#q=WzAsNixbMSwxLCJYIl0sWzAsMiwiWSJdLFsxLDIsIloiXSxbMCwxLCJXIl0sWzAsMCwiS197Zid9Il0sWzEsMCwiS19mIl0sWzAsMiwiZiJdLFsxLDIsImciLDJdLFszLDAsImcnIiwyXSxbMywxLCJmJyIsMl0sWzQsMywiXFxrYXBwYV97Zid9IiwyXSxbNSwwLCJcXGthcHBhX2YiXSxbNCw1LCJcXG92ZXJsaW5le2cnfSIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dXQ==
+    \[\begin{tikzcd}
+        {K_{f'}} & {K_f} \\
+        W & X \\
+        Y & Z
+        \arrow["{\overline{g'}}", dashed, from=1-1, to=1-2]
+        \arrow["{\kappa_{f'}}"', from=1-1, to=2-1]
+        \arrow["{\kappa_f}", from=1-2, to=2-2]
+        \arrow["{g'}"', from=2-1, to=2-2]
+        \arrow["{f'}"', from=2-1, to=3-1]
+        \arrow["f", from=2-2, to=3-2]
+        \arrow["g"', from=3-1, to=3-2]
+    \end{tikzcd}\]
+
+    Note that $f \circ \kappa_f = 0$, then the pair $(\kappa_f: K_f \rightarrow X, 0: K_f \rightarrow Y)$ clearly satisfies $f \circ \kappa_f = g \circ 0$. As a result, it factors through $W$, namely there is $\varphi: K_f \rightarrow W$ such that $f' \circ \varphi = 0, g' \circ \varphi = \kappa_f$. Then $\varphi$ factors through $\kappa_f'$, namely there is some unique morphism $\varphi': K_f \rightarrow K_{f'}$ such that $\kappa_{f'} \circ \varphi' = \varphi$. We claim that $\varphi'$ is the inverse of $\overline{g'}$, for which ISTS the diagram below commutes as $\kappa_f, \kappa_{f'}$ are monomorphisms. Then ISTS $\varphi \circ \overline{g'} = \kappa_{f'}$. Note that $g' \circ \varphi' \circ \overline{g'} = \kappa_f \circ \overline{g'} = g' \circ \kappa_{f'}$. Consider the pair $(g' \circ \kappa_{f'}: K_{f'} \rightarrow X, 0: K_{f'} \rightarrow Y)$, it satisfies $f \circ g' \circ \kappa_{f'} = g \circ f' \circ \kappa_{f'} = 0, g \circ 0 = 0$, then by definition it factors uniquely through $\kappa_{f'}$. By uniqueness $\varphi \circ \overline{g'} = \kappa_{f'}$.
+
+    % https://q.uiver.app/#q=WzAsNixbMSwxLCJYIl0sWzAsMiwiWSJdLFsxLDIsIloiXSxbMCwxLCJXIl0sWzAsMCwiS197Zid9Il0sWzEsMCwiS19mIl0sWzAsMiwiZiJdLFsxLDIsImciLDJdLFszLDAsImcnIiwyXSxbMywxLCJmJyIsMl0sWzQsMywiXFxrYXBwYV97Zid9IiwyXSxbNSwwLCJcXGthcHBhX2YiXSxbNCw1LCJcXG92ZXJsaW5le2cnfSIsMCx7Im9mZnNldCI6LTEsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs1LDQsIlxcdmFycGhpJyIsMCx7Im9mZnNldCI6LTEsInN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFs1LDMsIlxcdmFycGhpIiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+    \[\begin{tikzcd}
+        {K_{f'}} & {K_f} \\
+        W & X \\
+        Y & Z
+        \arrow["{\overline{g'}}", shift left, dashed, from=1-1, to=1-2]
+        \arrow["{\kappa_{f'}}"', from=1-1, to=2-1]
+        \arrow["{\varphi'}", shift left, dashed, from=1-2, to=1-1]
+        \arrow["\varphi"{description}, dashed, from=1-2, to=2-1]
+        \arrow["{\kappa_f}", from=1-2, to=2-2]
+        \arrow["{g'}"', from=2-1, to=2-2]
+        \arrow["{f'}"', from=2-1, to=3-1]
+        \arrow["f", from=2-2, to=3-2]
+        \arrow["g"', from=3-1, to=3-2]
+    \end{tikzcd}\]
+
+    The second part follows easily from the first part and Prop \ref{prop:mono-test}. 
+
+    For the third part, we use the construction of pull-back, namely $f' = q \circ \kappa_{\varphi}, g' = p \circ \kappa_{\varphi}$ where $\varphi = f \circ p - g \circ q$. Take arbitrary $h: Y \rightarrow W$ such that $h \circ f' = h \circ q \circ \kappa_\varphi = 0$. Since $f$ is an epimorphism, so is $\varphi$ (check). Then $\varphi$ is the cokernel of $\kappa_{\varphi}$ and therefore $h \circ q$ factors through $\varphi$, namely there is unique morphism $r: Z \rightarrow W$ such that $h \circ q = r \circ \varphi$. Precompose $i: X \rightarrow X \times Y$ the coproduct morphism, we obtain $r \circ f = 0$, which implies $r = 0$ since $f$ is an epimorphism. Finally, we have $h \circ q = 0$ and hence $h = 0$ as $q$ is an epimorphism. This completes the proof.
+\end{proof}
+
+Following our motivation, in abelian categories, we may decompose arbitrary morphism into a composition of an epimorphism and a monomorphism. For that we need to define the image of a morphism:
+
+\begin{definition}
+    (Image, Coimage) Let $\mathcal{A}$ be an abelian category, $f: A \rightarrow B$ be a morphism. Then $\kappa_{\gamma_f}: I_f \rightarrow Y$ is called the \textbf{image} of $f$, $\gamma_{\kappa_f}: X \rightarrow CoI_f$ is called the \textbf{coimage} of $f$.
+\end{definition}
+
+The reader may verify in $\mathscr{Ab}$ that $I_f$ is exactly the image of $f$.
+
+\begin{proposition} \label{prop:unique-decomp}
+    Let $\mathcal{A}$ be an abelian category, $f: X \rightarrow Y$ be a morphism. Consider the set $S$ of pairs $(m, e)$ such that $m$ is a monomorphism and $f = m \circ e$. We claim that there is a pair $(m, e)$ satisfying the following universal property: For all $(m', e') \in S$, there is a unique morphism $t$ such that $m = m' \circ t, e' = t \circ e$. Then the pair is unique up to isomorphism.
+    
+    Moreover, $(m, e) \in S$ satisfies the universal property if and only if $e$ is an epimorphism.
+\end{proposition}
+
+\begin{proof}
+    Since $\gamma_f \circ f = 0$, $f$ factors through $\kappa_{\gamma_f}$, namely $f = \kappa_{\gamma_f} \circ e$ for some $e: X \rightarrow I_f$. We claim that $(\kappa_{\gamma_f}, e)$ is the desired decomposition.
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwxLCJYIl0sWzEsMSwiWSJdLFsxLDAsIkNfZiJdLFsxLDIsIklfZiJdLFswLDEsImYiXSxbMSwyLCJcXGdhbW1hX2YiLDJdLFszLDEsIlxca2FwcGFfe1xcZ2FtbWFfZn0iLDJdLFswLDMsImUiLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+    \[\begin{tikzcd}
+        & {C_f} \\
+        X & Y \\
+        & {I_f}
+        \arrow["f", from=2-1, to=2-2]
+        \arrow["e"', dashed, from=2-1, to=3-2]
+        \arrow["{\gamma_f}"', from=2-2, to=1-2]
+        \arrow["{\kappa_{\gamma_f}}"', from=3-2, to=2-2]
+    \end{tikzcd}\]
+    
+    Take arbitrary decomposition $f = m' \circ e'$ where $m'$ is a monomorphism, take $\gamma_{m'}$ the cokernel of $m'$. Note that $\gamma_{m'} \circ f = \gamma_{m'} \circ m' \circ e' = 0$, and $\gamma_f$ is the cokernel of $f$, we have unique morphism $\varphi: C_f \rightarrow C_{m'}$ such that $\gamma_{m'} = \varphi \circ \gamma_f$. Then we have $\gamma_{m'} \circ \kappa_{\gamma_f} = \varphi \circ \gamma_f \circ \kappa_{\gamma_f} = 0$. By Prop \ref{prop:kernel-cokernel-resp}, $m'$ is the kernel of $\gamma_{m'}$ and therefore there is unique $t: I_f \rightarrow Z$ such that $\kappa_{\gamma_f} = m' \circ t$. Then we have $m' \circ t \circ e = \kappa_{\gamma_f} \circ e = f = m' \circ e'$, since $m'$ is a monomorphism, $e' = t \circ e$.
+
+    % https://q.uiver.app/#q=WzAsNixbMCwxLCJYIl0sWzEsMSwiWSJdLFsxLDAsIkNfZiJdLFsxLDIsIklfZiJdLFswLDAsIloiXSxbMiwxLCJDX3ttJ30iXSxbMCwxLCJmIl0sWzEsMiwiXFxnYW1tYV9mIiwyXSxbMywxLCJcXGthcHBhX3tcXGdhbW1hX2Z9IiwyXSxbMCwzLCJlIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsNCwiZSciXSxbNCwxLCJtJyJdLFsxLDUsIlxcZ2FtbWFfe20nfSIsMl0sWzIsNSwiXFx2YXJwaGkiXV0=
+    \[\begin{tikzcd}
+        Z & {C_f} \\
+        X & Y & {C_{m'}} \\
+        & {I_f}
+        \arrow["{m'}", from=1-1, to=2-2]
+        \arrow["\varphi", from=1-2, to=2-3]
+        \arrow["{e'}", from=2-1, to=1-1]
+        \arrow["f", from=2-1, to=2-2]
+        \arrow["e"', dashed, from=2-1, to=3-2]
+        \arrow["{\gamma_f}"', from=2-2, to=1-2]
+        \arrow["{\gamma_{m'}}"', from=2-2, to=2-3]
+        \arrow["{\kappa_{\gamma_f}}"', from=3-2, to=2-2]
+    \end{tikzcd}\]
+
+    The uniqueness of $(m, e)$ satisfying the universal property can be proved by standard argument, so we omit it.
+    
+    Next we show that $e$ is an epimorphism. Take $\gamma_e: I_f \rightarrow C_e$ the cokernel of $e$, and $\kappa_{\gamma_e}: K_{\gamma_e} \rightarrow I_f$ the kernel of $\gamma_e$. Since $\gamma_e \circ e = 0$, there is a unique morphism $e': X \rightarrow K_{\gamma_e}$ such that $e = \kappa_{\gamma_e} \circ e'$. Note that $\kappa_{\gamma_f} \circ \kappa_{\gamma_e}$ is a composition of monomorphisms and thus a monomorphism. By the universal property, there is unique morphism $t: T_f \rightarrow K_{\gamma_e}$ such that $\kappa_{\gamma_f} = \kappa_{\gamma_f} \circ \kappa_{\gamma_e} \circ t$. Since $\kappa_{\gamma_f}$ is a monomorphism, we have $\mathds{1}_{I_f} = \kappa_{\gamma_e} \circ t$. As a result, $\gamma_e = \gamma_e \circ \mathds{1}_{I_f} = \gamma_e \circ \kappa_{\gamma_e} \circ t = 0$, which completes the proof.
+
+    % https://q.uiver.app/#q=WzAsNixbMCwxLCJYIl0sWzEsMSwiWSJdLFsxLDAsIkNfZiJdLFsxLDIsIklfZiJdLFsyLDIsIkNfZSJdLFswLDIsIktfe1xcZ2FtbWFfZX0iXSxbMCwxLCJmIl0sWzEsMiwiXFxnYW1tYV9mIiwyXSxbMywxLCJcXGthcHBhX3tcXGdhbW1hX2Z9IiwyXSxbMCwzLCJlIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzMsNCwiXFxnYW1tYV9lIiwyXSxbNSwzLCJcXGthcHBhX3tcXGdhbW1hX2V9IiwyXSxbMCw1LCJlJyIsMl1d
+    \[\begin{tikzcd}
+        & {C_f} \\
+        X & Y \\
+        {K_{\gamma_e}} & {I_f} & {C_e}
+        \arrow["f", from=2-1, to=2-2]
+        \arrow["{e'}"', from=2-1, to=3-1]
+        \arrow["e", dashed, from=2-1, to=3-2]
+        \arrow["{\gamma_f}"', from=2-2, to=1-2]
+        \arrow["{\kappa_{\gamma_e}}"', from=3-1, to=3-2]
+        \arrow["{\kappa_{\gamma_f}}"', from=3-2, to=2-2]
+        \arrow["{\gamma_e}"', from=3-2, to=3-3]
+    \end{tikzcd}\]
+
+    Finally, let $f = m \circ e$ where $m$ is a monomorphism and $e$ is an epimorphism. Take arbitrary $f = m' \circ e'$ where $m'$ is a monomorphism. Consider the cokernel $\gamma_{m'}: Y \rightarrow C_{m'}$ of $m'$. Note that $\gamma_{m'} \circ m \circ e = \gamma_{m'} \circ f = \gamma_{m'} \circ m' \circ e' = 0$. Since $e$ is an epimorphism, $\gamma_{m'} \circ m = 0$. By Prop \ref{prop:kernel-cokernel-resp}, $m'$ is the kernel of $\gamma_{m'}$. Then there is unique $t: I_f \rightarrow Z$ such that $m = m' \circ t$, by similar argument as before, $e' = t \circ e$.
+
+    % https://q.uiver.app/#q=WzAsNSxbMCwxLCJYIl0sWzEsMSwiWSJdLFsxLDIsIklfZiJdLFswLDAsIloiXSxbMiwxLCJDX3ttJ30iXSxbMCwxLCJmIl0sWzIsMSwibSIsMl0sWzAsMiwiZSIsMl0sWzAsMywiZSciXSxbMywxLCJtJyJdLFsxLDQsIlxcZ2FtbWFfe20nfSIsMl1d
+    \[\begin{tikzcd}
+        Z \\
+        X & Y & {C_{m'}} \\
+        & {I_f}
+        \arrow["{m'}", from=1-1, to=2-2]
+        \arrow["{e'}", from=2-1, to=1-1]
+        \arrow["f", from=2-1, to=2-2]
+        \arrow["e"', from=2-1, to=3-2]
+        \arrow["{\gamma_{m'}}"', from=2-2, to=2-3]
+        \arrow["m"', from=3-2, to=2-2]
+    \end{tikzcd}\]
+\end{proof}
+
+One important implication of the decomposition is that monomorphism + epimorphism = isomorphism in abelian categories, just as we would expect:
+
+\begin{corollary}\label{cor:mono-epi}
+    (Monomorphism + Epimorphism = Isomorphism in Abelian Categories) Let $\mathcal{A}$ be an abelian category, $f: X \rightarrow Y$ be a morphism. Then $f$ is an isomorphism if and only if $f$ is an epimorphism and a monomorphism.
+\end{corollary}
+
+\begin{proof}
+    The "only if" part is trivial. For the "if" part. Consider the following two decompositions of $f$: $f = f \circ \mathds{1}_X = \mathds{1}_Y \circ f$, each satisfies the universal property by Prop \ref{prop:unique-decomp}. Also by Prop \ref{prop:unique-decomp}, there is an isomorphism $t$ such that $\mathds{1}_Y \circ t = f$, which proves that $f$ is an isomorphism.
+\end{proof}
+
+Finally, we have the categorical version of the first isomorphism theorem:
+
+\begin{theorem}[First Isomorphism Theorem]
+    Let $\mathcal{A}$ be an abelian category, $f: X \rightarrow Y$ be a morphism, then there is a unique morphism $\overline{f}: CoI_f \rightarrow I_f$ such that $\kappa_{\gamma_f} \circ \overline{f} \circ \gamma_{\kappa_f} = f$, and $\overline{f}$ is an isomorphism.
+
+    % https://q.uiver.app/#q=WzAsNixbMCwxLCJYIl0sWzEsMSwiWSJdLFswLDAsIktfZiJdLFsxLDAsIkNfZiJdLFsxLDIsIklfZiJdLFswLDIsIkNvSV9mIl0sWzAsMSwiZiJdLFsyLDAsIlxca2FwcGFfZiIsMl0sWzEsMywiXFxnYW1tYV9mIiwyXSxbNCwxLCJcXGthcHBhX3tcXGdhbW1hX2Z9IiwyXSxbMCw1LCJcXGdhbW1hX3tcXGthcHBhX2Z9IiwyXSxbNSw0LCJcXG92ZXJsaW5le2Z9IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV1d
+    \[\begin{tikzcd}
+        {K_f} & {C_f} \\
+        X & Y \\
+        {CoI_f} & {I_f}
+        \arrow["{\kappa_f}"', from=1-1, to=2-1]
+        \arrow["f", from=2-1, to=2-2]
+        \arrow["{\gamma_{\kappa_f}}"', from=2-1, to=3-1]
+        \arrow["{\gamma_f}"', from=2-2, to=1-2]
+        \arrow["{\overline{f}}", dashed, from=3-1, to=3-2]
+        \arrow["{\kappa_{\gamma_f}}"', from=3-2, to=2-2]
+    \end{tikzcd}\]
+\end{theorem}
+
+\begin{proof}
+    First let's define $\overline{f}$. Note that $\gamma_f \circ f = 0$, so we have unique $f': X \rightarrow I_f$ such that $f = \kappa_{\gamma_f} \circ f'$. Then we have $\kappa_{\gamma_f} \circ f' \circ \kappa_f = f \circ \kappa_f = 0$. Since $\kappa_{\gamma_f}$ is a monomorphism, we must have $f' \circ \kappa_f = 0$ and therefore there is unique $\overline{f}: CoI_f \rightarrow I_f$ such that $f' = \overline{f} \circ \gamma_{\kappa_f}$. Then we have $\kappa_{\gamma_f} \circ \overline{f} \circ \gamma_{\kappa_f} = f$. The argument also shows that $\overline{f}$ is the unique morphism satisfying this.
+
+    Since $f'$ is an epimorphism by our proof of Prop \ref{prop:unique-decomp}, and $f' = \overline{f} \circ \gamma_{\kappa_f}$, $\overline{f}$ must also be an epimorphism (check). Similarly, we can establish $f': CoI_f \rightarrow Y$ a monomorphism and applies Prop \ref{prop:unique-decomp} in $\mathcal{A}^\mathrm{opp}$ to show that $\overline{f}$ is also a monomorphism. Conclude by Cor \ref{cor:mono-epi}.
+
+    % https://q.uiver.app/#q=WzAsNixbMCwxLCJYIl0sWzEsMSwiWSJdLFswLDAsIktfZiJdLFsxLDAsIkNfZiJdLFsxLDIsIklfZiJdLFswLDIsIkNvSV9mIl0sWzAsMSwiZiJdLFsyLDAsIlxca2FwcGFfZiIsMl0sWzEsMywiXFxnYW1tYV9mIiwyXSxbNCwxLCJcXGthcHBhX3tcXGdhbW1hX2Z9IiwyXSxbMCw1LCJcXGdhbW1hX3tcXGthcHBhX2Z9IiwyXSxbNSw0LCJcXG92ZXJsaW5le2Z9IiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzAsNCwiZiciLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+    \[\begin{tikzcd}
+        {K_f} & {C_f} \\
+        X & Y \\
+        {CoI_f} & {I_f}
+        \arrow["{\kappa_f}"', from=1-1, to=2-1]
+        \arrow["f", from=2-1, to=2-2]
+        \arrow["{\gamma_{\kappa_f}}"', from=2-1, to=3-1]
+        \arrow["{f'}", dashed, from=2-1, to=3-2]
+        \arrow["{\gamma_f}"', from=2-2, to=1-2]
+        \arrow["{\overline{f}}"', dashed, from=3-1, to=3-2]
+        \arrow["{\kappa_{\gamma_f}}"', from=3-2, to=2-2]
+    \end{tikzcd}\]
+\end{proof}
+
+This is exactly the first isomorphism theorem in $\mathscr{Ab}$ or more generally $\mathscr{Mod}_R$
+
+\begin{example}
+    First Isomorphism Theorem in $\mathscr{Mod}_R$: Let $f: M \rightarrow N$ be a homomorphism between $R$-modules, then $M / \mathrm{ker}(f) \cong \mathrm{im}(f)$ as $R$-modules.
+\end{example}
+
+\iffalse
+
+In the rest of the notes, we adopt the notation of Hilton \& Stammbach and use $X \rightarrowtail Y$ to denote monomorphism and $X \twoheadrightarrow Y$ to denote epimorphism.
+
+\fi
+
+
+\section{Chain Complexes}
+
+Perhaps the most natural introduction to chain complexes is through algebraic topology. So it is recommended that the readers have some basic knowledge of algebraic topology to understand the motivation of chain complexes here. However, if the reader are comfortable accepting mathematical definitions without motivation, the following section do not assume any knowledge of algebraic topology.
+
+
+\iffalse
+Usually people define chain complex and chain map separately and verify that they form a category. Instead, we give a compact definition through functor categories. Then we can 'extract' the definition of chain complex and chain map from it.
+
+\begin{definition}
+    (Category of Chain Complex in an Additive Category) Consider the category $\mathcal{Z}$ consisting of:
+    \begin{enumerate}
+        \item Objects: Elements in $\mathbb{Z}$.
+        \item Morphisms: For each pair objects $m, n$, if:
+        \begin{enumerate}
+            \item $m = n$, then $\mathrm{Hom}_{\mathcal{Z}}(m, n) = \mathbb{Z}$, generated by $\mathds{1}_{n}$;
+            \item $m = n + 1$, then $\mathrm{Hom}_{\mathcal{Z}}(m, n) = \mathbb{Z}$, we denote the generator as $\partial_m$,
+            \item $m \ne n, n + 1$, then $\mathrm{Hom}_{\mathcal{Z}}(m, n) = 0$
+        \end{enumerate}
+    \end{enumerate}
+    Then the composition rule should be obvious: Given $f: m \rightarrow n, g: n \rightarrow l$, if $m \ne l, l + 1$, then $g \circ f = 0$ (this must be the case as $\mathrm{Hom}_{\mathcal{Z}}(m, l) = 0$), otherwise $g \circ f = gf$ where the product is taken in $\mathbb{Z}$. Then $\mathcal{Z}$ is a category where the $\mathrm{Hom}$-sets have the structure of abelian categories (but it is not a preadditive category, since there is no zero objects).
+
+    Given additive category $\mathcal{A}$, the \textbf{category of chain complex in $\mathcal{A}$} is the functor category $\mathcal{A}^{\mathcal{Z}}$.
+\end{definition}
+
+\fi
+
+\begin{definition}
+    (Chain Complex, Chain Map) Let $\mathcal{A}$ be an abelian category, if the pair $(\left\lbrace C_n: C_n \in \mathrm{ob}(\mathcal{A}) \right\rbrace_{n \in \mathbb{Z}}, \left\lbrace d_n^C: C_n \rightarrow C_{n - 1} \right\rbrace_{n \in \mathbb{Z}})$ satisfies $d_n^C \circ d_{n + 1}^C = 0$ for all $n \in \mathbb{Z}$, then we call the pair $(\left\lbrace C_n \right\rbrace, \left\lbrace d_n^C \right\rbrace)$ a \textbf{chain complex in $\mathcal{A}$}, and denote it as $C_{\bullet}$.
+
+    Let $C _{\bullet}, D_{\bullet}$ be two chain complexes in $\mathcal{A}$, $\left\lbrace f_n \right\rbrace_{n \in \mathbb{Z}}$ be a collection of morphisms such that $f_n \circ d_{n + 1}^C = d_{n + 1}^D \circ f_{n + 1}$ for all $n \in \mathbb{Z}$, then we call the collection $\left\lbrace f_n \right\rbrace_{n \in \mathbb{Z}}$ a \textbf{chain map} from $C_{\bullet}$ to $D_{\bullet}$, and denote it as $f_{\bullet}$.
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJDX3tuICsgMX0iXSxbMSwwLCJDX24iXSxbMCwxLCJEX3tuICsgMX0iXSxbMSwxLCJEX24iXSxbMiwzLCJkX3tuICsgMX1eRCIsMl0sWzAsMSwiZF97biArIDF9XkMiXSxbMSwzLCJmX24iXSxbMCwyLCJmX3tuICsgMX0iLDJdXQ==
+    \[\begin{tikzcd}
+        {C_{n + 1}} & {C_n} \\
+        {D_{n + 1}} & {D_n}
+        \arrow["{d_{n + 1}^C}", from=1-1, to=1-2]
+        \arrow["{f_{n + 1}}"', from=1-1, to=2-1]
+        \arrow["{f_n}", from=1-2, to=2-2]
+        \arrow["{d_{n + 1}^D}"', from=2-1, to=2-2]
+    \end{tikzcd}\]
+\end{definition}
+
+Of course, we do not need the full power of abelian categories in the definition, we only need zero morphisms to exist for every pair of objects. However, we assume abelian to simplify the rest of the section.
+
+\begin{definition}
+    (The Category of Chain Complexes in Abelian Category) Let $\mathcal{A}$ be an abelian category. Consider the category consisting of:
+    \begin{enumerate}
+        \item Objects: Chain complexes in $\mathcal{A}$
+        \item Morphisms: Chain maps between chain complexes
+    \end{enumerate}
+    with obvious composition rule. The reader may verify that this is a category, with identity map $\mathds{1}_{C_{\bullet}} = \left\lbrace \mathds{1}_{C_n} \right\rbrace_{n \in \mathbb{Z}}$. We call this category \textbf{the category of chain complexes in $\mathcal{A}$}, and denote it as $\mathrm{Ch}_{\bullet}(\mathcal{A})$.
+\end{definition}
+
+Our next goal is to prove the category of chain complex is also abelian. But before that we need to be clear about the monomorphisms and epimorphisms in the category.
+
+\begin{lemma}
+    Let $\mathcal{A}$ be an abelian category, $f_{\bullet}: C_{\bullet} \rightarrow D_{\bullet}$ be a chain map in $\mathcal{A}$. Then $f_{\bullet}$ is a monomorphism (resp. epimorphism) if and only if $f_n$ is a monomorphism (resp. epimorphism) for all $n \in \mathbb{Z}$.
+\end{lemma}
+
+\begin{proof}
+    The "if" part is trivial. For the "only if" part, suppose otherwise, $f_{n_0}$ is not a monomorphism. Then there is some $g_{n_0}, h_{n_0}:E_{n_0}  \rightarrow D_{n_0}$ such that $f_{n_0} \circ g_{n_0} = f_{n_0} \circ h_{n_0}$ but $g_{n_0} \ne h_{n_0}$. Extend this to the chain complex $E_{\bullet}$ such that $E_n = 0$ for $n \ne n_0$ with $d_n^E = 0$ for all $n \in \mathbb{Z}$, and chain maps $f_{\bullet}, g_{\bullet}: E_{\bullet} \rightarrow D_{\bullet}$ such that $f_n = g_n = 0$ for all $n \ne n_0$. Then we have $f_{\bullet} \circ g_{\bullet} = f_{\bullet} \circ h_{\bullet}$ but $g_{\bullet} \ne h_{\bullet}$, a contradiction.
+\end{proof}
+
+\begin{proposition}
+    (The category of chain complexes is abelian) Let $\mathcal{A}$ be an abelian category, then $\mathrm{Ch}_{\bullet}(\mathcal{A})$ is an abelian category.
+\end{proposition}
+
+\begin{proof}
+    $\mathrm{Ch}_{\bullet}(\mathcal{A})$ has zero objects: One zero object is simply $(\left\lbrace 0 \right\rbrace_{n \in \mathbb{Z}}, \left\lbrace 0 \right\rbrace_{n \in \mathbb{Z}})$. This implies the zero chain map $0_{\bullet}$ is the map defined by $0_n = 0$, but we usually also denote the zero chain map as $0$.
+
+    The $\mathrm{Hom}$-sets of $\mathrm{Ch}_{\bullet}(\mathcal{A})$ has the structure of abelian groups and composition is bilinear: Define the sum of $f_{\bullet}, g_{\bullet}$ as $f_{\bullet} + g_{\bullet} = \left\lbrace f_n + g_n \right\rbrace_{n \in \mathbb{Z}}$.
+
+    The existence of products of two objects: Define the product of $C_{\bullet}, D_{\bullet}$ as $C_{\bullet} \times D_{\bullet} = (\left\lbrace C_n \times D_n \right\rbrace, \left\lbrace \left\lbrace d_{n}^C, d_{n}^D \right\rbrace: C_n \times D_n \rightarrow C_{n - 1} \times D_{n - 1} \right\rbrace)$ and verify.
+
+    The existence of kernels and cokernels: Let $f_{\bullet}: C_{\bullet} \rightarrow D_{\bullet}$ be a chain map. For each $f_n$, we have $\kappa_{n}: K_n \rightarrow C_n, \gamma_{n}: D_n \rightarrow Y_n$ its kernel and cokernel respectively. Note that $f_{n - 1} \circ d_n^C \circ \kappa_{n} = d_n^D \circ f_n \circ \kappa_{n} = 0$, so $\kappa_{n} \circ d_n^C$ factors through $\kappa_{n - 1}$, namely $d_n^C \circ \kappa_{n} = \kappa_{n - 1} \circ d_n^K$ for some $d_{n}^K: K_n \rightarrow K_{n - 1}$. Similarly, we can define $d_n^Y$:
+    % https://q.uiver.app/#q=WzAsMTIsWzEsMSwiQ19uIl0sWzEsMiwiQ197biAtIDF9Il0sWzIsMSwiRF9uIl0sWzIsMiwiRF97biAtIDF9Il0sWzMsMSwiWV9uIl0sWzMsMiwiWV97biAtIDF9Il0sWzAsMSwiS19uIl0sWzAsMiwiS197biAtIDF9Il0sWzEsMCwiXFx2ZG90cyJdLFsyLDAsIlxcdmRvdHMiXSxbMSwzLCJcXHZkb3RzIl0sWzIsMywiXFx2ZG90cyJdLFswLDIsImZfbiJdLFsxLDMsImZfe24gLSAxfSIsMl0sWzIsNCwiXFxnYW1tYV97bn0iXSxbMyw1LCJcXGdhbW1hX3tuIC0gMX0iLDJdLFs2LDAsIlxca2FwcGFfe259Il0sWzcsMSwiXFxrYXBwYV97biAtIDF9IiwyXSxbOSwyXSxbOCwwXSxbMCwxLCJkX3tufV5DIiwyXSxbMSwxMF0sWzIsMywiZF9uXkQiXSxbNCw1LCJkX25eWSJdLFs2LDcsImRfbl5LIiwyXSxbMywxMV1d
+    \[\begin{tikzcd}
+        & \vdots & \vdots \\
+        {K_n} & {C_n} & {D_n} & {Y_n} \\
+        {K_{n - 1}} & {C_{n - 1}} & {D_{n - 1}} & {Y_{n - 1}} \\
+        & \vdots & \vdots
+        \arrow[from=1-2, to=2-2]
+        \arrow[from=1-3, to=2-3]
+        \arrow["{\kappa_{n}}", from=2-1, to=2-2]
+        \arrow["{d_n^K}"', from=2-1, to=3-1]
+        \arrow["{f_n}", from=2-2, to=2-3]
+        \arrow["{d_{n}^C}"', from=2-2, to=3-2]
+        \arrow["{\gamma_{n}}", from=2-3, to=2-4]
+        \arrow["{d_n^D}", from=2-3, to=3-3]
+        \arrow["{d_n^Y}", from=2-4, to=3-4]
+        \arrow["{\kappa_{n - 1}}"', from=3-1, to=3-2]
+        \arrow["{f_{n - 1}}"', from=3-2, to=3-3]
+        \arrow[from=3-2, to=4-2]
+        \arrow["{\gamma_{n - 1}}"', from=3-3, to=3-4]
+        \arrow[from=3-3, to=4-3]
+    \end{tikzcd}\]
+    We claim that $\kappa_{\bullet}, \gamma_{\bullet}$ is the kernel and cokernel of $f_{\bullet}$ respectively. WLOG, we only prove $\kappa_{\bullet}$ is the kernel, the reader may replace $\mathcal{A}$ by $\mathcal{A}^\mathrm{opp}$ to obtain the proof for $\gamma_\bullet$. Take arbitrary chain map $g_{\bullet}: E_{\bullet} \rightarrow C_{\bullet}$ such that $f_{\bullet} \circ g_{\bullet} = 0$, then we have $f_n \circ g_n = 0$ for all $n \in \mathbb{Z}$. As a result, $g_n$ factors through $\kappa_n$, namely there is $g_n': E_n \rightarrow K_n$ such that $g_n = \kappa_n \circ g_n'$. We only need to show $\left\lbrace g_n' \right\rbrace$ forms a chain map, namely $d_n^K \circ g_n' = g_{n - 1}' \circ d_n^E$. Note that
+    $$
+        \begin{aligned}
+        \kappa_{n - 1} \circ d_{n}^K \circ g_n' &= d_n^C \circ \kappa_n \circ g_n' \\
+        &= d_n^C \circ g_n \\
+        &= g_{n - 1} \circ d_n^E \\
+        &= \kappa_{n - 1} \circ g_n' \circ d_n^E
+        \end{aligned}
+    $$
+    Since $\kappa_{n - 1}$ is a monomorphism, it completes the proof.
+    % https://q.uiver.app/#q=WzAsMTQsWzIsMiwiQ19uIl0sWzIsMywiQ197biAtIDF9Il0sWzMsMiwiRF9uIl0sWzMsMywiRF97biAtIDF9Il0sWzEsMiwiS19uIl0sWzEsMywiS197biAtIDF9Il0sWzIsMSwiXFx2ZG90cyJdLFszLDEsIlxcdmRvdHMiXSxbMiw0LCJcXHZkb3RzIl0sWzMsNCwiXFx2ZG90cyJdLFswLDEsIkVfbiJdLFswLDQsIkVfe24gLSAxfSJdLFswLDAsIlxcdmRvdHMiXSxbMCw1LCJcXHZkb3RzIl0sWzAsMiwiZl9uIl0sWzEsMywiZl97biAtIDF9IiwyXSxbNCwwLCJcXGthcHBhX3tufSIsMl0sWzUsMSwiXFxrYXBwYV97biAtIDF9Il0sWzcsMl0sWzYsMF0sWzAsMSwiZF97bn1eQyJdLFsxLDhdLFsyLDMsImRfbl5EIl0sWzQsNSwiZF9uXksiLDJdLFszLDldLFsxMCwwLCJnX24iXSxbMTEsMSwiZ197biAtIDF9IiwyXSxbMTAsMTEsImRfbl5FIiwyXSxbMTIsMTBdLFsxMSwxM10sWzExLDUsImdfe24gLSAxfSciXSxbMTAsNCwiZ19uJyIsMl1d
+    \[\begin{tikzcd}
+        \vdots \\
+        {E_n} && \vdots & \vdots \\
+        & {K_n} & {C_n} & {D_n} \\
+        & {K_{n - 1}} & {C_{n - 1}} & {D_{n - 1}} \\
+        {E_{n - 1}} && \vdots & \vdots \\
+        \vdots
+        \arrow[from=1-1, to=2-1]
+        \arrow["{g_n'}"', from=2-1, to=3-2]
+        \arrow["{g_n}", from=2-1, to=3-3]
+        \arrow["{d_n^E}"', from=2-1, to=5-1]
+        \arrow[from=2-3, to=3-3]
+        \arrow[from=2-4, to=3-4]
+        \arrow["{\kappa_{n}}"', from=3-2, to=3-3]
+        \arrow["{d_n^K}"', from=3-2, to=4-2]
+        \arrow["{f_n}", from=3-3, to=3-4]
+        \arrow["{d_{n}^C}", from=3-3, to=4-3]
+        \arrow["{d_n^D}", from=3-4, to=4-4]
+        \arrow["{\kappa_{n - 1}}", from=4-2, to=4-3]
+        \arrow["{f_{n - 1}}"', from=4-3, to=4-4]
+        \arrow[from=4-3, to=5-3]
+        \arrow[from=4-4, to=5-4]
+        \arrow["{g_{n - 1}'}", from=5-1, to=4-2]
+        \arrow["{g_{n - 1}}"', from=5-1, to=4-3]
+        \arrow[from=5-1, to=6-1]
+    \end{tikzcd}\]
+    
+    Every monomorphism is a kernel and every epimorphism is a cokernel: For arbitrary epimorphism $f_{\bullet}$, construct the kernel of $f_{\bullet}$ as in the previous part. By the previous lemma, $f_n$ is an epimorphism for each $n$, then by Prop \ref{prop:kernel-cokernel-resp}, $f_n$ is the cokernel of $\kappa_n$ for each $n$. By applying the previous part, $f_{\bullet}$ is the cokernel of $\kappa_{\bullet}$, which completes the proof.
+\end{proof}
+
+In $\mathscr{Ab}$, we know that $g \circ f = 0$ is a clever way of saying $\mathrm{im}(f) \subset \mathrm{ker}(g)$. To express this relationship in categorical language, we need to replace the inclusion by its counterpart in categories: monomorphism. And hence we have:
+
+\begin{proposition} \label{prop:homology}
+    Let $\mathcal{A}$ be an abelian category, $f: X \rightarrow Y, g: Y \rightarrow Z$ be two morphisms such that $g \circ f = 0$. Then:
+    \begin{enumerate}
+        \item There is a unique morphism $\delta_{f, g}: I_f \rightarrow K_g$ such that $\kappa_g \circ \delta_{f, g} = \kappa_{\gamma_f}$. Moreover, $\delta_{f, g}$ is a monomorphism;
+        \item There is a unique morphism $\varepsilon_{f, g}: C_f \rightarrow CoI_g$ such that $\gamma_{\kappa_g} = \varepsilon_{f, g} \circ \gamma_f$. Moreover, $\varepsilon_{f, g}$ is an epimorphism.
+    \end{enumerate}
+    % https://q.uiver.app/#q=WzAsNyxbMCwxLCJYIl0sWzIsMSwiWSJdLFs0LDEsIloiXSxbMSwwLCJDX2YiXSxbMSwyLCJJX2YiXSxbMywwLCJDb0lfZyJdLFszLDIsIktfZyJdLFswLDEsImYiLDFdLFsxLDIsImciLDFdLFsxLDMsIlxcZ2FtbWFfZiIsMV0sWzQsMSwiXFxrYXBwYV97XFxnYW1tYV9mfSIsMV0sWzEsNSwiXFxnYW1tYV97XFxrYXBwYV9nfSIsMV0sWzYsMSwiXFxrYXBwYV9nIiwxXSxbMyw1LCJcXHZhcmVwc2lsb25fe2YsIGd9IiwxLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzQsNiwiXFxkZWx0YV97ZiwgZ30iLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+    \[\begin{tikzcd}
+        & {C_f} && {CoI_g} \\
+        X && Y && Z \\
+        & {I_f} && {K_g}
+        \arrow["{\varepsilon_{f, g}}"{description}, dashed, from=1-2, to=1-4]
+        \arrow["f"{description}, from=2-1, to=2-3]
+        \arrow["{\gamma_f}"{description}, from=2-3, to=1-2]
+        \arrow["{\gamma_{\kappa_g}}"{description}, from=2-3, to=1-4]
+        \arrow["g"{description}, from=2-3, to=2-5]
+        \arrow["{\kappa_{\gamma_f}}"{description}, from=3-2, to=2-3]
+        \arrow["{\delta_{f, g}}"{description}, dashed, from=3-2, to=3-4]
+        \arrow["{\kappa_g}"{description}, from=3-4, to=2-3]
+    \end{tikzcd}\]
+\end{proposition}
+
+\begin{proof}
+    By Prop \ref{prop:unique-decomp}, $f = \kappa_{\gamma_f} \circ f'$ for some epimorphism $f': X \rightarrow I_f$. Also, we have $g \circ f = g \circ \kappa_{\gamma_f} \circ f' = 0$. Since $f'$ is an epimorphism, this implies $g \circ \kappa_{\gamma_f} = 0$ and hence there is a unique morphism $\delta_{f, g}: I_f \rightarrow K_g$ such that $\kappa_g \circ \delta_{f, g} = \kappa_{\gamma_f}$. Since $\kappa_{\gamma_f}$ is a monomorphism, so is $\delta_{f, g}$ (check).
+
+    We can prove the second part of the statement by replacing $\mathcal{A}$ by $\mathcal{A} ^\mathrm{opp}$.
+\end{proof}
+
+\begin{remark}
+    It may seem the second part of the proposition is redundant, since it can be obtained by replacing $\mathcal{A}$ with $\mathcal{A}^\mathrm{opp}$. But we need it so that \textbf{the proposition itself is symmetric}: If we replace $\mathcal{A}$ with $\mathcal{A}^\mathrm{opp}$, we get exactly the same proposition. If any proof appeals to the proposition, it can also appeal to the proposition if the categories are inverted.
+\end{remark}
+
+One special case of $\mathrm{im}(f) \subset \mathrm{ker}(g)$ is that $\mathrm{im}(f) = \mathrm{ker}(g)$, which translates to $\delta_{f, g}$ being isomorphism:
+
+\begin{definition}
+    (Exact, Exact Sequence) Let $\mathcal{A}$ be an abelian category, $X \xrightarrow{f} Y \xrightarrow{g} Z$ be a composition of morphisms such that $g \circ f = 0$. If $\delta_{f, g}$ is an isomorphism, we call the composition \textbf{exact at $Y$}.
+
+    Let $C_{\bullet}$ be a chain complex in $\mathcal{A}$, if it is exact at every $C_n$, then we call $C_{\bullet}$ an \textbf{exact sequence}.
+\end{definition}
+
+Also, we need to verify that exactness is a symmetric property:
+
+\begin{proposition}
+    Let $\mathcal{A}$ be an abelian category, $X \xrightarrow{f} Y \xrightarrow{g} Z$ be a composition of morphism such that $g \circ f = 0$. Then $X \xrightarrow{f} Y \xrightarrow{g} Z$ is exact at $Y$ if and only if $X \xleftarrow{f} Y \xleftarrow{g} Z$ is also exact at $Y$ in $\mathcal{A}^\mathrm{opp}$
+\end{proposition}
+
+\begin{proof}
+    ISTS $\delta_{f, g}$ is an isomorphism if and only if $\varepsilon_{f, g}$ is. By symmetry, ISTS the "only if" part. But this is clear as $\gamma_f, \kappa_{\gamma_f}$ and $\kappa_g, \gamma_{\kappa_g}$ are pairs of kernel-cokernel.
+\end{proof}
+
+Exact sequence are powerful tools to study objects, for example:
+
+\begin{proposition}\label{prop:short-exact}
+    Let $\mathcal{A}$ be an abelian category, $X, Y, Z$ be objects in abelian category. Then we have:
+    \begin{enumerate}
+        \item If $X \xrightarrow{f} Y \rightarrow 0$ is exact at $Y$, then $f$ is an epimorphism.
+        \item If $0 \rightarrow X \xrightarrow{f} Y$ is exact at $X$, then $f$ is a monomorphism.
+        \item If $0 \rightarrow X \xrightarrow{f} Y \rightarrow 0$ is exact at $X, Y$, then $f$ is an isomorphism.
+        \item If $0 \rightarrow X \xrightarrow{f} Y \xrightarrow{g} Z \rightarrow 0$ is exact at $X, Y, Z$, then $g$ is the cokernel of $f$ and $f$ is the kernel of $g$ (which implies $f$ is a monomorphism and $g$ is an epimorphism)
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Since the sequence is exact at $Y$, we have $\varepsilon_{f, 0}: C_f \rightarrow CoI_0$ an isomorphism. However, $CoI_0 = 0$, and therefore $C_f = 0$, which completes the proof (by Prop \ref{prop:mono-test}).
+        \item Follows from the first part by replacing $\mathcal{A}$ by $\mathcal{A}^\mathrm{opp}$.
+        \item Follows from the previous two parts and Cor \ref{cor:mono-epi}.
+        \item By part 1 and 2, $f$ is a monomorphism and $g$ is an epimorphism. By the first isomorphism theorem, $X \cong CoI_f \cong I_f \cong K_g$, and $f$ is equivalent to $\kappa_g$ up to this isomorphism. This proves that $f$ is the kernel of $g$. Then since $g$ is an epimorphism, $g$ is the cokernel of its kernel, namely $f$.
+    \end{enumerate}
+\end{proof}
+
+It turns out the last type of short exact sequence in the previous proposition is of special importance, as we can always break long exact sequence into short ones:
+
+\begin{definition}[Short Exact Sequence]
+    Let $\mathcal{A}$ be an abelian category, then we call exact sequence of the form:
+    $$0 \rightarrow A' \rightarrow A \rightarrow A'' \rightarrow 0$$
+    a \textbf{short exact sequence}
+\end{definition}
+
+\begin{proposition}
+    Let $\mathcal{A}$ be an abelian category,
+    $$\cdots \rightarrow A_{n + 1} \xrightarrow{f_{n + 1}} A_n \xrightarrow{f_n} A_{n - 1} \rightarrow \cdots$$
+    be an exact sequence in $\mathcal{A}$. Let $\kappa_n: K_n \rightarrow A_n, f_n': A_n \rightarrow I_n \cong K_{n - 1}$ be the morphism into the image of $f_n$ induced by $f_n$, then we have short exact sequence:
+    $$0 \rightarrow K_n \xrightarrow{\kappa_n} A_n \xrightarrow{f_n'} K_{n - 1} \rightarrow 0$$
+    for each $n$.
+    % https://q.uiver.app/#q=WzAsMTMsWzEsMiwiQV97biArIDF9Il0sWzMsMiwiQV9uIl0sWzUsMiwiQV97biAtIDF9Il0sWzAsMiwiXFxjZG90cyJdLFs2LDIsIlxcY2RvdHMiXSxbMiwzLCJLX24iXSxbNCwxLCJLX3tuIC0gMX0iXSxbNiwzLCJcXGNkb3RzIl0sWzAsMSwiXFxjZG90cyJdLFsxLDQsIjAiXSxbMyw0LCIwIl0sWzUsMCwiMCJdLFszLDAsIjAiXSxbMywwXSxbMCwxLCJmX3tuICsgMX0iXSxbMSwyLCJmX24iXSxbMiw0XSxbMCw1XSxbNSwxXSxbMSw2XSxbNiwyXSxbMiw3XSxbOCwwXSxbOSw1XSxbNSwxMF0sWzYsMTFdLFsxMiw2XV0=
+    \[\begin{tikzcd}
+        &&& 0 && 0 \\
+        \cdots &&&& {K_{n - 1}} \\
+        \cdots & {A_{n + 1}} && {A_n} && {A_{n - 1}} & \cdots \\
+        && {K_n} &&&& \cdots \\
+        & 0 && 0
+        \arrow[from=1-4, to=2-5]
+        \arrow[from=2-1, to=3-2]
+        \arrow[from=2-5, to=1-6]
+        \arrow[from=2-5, to=3-6]
+        \arrow[from=3-1, to=3-2]
+        \arrow["{f_{n + 1}}", from=3-2, to=3-4]
+        \arrow[from=3-2, to=4-3]
+        \arrow[from=3-4, to=2-5]
+        \arrow["{f_n}", from=3-4, to=3-6]
+        \arrow[from=3-6, to=3-7]
+        \arrow[from=3-6, to=4-7]
+        \arrow[from=4-3, to=3-4]
+        \arrow[from=4-3, to=5-4]
+        \arrow[from=5-2, to=4-3]
+    \end{tikzcd}\]
+\end{proposition}
+
+To evaluate how far we are from an exact sequence, we calculate the quotient $\mathrm{ker}(d_n) / \mathrm{im}(d_{n + 1})$, then the chain complex is exact at $C_n$ if and only if the quotient is zero:
+
+\begin{definition}\label{def:homology} [Homology]
+    Let $\mathcal{A}$ be an abelian category, $C_{\bullet}$ be a chain complex in $\mathcal{A}$, and $\delta_{d_{n + 1}, d_n}: I_{d_{n + 1}} \rightarrow K_{d_n}$ be defined as in Prop \ref{prop:homology}. Take $\gamma_{\delta_{d_{n + 1}, d_n}}: K_{d_{n}} \rightarrow Y_n$ the cokernel of $\delta_{d_{n + 1}, d_n}$. Then we call $Y_n$ the \textbf{homology of $C_{\bullet}$ at $C_n$}, and denote it as $H_n(C_{\bullet})$
+\end{definition}
+
+And clearly $C_{\bullet}$ is exact at $C_n$ if and only if $H_n(C_{\bullet}) = 0$.
+
+In fact, homology can be made into a functor $\mathrm{Ch}_{\bullet}(\mathcal{A}) \rightarrow \mathcal{A}$. To do so, we must define the morphisms corresponding to the chain maps:
+
+\begin{proposition} \label{prop:homology-chain-map}
+    Let $\mathcal{A}$ be an abelian category, $f_{\bullet}: C_{\bullet} \rightarrow D_{\bullet}$ be a chain map in $\mathcal{A}$. Then there is a unique morphism $\overline{f_n}$ such that the diagram below commutes:
+
+    % https://q.uiver.app/#q=WzAsMTIsWzEsMSwiQ19uIl0sWzIsMSwiRF9uIl0sWzEsMCwiQ197biArIDF9Il0sWzIsMCwiRF97biArIDF9Il0sWzEsMiwiQ197biAtIDF9Il0sWzIsMiwiRF97biAtIDF9Il0sWzAsMSwiSV5DIl0sWzAsMiwiS15DIl0sWzAsMywiSF9uXkMiXSxbMywxLCJJXkQiXSxbMywyLCJLXkQiXSxbMywzLCJIX25eRCJdLFsyLDAsImRfe24gKyAxfV5DIiwyXSxbMywxLCJkX3tuICsgMX1eRCJdLFsyLDMsImZfe24gKyAxfSJdLFswLDEsImZfbiIsMl0sWzAsNCwiZF97bn1eQyIsMl0sWzEsNSwiZF97bn1eRCJdLFs0LDUsImZfe24gLSAxfSIsMl0sWzYsMCwiXFxrYXBwYV5DXzEiXSxbNiw3LCJcXGRlbHRhXkMiLDJdLFs3LDAsIlxca2FwcGFfMl5DIl0sWzcsOCwiXFxnYW1tYV97XFxkZWx0YV5DfSIsMl0sWzksMSwiXFxrYXBwYV8xXkQiLDJdLFs5LDEwLCJcXGRlbHRhXkQiXSxbMTAsMSwiXFxrYXBwYV8yXkQiLDJdLFsxMCwxMSwiXFxnYW1tYV97XFxkZWx0YV5EfSJdLFs4LDExLCJcXG92ZXJsaW5le2Zfbn0iLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+    \[\begin{tikzcd}
+        & {C_{n + 1}} & {D_{n + 1}} \\
+        {I^C} & {C_n} & {D_n} & {I^D} \\
+        {K^C} & {C_{n - 1}} & {D_{n - 1}} & {K^D} \\
+        {H_n^C} &&& {H_n^D}
+        \arrow["{f_{n + 1}}", from=1-2, to=1-3]
+        \arrow["{d_{n + 1}^C}"', from=1-2, to=2-2]
+        \arrow["{d_{n + 1}^D}", from=1-3, to=2-3]
+        \arrow["{\kappa^C_1}", from=2-1, to=2-2]
+        \arrow["{\delta^C}"', from=2-1, to=3-1]
+        \arrow["{f_n}"', from=2-2, to=2-3]
+        \arrow["{d_{n}^C}"', from=2-2, to=3-2]
+        \arrow["{d_{n}^D}", from=2-3, to=3-3]
+        \arrow["{\kappa_1^D}"', from=2-4, to=2-3]
+        \arrow["{\delta^D}", from=2-4, to=3-4]
+        \arrow["{\kappa_2^C}", from=3-1, to=2-2]
+        \arrow["{\gamma_{\delta^C}}"', from=3-1, to=4-1]
+        \arrow["{f_{n - 1}}"', from=3-2, to=3-3]
+        \arrow["{\kappa_2^D}"', from=3-4, to=2-3]
+        \arrow["{\gamma_{\delta^D}}", from=3-4, to=4-4]
+        \arrow["{\overline{f_n}}", dashed, from=4-1, to=4-4]
+    \end{tikzcd}\]
+    where $\kappa_i^C, \kappa_i^D, \delta^C, \delta^D, I^C, I^D, K^C, K^D$ are defined as in Prop \ref{prop:homology} and abbreviated to save the matters.
+
+    We call the unique morphism $\overline{f_n}$ the \textbf{$n$-th homology} of chain map $f_{\bullet}$ at $C_n$, and denote it as $H_n(f_{\bullet})$.
+\end{proposition}
+
+\begin{proof}
+    Note that $d_{n}^D \circ f_n \circ \kappa_2^C = f_{n - 1} \circ d_n^C \circ \kappa_2^C = 0$, so there is unique $f_n': K^C \rightarrow K^D$ such that $f_n \circ \kappa_2^C = \kappa_2^D \circ f_n'$.
+
+    For the rest of the proof, ISTS $\gamma_{\delta^D} \circ f_n' \circ \delta^C = 0$, then $\gamma_{\delta^D} \circ f_n' \circ \delta^C$ must factor through $\gamma_{\delta^C}$ and we have unique $\overline{f_n}: H_n^C \rightarrow H_n^D$ such that $\overline{f_n} \circ \gamma_{\delta^C} = \gamma_{\delta^D} \circ f_n'$, which completes our proof.
+
+    To do so, we lift $f_n' \circ \delta^C$ to $I^D$. As proved before, there is an epimorphism $e: C_{n + 1} \rightarrow I^C$ such that $d_{n + 1}^C = \kappa_1^C \circ e$. Then we have $f_n \circ \kappa_1^C \circ e = f_n \circ d_{n + 1}^C = d_{n + 1}^D \circ f_{n + 1}$. Since $d_n^D \circ d_{n + 1}^D \circ f_{n + 1} = 0$, $e$ is an epimorphism, we must have $d_{n}^C \circ f_n \circ \kappa_1^C = 0$. Then $f_n \circ \kappa_1^C$ factors through $\kappa_1^D$, namely there is $f_n'': I^C \rightarrow I^D$ such that $\kappa_1^D \circ f_n'' = f_n \circ \kappa_1^C$. As a result, $\kappa_2^D \circ f_n' \circ \delta^C = f_n \circ \kappa_1^C = \kappa_1^D \circ f_n'' = \kappa_2^D \circ \delta^D \circ f_n''$. Since $\kappa_2^D$ is a monomorphism, we must have $f_n' \circ \delta^C = \delta^D \circ f''_n$. Then $\gamma_{\delta^D} \circ f_n' \circ \delta^C = \gamma_{\delta^D} \circ \delta^D \circ f_n'' = 0$, which completes the proof.
+\end{proof}
+
+Then it is not hard to verify that $H_n$ defined above preserves composition, and hence we have:
+
+\begin{definition}[Homology Functor]
+    Let $\mathcal{A}$ be an abelian category, $\mathrm{Ch}_{\bullet}(\mathcal{A})$ be the category of chain complexes in $\mathcal{A}$, then $H_n$ defined by Prop \ref{prop:homology-chain-map} and Def \ref{def:homology} is a functor $\mathrm{Ch}_{\bullet}(\mathcal{A}) \rightarrow \mathscr{Ab}$. We call $H_n$ the \textbf{$n$-th Homology functor}.
+\end{definition}
+
+As commented by Rotman, when applying functors, it is desirable that we are mapping a category into a somewhat simpler category, so that you can deal with the problem in a simpler context. The homology functor is just the case, because different chain complexes may have the same $n$-th homology. The question that arises naturally is that: When do two chain complexes have the same homology?
+
+\begin{definition}[Homotopy]
+    Let $\mathcal{A}$ be an abelian category, $f_{\bullet}, g_{\bullet}: C_{\bullet} \rightarrow D_{\bullet}$ be chain maps. Let $\left\lbrace h_n: C_n \rightarrow D_{n + 1} \right\rbrace$ be a collection of morphisms. If $d_{n + 1}^D \circ h_n + h_{n - 1} \circ d_n^C = f_n - g_n$ for all $n \in \mathbb{Z}$, then we call $\left\lbrace h_n \right\rbrace_{n \in \mathbb{Z}}$ a \textbf{chain homotopy from $f_{\bullet}$ to $g_{\bullet}$} (or \textbf{homotopy} from $f_{\bullet}$ to $g_{\bullet}$ for short), and $f_{\bullet}$ and $g_{\bullet}$ are \textbf{homotopic}, denoted as $f_{\bullet} \simeq g_{\bullet}$
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwxLCJDX24iXSxbMCwyLCJDX3tuIC0gMX0iXSxbMSwxLCJEX24iXSxbMSwwLCJEX3tuICsgMX0iXSxbMywyLCJkX3tuICsgMX1eRCJdLFswLDEsImRfe259XkMiLDJdLFswLDMsImhfbiJdLFsxLDIsImhfe24gLSAxfSIsMl0sWzAsMiwiZ19uIiwxLHsib2Zmc2V0IjoxfV0sWzAsMiwiZl9uIiwxLHsib2Zmc2V0IjotMX1dXQ==
+    \[\begin{tikzcd}
+        & {D_{n + 1}} \\
+        {C_n} & {D_n} \\
+        {C_{n - 1}}
+        \arrow["{d_{n + 1}^D}", from=1-2, to=2-2]
+        \arrow["{h_n}", from=2-1, to=1-2]
+        \arrow["{g_n}"{description}, shift right, from=2-1, to=2-2]
+        \arrow["{f_n}"{description}, shift left, from=2-1, to=2-2]
+        \arrow["{d_{n}^C}"', from=2-1, to=3-1]
+        \arrow["{h_{n - 1}}"', from=3-1, to=2-2]
+    \end{tikzcd}\]
+\end{definition}
+
+\begin{proposition} \label{prop:homology-morphism}
+    Let $\mathcal{A}$ be an abelian category, $f_{\bullet}, g_{\bullet}: C_{\bullet} \rightarrow D_{\bullet}$ be chain maps in $\mathcal{A}$. Then if $f_{\bullet}, g_{\bullet}$ are homotopic, then $H_n(f_{\bullet}) = H_n(g_{\bullet})$ for all $n$.
+\end{proposition}
+
+\begin{proof}
+    Following our proof of Prop \ref{prop:homology-chain-map}, ISTS $\gamma_{\delta^D} \circ f_n' = \gamma_{\delta^D} \circ g_n' \mathrm{eq} \gamma_{\delta^D} \circ (f_n' - g_n') = 0$ for all $n$.
+
+    By our construction:
+    $$
+        \begin{aligned}
+        \kappa_2^D \circ (f_n' - g_n') &= (f_n - g_n) \circ \kappa_2^C \\
+        &= (d_{n + 1}^D \circ h_n + h_{n - 1} \circ d_n^C) \circ \kappa_2^C \\
+        &= d_{n + 1}^D \circ h_n \circ \kappa_2^C
+        \end{aligned}
+    $$
+    By our previous proof, we have epimorphism $e: D_{n + 1} \rightarrow I^D$ such that $d_{n + 1}^D = \kappa_1^D \circ e$. Then we have:
+    $$
+        \begin{aligned}
+        \kappa_2^D \circ (f_n' - g_n') &= \kappa_1^D \circ e \circ h_n \circ \kappa_2^C \\
+        &= \kappa_2^D \circ \delta^D \circ e \circ h_n \circ \kappa_2^C \\
+        \end{aligned}
+    $$
+    Since $\kappa_2^D$ is a monomorphism, we have: $f_n' - g_n' = \delta^D \circ e \circ h_n \circ \kappa_2^C$. But then it is clear that $\gamma_{\delta^D} \circ (f_n' - g_n') = 0$.
+\end{proof}
+
+\begin{definition}[Chain Equivalence, Chain Equivalent]
+    Let $\mathcal{A}$ be an abelian category, $f_{\bullet}: C_{\bullet} \rightarrow D_{\bullet}$ a chain map in $\mathcal{A}$. If there is chain map $g_{\bullet}: D_{\bullet} \rightarrow C_{\bullet}$ such that $g_{\bullet} \circ f_{\bullet} \sim \mathds{1}_{C_{\bullet}}, f_{\bullet} \circ g_{\bullet} \sim \mathds{1}_{D_{\bullet}}$, then we call $f$ a \textbf{chain equivalence}, and $C_{\bullet}, D_{\bullet}$ are \textbf{chain equivalent}.
+\end{definition}
+
+\begin{corollary} \label{cor:chain-equivalence}
+    Let $\mathcal{A}$ be an abelian category, $C_{\bullet}, D_{\bullet}$ be two chain complexes. If $C_{\bullet}, D_{\bullet}$ are chain equivalent, then $H_n(C_{\bullet}) \cong H_n(D_{\bullet})$ for all $n$
+\end{corollary}
+
+The readers may find the diagram in Prop \ref{prop:homology-chain-map} intimidating. So do I. In the next section, we introduce diagram chasing for $\mathscr{Mod}_R$ and generalize it to arbitrary abelian category, which is more nature than the proofs in this section.
+
+\section{Diagram Chase}
+
+In the previous sections, we prove the categorical first isomorphism theorem and apply it to $\mathscr{Mod}_R$. However, that does not give us any relief. Since it would be much easier to prove the first isomorphism theorem directly in $\mathscr{Mod}_R$:
+
+\begin{proposition}
+    Let $R$ be a commutative ring and $f: M \rightarrow N$ be a homomorphism between $R$-modules, then $M / \mathrm{ker}(f) \cong \mathrm{im}(f)$ as $R$-modules.
+\end{proposition}
+
+\begin{proof}
+    Let's first define the homomorphism $\overline{f}: M / \mathrm{ker}(f) \rightarrow \mathrm{im}(f)$. For arbitrary $m \in M$, define $\overline{f}(\overline{m}) = f(m)$. This is a well-defined homomorphism:
+    \begin{enumerate}
+        \item For all $\overline{m} \in M / \mathrm{ker}(f)$, we have $\overline{f}(\overline{m}) \in \mathrm{im}(f)$;
+        \item For different representatives $\overline{m} = \overline{m'}$, we have $\overline{f}(\overline{m}) = f(m) = f(m') = \overline{f}(\overline{m'})$ since $\overline{m} = \overline{m'} \Leftrightarrow m - m' \in \mathrm{ker} (f) \Leftrightarrow f(m) = f(m')$
+        \item For arbitrary $\overline{m}, \overline{m'} \in M / \mathrm{ker}(f)$, we have $\overline{f}(\overline{m} + \overline{m'}) = \overline{f}(\overline{m + m'}) = f(m + m') = f(m) + f(m') = \overline{f}(\overline{m}) + \overline{f}(\overline{m'})$. Similar for scalar product.
+    \end{enumerate}
+
+    Then we need to show that $\overline{f}$ is an isomorphism. By Cor \ref{cor:mono-epi}, ISTS $\overline{f}$ is both injective and surjective:
+    \begin{enumerate}
+        \item It is surjective: For all $n \in \mathrm{im}(f)$, by definition there is $m \in M$ such that $n = f(m)$, then $n = \overline{f}(\overline{m})$
+        \item It is injective: For all $\overline{m} \in M / \mathrm{ker}(f)$, if $\overline{f}(\overline{m}) = 0$, we have $m \in \mathrm{ker}(f) \Rightarrow \overline{m} = 0$.
+    \end{enumerate}
+\end{proof}
+
+The above proof can be thought of as our first proof by 'diagram chasing', although the graph we are chasing is as simple as one morphism: Basically we are 'chasing an element in the diagram' by considering what the same element corresponds to in each object in the diagram. However, the same argument cannot be applied to arbitrary abelian categories, because the objects are not guaranteed to be sets. As a result, in general abelian category, epimorphisms and monomorphisms cannot be established by considering the 'elements'.
+
+% ref: Sergei I. Gelfand, Yuri I. Manin (auth.) Methods of Homological Algebra, II.5
+To circumvent this, we generalize the concept of 'element', and prove a set of rules governing these generalized elements. Then the readers may find our proofs using these rules would be almost as convenient as diagram chasing in $\mathscr{Mod}_R$.
+
+\begin{definition}[Generalized Element]
+    Let $\mathcal{A}$ be a small abelian category, $X$ be an object. By a \textbf{generalized element} of $X$, we mean an equivalent class of morphism $h: Z \rightarrow X$ with $X$ as codomain, where the equivalence relation is defined by:
+    $$h \sim h' \Leftrightarrow \exists u, u' \text{ epimorphisms}, s.t. h \circ u = h' \circ u'$$
+    % https://q.uiver.app/#q=WzAsNCxbMSwwLCJYIl0sWzAsMCwiWiJdLFsxLDEsIlonIl0sWzAsMSwiVyJdLFszLDIsInUnIiwyXSxbMywxLCJ1Il0sWzEsMCwiaCJdLFsyLDAsImgnIiwyXV0=
+    \[\begin{tikzcd}
+        Z & X \\
+        W & {Z'}
+        \arrow["h", from=1-1, to=1-2]
+        \arrow["u", from=2-1, to=1-1]
+        \arrow["{u'}"', from=2-1, to=2-2]
+        \arrow["{h'}"', from=2-2, to=1-2]
+    \end{tikzcd}\]
+\end{definition}
+
+Of course, we need to verify that "$\sim$" is indeed an equivalence relation. It is clear that the relation is symmetric and reflexive. We only need to show the transitivity.
+
+\begin{proposition}
+    Let $\mathcal{A}$ be an abelian category, $h: Z \rightarrow X, h': Z' \rightarrow X, h'': Z'' \rightarrow X$ be three morphisms with common codomain. If $h \sim h', h' \sim h''$, then $h \sim h''$.
+\end{proposition}
+
+\begin{proof}
+    By definition, there are epimorphisms $u: U \rightarrow Z, u': U \rightarrow Z', v': V \rightarrow Z', v'': V \rightarrow Z''$ such that $h \circ u = h' \circ u', h' \circ v' = h'' \circ v''$. Take $(w: W \rightarrow U, w': W \rightarrow V)$ the pull-back of $u', v'$. By Prop \ref{prop:abelian-pull-back}, $w, w'$ are epimorphisms. Then $u \circ w, v'' \circ w'$ are epimorphisms such that $h \circ u \circ w = h'' \circ v'' \circ w'$, hence $h \sim h''$.
+    
+    % https://q.uiver.app/#q=WzAsNyxbMiwwLCJYIl0sWzEsMCwiWiJdLFsxLDEsIlonIl0sWzIsMSwiWicnIl0sWzAsMSwiVSJdLFsxLDIsIlYiXSxbMCwyLCJXIl0sWzIsMCwiaCciLDFdLFsxLDAsImgiXSxbMywwLCJoJyciLDJdLFs0LDEsInUiXSxbNCwyLCJ1JyJdLFs1LDIsInYnIl0sWzUsMywidicnIiwyXSxbNiw0LCJ3Il0sWzYsNSwidyciLDJdXQ==
+    \[\begin{tikzcd}
+        & Z & X \\
+        U & {Z'} & {Z''} \\
+        W & V
+        \arrow["h", from=1-2, to=1-3]
+        \arrow["u", from=2-1, to=1-2]
+        \arrow["{u'}", from=2-1, to=2-2]
+        \arrow["{h'}"{description}, from=2-2, to=1-3]
+        \arrow["{h''}"', from=2-3, to=1-3]
+        \arrow["w", from=3-1, to=2-1]
+        \arrow["{w'}"', from=3-1, to=3-2]
+        \arrow["{v'}", from=3-2, to=2-2]
+        \arrow["{v''}"', from=3-2, to=2-3]
+    \end{tikzcd}\]
+\end{proof}
+
+To emphasize the equivalence classes are considered 'elements' of the object, we use $x, y$ instead of $\overline{h}, \overline{g}$ to denote them. And we write $x \in X$ to denote $x$ is a generalized element of $X$.
+
+Although the definition of generalized elements is not compatible with elements even when the abelian category is indeed $\mathscr{Mod}_R$, they do resemble each other. We can define a mapping of generalized elements from the morphisms:
+
+\begin{proposition}
+    Let $\mathcal{A}$ be an abelian category, $f: X \rightarrow Y$ a morphism. Then $f$ induces a mapping from the generalized elements of $X$ to the generalized elements of $Y$, such that $f(\overline{h}) = \overline{f \circ h}$.
+\end{proposition}
+
+\begin{proof}
+    We only need to verify that this is well-defined, which is trivial.
+\end{proof}
+
+We use $0$ to denote the generalized element of $X$ corresponding to equivalence class $0 \rightarrow X$.
+
+Unfortunately the converse of the previous proposition does not hold. We cannot define a morphism from the mapping of elements. This is because the mappings could be arbitrary and incompatible with each other. So we have to define the morphism by growing the arrows. The benefit of generalized elements is that it enables us to establish epimorphism, monomorphism and exactness as if we are dealing with $\mathscr{Mod}_R$:
+
+\begin{proposition}[Diagram Chasing Rules]
+    Let $\mathcal{A}$ be an abelian category, the morphisms and objects below are in $\mathcal{A}$.
+    \begin{enumerate}
+        \item $f: X \rightarrow Y$ is a monomorphism if and only if $f(x) = 0$ for $x \in X$ implies $x = 0$
+        \item $f: X \rightarrow Y$ is a monomorphism if and only if $f(x) = f(x')$ for $x, x' \in X$ implies $x = x'$
+        \item $f: X \rightarrow Y$ is an epimorphism if and only if for any $y \in Y$, there exists $x \in X$ such that $f(x) = y$.
+        \item $f: X \rightarrow Y$ is a zero morphism if and only if $f(x) = 0$ for all $x \in X$.
+        \item A sequence $X' \xrightarrow{f} X \xrightarrow{g} X''$ is exact at $X$ if and only if $g \circ f = 0$ and for each $x$ such that $g(x) = 0$, we have $x'$ such that $x = f(x')$
+    \end{enumerate}
+\end{proposition}
+
+We shall see the application of diagram chasing in the next section.
+
+\section{Exact Sequence}
+
+In this section, we introduce a few useful lemmas concerning exact sequences, with the technique introduced in the previous section. From now on, we use $\mathrm{ker}(f), \mathrm{coker}(f), \mathrm{im}(f), \mathrm{coim}(f)$ instead of $K_f, C_f, I_f, CoI_f$ to denote the domains or codomains of the corresponding maps. 
+
+\begin{lemma}[The Snake Lemma]
+    Let $\mathcal{A}$ be an abelian category, consider the following commutative diagram with exact rows:
+    % https://q.uiver.app/#q=WzAsOCxbMSwwLCJBIl0sWzIsMCwiQiJdLFszLDAsIkMiXSxbNCwwLCIwIl0sWzAsMSwiMCJdLFsxLDEsIkEnIl0sWzIsMSwiQiciXSxbMywxLCJDJyJdLFswLDEsImYiXSxbMSwyLCJnIl0sWzIsM10sWzQsNV0sWzUsNiwiZiciLDJdLFs2LDcsImcnIiwyXSxbMCw1LCJhIl0sWzEsNiwiYiJdLFsyLDcsImMiXV0=
+    \[\begin{tikzcd}
+        & A & B & C & 0 \\
+        0 & {A'} & {B'} & {C'}
+        \arrow["f", from=1-2, to=1-3]
+        \arrow["a", from=1-2, to=2-2]
+        \arrow["g", from=1-3, to=1-4]
+        \arrow["b", from=1-3, to=2-3]
+        \arrow[from=1-4, to=1-5]
+        \arrow["c", from=1-4, to=2-4]
+        \arrow[from=2-1, to=2-2]
+        \arrow["{f'}"', from=2-2, to=2-3]
+        \arrow["{g'}"', from=2-3, to=2-4]
+    \end{tikzcd}\]
+    Then we have exact sequence:
+    $$\mathrm{ker}(a) \xrightarrow{\overline{f}} \mathrm{ker}(b) \xrightarrow{\overline{g}} \mathrm{ker}(c) \xrightarrow{\delta} \mathrm{coker}(a) \xrightarrow{\overline{f'}} \mathrm{coker}(b) \xrightarrow{\overline{g'}} \mathrm{coker}(c)$$
+    for some morphism $\delta$, usually called the \textbf{connecting morphism}.
+
+    Moreover, if $f$ is a monomorphism, so is $\overline{f}$; If $g'$ is an epimorphism, so is $\overline{g'}$.
+\end{lemma}
+
+\begin{corollary}
+    In the Snake Lemma, if $a, c$ are isomorphism, then so is $b$
+\end{corollary}
+
+\begin{lemma}[Four Lemma]
+    Let $\mathcal{A}$ be an abelian category, consider the following commutative diagram with exact rows:
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCJBIl0sWzEsMCwiQiJdLFsyLDAsIkMiXSxbMywwLCJEIl0sWzAsMSwiQSJdLFsxLDEsIkIiXSxbMiwxLCJDIl0sWzMsMSwiRCJdLFswLDEsImYiXSxbMSwyLCJnIl0sWzIsMywiaCJdLFs0LDUsImYnIiwyXSxbNSw2LCJnJyIsMl0sWzYsNywiaCciLDJdLFswLDQsImEiXSxbMSw1LCJiIl0sWzIsNiwiYyJdLFszLDcsImQiXV0=
+    \[\begin{tikzcd}
+        A & B & C & D \\
+        A & B & C & D
+        \arrow["f", from=1-1, to=1-2]
+        \arrow["a", from=1-1, to=2-1]
+        \arrow["g", from=1-2, to=1-3]
+        \arrow["b", from=1-2, to=2-2]
+        \arrow["h", from=1-3, to=1-4]
+        \arrow["c", from=1-3, to=2-3]
+        \arrow["d", from=1-4, to=2-4]
+        \arrow["{f'}"', from=2-1, to=2-2]
+        \arrow["{g'}"', from=2-2, to=2-3]
+        \arrow["{h'}"', from=2-3, to=2-4]
+    \end{tikzcd}\]
+    \begin{enumerate}
+        \item If $a, c$ are epimorphisms, $d$ is a monomorphism, then $b$ is an epimorphism.
+        \item If $b, d$ are monomorphisms, $a$ is an epimorphism, then $c$ is a monomorphism.
+    \end{enumerate}
+\end{lemma}
+
+\begin{lemma}[Five Lemma]
+    Let $\mathcal{A}$ be an abelian category, consider the following commutative diagram with exact rows:
+    % https://q.uiver.app/#q=WzAsMTAsWzAsMCwiQSJdLFsxLDAsIkIiXSxbMiwwLCJDIl0sWzMsMCwiRCJdLFswLDEsIkEnIl0sWzEsMSwiQiciXSxbMiwxLCJDJyJdLFszLDEsIkQnIl0sWzQsMCwiRSJdLFs0LDEsIkUnIl0sWzAsMSwiZiJdLFsxLDIsImciXSxbMiwzLCJoIl0sWzQsNSwiZiciLDJdLFs1LDYsImcnIiwyXSxbNiw3LCJoJyIsMl0sWzAsNCwiYSJdLFsxLDUsImIiXSxbMiw2LCJjIl0sWzMsNywiZCJdLFszLDgsImwiXSxbNyw5LCJsJyIsMl0sWzgsOSwiZSJdXQ==
+    \[\begin{tikzcd}
+        A & B & C & D & E \\
+        {A'} & {B'} & {C'} & {D'} & {E'}
+        \arrow["f", from=1-1, to=1-2]
+        \arrow["a", from=1-1, to=2-1]
+        \arrow["g", from=1-2, to=1-3]
+        \arrow["b", from=1-2, to=2-2]
+        \arrow["h", from=1-3, to=1-4]
+        \arrow["c", from=1-3, to=2-3]
+        \arrow["l", from=1-4, to=1-5]
+        \arrow["d", from=1-4, to=2-4]
+        \arrow["e", from=1-5, to=2-5]
+        \arrow["{f'}"', from=2-1, to=2-2]
+        \arrow["{g'}"', from=2-2, to=2-3]
+        \arrow["{h'}"', from=2-3, to=2-4]
+        \arrow["{l'}"', from=2-4, to=2-5]
+    \end{tikzcd}\]
+    If $b, d$ are isomorphisms, $a$ is an epimorphism and $e$ is a monomorphism. Then $c$ is an isomorphism.
+\end{lemma}
+
+\begin{lemma}[Zigzag Lemma]
+    Let $\mathcal{A}$ be an abelian category, $0 \rightarrow A_{\bullet} \xrightarrow{f_{\bullet}} B_{\bullet} \xrightarrow{g_{\bullet}} C_{\bullet} \rightarrow 0$ be an exact sequence of chain complexes. Then there is a collection of morphisms $\delta_n: H_n(C_{\bullet}) \rightarrow H_{n - 1}(A_{\bullet})$ such that the following is a long exact sequence:
+    $$\rightarrow H_{n + 1}(C_{\bullet}) \xrightarrow{\delta_{n + 1}} H_n(A_{\bullet}) \xrightarrow{H_n(f_{\bullet})} H_n(B_{\bullet}) \xrightarrow{H_n(g_{\bullet})} H_n(C_{\bullet}) \xrightarrow{\delta_n} H_{n - 1}(A_{\bullet}) \rightarrow$$
+\end{lemma}
+
+\section{Exact Functors}
+
+In the previous section, we studied a few useful lemmas (although we do not know why they are useful yet) on exact sequences. One interesting question is that whether they still hold after we map the whole diagram into a new category through functors. The ability to preserve exact sequences is an important property of the functor:
+
+\begin{definition}[Exact Functors]
+    Let $F: \mathcal{A} \rightarrow \mathcal{B}$ be an additive functor between abelian categories. If for arbitrary short exact sequence
+    $$0 \rightarrow A' \xrightarrow{f} A \xrightarrow{g} A'' \rightarrow 0$$
+    in $\mathcal{A}$, we have:
+    \begin{enumerate}
+        \item $0 \rightarrow FA' \xrightarrow{Ff} FA \xrightarrow{Fg} FA''$ exact, then we call $F$ \textbf{left exact}
+        \item $FA' \xrightarrow{Ff} FA \xrightarrow{Fg} FA'' \rightarrow 0$ exact, then we call $F$ \textbf{right exact}
+        \item $0 \rightarrow FA' \xrightarrow{Ff} FA \xrightarrow{Fg} FA'' \rightarrow 0$ exact, then we call $F$ \textbf{exact}
+    \end{enumerate}
+    It is clear that $F$ is exact if and only if $F$ is both left exact and right exact.
+
+    If $F$ is contravariant, then we call $F$ (left / right) exact if and only if $F$ is (right / left) exact when considered as a covariant functor $\mathcal{A} \rightarrow \mathcal{B}^\mathrm{opp}$.
+\end{definition}
+
+\begin{remark}
+    When $F$ is contravariant, left exactness corresponds to exactness of the following sequence:
+    $$0 \rightarrow FA'' \xrightarrow{Ff} FA \xrightarrow{Fg} FA'$$
+\end{remark}
+
+It is clear that a left exact functor that preserves epimorphism is exact, and similarly a right exact functor that preserves monomorphism is exact. However, it should be noted that left exact functor not just preserves monomorphisms: We have to verify that the sequence is exact at $FA$. Similarly, right exact functor not just preserves epimorphisms.
+
+Our first example of exact functors is the $\mathrm{Hom}$ functors:
+
+\begin{proposition} \label{prop:hom-exact}
+    Let $\mathcal{A}$ be an abelian category, $X$ be a fixed object of $\mathcal{A}$. Then $h_X$ and $h^X$ are left-exact functors $\mathcal{A} \rightarrow \mathscr{Ab}$.
+\end{proposition}
+
+\begin{proof}
+    We have seen in Exp \ref{exp:hom-additive} that $h_X, h^X$ are additive. Take arbitrary exact sequence in $\mathcal{A}$:
+    $$0 \rightarrow A' \xrightarrow{f} A \xrightarrow{g} A'' \rightarrow 0$$
+    consider the sequence:
+    $$0 \rightarrow \mathrm{Hom}_{\mathcal{A}}(X, A') \xrightarrow{f_{\ast}} \mathrm{Hom}_{\mathcal{A}}(X, A) \xrightarrow{g_\ast} \mathrm{Hom}_{\mathcal{A}}(X, A'')$$
+    Note that this is a sequence in $\mathscr{Ab}$, so can argue with elements. Since $g \circ f = 0$, it is clear that $g_\ast \circ f_\ast = 0$ and the sequence is a chain complex. We only need to show:
+    \begin{enumerate}
+        \item $f_\ast$ is a monomorphism: Take arbitrary $\varphi \in \mathrm{Hom}_{\mathcal{A}}(X, A')$, if $f_*(\varphi) = f \circ \varphi = 0$, we must have $\varphi = 0$ since $f$ is a monomorphism.
+        \item $\mathrm{ker}(g_\ast) \subset \mathrm{im}(f_\ast)$: Take arbitrary $\varphi \in \mathrm{Hom}_{\mathcal{A}}(X, A)$ such that $g_\ast(\varphi) = g \circ \varphi = 0$. Since the original sequence is exact, by Prop \ref{prop:short-exact}, $f$ is the kernel of $g$. Therefore, $\varphi$ factors through $f$ and we have $\varphi = f \circ \varphi'$ for some $\varphi': X \rightarrow A'$, namely $\varphi \in \mathrm{im}(f_\ast)$, which completes the proof.
+        % https://q.uiver.app/#q=WzAsNCxbMCwwLCJBJyJdLFsxLDAsIkEiXSxbMiwwLCJBJyciXSxbMSwxLCJYIl0sWzAsMSwiZiJdLFsxLDIsImciXSxbMywxLCJcXHZhcnBoaSJdLFszLDAsIlxcdmFycGhpJyIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFszLDIsIjAiLDJdXQ==
+        \[\begin{tikzcd}
+            {A'} & A & {A''} \\
+            & X
+            \arrow["f", from=1-1, to=1-2]
+            \arrow["g", from=1-2, to=1-3]
+            \arrow["{\varphi'}", dashed, from=2-2, to=1-1]
+            \arrow["\varphi", from=2-2, to=1-2]
+            \arrow["0"', from=2-2, to=1-3]
+        \end{tikzcd}\]
+    \end{enumerate}
+
+    The proof of $h^X$ is similar.
+\end{proof}
+
+However, $h_X$ is not exact:
+
+\begin{example}
+    Let $\mathcal{A} = \mathscr{Ab}$, $X = \mathbb{Z} / 2\mathbb{Z}$. Consider the exact sequence:
+    $$0 \rightarrow \mathbb{Z} \xrightarrow{\times 2} \mathbb{Z} \rightarrow \mathbb{Z} / 2 \mathbb{Z} \rightarrow 0$$
+    Apply the functor $h_X$ to it, we obtain the sequence:
+    $$0 \rightarrow 0 \xrightarrow{0} 0 \rightarrow \mathbb{Z} / 2 \mathbb{Z} \rightarrow 0$$
+    which is clearly not exact. (Note that $\mathrm{Hom}_{\mathscr{Ab}}(\mathbb{Z} / 2 \mathbb{Z}, \mathbb{Z}) = 0$ as any homomorphism $f$ must map $1$ to $0$, since $0 = f(0) = f(1 + 1) = f(1) + f(1)$)
+\end{example}
+
+As mentioned in the previous chapter, some properties of the objects are defined by the properties of their corresponding functor. Here we have our first example of such property:
+
+\begin{definition}[Projective, Injective]
+    Let $\mathcal{A}$ be an abelian category, $X$ be an object. If:
+    \begin{enumerate}
+        \item $h_X$ is exact, then we call $X$ a \textbf{projective} object;
+        \item $h^X$ is exact, then we call $X$ an \textbf{injective} object.
+    \end{enumerate}
+    Since we already know $h_X$ left exact, $h_X$ is exact if and only if $h_X$ preserves epimorphisms, and we can write out the definition explicitly:
+    \begin{enumerate}
+        \item $X$ is projective if and only if for each epimorphism $f: A \rightarrow B$ and morphism $\varphi: X \rightarrow B$, there is a morphism $\varphi': X \rightarrow B$ such that $\varphi = f \circ \varphi'$
+        % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFsxLDEsIlgiXSxbMCwxLCJmIiwwLHsic3R5bGUiOnsiaGVhZCI6eyJuYW1lIjoiZXBpIn19fV0sWzIsMSwiXFx2YXJwaGkiLDJdLFsyLDAsIlxcdmFycGhpJyIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dXQ==
+        \[\begin{tikzcd}
+            A & B \\
+            & X
+            \arrow["f", two heads, from=1-1, to=1-2]
+            \arrow["{\varphi'}", dashed, from=2-2, to=1-1]
+            \arrow["\varphi"', from=2-2, to=1-2]
+        \end{tikzcd}\]
+        \item $X$ is injective if and only if for each monomorphism $f: A \rightarrow B$ and morphism $\varphi: A \rightarrow X$, there is a morphism $\varphi': B \rightarrow X$ such that $\varphi = \varphi' \circ f$
+        % https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzEsMCwiQiJdLFswLDEsIlgiXSxbMCwxLCJmIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFsxLDIsIlxcdmFycGhpJyIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6ImRhc2hlZCJ9fX1dLFswLDIsIlxcdmFycGhpIiwyXV0=
+        \[\begin{tikzcd}
+            A & B \\
+            X
+            \arrow["f", tail, from=1-1, to=1-2]
+            \arrow["\varphi"', from=1-1, to=2-1]
+            \arrow["{\varphi'}", dashed, from=1-2, to=2-1]
+        \end{tikzcd}\]
+    \end{enumerate}
+\end{definition}
+
+It should be noted that the explicit definition of projective and injective objects is not restricted to abelian categories. So the notion of projectiveness and injectiveness is valid for general categories.
+
+Interestingly, the 'converse' of Prop \ref{prop:hom-exact} also holds:
+
+\begin{proposition}\label{prop:exact-from-hom}
+    Let $\mathcal{A}$ be an abelian category, $A' \xrightarrow{f} A \xrightarrow{g} A''$ be a composition of morphism in $\mathcal{A}$.
+    \begin{enumerate}
+        \item If $\mathrm{Hom}_{\mathcal{A}}(X, A') \xrightarrow{f_\ast} \mathrm{Hom}_{\mathcal{A}}(X, A) \xrightarrow{g_\ast} \mathrm{Hom}_{\mathcal{A}}(X, A'')$ is exact for all $X$, then $A' \xrightarrow{f} A \xrightarrow{g} A''$ is exact.
+        \item If $\mathrm{Hom}_{\mathcal{A}}(A'', X) \xrightarrow{g^\ast} \mathrm{Hom}_{\mathcal{A}}(A, X) \xrightarrow{f^\ast} \mathrm{Hom}_{\mathcal{A}}(A', X)$ is exact for all $X$, then $A' \xrightarrow{f} A \xrightarrow{g} A''$ is exact.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    We prove by the diagram chasing rules.
+
+    For the covariant $\mathrm{Hom}$ functor:
+    \begin{enumerate}
+        \item $g \circ f = 0$: We only need to show $g \circ f \circ \mathds{1}_{A'} = 0$. Take $X = A'$, then $g_\ast \circ f_\ast = 0$ implies $g_\ast \circ f_\ast(\mathds{1}_{A'}) = 0$, which is what we want.
+        \item For all $a \in A$, $g(a) = 0$ implies $f(a') = a$ for some $a' \in A'$: Take $h: Z \rightarrow A$ a representative of $a$, then we have $g(\overline{h}) = \overline{g \circ h} = 0 \Rightarrow g \circ h = 0$. Take $X = Z$, then $h \in \mathrm{ker}(g_\ast) = \mathrm{im}(f_\ast)$, and we have $h = f \circ h'$ for some $h: Z \rightarrow A'$. Then clearly $\overline{h} = \overline{f \circ h'}$, take $a' = \overline{h'}$ to conclude
+    \end{enumerate}
+
+    For the contravariant $\mathrm{Hom}$ functor, we simply prove by replacing $\mathcal{A}$ by $\mathcal{A}^\mathrm{opp}$ and apply the argument of $\mathrm{Hom}$ functor.
+\end{proof}
+
+
+
+\iffalse
+
+Let's see an example in $\mathscr{Mod}_R$:
+
+\begin{proposition}
+    In $\mathscr{Mod}_R$, free modules are projective.
+\end{proposition}
+
+\begin{proof}
+    Let $F$ be a free module in $\mathscr{Mod}_R$. Take $f: M \twoheadrightarrow N$ an arbitrary epimorphism and $\varphi: F \rightarrow B$ an arbitrary morphism. We can define $\varphi': F \rightarrow M$ in the following manner: Since $F$ is free, it has a basis $\left\lbrace e_i \right\rbrace_{i \in I}$, then for each $i \in I$, pick $m_i \in M$ such that $f(m_i) = \varphi(e_i)$. This is possible since $f$ is an epimorphism. Then define $\varphi'(e_i) = m_i$ and extend it by linearity to $F$. It is clear that $f \circ \varphi' = \varphi$.
+\end{proof}
+
+\fi
+
+What about right exact functors? We shall give an example in the following chapters, namely the tensor product. But logically the left and right exact functors must come in pairs. Indeed, we have:
+
+\begin{proposition}\label{prop:right-exact-left-adjoint}
+    Let $\mathcal{A}, \mathcal{B}$ be two abelian categories, $L: \mathcal{A} \rightarrow \mathcal{B}, R: \mathcal{B} \rightarrow \mathcal{A}$ be two additive functors such that $L$ is the left adjoint of $R$ (and hence $R$ is the right adjoint of $L$), then $L$ is right exact and $R$ is left exact.
+\end{proposition}
+
+\begin{proof}
+    We prove the left exactness of $R$ and the right exactness of $L$ follows similarly.
+
+    Let $0 \rightarrow B' \rightarrow B \rightarrow B'' \rightarrow 0$ be an arbitrary short exact sequence in $\mathcal{B}$. Take arbitrary object $X$ in $\mathcal{B}$, then by the left exactness of $h^{LX}$, we have the exact sequence:
+    $$0 \rightarrow \mathrm{Hom}_{\mathcal{B}}(LX, B') \rightarrow \mathrm{Hom}_{\mathcal{B}}(LX, B) \rightarrow \mathrm{Hom}_{\mathcal{B}}(LX, B'')$$
+    Then by the natural equivalence $h^{LX} \cong h^X R$, the diagram below commutes:
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCIwIl0sWzEsMCwiXFxtYXRocm17SG9tfV97XFxtYXRoY2Fse0J9fShMWCwgQicpIl0sWzIsMCwiXFxtYXRocm17SG9tfV97XFxtYXRoY2Fse0J9fShMWCwgQikiXSxbMywwLCJcXG1hdGhybXtIb219X3tcXG1hdGhjYWx7Qn19KExYLCBCJycpIl0sWzAsMSwiMCJdLFsxLDEsIlxcbWF0aHJte0hvbX1fe1xcbWF0aGNhbHtCfX0oWCwgUkInKSJdLFsyLDEsIlxcbWF0aHJte0hvbX1fe1xcbWF0aGNhbHtCfX0oWCwgUkIpIl0sWzMsMSwiXFxtYXRocm17SG9tfV97XFxtYXRoY2Fse0J9fShYLCBSQicnKSJdLFswLDFdLFsxLDJdLFsyLDNdLFs0LDVdLFs1LDZdLFs2LDddLFsxLDUsIlxcY29uZyJdLFsyLDYsIlxcY29uZyJdLFszLDcsIlxcY29uZyJdXQ==
+    \[\begin{tikzcd}
+        0 & {\mathrm{Hom}_{\mathcal{B}}(LX, B')} & {\mathrm{Hom}_{\mathcal{B}}(LX, B)} & {\mathrm{Hom}_{\mathcal{B}}(LX, B'')} \\
+        0 & {\mathrm{Hom}_{\mathcal{B}}(X, RB')} & {\mathrm{Hom}_{\mathcal{B}}(X, RB)} & {\mathrm{Hom}_{\mathcal{B}}(X, RB'')}
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow["\cong", from=1-2, to=2-2]
+        \arrow[from=1-3, to=1-4]
+        \arrow["\cong", from=1-3, to=2-3]
+        \arrow["\cong", from=1-4, to=2-4]
+        \arrow[from=2-1, to=2-2]
+        \arrow[from=2-2, to=2-3]
+        \arrow[from=2-3, to=2-4]
+    \end{tikzcd}\]
+    And hence the bottom row is also exact. Since $X$ is arbitrary, by Prop \ref{prop:exact-from-hom}, $R$ is left-exact.
+\end{proof}
+
+We shall see in later chapters that $h_X$ is right adjoint, which gives us another proof of Prop \ref{prop:hom-exact}, and also an example of right exact functor.
+
+Given a left / right exact functor, how can we test if it is exact? The test could be useful when, say, we are testing whether an object is projective / injective. For now, our only resort is the definition, which is undesirable, as it requires us to consider all exact sequences. In the next section, we introduce derived functors for left / right exact functor, which allows us to \textbf{compute} whether a left / right functor is exact.
+
+% https://www-users.cse.umn.edu/~garrett/m/repns/notes_2014-15/04b_adjoints_exactness.pdf
+
+\section{Derived Functors}
+
+Given a left exact functor $F: \mathcal{A} \rightarrow \mathcal{B}$ (or right exact functor. I will omit the symmetric statements since we are motivating derived functors instead of defining things rigorously), for arbitrary exact sequence $0 \rightarrow A' \rightarrow A \rightarrow A'' \rightarrow 0$, we have exact sequence:
+$$0 \rightarrow FA' \rightarrow FA \rightarrow FA''$$
+To test whether $F$ is exact, we need to know whether the morphism $FA \rightarrow FA''$ is an epimorphism. The idea of right derived functor is to continue the above exact sequence to a long one:
+\begin{equation} \label{eq:derived-long}
+    0 \rightarrow FA' \rightarrow FA \rightarrow FA'' \rightarrow R^1FA' \rightarrow R^1 FA \rightarrow R^1FA'' \rightarrow R^2FA' \rightarrow \cdots
+\end{equation}
+where $R^iF$ is the so-called right derived functor of $F$. Then $F$ is exact if and only if $R^1F A' = 0$ for all object $A'$.
+
+Unfortunately, the problem of continuing the exact sequence is ill-posed, as there are more than one way to do so. However, as we will see later, when the category $\mathcal{A}$ has some nice properties, the continuation will be essentially unique.
+
+To motivate the property, let's first consider a type of exact sequence that has to be mapped to exact sequence, as long as $F$ is an additive functor:
+
+\begin{definition}
+    Let $\mathcal{A}$ be an abelian category, and
+    $$0 \rightarrow A' \rightarrow A \rightarrow A'' \rightarrow 0$$
+    be an exact sequence in $\mathcal{A}$. If the exact sequence is isomorphic to
+    $$0 \rightarrow A' \xrightarrow{i} A' \oplus A'' \xrightarrow{q} A'' \rightarrow 0$$
+    where $i, q$ are the coproduct and product morphisms respectively. Then we call the exact sequence \textbf{split}.
+\end{definition}
+
+\begin{remark}
+    By isomorphism between exact sequence, we mean the diagram below commutes and the rows are exact:
+    % https://q.uiver.app/#q=WzAsMTAsWzAsMCwiMCJdLFsxLDAsIkEnIl0sWzIsMCwiQSJdLFszLDAsIkEnJyJdLFs0LDAsIjAiXSxbMSwxLCJBJyJdLFsyLDEsIkEnIFxcb3BsdXMgQScnIl0sWzMsMSwiQScnIl0sWzQsMSwiMCJdLFswLDEsIjAiXSxbMCwxXSxbMSwyXSxbMiwzXSxbMyw0XSxbMSw1LCJcXGNvbmciXSxbOSw1XSxbNSw2XSxbNiw3XSxbNyw4XSxbMyw3LCJcXGNvbmciXSxbMiw2LCJcXGNvbmciXV0=
+    \[\begin{tikzcd}
+        0 & {A'} & A & {A''} & 0 \\
+        0 & {A'} & {A' \oplus A''} & {A''} & 0
+        \arrow[from=1-1, to=1-2]
+        \arrow[from=1-2, to=1-3]
+        \arrow["\cong", from=1-2, to=2-2]
+        \arrow[from=1-3, to=1-4]
+        \arrow["\cong", from=1-3, to=2-3]
+        \arrow[from=1-4, to=1-5]
+        \arrow["\cong", from=1-4, to=2-4]
+        \arrow[from=2-1, to=2-2]
+        \arrow[from=2-2, to=2-3]
+        \arrow[from=2-3, to=2-4]
+        \arrow[from=2-4, to=2-5]
+    \end{tikzcd}\]
+\end{remark}
+
+\begin{proposition}
+    Let $\mathcal{A}$ be an abelian category and the exact sequence
+    $$0 \rightarrow A' \rightarrow A \rightarrow A'' \rightarrow 0$$
+    in $\mathcal{A}$ splits. Let $F: \mathcal{A} \rightarrow \mathcal{B}$ be an arbitrary additive functor between abelian categories, then:
+    $$0 \rightarrow FA' \rightarrow FA \rightarrow FA'' \rightarrow 0$$
+    must be exact.
+\end{proposition}
+
+\begin{proof}
+    Trivial by Prop \ref{prop:additive-functor}
+\end{proof}
+
+Clearly not all short exact sequence splits:
+
+\begin{example}
+    Let $\mathcal{A} = \mathscr{Ab}$, consider the exact sequence:
+    $$0 \rightarrow \mathbb{Z} / 2 \mathbb{Z} \xrightarrow{\times 2} \mathbb{Z} / 4 \mathbb{Z} \rightarrow \mathbb{Z} / 2 \mathbb{Z}$$
+    It cannot split since $\mathbb{Z} / 4\mathbb{Z} \not \cong \mathbb{Z} / 2 \mathbb{Z} \oplus \mathbb{Z} / 2 \mathbb{Z}$ (the former has elements of order 4 while the latter does not have such elements)
+\end{example}
+
+The key property that short exact sequence splits is that there are morphisms $j, p$ such that $q \circ j = \mathds{1}_{A''}, p \circ i = \mathds{1}_{A'}$. In fact:
+
+\begin{proposition}
+    Let $\mathcal{A}$ be an abelian category, and
+    $$0 \rightarrow A' \xrightarrow{f} A \xrightarrow{g} A'' \rightarrow 0$$
+    be an exact sequence. Then the sequence splits if and only if:
+    \begin{enumerate}
+        \item there is morphism $r: A \rightarrow A'$ such that $r \circ f = \mathds{1}_{A'}$, or:
+        \item there is morphism $s: A'' \rightarrow A$ such that $g \circ s = \mathds{1}_{A''}$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    The "only if" part is trivial by considering the product and coproduct morphisms. For the "if" part, WLOG we prove the first case. ISTS $A$ is the product (and hence coproduct) of $A', A''$ with $f, g$ coproduct and product morphisms. Note that $(\mathds{1}_A - f \circ r) \circ f = 0$, since the sequence is exact, $g$ is the cokernel of $f$, $\mathds{1}_A - f \circ r$ must factors through $g$, namely there is $s: A'' \rightarrow A$ such that $\mathds{1}_A = f \circ r + s \circ g$. Moreover, precomposing both sides by $g$, we have $g = g \circ s \circ g$, since $g$ is monomorphism, this implies $g \circ s = \mathds{1}_{A''}$. The rest is trivial. \TODO
+\end{proof}
+
+As a corollary:
+
+\begin{corollary}
+    Let $\mathcal{A}$ be an abelian category, $P$ be a projective object and $I$ be an injective object. Then any exact sequence
+    $$0 \rightarrow A' \xrightarrow{f} A \xrightarrow{g} P \rightarrow 0$$
+    or
+    $$0 \rightarrow I \xrightarrow{f} A \xrightarrow{g} A'' \rightarrow 0$$
+    must split.
+\end{corollary}
+
+\begin{proof}
+    WLOG, we prove the first exact sequence splits. Consider the morphism $\mathds{1}_P: P \rightarrow P$. Since $g$ is an epimorphism, by the definition of projectives, $\mathds{1}_P$ lifts through $A$, namely there is $s: P \rightarrow A$ such that $g \circ s = \mathds{1}_P$. Conclude by the previous proposition.
+\end{proof}
+
+This suggests us add the restriction below: If $F$ is a left exact functor, then $R^iFI$ should be $0$ for all injectives $I$ and all $i \gt 0$. Similarly, if $F$ is a right exact functor, then $L_iFP$ should be $0$ for all projectives $P$ and all $i \gt 0$. Note that this is not necessary for the long sequence in Eq \ref{eq:derived-long} to be exact, all we need is the morphism $L_1FP \rightarrow FA'$ to be zero, or the morphism $FA'' \rightarrow R^1FI$ to be zero. But the additional requirement allows us to judge whether $F$ is left / right exact quickly, Moreover, it makes the continuation unique while it guarantees existence, given the category has enough injectives and projectives:
+
+\begin{definition}[Has Enough Projectives, Has Enough Injectives]
+    Let $\mathcal{A}$ be an abelian category, if for arbitrary object $A$ in $\mathcal{A}$:
+    \begin{enumerate}
+        \item there is an epimorphism $P \twoheadrightarrow A$ where $P$ is projective, then we say $\mathcal{A}$ \textbf{has enough projectives};
+        \item there is a monomorphism $A \rightarrowtail I$ where $I$ is injective, then we say $\mathcal{A}$ \textbf{has enough injectives}
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    Let $\mathcal{A}, \mathcal{B}$ be abelian categories and $F: \mathcal{A} \rightarrow \mathcal{B}$ an additive functor.
+    
+    If $F$ is right exact, and $\mathcal{A}$ has enough projectives, then there are unique left derived functors $L_nF$ for each $n \ge 0$ such that:
+    \begin{enumerate}
+        \item $L_0F = F$
+        \item $L_nFP = 0$ for all $n \gt 0$ and projective $P$
+        \item For each exact sequence
+        $$0 \rightarrow A' \rightarrow A \rightarrow A'' \rightarrow 0$$
+        in $\mathcal{A}$, there is a long exact sequence:
+        $$\cdots \rightarrow L_2 FA'' \rightarrow L_1 F A' \rightarrow L_1F A \rightarrow L_1FA'' \rightarrow L_0FA' \rightarrow L_0FA \rightarrow L_0FA'' \rightarrow 0$$
+    \end{enumerate}
+
+    If $F$ is left exact, and $\mathcal{A}$ has enough injectives, then there are unique right derived functors $R^nF$ for each $n \ge 0$ such that:
+    \begin{enumerate}
+        \item $R^0F = F$
+        \item $R^nFI = 0$ for all $n \gt 0$ and injective $I$
+        \item For each exact sequence
+        $$0 \rightarrow A' \rightarrow A \rightarrow A'' \rightarrow 0$$
+        in $\mathcal{A}$, there is a long exact sequence:
+        $$0 \rightarrow R^0FA' \rightarrow R^0FA \rightarrow R^0FA'' \rightarrow R^1FA' \rightarrow R^1FA \rightarrow R^1FA'' \rightarrow R^1F A' \rightarrow \cdots$$
+    \end{enumerate}
+\end{theorem}
+
+The proof will constitute the rest of the section, and we break it into a few parts. First we demonstrate that the derived functors are uniquely determined by the properties. Then we develop an efficient method to compute it, while doing so proves the existence.
+
+\begin{proof}[Proof of uniqueness]
+    WLOG, we only prove the case for left derived functors. The right derived functors can be proved by replacing $\mathcal{A}$ by $\mathcal{A}^\mathrm{opp}$ and $\mathcal{B}$ by $\mathcal{B}^\mathrm{opp}$.
+
+    We first calculate $L_iF A$ for arbitrary $A$ and arbitrary $i$. Since $\mathcal{A}$ has enough projectives, there is epimorphism $P \twoheadrightarrow A$ for some projective $P$. Then we can take $A' \rightarrow P$ the kernel of the epimorphism and obtain a short exact sequence:
+    $$0 \rightarrow A' \rightarrow P \rightarrow A \rightarrow 0$$
+
+    By the definition, we have:
+    $$L_1FP \rightarrow L_1F A \rightarrow F A' \rightarrow FP$$
+    exact. Since $L_1FP = 0$, $L_1FA \rightarrow FA'$ is the kernel of $FA' \rightarrow FP$, which is fixed. This shows that $L_1FA$ is determined up to an isomorphism.
+
+    Argue inductively, suppose $L_iFA$ is determined up to an isomorphism for all $i \lt n$ and arbitrary object $A$. Then consider the following section of the long exact sequence:
+    $$L_{n + 1} FP \rightarrow L_{n + 1}F A \rightarrow L_nF A' \rightarrow L_nFP$$
+    But since $L_{n + 1} FP = L_nFP = 0$, we must have $L_{n + 1} FA \cong L_nFA'$, which by induction is uniquely determined. This completes the proof that $L_nFA$ are unique up to isomorphisms.
+\end{proof}
+
+The reader may find that our proof of uniqueness is not quite complete. Since we only show that $L_iF$ is uniquely determined up to isomorphisms object-wise. It is still not clear whether the functor itself is unique (up to natural isomorphisms). The missing piece is that the isomorphisms between different choices of $L_iFA$'s are natural. This is a bit tricky and I omit it here. (Damn, I don't like this! \TODO)
+
+The proof of the uniqueness actually gives us a way to compute the derived functors, by arguing inductively.
+
+\begin{definition}[Projective Resolution, Injective Resolution]
+    Let $\mathcal{A}$ be an abelian category and $A$ be an obeject. Then
+    \begin{enumerate}
+        \item a \textbf{projective resolution} of $A$ is a chain complex $P_{\bullet}$ bounded below by $0$ such that $P_{\bullet} \rightarrow A \rightarrow 0$ is exact:
+        $$\cdots \rightarrow P_1 \rightarrow P_0 \rightarrow A \rightarrow 0$$
+        \item an \textbf{injective resolution} of $A$ is a cochain complex $I^{\bullet}$ bounded below by $0$ such that $0 \rightarrow A \rightarrow I^{\bullet}$ is exact:
+        $$0 \rightarrow A \rightarrow I_0 \rightarrow I_1 \rightarrow \cdots$$
+    \end{enumerate}
+\end{definition}
+
+\begin{proposition}
+    Let $\mathcal{A}$ be an abelian category.
+    \begin{enumerate}
+        \item If $\mathcal{A}$ has enough projectives, then each object in $\mathcal{A}$ admits a projective resolution.
+        \item If $\mathcal{A}$ has enough injectives, then each object in $\mathcal{A}$ admits an injective resolution.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+The resolution basically allows us to replace an object by a chain complex. But the chain complex is not unique. However, they are unique up to chain equivalence. For that we need to first lift the morphisms between objects to the morphisms between projective resolutions.
+
+\begin{proposition}\label{prop:lift-morph-resolution}
+    Let $\mathcal{A}$ be an abelian category, $A, B$ be two objects, $f: A \rightarrow B$ a morphism.
+    \begin{enumerate}
+        \item Take $P_{\bullet}$ a projective resolution of $A$ with $d: P_0 \rightarrow A$, and $E_{\bullet}$ an arbitrary chain complex such that $E_{\bullet} \xrightarrow{e} B \rightarrow 0$ is exact, then there is a chain map $f_{\bullet}: P_{\bullet} \rightarrow E_{\bullet}$ such that $f \circ d = e \circ f_0$. Moreover, the chain map $f_{\bullet}$ is unique up to homotopy.
+        \item Take $I^{\bullet}$ an injective resolution of $B$ with $d: B \rightarrow I^1$, and $E^{\bullet}$ an arbitrary chain complex such that $0 \rightarrow A \xrightarrow{e} E^{\bullet}$ is exact, then there is a cochain map $f^{\bullet}: E^{\bullet} \rightarrow I^{\bullet}$ such that $f^1 \circ e = d \circ f$. Moreover, the cochain map $f^{\bullet}$ is unique up to homotopy.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    WLOG, we only prove the case for projective resolution.
+
+    We first construct $f_{\bullet}$ inductively. For $n = 0$, note that $e$ is an epimorphism, by definition of projectives, $f \circ d: P_0 \rightarrow B$ lifts to $f_0: P_0 \rightarrow E_0$, namely $e \circ f_0 = f \circ d$.
+
+    For $n \gt 0$, suppose $f_i$'s are defined for all $i \lt n$. We shall consider $A, B$ as $P_{-1}, E_{-1}$ and $f$ as $f_{-1}$ in the below arguments. Since the sequences are exact, we have $\mathrm{im}(d_n^P) \cong \mathrm{ker}(d_{n - 1}^P)$ and similar for $E$. Then we have $d_n^P = \kappa^P \circ d^P$ where $\kappa^P$ is the kernel of $d_{n - 1}^P$ and $d^P$ is the image of $d_n^P$, and similar for $E$.
+    % https://q.uiver.app/#q=WzAsMTAsWzMsMCwiUF97biAtIDF9Il0sWzMsMSwiRV97biAtIDF9Il0sWzQsMCwiXFxjZG90cyJdLFs0LDEsIlxcY2RvdHMiXSxbMiwwLCJcXG1hdGhybXtrZXJ9KGRfbl5QKSJdLFsxLDAsIlBfe259Il0sWzIsMSwiXFxtYXRocm17a2VyfShkX25eRSkiXSxbMSwxLCJFX24iXSxbMCwwLCJcXGNkb3RzIl0sWzAsMSwiXFxjZG90cyJdLFswLDJdLFsxLDNdLFswLDEsImZfe24gLSAxfSJdLFs0LDAsIlxca2FwcGFeUCJdLFs1LDQsImReUCJdLFs2LDEsIlxca2FwcGFeRSIsMl0sWzcsNiwiZF5FIiwyXSxbOCw1XSxbOSw3XSxbNCw2LCJmX3tuIC0gMX0nIl0sWzUsNywiZl97bn0iLDFdXQ==
+    \[\begin{tikzcd}
+        \cdots & {P_{n}} & {\mathrm{ker}(d_n^P)} & {P_{n - 1}} & \cdots \\
+        \cdots & {E_n} & {\mathrm{ker}(d_n^E)} & {E_{n - 1}} & \cdots
+        \arrow[from=1-1, to=1-2]
+        \arrow["{d^P}", from=1-2, to=1-3]
+        \arrow["{f_{n}}"{description}, from=1-2, to=2-2]
+        \arrow["{\kappa^P}", from=1-3, to=1-4]
+        \arrow["{f_{n - 1}'}", from=1-3, to=2-3]
+        \arrow[from=1-4, to=1-5]
+        \arrow["{f_{n - 1}}", from=1-4, to=2-4]
+        \arrow[from=2-1, to=2-2]
+        \arrow["{d^E}"', from=2-2, to=2-3]
+        \arrow["{\kappa^E}"', from=2-3, to=2-4]
+        \arrow[from=2-4, to=2-5]
+    \end{tikzcd}\]
+    Then we have $d_{n - 1}^E \circ f_{n - 1} \circ \kappa^P = f_{n - 2} \circ d_{n - 1}^P \circ \kappa^P = 0$. So there is unique $f'_{n - 1}: \mathrm{ker}(d_n^P) \rightarrow \mathrm{ker}(d_n^E)$ such that $\kappa^E \circ f_{n - 1}' = f_{n - 1} \circ \kappa^P$. Since $d^E$ is an epimorphism and $P_n$ projective, $f_{n - 1}' \circ d^P$ lifts to $f_n: P_n \rightarrow E_n$.
+
+    Suppose $f_{\bullet}, f_{\bullet}'$ are two chain maps that lift $f$. We construct a homotopy $\left\lbrace h_n: P_n \rightarrow E_{n + 1} \right\rbrace_{n \ge 0}$ between them inductively. For $n = 0$, note that $e \circ (f_0 - f_0') = (f - f) \circ d = 0$. Since $d_1^E$ is the kernel of $e$ by the exactness of the sequence, $f_0 - f_0'$ factors through $d_1^E$, namely there is $h_0: P_0 \rightarrow E_1$ such that $d_{1}^E \circ h_0 = f_0 - f_0'$
+    % https://q.uiver.app/#q=WzAsNSxbMSwwLCJQXzAiXSxbMSwxLCJFXzAiXSxbMiwwLCJBIl0sWzIsMSwiQiJdLFswLDEsIkVfMSJdLFsyLDMsImYiXSxbMCwyLCJkIl0sWzEsMywiZSIsMl0sWzAsMSwiZl8wIC0gZl8wJyJdLFs0LDEsImRfMF5FIiwyXSxbMCw0LCJoXzAiLDJdXQ==
+    \[\begin{tikzcd}
+        & {P_0} & A \\
+        {E_1} & {E_0} & B
+        \arrow["d", from=1-2, to=1-3]
+        \arrow["{h_0}"', from=1-2, to=2-1]
+        \arrow["{f_0 - f_0'}", from=1-2, to=2-2]
+        \arrow["f", from=1-3, to=2-3]
+        \arrow["{d_0^E}"', from=2-1, to=2-2]
+        \arrow["e"', from=2-2, to=2-3]
+    \end{tikzcd}\]
+    For $n \gt 0$, suppose $f_i - f_i' = h_{i - 1} \circ d_i^P + d_{i + 1}^E \circ h_i$ for all $i \lt n$. Now consider $d_n^E \circ (f_n - f_n') = (f_{n - 1} - f_{n - 1}') \circ d_n^P$. If $n = 1$, then by our construction in the base step, $(f_{n - 1} - f_{n - 1}') \circ d_n^P = d_1^E \circ h_0 \circ d_1^P$. Otherwise, we also have
+    $$
+        \begin{aligned}
+        (f_{n - 1} - f_{n - 1}') \circ d_n^P &= (d_n^E \circ h_{n - 1} + h_{n - 2} \circ d_{n - 1}^P) \circ d_n^P \\
+        &= d_{n}^E \circ h_{n - 1} \circ d_n^P
+        \end{aligned}
+    $$
+    As a result, $f_n - f_n' - h_{n - 1} \circ d_n^P$ factors through the kernel $\kappa^E: \mathrm{ker}(d_n^E) \rightarrow E_n$ of $d_n^E$. Namely, there is $h_n': P_n \rightarrow \mathrm{ker}(d_n^E)$ such that
+    $$f_n - f_n' - h_{n - 1} \circ d_n^P = \kappa^E \circ h_n'$$
+    Finally, $h_n'$ lifts to $P_{n + 1}$ as $d^E: E_{n + 1} \rightarrow \mathrm{ker}(d_n^E)$ is an epimorphism and $P_{n + 1}$ is projective. Namely we have $h_n: P_n \rightarrow E_{n + 1}$ such that $h_n' = d^E \circ h_n$ and hence:
+    $$
+        \begin{aligned}
+        d^E_{n + 1} \circ h_n + h_{n - 1} \circ d_n^P &= \kappa^E \circ h_n' + h_{n - 1} \circ d_n^P \\
+        &= f_n - f_n'
+        \end{aligned}
+    $$
+    which is what we want. (Note, the diagram below does not commute, it is only for illustrative purpose)
+    % https://q.uiver.app/#q=WzAsNixbMiwwLCJQX24iXSxbMiwxLCJFX24iXSxbMywwLCJQX3tuIC0gMX0iXSxbMSwxLCJcXG1hdGhybXtrZXJ9KGRfe259XkUpIl0sWzAsMSwiRV97biArIDF9Il0sWzMsMSwiRV97biAtIDF9Il0sWzMsMSwiXFxrYXBwYV5FIl0sWzAsMSwiZl9uIC0gZl9uJyIsMV0sWzAsMiwiZF9uXlAiXSxbMCwzLCJoX24nIiwyXSxbNCwzLCJkXkUiXSxbMSw1LCJkX25eRSIsMl0sWzIsNSwiZl97biAtIDF9IC0gZl97biAtIDF9JyJdLFsyLDEsImhfe24gLSAxfSJdLFswLDQsImhfbiIsMix7ImN1cnZlIjoyfV1d
+    \[\begin{tikzcd}
+        && {P_n} & {P_{n - 1}} \\
+        {E_{n + 1}} & {\mathrm{ker}(d_{n}^E)} & {E_n} & {E_{n - 1}}
+        \arrow["{d_n^P}", from=1-3, to=1-4]
+        \arrow["{h_n}"', curve={height=12pt}, from=1-3, to=2-1]
+        \arrow["{h_n'}"', from=1-3, to=2-2]
+        \arrow["{f_n - f_n'}"{description}, from=1-3, to=2-3]
+        \arrow["{h_{n - 1}}", from=1-4, to=2-3]
+        \arrow["{f_{n - 1} - f_{n - 1}'}", from=1-4, to=2-4]
+        \arrow["{d^E}", from=2-1, to=2-2]
+        \arrow["{\kappa^E}", from=2-2, to=2-3]
+        \arrow["{d_n^E}"', from=2-3, to=2-4]
+    \end{tikzcd}\]
+\end{proof}
+
+\begin{corollary} \label{cor:unique-resolution}
+    Let $\mathcal{A}$ be an abelian category that has enough projectives (resp. injectives). For arbitrary object $A$, the projective (resp. injective) resolution of $A$ is unique up to chain equivalence.
+\end{corollary}
+
+\begin{proof}
+    Suppose $P_{\bullet}, P_{\bullet}'$ are two projective resolution of $A$. By Prop \ref{prop:lift-morph-resolution}, there are chain maps $f_{\bullet}: P_{\bullet} \rightarrow P_{\bullet}', g_{\bullet}: P_{\bullet}' \rightarrow P_{\bullet}$ that lifts $\mathds{1}_{A}$. It then follows that $g_{\bullet} \circ f_{\bullet}: P_{\bullet} \rightarrow P_{\bullet}$ and $f_{\bullet} \circ g_{\bullet}: P_{\bullet}' \rightarrow P_{\bullet}'$ also lift $\mathds{1}_{A}$. However, the identity chain map also lift $\mathds{1}_A$, by uniqueness in Prop \ref*{prop:lift-morph-resolution}, we have $g_{\bullet} \circ f_{\bullet} \sim \mathds{1}_{P_{\bullet}}, f_{\bullet} \circ g_{\bullet} \sim \mathds{1}_{P_{\bullet}'}$, shich completes the proof.
+\end{proof}
+
+Now we can compute the derived functors through resolutions:
+
+\begin{proof}[Proof of existence]
+    WLOG, we only prove the case for right derived functor.
+
+    Let $P_{\bullet}$ be a projective resolution for $A$. We have the chain complex $F P_{\bullet}$:
+    $$\cdots \rightarrow FP_2 \rightarrow FP_1 \rightarrow FP_0$$
+    Then define $L_nFA = H_n(FP_{\bullet})$.
+    
+    For $f: A \rightarrow B$ a morphism, pick $P_{\bullet}, Q_{\bullet}$ projective resolutions of $A, B$ respectively. By Prop \ref{prop:lift-morph-resolution}, pick chain map $f_{\bullet}: P_{\bullet} \rightarrow Q_{\bullet}$. Then define $L_nF(f) = H_n(f_{\bullet})$.
+
+    We need to show the functors $L_nF$ satisfies the requirements:
+    \begin{enumerate}
+        \item $L_0F = F$: By right exactness of $F$, we have exact sequence:
+        $$FP_1 \xrightarrow{Fd_1^P} FP_0 \xrightarrow{Fd} FA \rightarrow 0$$
+        which implies $Fd$ is the cokernel of $Fd_1^P$. Note that $H_0(F P_{\bullet})$ is the cokernel of the map $\mathrm{im}(d_1^P) \rightarrow \mathrm{ker}(0) = FP_0$, which is then the kernel of $Fd$. Then $H_0(F P_{\bullet}) = P_0$
+        \item $L_nFP = 0$ for all projective $P$ and $n \gt 0$: This is the easy one, because for projective $P$, we can take the trivial projective resolution $P_{\bullet} = P$. Then the $n$-th homology is zero for all $n \gt 0$
+        \item The long exact sequence: Take arbitrary exact sequence $0 \rightarrow A' \xrightarrow{f} A \xrightarrow{g} A'' \rightarrow 0$. The plan is to apply the Zigzag lemma to the projective resolutions $0 \rightarrow FP_{\bullet}' \rightarrow FP_{\bullet} \rightarrow FP_{\bullet}'' \rightarrow 0$, for which we need to pick the resolutions so that $0 \rightarrow P_n' \rightarrow P_n \rightarrow P_n'' \rightarrow 0$ is exact. But since $P_n''$ is projective, the sequnece splits and we must have $P_n \cong P_n' \times P_n''$. Now for the proof. Pick $P_{\bullet}', P_{\bullet}''$ projective resolution of $A'$ and $A''$ respectively. We build the projective resolution $P_{\bullet}$ such that $P_n = P_n' \times P_n''$ for all $n \ge 0$ inductively.
+        
+        For $n = 0$, we need to define an epimorphism $d: P_0' \times P_0'' \rightarrow A$ such that the diagram below commutes:
+        % https://q.uiver.app/#q=WzAsNixbMCwwLCJQXzAnIl0sWzEsMCwiUF8wJyBcXHRpbWVzIFBfMCcnIl0sWzIsMCwiUF8wJyciXSxbMCwxLCJBJyJdLFsxLDEsIkEiXSxbMiwxLCJBJyciXSxbMCwxLCJpXzAiXSxbMSwyLCJxXzAiXSxbMyw0LCJmIiwyXSxbNCw1LCJnIiwyXSxbMCwzLCJkJyJdLFsxLDQsImQiXSxbMiw1LCJkJyciXV0=
+        \[\begin{tikzcd}
+            {P_0'} & {P_0' \times P_0''} & {P_0''} \\
+            {A'} & A & {A''}
+            \arrow["{i_0}", from=1-1, to=1-2]
+            \arrow["{d'}", from=1-1, to=2-1]
+            \arrow["{q_0}", from=1-2, to=1-3]
+            \arrow["d", from=1-2, to=2-2]
+            \arrow["{d''}", from=1-3, to=2-3]
+            \arrow["f"', from=2-1, to=2-2]
+            \arrow["g"', from=2-2, to=2-3]
+        \end{tikzcd}\]
+        where $i_0, q_0$ are the coproduct and product morphisms. Actually there isn't much choice. Since $g$ is an epimorphism and $P_0''$ is a projective, we have $\overline{d'}: P_0'' \rightarrow A$ such that $d'' = g \circ \overline{d''}$. Define $d = \left\lbrace f \circ d', \overline{d''} \right\rbrace$. The reader may verify that the diagram commutes. Apply the Four Lemma, $d$ is an epimorphism.
+
+        For $n \gt 0$, we can reduce to the case of $n = 0$: We only need to find $d_n: P_n' \times P_n'' \rightarrow P_{n - 1}' \times P_{n - 1}''$ such that the diagram below commutes:
+        % https://q.uiver.app/#q=WzAsNixbMCwwLCJQX24nIl0sWzEsMCwiUF9uJyBcXHRpbWVzIFBfbicnIl0sWzIsMCwiUF9uJyciXSxbMCwxLCJQX3tuIC0gMX0nIl0sWzEsMSwiUF97biAtIDF9JyBcXHRpbWVzIFBfe24gLSAxfScnIl0sWzIsMSwiUF97biAtIDF9JyciXSxbMCwxLCJpX24iXSxbMSwyLCJxX24iXSxbMyw0LCJpX3tuIC0gMX0iLDJdLFs0LDUsInFfe24gLSAxfSIsMl0sWzAsMywiZF9uJyJdLFsxLDQsImRfbiJdLFsyLDUsImRfe259JyciXV0=
+        \[\begin{tikzcd}
+            {P_n'} & {P_n' \times P_n''} & {P_n''} \\
+            {P_{n - 1}'} & {P_{n - 1}' \times P_{n - 1}''} & {P_{n - 1}''}
+            \arrow["{i_n}", from=1-1, to=1-2]
+            \arrow["{d_n'}", from=1-1, to=2-1]
+            \arrow["{q_n}", from=1-2, to=1-3]
+            \arrow["{d_n}", from=1-2, to=2-2]
+            \arrow["{d_{n}''}", from=1-3, to=2-3]
+            \arrow["{i_{n - 1}}"', from=2-1, to=2-2]
+            \arrow["{q_{n - 1}}"', from=2-2, to=2-3]
+        \end{tikzcd}\]
+        and that $P_n' \times P_n'' \xrightarrow{d_n} P_{n - 1}' \times P_{n - 1}'' \xrightarrow{d_{n - 1}} P_{n - 2}' \times P_{n - 2}$ is exact in the middle. Apply the Snake Lemma to the $n - 1, n - 2$ rows, we obtain exact sequence:
+        $$0 \rightarrow \mathrm{ker}(d_{n - 1}') \xrightarrow{i_{n - 1}'} \mathrm{ker}(d_{n - 1}) \xrightarrow{q_{n - 1}'} \mathrm{ker}(d_{n - 1}'') \xrightarrow{\delta_{n - 1}} \mathrm{coker}(d_{n - 1}')$$
+        Then by breaking long exact sequence (in the columns) into short ones, it suffices to find epimorphism $\overline{d_n}: P_n' \oplus P_{n}'' \rightarrow \mathrm{ker}(d_{n - 1})$ such that the diagram below commutes:
+        % https://q.uiver.app/#q=WzAsNixbMCwwLCJQX24nIl0sWzEsMCwiUF9uJyBcXHRpbWVzIFBfbicnIl0sWzIsMCwiUF9uJyciXSxbMCwxLCJcXG1hdGhybXtrZXJ9KGRfe24gLSAxfScpIl0sWzEsMSwiXFxtYXRocm17a2VyfShkX3tuIC0gMX0pIl0sWzIsMSwiXFxtYXRocm17a2VyfShkX3tuIC0gMX0nJykiXSxbMCwxLCJpX24iXSxbMSwyLCJxX24iXSxbMyw0LCJpX3tuIC0gMX0nIiwyXSxbNCw1LCJxX3tuIC0gMX0nIiwyXSxbMCwzLCJcXG92ZXJsaW5le2Rfbid9Il0sWzEsNCwiXFxvdmVybGluZXtkX259Il0sWzIsNSwiXFxvdmVybGluZXtkX3tufScnfSJdXQ==
+        \[\begin{tikzcd}
+            {P_n'} & {P_n' \times P_n''} & {P_n''} \\
+            {\mathrm{ker}(d_{n - 1}')} & {\mathrm{ker}(d_{n - 1})} & {\mathrm{ker}(d_{n - 1}'')}
+            \arrow["{i_n}", from=1-1, to=1-2]
+            \arrow["{\overline{d_n'}}", from=1-1, to=2-1]
+            \arrow["{q_n}", from=1-2, to=1-3]
+            \arrow["{\overline{d_n}}", from=1-2, to=2-2]
+            \arrow["{\overline{d_{n}''}}", from=1-3, to=2-3]
+            \arrow["{i_{n - 1}'}"', from=2-1, to=2-2]
+            \arrow["{q_{n - 1}'}"', from=2-2, to=2-3]
+        \end{tikzcd}\]
+        Note that $\overline{d_n'}, \overline{d_n''}$ are epimorphisms, we define the morphism $\overline{d_n}$ exactly as in the $n = 0$ case. To show that $\overline{d_n}$ is an epimorphism, by the For Lemma, ISTS $\delta_{n - 1} \circ \overline{d''_n} = 0$, which is true by our construction in the Snake Lemma.
+
+        Finally, after we construct the projective resolution $P_{\bullet}$, we apply the Zigzag Lemma to the exact sequence of chain complexes $0 \rightarrow FP_{\bullet}' \xrightarrow{Fi_{\bullet}} FP_{\bullet} \xrightarrow{Fq_{\bullet}} FP_{\bullet}'' \rightarrow 0$ (Note: the columns are no longer exact, but they stay chain complexes. While the rows remain exact). We obtain the desired long exact sequence.
+    \end{enumerate}
+\end{proof}
+
+\end{document}

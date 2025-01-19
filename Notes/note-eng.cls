@@ -18,6 +18,9 @@
 \RequirePackage{dsfont}
 \RequirePackage{hyperref}
 \RequirePackage{epigraph}
+\RequirePackage{quiver}
+
+\RequirePackage{indentfirst}
 
 \RequirePackage{mathabx}
 
@@ -63,6 +66,7 @@
 \newtheorem{example}{Exp}
 \newtheorem{notation}{Notation}
 \newtheorem{algorithm}{Alg}
+\newtheorem{assumption}{Assumption}
 
 \makeatletter
 \def\th@plain{%

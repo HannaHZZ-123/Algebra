@@ -1,0 +1,1535 @@
+\documentclass{note-eng}
+
+\title{Rings and Modules}
+\author{Jingyi Long}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+In this chapter, we quickly review some basic algebraic structures that will be needed in the future chapters. The readers who are familiar with them may choose to skip this chapter.
+
+It is tedious and meaningless to list all possible algebraic structures here as the notes are not intended to be a disctionary. (The number of algebraic structures could at worse be exponentially many) So we shall only mention important ones and put emphasis on rings and modules, which are the main topic for the rest of the book.
+
+\newpage
+
+\section{Basic Algebraic Structures}
+
+\begin{definition}[Monoid, Abelian Monoid]
+    A \textbf{monoid} $(M, \cdot)$ is a set $M$ with associate law $\cdot: M \times M \rightarrow M$, such that:
+    \begin{enumerate}
+        \item The associate law is associative: $a \cdot (b \cdot c) = (a \cdot b) \cdot c$ for arbitrary $a, b, c \in M$.
+        \item There is an element $1_M$, such that $1_M \cdot a = a \cdot 1_M$ for arbitrary $a \in M$. We call this element the \textbf{(two-sided) identity element}
+    \end{enumerate}
+    Moreover, if the associate law is \textbf{commutative}: $a \cdot b = b \cdot a$ for arbitrary $a, b \in M$, then we call $M$ an \textbf{abelian monoid}
+\end{definition}
+
+\begin{example}
+    $(\mathbb{N}, \cdot)$ is an abelian monoid. $(\mathrm{GL}(n, \mathbb{R}), \cdot)$ is a non-abelian (unless $n = 1$) monoid. More interestingly, $(\mathbb{N} \cup \left\lbrace -\infty \right\rbrace, +)$ is also an abelian monoid, if we define $x + (-\infty) = -\infty$ for arbitrary $x$, the identity element is still $0$.
+\end{example}
+
+The symbol $\cdot$ for multiplication is usually omitted, to express $x \cdot y$, we will simply use $xy$.
+
+\begin{proposition} \label{prop:unique-identity}
+    The identity element $\mathds{1}_M$ is unique in $(M, \cdot)$. Moreover, any one-sided identity is the two-sided identity.
+\end{proposition}
+
+\begin{proof}
+    Let $1_{M}'$ be any one-sided identity of $M$, WLOG, it is the left identity. Then we have $1_M = 1_{M}' \cdot 1_M = 1_{M}'$.
+\end{proof}
+
+Similar proofs to \ref{prop:unique-identity} will be omitted later.
+
+\begin{definition}[Submonoid]
+    Let $(M, \cdot)$ be a monoid, $N$ be a subset of $M$. If $1_M \in N$ and $N$ is closed under multiplication, then we call $(N, \cdot)$ a \textbf{submonoid} of $(M, \cdot)$
+\end{definition}
+
+\begin{definition}[Monoid Morphism]
+    A \textbf{morphism} $f: (M, \cdot) \rightarrow (N, \cdot)$ of monoids is a map $M \rightarrow N$ such that:
+    \begin{enumerate}
+        \item $f$ is \textbf{multiplicative}: $f(xy) = f(x) f(y)$ for arbitrary $x, y \in M$
+        \item $f(1_M) = 1_N$
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    It should be noted that condition 1 does not imply condition 2. For example, $(\mathbb{N}, +) \rightarrow (\mathbb{N} \cup \left\lbrace -\infty \right\rbrace, +)$ that sends everything to $-\infty$ satisfies condition 1 but not 2.
+\end{remark}
+
+\begin{example}
+    The degree map $(k[X], \cdot) \rightarrow (\mathbb{N} \cup \left\lbrace -\infty \right\rbrace, +)$, where $0$ is mapped to $-\infty$ (See why $\mathbb{N} \cup \left\lbrace -\infty \right\rbrace$ is worth mentioning!)
+\end{example}
+
+\begin{definition}[Groups, Abelian Groups]
+    A \textbf{group} $(G, \cdot)$ is a monoid $(G, \cdot)$ such that for every element $a \in G$, there is an element $b \in G$ such that $ab = ba = \mathds{1}_G$. If the associate law is commutative, then $(G, \cdot)$ is called an \textbf{abeian group}
+\end{definition}
+
+\begin{example}
+    $\Sigma_n$, the permutation group for $n$ elements consisting of all bijections from $\left\lbrace 1, \cdots, n \right\rbrace$ to itself is a non-abelian (unless $n = 1$) group. $(\mathbb{Z}, +)$ is an abelian group. $(GL(n, \mathbb{R}), \cdot)$ is a group.
+\end{example}
+
+Why are groups seem to be more popular than monoids despite the latter is more general? In my understanding, the development of group theory is to describe 'symmetry' (indeed the concept of group, although not explicitly stated, was invented to describe the symmetry among the roots of polynomials), which is a \textbf{bijection} from a set to itself. So the invertibility of elements is usually required.
+
+\begin{definition}[Subgroup]
+    Let $(G, \cdot)$ be a group. A \textbf{subgroup} $(H, \cdot)$ of $(G, \cdot)$ is a submonoid that is closed under inverse.
+\end{definition}
+
+The reader should be able to verify:
+
+\begin{proposition}
+    Let $(G, \cdot)$ be a group, $H$ be a subset of $G$, then $(H, \cdot)$, where $\cdot$ is the multiplication in $G$, is a subgroup of $(G, \cdot)$ if and only if $(H, \cdot)$ is a group.
+\end{proposition}
+
+A symmetric concept to subgroup is the quotient. Basically the quotient group tells us what is left after we identify the elements in the subgroups, in which each elements correspond to a subset:
+
+\begin{definition}[Left / Right Coset]
+    Let $(G, \cdot)$ be a group and $(H, \cdot)$ be a subgroup. For arbitrary $g \in G$, we call the subset $gH = \left\lbrace gh: h \in H \right\rbrace$ a \textbf{left coset} of $G$. Similarly, we call the subset $Hg = \left\lbrace hg: h \in H \right\rbrace$ a \textbf{right coset} of $G$.
+\end{definition}
+
+It is clear that left / right cosets form a partitian of the group. When the group multiplication is commutative (namely the group is an abelian group), left cosets and right cosets are the same.
+
+With cosets as elements, we identity the elements in the subgroups. However, to define a multiplication on the cosets such that they form the desired quotient group, we need the left and right cosets to agree:
+
+\begin{definition}[Normal Subgroup]
+    Let $(G, \cdot)$ be a group. A subgroup $(N, \cdot)$ of $(G, \cdot)$ is called \textbf{normal} if $gN = Ng$ for all $g \in G$, or equivalently for all $n \in N$ and $g \in G$, we have $g n g ^{-1} \in N$
+\end{definition}
+
+Again, in abelian groups, any subgroup will be a normal subgroup.
+
+\begin{definition}[Quotient Group]
+    Let $(G, \cdot)$ be a group, $(N, \cdot)$ be a normal subgroup of $(G, \cdot)$. Define the set $G / N$ be the set of cosets of $G$ with respect to $N$. Then fefine an associate law on $G / N$ as $(aN) \cdot (bN) = abN$, then it $(G / N, \cdot)$ is a group with identity $\mathds{1}_G N$ and inverse $g ^{-1} N$ for $gN$. We call $(G / N, \cdot)$ the \textbf{quotient group of $G$ over $N$}.
+\end{definition}
+
+\begin{definition}[Group Homomorphism, Group Endomorphisms]
+    A \textbf{homomorphism} $f: (G, \cdot) \rightarrow (H, \cdot)$ is a map $G \rightarrow H$ such that $f$ is multiplicative: $f(ab) = f(a)f(b)$ for arbitrary $a, b \in G$. If $(G, \cdot) = (H, \cdot)$, then $f$ is also called an \textbf{endomorphism} of $(G, \cdot)$.
+\end{definition}
+
+Note that there is no need to require $f(1_G) = 1_H$:
+
+\begin{proposition}[Group homomorphism preserves identity]
+    Let $f: (G, \cdot) \rightarrow (H, \cdot)$ be a homomorphism of groups, then $f(1_G) = 1_H$.
+\end{proposition}
+
+\begin{proof}
+    $f(1_G) = f(1_G \cdot 1_G) = f(1_G) \cdot f(1_G)$, multiply both sides from the left by $f(1_G) ^{-1}$
+\end{proof}
+
+\begin{example}
+    $\sigma: \Sigma_n \rightarrow \left\lbrace \pm 1 \right\rbrace, \det: \mathrm{GL}(n, k) \rightarrow k \setminus \left\lbrace 0 \right\rbrace$ are group homomorphisms.
+\end{example}
+
+\begin{definition}[Ring, Commutative Ring, Division Ring]
+    A \textbf{ring} $(R, +, \cdot)$ is a set $R$ with two associate laws such that:
+    \begin{enumerate}
+        \item $(R, +)$ is an abelian group, denote the identity as $0_R$ and inverse as $-x$ for $x \in R$
+        \item $(R, \cdot)$ is a monoid, denote the identity as $1_R$
+        \item Multiplications distribute over addition: $r(a + b) = ra + rb, (a + b)r = ar + br$ for arbitrary $r, a, b \in R$
+    \end{enumerate}
+    If $(R, \cdot)$ is a commutative monoid, then we call $R$ a \textbf{commutative ring}. If $(R \setminus \left\lbrace 0 \right\rbrace, \cdot)$ is a group, then we call $R$ a \textbf{division ring}
+\end{definition}
+
+\begin{remark}
+    It is possible that $1_R = 0_R$, but the reader may verify that this only occurs when $A = 0$
+\end{remark}
+
+\begin{example}
+    $(\mathbb{Z}, +, \cdot)$ is a commutative ring. If $R$ is a commutative ring, then so is the polynomial ring $R[\underline{X}]$ where $\underline{X}$ denotes a set of indeterminates that may be infinite. Moreover, the formal series $R[[X]]$ and the rational functions $R(X)$ are all commutative rings.
+\end{example}
+
+The readers (at least myself when I first came to know the notion of ring) may wonder why the algebraic structure is called a 'ring'. Does it have some 'circular' structure? No. Turns out that in German the word 'ring' has similar meaning to 'group'. (Think about this, 'a circle of friends' simply means a group of friends, which does not have some circular structure!)
+
+\begin{definition} [Field]
+    A \textbf{field} $(k, +, \cdot)$ is a ring such that $(k \setminus \left\lbrace 0 \right\rbrace, \cdot)$ is an abelian group. Or equivalently, a field is a commutative division ring.
+\end{definition}
+
+\iffalse
+A less restricted yet still important class of ring is the domain:
+
+\begin{definition}
+    (Integral Domain) An \textbf{integral domain} $(R, +, \cdot)$ is a commutative ring such that $xy = 0$ implies $x = 0$ or $y = 0$ for arbitrary $x, y \in R$. We also abbreviate integral domain as simply \textbf{domain}.
+\end{definition}
+
+By definition, a field is a domain. For a domain to be a field, we may equip the domain with nicer and nicer properties until it becomes a field. This gives us a chain of types of domain that approximate the field. We shall see this in the chapter about commutative rings.
+\fi
+
+\begin{example}
+    Monoid ring: Let $(M, \cdot)$ be a monoid:
+    \begin{enumerate}
+        \item If $M$ is finite, suppose $M = \left\lbrace m_1, \cdots, m_n \right\rbrace$, let $k$ be any field. Consider the vector space $(k^n, +)$, with basis $e_{m_1}, \cdots, e_{m_n}$, define the multiplication on $k^n$ by $e_{m_i} e_{m_j} = e_{m_im_j}$ and extend by linearity. Then $(k^n, +, \cdot)$ forms a ring, with multiplicative identity $e_{\mathds{1}_M}$, and we usually denote it as $k[M]$.
+        \item If $M$ is infinite, we can have two choices for the ring as we can choose the vector space to be either the direct sum or direct product of copies of $k$. Usually we denote $k[M]$ for the direct sum and $k[[M]]$ for the direct product.
+    \end{enumerate}
+    If $M = \left\lbrace 1, X, X^2, \cdots \right\rbrace$ with obvious multiplication, then $k[M] = k[X], k[[M]] = k[[X]]$ in our usual notation.
+
+    After we learn about modules, the reader may replace $k$ by arbitrary commutative ring $R$.
+\end{example}
+
+\begin{definition}[Subring]
+    Let $(R, +, \cdot)$ be a commutative ring, $S$ be a subset of $R$. If $(S, +)$ is a subgroup of $(R, +)$ and $(S, \cdot)$ is a submonoid of $(R, \cdot)$, then we call $(S, +, \cdot)$ a \textbf{subring} of $(R, +, \cdot)$
+\end{definition}
+
+\begin{definition}[Ring Homomorphism, Ring Isomorphism]
+    A \textbf{ring homomorphism} $f: (R, +, \cdot) \rightarrow (S, +, \cdot)$ is a map $f: R \rightarrow S$ such that:
+    \begin{enumerate}
+        \item $f: (R, +) \rightarrow (S, +)$ is a group homomorphism
+        \item $f: (R, \cdot) \rightarrow (S, \cdot)$ is a monoid homomorphism
+    \end{enumerate}
+
+    If there is a ring homomorphism $g: (S, +, \cdot) \rightarrow (R, +, \cdot)$ such that $f \circ g = \mathds{1}_S, g \circ f = \mathds{1}_R$, then we call $f$ an \textbf{isomorphism}, and the two rings $(R, +, \cdot), (S, +, \cdot)$ \textbf{isomorphic}.
+\end{definition}
+
+A module is a generalization of vector space. There are many equivalent ways to define a module, and below is my favorite:
+
+\begin{proposition}
+    Let $A$ be an abelian groups, then $(\mathrm{End}(A), +, \circ)$ is a ring, where $\mathrm{End}(A)$ is the set of group endomorphisms of $A$, $+$ is element-wise addition of homomorphisms, and $\circ$ is the composition of endomorphisms.
+\end{proposition}
+
+\begin{definition}[Left Module]
+    Let $R$ be a ring, a \textbf{(left) $R$-module} $M$ is an abelian group $M$ with ring homomorphism $\omega: R \rightarrow \mathrm{End}(M)$. For arbitrary $r \in R$ and $m \in M$, denote $rm = \omega(r)(m)$.
+\end{definition}
+
+Equivalently, a left $R$-module is an abelian group with a multiplication by $R$ on the left, with some properties that the readers may define themselves. I like the compact definition above. Math should be simple. (Who would ever want to memorize the 8 rules governing the operations in modules?)
+
+\begin{definition}[Submodule]
+    Let $R$ be a ring, $(M, +)$ a left $R$-module, and $N$ a subset of $M$. If $(N, +)$ is a subgroup of $(M, +)$ and $\omega(r)(N) \subset N$ for all $r \in R$, then we call $(N, +)$ a \textbf{submodule} of $(M, +)$.
+\end{definition}
+
+\begin{example}
+    Let $\left\lbrace m_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ be a subset of $M$, then the set:
+    $$\left\lbrace \sum\limits_{i = 1}^{n} r_i m_{\lambda_i}: n \ge 0, \lambda_i \in \Lambda  \right\rbrace$$
+    is a submodule of $(M, +)$. We call this the \textbf{submodule generated by $\left\lbrace m_{\lambda} \right\rbrace_{\lambda \in \Lambda}$} and denote it as $R \left\lbrace m_\lambda \right\rbrace_{\lambda \in \Lambda}$
+\end{example}
+
+By symmetry, the reader may define right modules by herself. However, instead of copy-pasting most parts of our definition, we 'reverse' the ring itself and then right modules would be defined through left modules in the reversed ring.
+
+\begin{definition}[Opposite Ring]
+    Let $(R, +, \omega)$ be a ring, where $\omega: R \times R \rightarrow R$ is the multiplication. Then the \textbf{opposite ring} $R ^\mathrm{opp}$ is the ring $(R, +, \omega')$ where $\omega'(a, b) = \omega(b, a)$
+\end{definition}
+
+Note that if $R$ is a commutative ring, then $R \rightarrow R ^\mathrm{opp}: a \mapsto a$ is an isomorphism, so there is no need for $R ^\mathrm{opp}$. However, if $R$ is non-commutative, then the above map is not even a homomorphism (check the definition).
+
+\begin{definition}[Right Module]
+    Let $R$ be a ring, a \textbf{right $R$-module} $M$ is a left $R ^\mathrm{opp}$-module, namely an abelian group with ring homomorphism $\omega: R ^\mathrm{opp} \rightarrow \mathrm{End}_{\mathrm{Ab}}(M)$. For arbitrary $r \in R ^\mathrm{opp}, m \in M$, denote $mr = \omega(r)(m)$.
+\end{definition}
+
+The reader may define submodules for right modules by herself.
+
+Equivalently, a right $R$-module is an abelian group with multiplication by $R$ on the right. Note that whether we write multiplication on the left or right is purely arbitrary, since the multiplication is nothing but a map $R \times M \rightarrow M$. The reason that we choose to write multiplication on the right for right modules is that we want the 'associate law'
+$$(mr_1)r_2 = m(r_1r_2)$$
+to hold. This is because:
+$$(mr_1)r_2 = \omega(r_2)(\omega(r_1)(m)) = (\omega(r_2) \circ \omega(r_1))(m) = \omega(r_1r_2)(m) = m(r_1r_2)$$
+However, if we write on the left:
+$$r_2(r_1m) \ne (r_2r_1)m$$
+in general.
+
+Again, if $R$ is a commutative ring, then the left and right $R$-modules are the same, and we omit left/right. Of course, we need to define morphisms for modules to make that clear:
+
+\begin{definition}[Module Homomorphisms, Module Isomorphisms]
+    Let $M, N$ be left $R$-modules, then a module homomorphism $f: M \rightarrow N$ is an abelian group homomorphism such that $f(rm) = rf(m)$ for arbitrary $r \in R, m \in M$. Similar for right $R$-modules
+\end{definition}
+
+\begin{definition}[Quotient Module]
+    Let $R$ be a ring and $M$ a left (resp. right) $R$-module. $N$ is a submodule of $M$. Since $(M, +)$ is abelian, let $(M / N, +)$ be quotient group of $(M, +)$. Define a left (resp. right) multiplication of $R$ on $(M / N, +)$ as: $r(mN) = (rm)N$ (resp. $r(Nm) = N(mr)$). Then $(M / N, +, \cdot)$ is a module, and we call it the quotient module of $M$ over $N$.
+\end{definition}
+
+Note that $R$ is itself an $R$-module. But the subrings of $R$ is not an $R$-module in general (unless the subring is $R$ itself). This is because the subrings are not closed under multiplication by $R$. We could well multiply things out of the subring. This leads us to the notion of ideals:
+
+\begin{definition}[Left / Right Ideals]
+    Let $(R, +, \cdot)$ be a ring, $S$ a subset of $R$, if $(S, +)$ is a submodule of $(R, +)$ as left (resp. right) $R$-module, then we call $S$ an \textbf{left (resp. right) ideal} of $R$
+\end{definition}
+
+Since ideals are just submodules, we also use $R\left\lbrace r_\lambda \right\rbrace_{\lambda \in \Lambda}$ (resp. $\left\lbrace r_\lambda \right\rbrace_{\lambda \in \Lambda} R)$ to express the left (resp. right) ideals generated by the set $\left\lbrace r_{\lambda} \right\rbrace_{\lambda \in \Lambda}$. If $R$ is commutative and the two ideals agree, we simply use $(r_\lambda)_{\lambda \in \Lambda}$ to denote the ideal.
+
+By our discussion of modules, we know that for ring $R$ and ideal $I$, $R / I$ would be a submodule of $R$ (as an $R$-module). Namely, there is a multiplication by $R$ on $R / I$. Moreover, the multiplication actually induces a multiplication by $R / I$ on $R / I$, making it into a ring. As before, we require the ideals to be 'normal'. But just for simplicity, we require the ring to be commutative.
+
+\begin{definition}[Quotient Ring]
+    Let $R$ be a commutative ring, $I$ be an ideal. Then $R / I$ is a $R$-module, define a multiplication $R / I \times R / I \rightarrow R / I: (r + I)(s + I) \mapsto (rs + I)$, then $(R / I, +, \cdot)$ is a ring. We call it the \textbf{quotient ring} of $R$ over $I$.
+\end{definition}
+
+\iffalse
+
+\begin{definition}
+    (Algebra) Let $R$ be a commutative ring, $S$ an $R$-module. If $S$ is also a commutative ring such that $r(s_1s_2) = (rs_1)s_2$ for arbitrary $r \in R, s_1, s_2 \in S$, then $S$ is called an $R$-algebra.
+\end{definition}
+
+There is an equivalent definition that will be used throughout the following chapters:
+
+\begin{definition}
+(Algebra) Let $R, S$ be rings, $f: R \rightarrow S$ be a ring homomorphism, then we call $(S, f)$ an $R$-algebra.
+\end{definition}
+
+\begin{proposition}
+The two definitions above is equivalent.
+\end{proposition}
+
+\begin{proof}
+Given $f: R \rightarrow S$, define $f': R \rightarrow \mathrm{End}_{\mathrm{Ab}}(S)$ by $f'(r) = \varphi_r$ where $\varphi_r(s) = f(r)s$, clearly $\varphi_r(s_1s_2) = \varphi_r(s_1) s_2$. On the other hand, given $f: R \rightarrow \mathrm{End}_{\mathrm{Ab}}$, define $f': R \rightarrow S$ by $f'(r) = f(r)(1_S)$. It can be shown that $f \rightarrow f'$ is a bijection with inverse $f \mapsto f'$
+\end{proof}
+
+\begin{remark}
+Note that we have to require $r(s_1s_2) = (rs_1)s_2$ in the first definition. Because not all endomorphisms of abelian groups can be represented as a multiplication on the left. For example, $x \mapsto \overline{x}$ in $\mathbb{C}$ is an endomorphism of $\mathbb{C}$ as abelian groups, but it cannot be represented as a multiplication. Then it may occur that $f'' \ne f$ for $f: R \rightarrow \mathrm{End}_{\mathrm{Ab}}(S)$, or equivalently $\varphi_r(s) \ne \varphi_r(1_S)s$ for some $s \in S$. 
+\end{remark}
+
+\fi
+
+With ideals, we give a method to test whether a commutative ring is a field:
+
+\begin{proposition}\label{prop:test-field-ideals}
+    Let $R$ be a nonzero commutative ring. The followings are equivalent:
+    \begin{enumerate}
+        \item $R$ is a field
+        \item $R$ has only two ideals $0$ and $(1)$
+        \item Every homomorphism $R \rightarrow S$ where $S$ nonzero is injective
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    We only prove $3 \Rightarrow 1$. Pick $x \in R$ a that is not invertible. Then $R / \left\langle x \right\rangle$ is nonzero and $R \rightarrow R / \left\langle x \right\rangle$ is injective by definition, which implies $x = 0$. 
+\end{proof}
+
+Finally, vector space is just a special case of ring modules.
+
+\begin{definition}[Vector Space]
+    Let $k$ be a field, a $k$-module is also called a \textbf{$k$-vector space}, and a $k$-module homomorphism is also called a \textbf{linear map}.
+\end{definition}
+
+{
+    \color{red}
+    \textbf{From now on, unless otherwise specified, the rings in discussion will be commutative.}
+}
+
+\section{Rings and Ideals}
+
+A prototype of ring is $(\mathbb{Z}, +, \cdot)$, the study of integers under addition and multiplication is perhaps one of the earliest studies of algebra. Even in rings as simple as $(\mathbb{Z}, +, \cdot)$, there are already questions that have bothered generations of mathematicians, among which is the distribution of primes. So we first generalize the notion of primes to arbitrary rings.
+
+In elementary number theory, there are various definitions of primes:
+\begin{enumerate}
+    \item $p \in \mathbb{Z}^+$ is prime if $p \ne 1$ and for arbitrary $x, y \in \mathbb{Z}^+$, $p | xy$ implies $p | x$ or $p | y$
+    \item $p \in \mathbb{Z}^+$ is prime if $p \ne 1$ and for arbitrary $x, y \in \mathbb{Z}^+$, $xy = p$ implies $x = 1$ or $y = 1$
+    \item $p \in \mathbb{Z}^+$ is prime if for arbitrary $x \in \mathbb{Z}^+$, $p \nmid x$ implies $gcd(x, p) = 1 = ap + bx$ for some $a, b \in \mathbb{Z}$
+\end{enumerate}
+To generalize these to arbitrary rings, we should be aware that there could be non-trivial 'units' and 'zero-divisors' in general rings:
+
+\begin{definition}[Unit, Zero-divisor, Nilpotent]
+    Let $R$ be a ring, $r \in R$.
+    \begin{enumerate}
+        \item If there is $s \in R$ such that $rs = 1_R$, then $r$ is called a \textbf{unit} of $R$.
+        \item If there is $s \in R, s \ne 0$ such that $rs = 0_R$, then $r$ is called a \textbf{zero-divisor} of $R$.
+        \item If there is $n \gt 0$ such that $z^n = 0$, then $r$ is called a \textbf{nilpotent} of $R$.
+    \end{enumerate}
+    If $r, s \in R$ differ by a unit, then we call $r$ \textbf{associated with} $s$
+\end{definition}
+
+\begin{example}
+    In $\mathbb{Z}$, the only units are $\pm 1$ and the only zero-divisor is $0$. However, in $\mathbb{Z} / 6\mathbb{Z}$, $2, 3$ are zero-divisors, $5$ is a unit as $5 \cdot 5 = 1$ in $\mathbb{Z} / 6 \mathbb{Z}$.
+\end{example}
+
+Now we can generalize primes to arbitrary ring. To simplify the statements, we denote $a | b$ when there is $c$ such that $ac = b$, this is compatible with the usual notation for 'divisible by'.
+
+\begin{definition}[Prime Element, Irreducible Element]
+    Let $R$ be a ring, $r \in R$:
+    \begin{enumerate}
+        \item If $r$ is not a unit and non-zero, and for all $s, t \in R$, $r | st$ implies $r | s$ or $r | t$, then $r$ is called a \textbf{prime element}.
+        \item If $r$ is not a unit, and for all $s, t \in R$, $r = st$ implies $s$ or $t$ is unit, then $r$ is called an \textbf{irreducible element}.
+    \end{enumerate}
+\end{definition}
+
+However, the third definition cannot be generalized to arbitrary ring seamlessly because 'greatest common divisor' is not well-defined for arbitrary rings.
+
+From the definitions, the prime elements seem to impose stronger requirements than the irreducible elements. Indeed, the former implies the latter when the 'cancelation law' holds:
+
+\begin{definition}[Integral Domain]
+    Let $R$ be a ring. If $R$ contains no non-zero zero-divisors, then $R$ is called a \textbf{integral domain}, or \textbf{domain} for short.
+\end{definition}
+
+Then in integral domain, we have the cancelation law: If $a \ne 0$, then $ab = ac \Rightarrow b = c$. And it's clear that:
+
+\begin{proposition}
+    Let $R$ be a field. Then $R$ is a domain.
+\end{proposition}
+
+\begin{proposition}\label{prop:prime-is-irreducible-domain}
+    Let $R$ be a domain. Then prime elements in $R$ are irreducible elements.
+\end{proposition}
+
+\begin{proof}
+    Let $r$ be a prime elements. Take arbitrary $s, t \in R$ such that $r = st$. Then $r | st$ and therefore $r | s$ or $r | t$. WLOG $ra = s$ for some $a \in R$. Then $r = rat$. Since $r \ne 0$ by definition, this implies $at = 1$, namely $t$ is a unit, which completes the proof.
+\end{proof}
+
+The converse does not hold, we shall see an example later when we discuss UFD. \TODO
+
+As we will see later, $\mathbb{Z}$ is a so-called 'principal ideal domain', in which every ideal is generated by one element. So the study of elements are often translated to the study of ideals generated by the elements. With that in mind, our definitions of primes can be generalized to different properties of ideals:
+
+\begin{definition}[Prime Ideal, Maximal Ideal]
+    Let $R$ be a ring, $I$ be an ideal.
+    \begin{enumerate}
+        \item If $I \ne (1)$ and for all $r, s \in R$, $rs \in I$ implies $r \in I$ or $s \in I$, then we call $I$ a \textbf{prime ideal}.
+        \item If $I \ne (1)$ and for all $r \in R$, $r \notin I$ implies $(r, I) = (1)$, where $(r, I)$ denotes the ideal generated by $r$ and elements in $I$, then we call $I$ a \textbf{maximal ideal}.
+    \end{enumerate}
+    The prime ideals are usually denoted as $\mathfrak{p}, \mathfrak{q}$, and the maximal ideals are usually denoted as $\mathfrak{m}, \mathfrak{n}$.
+\end{definition}
+
+The two types of ideals correspond to our 1st and 3rd definition of primes. The name 'maximal' comes from:
+
+\begin{proposition}
+    Let $R$ be a ring, $\mathfrak{m}$ be an ideal in $R$. Then $\mathfrak{m}$ is maximal if and only if for all ideal $I$ of $R$, $\mathfrak{m} \subsetneq I$ implies $I = (1)$.
+\end{proposition}
+
+\begin{proof}
+    "only if": Take $r \in I \setminus \mathfrak{m}$, by definition $(1) = (r, \mathfrak{m})$, which is contained in $I$, so $I = (1)$.
+
+    "if": If $\mathfrak{m}$ is not maximal, then there is $r \notin \mathfrak{m}$ such that $(r, \mathfrak{m}) \ne (1)$. But then $(r, \mathfrak{m})$ will be an ideal strictly larger than $\mathfrak{m}$ and not unit, a contradiction.
+\end{proof}
+
+Namely the maximal ideals are the maximal elements in the partial order set $(\left\lbrace \text{non-unit ideals} \right\rbrace, \subset)$.
+
+Also, the definition of prime elements and prime ideals are compatible, by rewriting the definitions, we have:
+
+\begin{proposition}\label{porp:prime-element-prime-ideal}
+    Let $R$ be a ring, $r \in R$. Then $r$ is a prime element if and only if $(r)$ is a prime ideal.
+\end{proposition}
+
+\iffalse
+\begin{definition}[Spectrum]
+    Let $R$ be a ring, define
+    $$
+        \begin{aligned}
+        \mathrm{Spec}(R) &= \left\lbrace I \subset R: \text{$I$ is a prime ideal} \right\rbrace \\
+        \mathrm{MSpec}(R) &= \left\lbrace I \subset R: \text{$I$ is a maximal ideal} \right\rbrace
+        \end{aligned}
+    $$
+    and call $\mathrm{Spec}(R)$ the \textbf{prime spectrum} and $\mathrm{MSpec}(R)$ the \textbf{maximal spectrum} of the ring.
+\end{definition}
+
+For now, the spectrums are merely sets. But we will see later that we can define a topology (Zariski's topology) on it.
+\fi
+
+By rewriting the definitions, we have:
+
+\begin{proposition} \label{prop:test-prime-maximal}
+    Let $R$ be a ring, $I \subset R$ an ideal, then:
+    \begin{enumerate}
+        \item $I$ is prime $\Leftrightarrow$ $R / I$ is a domain
+        \item $I$ is maximal $\Leftrightarrow$ $R / I$ is a field
+    \end{enumerate}
+    In particular, $0$ is prime / maximal $\Leftrightarrow$ $R$ is a domain / field.
+\end{proposition}
+
+\begin{proof}
+    We omit the part of prime ideals. For the part of maximal ideals, we have: $I$ maximal $\Leftrightarrow$ $(I, r) = (1)$ for all $r \notin I$ $\Leftrightarrow$ there is $s \in R, t \in I$ such that $sr + t = 1$ for all $r \notin I$ $\Leftrightarrow$ $\overline{r}$ is a unit in $R / I$ for all $\overline{r} \ne 0$ $\Leftrightarrow$ $R / I$ is a field.
+\end{proof}
+
+As a corollary, we have:
+
+\begin{corollary}
+    Let $R$ be a ring, $\mathfrak{m}$ a maximal ideal. Then $\mathfrak{m}$ is also a prime ideals.
+\end{corollary}
+
+But clearly prime ideals are not necessarily maximal ideals:
+
+\begin{example}
+    In $R = \mathbb{C}[X, Y]$, $(X)$ is prime, but is not maximal ($\left\langle X, Y \right\rangle$ is strictly larger).
+\end{example}
+
+One useful technique in studying ideals is the quotient construction, it allows us to study ideals that contain certain elements. In later chapters, we shall see a technique that allows us to study ideals that avoid certain elements, namely the localization.
+
+\begin{proposition} \label{prop:quotient-correspondence}
+    Let $R$ be a ring and $I$ an ideal, $\varphi: R \rightarrow R / I$ be the natural homomorphism. Then $\varphi ^{-1}: J \rightarrow \varphi ^{-1}(J)$ establishes a one-to-one, order-preserving correspondence between ideals in $R / I$ and ideals in $R$ that contains $I$
+\end{proposition}
+
+\iffalse
+For irreducible ideals, we have:
+
+\begin{proposition}
+    Prime ideals are all irreducible ideals.
+\end{proposition}
+
+\begin{proof}
+    Let $\mathfrak{p}$ be a prime ideal, suppose $\mathfrak{p} = I \cap J$, with $I, J \ne \mathfrak{p}$. Take $a \in I \setminus \mathfrak{p}, b \in J \setminus \mathfrak{p}$, we have $ab \in I \cap J = \mathfrak{p}$, but $a, b \notin \mathfrak{p}$, a contradiction.
+\end{proof}
+
+\fi
+
+Until now, we have seen a few properties of the special ideals. But we have not yet proved that they exist in general. Since you can establish all sorts of crazy theorems about the empty set, it is justified to prove:
+
+\begin{proposition} \label{prop:exist-maximal}
+    Let $R$ be a ring, then $R$ contains at least one maximal ideal.
+\end{proposition}
+
+\begin{proof}
+    If $R = 0$, then it's clear $(0)$ is maximal. Otherwise, we apply the standard Zorn's Lemma argument. Since this is our first encounter of such argument, we shall write out the proof explicitly: Let $(\Sigma, \subset)$ be the set of all non-unit ideals, ordered by inclusions. It is non-empty. Then by Zorn's lemma, we only need to show that every chain in $\Sigma$ is bounded above. Let $I_1 \subset I_2 \subset \cdots$ be an arbitrary chain in $\Sigma$. Take $I = \bigcup\limits_{n = 1}^{\infty} I_n$. Then $I$ is a non-unit ideal (check), namely the chain is bounded above.
+\end{proof}
+
+\begin{corollary}
+    Let $R$ be a ring and $I \subsetneq R$ an ideal, then $I$ is contained in a maximal ideal. In particular, every non-unit element is contained in a maximal ideal.
+\end{corollary}
+
+\begin{proof}
+    By Props \ref{prop:exist-maximal} and Props \ref{prop:quotient-correspondence}.
+\end{proof}
+
+\iffalse
+
+Of special importance is the notion of local rings. (An important application: The local ring $\mathcal{O}_{P}(X)$ for varieties, its maximal ideal consists of rational functions that evaluate to $0$ at $P$. I feel that local rings get this name from the fact that local properties of varieties can be inferred from $\mathcal{O}_{P}(X)$. This is of course not the only reason why local rings are important, but after reading Fulton's book, I finally find some application of local rings.)
+
+\begin{definition}
+    (Local Rings) Let $R$ be a ring, if $R$ contains only one maximal ideal $\mathfrak{m}$ (the 'maximum' ideal), then $R$ is called a \textbf{local ring} and $R / m$ the \textbf{residue field} of $R$
+\end{definition}
+
+Note that maximal ideals do not contain units, and every non-unit is contained in a maximal ideal. So $\mathfrak{m}$ consists exactly of every non-units. In fact:
+
+\begin{proposition}
+    Let $R$ be a ring and $\mathfrak{m} \subset R$ an ideal. Then $R$ is a local ring with maximal ideal $\mathfrak{m}$ if and only if every element in $R \setminus \mathfrak{m}$ is a unit.
+\end{proposition}
+
+Moreover, we do not need to test every element in $A \setminus \mathfrak{m}$ if we already know that $\mathfrak{m}$ is maximal. It suffices to test elements of the form $1 + x$ where $x \in \mathfrak{m}$
+
+\begin{proposition}
+    Let $R$ be a ring and $\mathfrak{m} \subset R$ a maximal ideal. Then $R$ is a local ring if and only if every element in $1 + \mathfrak{m}$ is a unit.
+\end{proposition}
+
+\begin{proof}
+    If $\mathfrak{m}$ is maximal, then every element $x \in A \setminus \mathfrak{m}$ will have $y \in A$ such that $xy \equiv 1 \pmod {\mathfrak{m}}$ ($A / \mathfrak{m}$ is a field). The rest is easy by the previous proposition.
+\end{proof}
+
+\fi
+
+\begin{example}
+    In $k[X]$ where $k$ is a field:
+    \begin{enumerate}
+        \item The maximal ideals and prime ideals are the ideals generated by \textbf{irreducible polynomials}, which is the irreducible elements in $k[X]$. However, it is in general non-trivial to test whether a polynomial is irreducible. $k$ is called \textbf{algebraically closed} if all irreducible elements in $k[X]$ are linear. For $k = \mathbb{R}$, we know that the irreducibles are either linear or quadratic. But for $k = \mathbb{Q}$, we still do not have a convenient necessary and sufficient condition for a polynomial to be irreducible. One convenient sufficient condition is called Eisenstein's criterion and will be covered later.
+        \item The units are nonzero constant polynomials.
+        \item There is no nonzero zero-divisors.
+    \end{enumerate}
+\end{example}
+
+\begin{example}
+    In $k[[X]]$ where $k$ is a field:
+    \begin{enumerate}
+        \item Almost anti-intuitively, the units are the polynomials that have non-vanishing constant terms. This can be proved by solving the coefficients of the inverse. (Compare with the inverse function theorem in complex analysis)
+        \item As a result, any ideals can be represented as $(x^n)$. The only maximal ideal is $(x)$, the prime ideals are $(x)$ and $0$, the irreducible ideals are $0$ and $(x^n)$ for all $n \ge 0$
+        \item There is no nonzero zero-divisors.
+    \end{enumerate}
+\end{example}
+
+It should be noted that $R[X]$ is also a commutative ring if $R$ is. For the behavior of $R[X]$ and $R[[X]]$, see Problem 2 to 5 of Chapter 1 in Atiyah's book.
+
+For now we are only dealing with one ideal, moving forward, we will inevitably dealing with the interactions between different ideals.
+
+\begin{definition}[Ideal Operations]
+    Let $R$ be a ring, $I, J, \left\lbrace I_\lambda \right\rbrace_{\lambda \in \Lambda}$ ideals, define:
+    \begin{enumerate}
+        \item The \textbf{sum} of ideals:
+        $$\sum\limits_{\lambda \in \Lambda} I_\lambda = \left\lbrace \sum\limits_{\lambda \in \Lambda} x_\lambda: x_\lambda \in I_\lambda, \text{almost all $x_\lambda$ are zero} \right\rbrace$$
+        \item The \textbf{intersection} of ideals: $\bigcap\limits_{\lambda \in \Lambda} I_\lambda$, defined to be the intersection as sets
+        \item The \textbf{product} of \textit{finite} ideals: If $\Lambda$ is finite, then
+        $$\prod\limits_{\lambda \in \Lambda} I_\lambda = \left( \prod\limits_{\lambda \in A} x_\lambda \right)$$
+        namely the ideal generated by $\prod\limits_{\lambda \in \Lambda} x_\lambda$. Denote $I^n$ as the product of $n$ copies of $I$
+        \item The \textbf{quotient} of ideals:
+        $$(I:J) = \left\lbrace r \in R: rJ \subset I \right\rbrace$$
+    \end{enumerate}
+\end{definition}
+
+The reader should verify the sum, intersection, product and quotient of ideals are indeed ideals. In general $I \cup J$ is not an ideal for ideal $I, J$, actually the reader may prove:
+
+\begin{proposition}
+    Let $R$ be a ring, $I, J$ ideals, then $I + J$ is the minimum ideal containing $I \cup J$
+\end{proposition}
+
+\begin{example}
+    In $\mathbb{Z}$, we have:
+    \begin{enumerate}
+        \item $(m) \cap (n) = (\mathrm{lcm}(m, n))$
+        \item $(m) + (n) = (\mathrm{gcd}(m, n))$ (by the Euclidean's Algorithm)
+        \item $(m) (n) = (mn)$
+    \end{enumerate}
+\end{example}
+
+In fact we can extend some basic results in elementary number theory to ideals.
+
+\begin{proposition}
+    The sum, intersection and product are all associative and commutative. Moreover, let $I, J, L$ be ideals of ring $R$, we have:
+    \begin{enumerate}
+        \item \textit{distributive law}:
+        $$I(J + L) = IJ + IL$$
+        \item \textit{modular law}: If $J, L \subset I$ (they are submodules), then
+        $$I \cap (J + L) = I \cap J + I \cap L$$
+        Or stated equivalently, $J + L \subset I$ if $J, L \subset I$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Omitted.
+\end{proof}
+
+\begin{definition}
+    Let $R$ be a ring, $I, J$ ideals, if $I + J = (1)$, we call $I, J$ \textbf{coprime} or \textbf{comaximal}
+\end{definition}
+
+A generalization of $\mathrm{lcm}(m, n) | mn$ and the equality holds when $m, n$ coprime is stated below:
+
+\begin{proposition}
+    Let $R$ be a ring, $I, J$ ideals, then $IJ \subset I \cap J$ and the equality holds when $I, J$ coprime.
+\end{proposition}
+
+\begin{proof}
+    The first part is trivial. We only show $I \cap J \subset IJ$ provided $I + J = (1)$: $I \cap J = (I \cap J)(I + J) = I(I \cap J) + J(I \cap J) \subset IJ$
+\end{proof}
+
+And a corollary / generalization of the previous proposition is:
+
+\begin{corollary}
+    Let $R$ be a ring, $I_1, \cdots, I_n$ ideals such that $I_i, I_j$ coprime whenever $i \ne j$, then:
+    $$\bigcap\limits_{i = 1}^{n} I_i = \prod\limits_{i = 1}^{n} I_i$$
+\end{corollary}
+
+\begin{proof}
+    By induction, ISTS $I_n$ is coprime with $\prod\limits_{i = 1}^{n - 1} I_i = \bigcap\limits_{i = 1}^{n - 1} I_i$. See the lemma below. 
+\end{proof}
+
+\begin{lemma}\label{lem:coprime}
+    Let $R$ be a ring, $I_1, \cdots, I_n$ ideals, then $I_i, I_j$ coprime whenever $i \ne j$ if and only if $I_i$ is coprime with $\bigcap\limits_{j \ne i} I_j$ for all $i$
+\end{lemma}
+
+\begin{proof}
+    The "if" part is trivial as $\bigcap\limits_{j \ne i} I_j \subset I_j$ for all $j \ne i$.
+
+    For the "only if" part: By the hypothesis, there is $x_j \in I_j$ such that $x_j \equiv 1 \mod I_i$ for any $j \ne i$. Then $\prod\limits_{j \ne i} x_j \equiv 1 \mod I_i$ and clearly $\prod\limits_{j \ne i} x_j \in \bigcap\limits_{j \ne i}I_j$, namely $I_i$ is coprime with $\bigcap\limits_{j \ne i} I_j$
+\end{proof}
+
+We can test whether an ideal is prime by taking quotients. It turns out that we can also test whether ideals are coprime by taking quotients, the proposition below is usually called the Chinese Remainder Theorem.
+
+\begin{definition}[Product of Rings]
+    Let $R_1, \cdots, R_n$ be rings, define the \textbf{direct product} of $R_i$'s to be:
+    $$R = \prod\limits_{i = 1}^{n} R_i$$
+    which is the Cartesian product of $R_i$ with element-wise addition and multiplication. It is a commutative ring with identity $(1, \cdots, 1)$.
+    
+    Denote $p_i$ to be the homomorphism $R \rightarrow R_i: (x_1, \cdots, x_n) \mapsto x_i$, and call it the \textbf{projection}
+\end{definition}
+
+\begin{remark}
+    A related concept is the direct sum. The two concepts differ when there are infinite number of operands, where the direct sum requires only finite many components are non-zero. However, since we require a ring to have an identity, direct sum of infinite rings is no longer a ring. (It does not have $(1, \cdots, 1)$) So we will only talk about direct products for rings.
+\end{remark}
+
+\begin{proposition}
+    Let $R$ be a ring, $I_1, \cdots, I_n$ ideals, denote $\varphi: R \rightarrow \prod\limits_{i = 1}^{n} R / I_i$ the natural homomorphism, then
+    \begin{enumerate}
+        \item $\varphi$ is injective if and only if $\bigcap\limits_{i = 1}^{n} I_i = 0$
+        \item $\varphi$ is surjective if and only if $I_i, I_j$ coprime for all $i \ne j$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that $\ker \varphi = \bigcap\limits_{i = 1}^{n} I_i$
+        \item $\varphi$ is surjective if and only if $(1, 0, \cdots, 0), \cdots, (0, \cdots, 0, 1) \in \mathrm{im}(\varphi)$ $\Leftrightarrow$ there is $x_i$ such that $x_i \in \bigcap\limits_{j \ne i} I_j$ and $x_i \equiv 1 \mod I_i$ for all $i = 1, \cdots, n$ $\Leftrightarrow$ $I_i$ coprime with $\bigcap\limits_{j \ne i} I_j$ $\Leftrightarrow$ $I_i, I_j$ coprime whenever $i \ne j$ by Lem \ref{lem:coprime}.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}[Chinese Remainer Theorem]
+    Let $R$ be a ring and $I_1, \cdots, I_n$ be ideals. If $I_i, I_j$ are coprime for all $i \ne j$, we have:
+    $$R / \bigcap\limits_{i = 1}^{n} I_i \cong \prod\limits_{i = 1}^{n} R / I_i$$
+\end{corollary}
+
+\begin{proof}
+    Replace $R$ in the previous propositon by $R / \bigcap\limits_{i = 1}^{n} I_i$ and apply the third isomorphism theorem on the RHS.
+\end{proof}
+
+\begin{definition}[Ideal Quotient]
+    Let $R$ be a ring, $I, J$ ideals, define their \textbf{ideal quotient} to be
+    $$(I:J) = \left\lbrace r \in R: rJ \subset I \right\rbrace$$
+    The reader should verify that $(I:J)$ is an ideal.
+\end{definition}
+
+Now for the properties of quotients, the reader may have no problems proving:
+
+\begin{proposition}
+    Let $I, J, L$ be ideals of ring $R$:
+    \begin{enumerate}
+        \item $I \subset (I:J)$
+        \item $(I : J) J \subset I$
+        \item $((I:J):L) = (I:JL) = ((I:L):J)$
+        \item $(\bigcap\limits_{i}I_i:J) = \bigcap\limits_{i} (I_i:J)$ where $\left\lbrace I_i \right\rbrace_i$ is a collection of ideals, not necessarily finite
+        \item $(I: \sum\limits_{i}J_i) = \bigcap\limits_{j} (I : J_i)$ where $\left\lbrace J_i \right\rbrace$ is a collection of ideals, not necessarily finite
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    Let $R$ be a ring, $I$ an ideal, define its \textbf{annihilator} to be $(0: I)$ and denote it as $\mathrm{Ann}_R(I)$
+\end{definition}
+
+
+\iffalse
+\section{Radicals}
+
+Technically speaking, this should be merged into the previous section, but it is too important to be merged.
+
+\begin{definition}
+    (Radical) Let $R$ be a ring and $I \subset R$ an ideal, the \textbf{radical} of $I$ is the ideal $\mathrm{Rad}(I) = \left\lbrace x: \exists n \gt 0, x^n \in I \right\rbrace$. It is also denoted as $\sqrt{I}$.
+
+    If $\mathrm{Rad}(I) = I$, we call $I$ \textbf{radical}.
+\end{definition}
+
+The reader should check that $\mathrm{Rad}(I)$ is indeed an ideal.
+
+\begin{example}
+    Prime ideals are radical, the set of zero-divisors $D$ of $R$ is also radical.
+\end{example}
+
+\begin{definition}
+    (Nilpotent) Let $R$ be a ring, if $x \in \mathrm{Rad}(0)$, then $x$ is called \textbf{nilpotent}. Equivalently $x^n = 0$ for some $n \gt 0$.
+\end{definition}
+
+\begin{definition}
+    (Nilradical) Let $R$ be a ring, then we call $\mathrm{Rad}(0)$ (namely the set of all nilpotent elements) the \textbf{nilradical} of $R$ and denote it as $\mathfrak{N}_R$.
+\end{definition}
+
+As we will see later, the nilradical does not change the geometric picture of a ring. So we can always assume a ring contains no nonzero nilpotents by 'reduction':
+
+\begin{definition}
+    (Reduction, Reduced Ring) Let $R$ be a ring, we call the natural homomorphism $R \rightarrow R / \mathfrak{N}_R$ the \textbf{reduction} of $R$. We call $R$ \textbf{reduced} if $\mathfrak{N}_R = 0$
+\end{definition}
+
+... and reduction provides reduced rings, which justifies its name:
+
+\begin{proposition}
+    Let $R$ be a ring, then $R / \mathfrak{N}_R$ contains no nilpotent element
+\end{proposition}
+
+\begin{proposition} \label{prop:calc-radical-quotient}
+    Let $R$ be a ring, $I$ an ideal, $\varphi: R \rightarrow R / I$ the natural homomorphism, then $\sqrt{I} = \varphi ^{-1}(\mathfrak{N}_{R / I})$
+\end{proposition}
+
+As a corollary:
+
+\begin{corollary}
+    Let $R$ be a ring, $I$ an ideal. Then $I$ is radical $\Leftrightarrow$ $R / I$ is reduced.
+\end{corollary}
+
+A few properties are in place.
+
+\begin{proposition}
+    (Properties of Radical) Let $R$ be a ring and $I$ an ideal, then:
+    \begin{enumerate}
+        \item $I \subset \sqrt{I}$
+        \item $\sqrt{\sqrt{I}} = \sqrt{I}$
+        \item $\sqrt{IJ} = \sqrt{I \cap J} = \sqrt{I} \cap \sqrt{J}$
+        \item $\sqrt{I} = (1) \Leftrightarrow I = (1)$
+        \item $\sqrt{I + J} = \sqrt{\sqrt{I} + \sqrt{J}}$
+        \item If $I$ is prime, $\sqrt{I^n} = I, \forall n \gt 0$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Only the 5th property is nontrivial. Since $I + J \subset \sqrt{I} + \sqrt{J}$, the '$\subset$' is trivial. For the other direction, suppose $x^n \in \sqrt{I} + \sqrt{J}$ for some $n \gt 0$. Then we have $x^n = y + z$ where $y^m \in I, z^l \in J$ for some $m, l \gt 0$. As a result, $x^{n(m + l - 1)} \in I + J$
+\end{proof}
+
+A corollary of property 4 and 5 is shown below, this allows us to check coprimeness more easily since we are dealing with larger ideals.
+
+\begin{corollary}
+    Let $I, J$ be ideals of $R$, then $I, J$ coprime if and only if $\sqrt{I}, \sqrt{J}$ is coprime.
+\end{corollary}
+
+It can be seen that radical is a 'closure property', the radical of an ideal is the minimum radical ideal that contains it. So we can compute the radical as:
+
+$$\sqrt{I} = \bigcap\limits_{I \subset J, \sqrt{J} = J} J$$
+
+But this isn't really helpful at all. A better version is the corollary below. It says that we only need to consider all the prime ideals (which are necessarily radical) containing $I$. (Spoiler: we will have even more efficient way to calculate $\sqrt{I}$ in the next chapter, due to the so-called Rabinowitsch's trick)
+
+\begin{proposition}
+    Let $R$ be a ring, then $\mathfrak{N}_R = \bigcap\limits_{\mathfrak{p} \subset R \text{ prime}} \mathfrak{p}$
+\end{proposition}
+
+\begin{proof}
+    "$\subset$": If $x \in R$ is nilpotent and $\mathfrak{p}$ a prime, then $x^n = 0 \in \mathfrak{p} \Rightarrow x \in \mathfrak{p}$.
+
+    "$\supset$": Prove by contradiction. Suppose $x \in R$ is not nilpotent, we want to show that there is prime ideal $\mathfrak{p}$ such that $x \notin \mathfrak{p}$. This is equivalent to $x^n \notin \mathfrak{p}$ for all $n \gt 0$, which is then equivalent to $x$ not nilpotent in $R / \mathfrak{p}$.
+    
+    Let $S$ be the set of all ideals $I$ such that $x$ not nilpotent in $R / I$. $S$ is nonempty since $0 \in S$. By Zorn's lemma, we can show that there is a maximal element $I_0 \in S$. We claim that $I_0$ is prime. Suppose otherwise, there is $y, z \notin I_0$ such that $yz \in I_0$. However, $y \notin I_0$ implies $I_0 + (y) \subsetneq I_0$ and therefore $x^n \in I_0 + (y)$ for some $n \gt 0$. Similarly, $x^m \in I_0 + (z)$ for some $m \gt 0$. But then $x^{m + n} \in I_0 + (yz) = I_0$ and therefore $x$ is nilpotent in $I_0$, a contradiction.
+\end{proof}
+
+\begin{corollary}
+    Let $R$ be a ring, $I$ an ideal, then
+    $$\sqrt{I} = \bigcap\limits_{\mathfrak{p} \in \mathrm{Spec}(R), I \subset \mathfrak{p}} \mathfrak{p}$$
+\end{corollary}
+
+\begin{proof}
+    See Prop \ref{prop:quotient-correspondence}
+\end{proof}
+
+Another important radical is the Jacobson radical, defined as:
+
+\begin{definition}
+    (Jacobson Radical) Let $R$ be a ring, the \textbf{Jacobson radical} of $R$ is the intersection of all maximal ideals of $R$, and is denoted as $\mathrm{J}_R$
+\end{definition}
+
+\begin{proposition}
+    Let $R$ be a ring, $x \in R$, then $x \in \mathrm{J}_R$ if and only if $1 + (x)$ consists of units
+\end{proposition}
+
+\begin{proof}
+    "if": Suppose $x \notin \mathfrak{m}$ for some maximal ideal $\mathfrak{m}$, then $x, \mathfrak{m}$ generates $R$ and therefore $xy + u = 1$ for some $y \in R, u \in \mathfrak{m}$. Then $u = 1 - xy \in 1 + (x)$, but $u$ is not a unit since otherwise $\mathfrak{m} = (1)$, a contradiction.
+
+    "only if": Suppose $1 + xy$ is non-unit for some $y \in R$. Then consider $\mathfrak{m}$ a maximal ideal containing $1 + xy$. By the hypothesis, $x \in \mathfrak{m}$ and therefore $1 \in \mathfrak{m}$, which is absurd.
+\end{proof}
+
+\begin{definition}
+    (Jacobson ring) Let $R$ be a ring, if for any ideal $I$, we have:
+    $$\sqrt{I} = \bigcap\limits_{\mathfrak{m} \in \mathrm{MSpec}(R), I \subset \mathfrak{m}} \mathfrak{m}$$
+    Then $R$ is called a \textbf{Jacobson ring}
+\end{definition}
+
+\fi
+
+For now, we only deal with one rings, moving forward, we will need to study the homomorphisms of the rings.
+
+\begin{definition}[Extension, Contraction]
+    Let $R, S$ be rings, $f: R \rightarrow S$ be a ring homomorphism, $I$ an ideal of $R$, $J$ an ideal of $S$, then define:
+    \begin{enumerate}
+        \item The \textbf{extension} of $I$ as $I^e = Sf(I)$, namely the ideal in $S$ generated by $f(I)$
+        \item The \textbf{contraction} of $J$ as $J^c = f ^{-1} (J)$
+    \end{enumerate}
+    The reader should verify that $I^e$ and $J^c$ are both ideals.
+\end{definition}
+
+We need to define the extension as the ideal generated by the image as the image needs not be an ideal, one counter example will be the inclusion $\mathbb{Z} \hookrightarrow \mathbb{Q}$ and the ideal $(1)$ in $\mathbb{Z}$.
+
+It would be desirable if certain properties of ideals are preserved under homomorphisms:
+
+\begin{proposition}[Prime Contracts to Prime]
+    Let $R, S$ be rings, $J$ an ideal of $S$, and $f: R \rightarrow S$ be a homomorphism. Then $J^c$ is prime if $J$ is prime.
+\end{proposition}
+
+\begin{proof}
+    $R \xrightarrow{f} S \rightarrow S / J$ induces an injection $R / J^c \rightarrow S / J$ by the first isomorphism theorem. Then apply Prop \ref{prop:test-prime-maximal}.
+\end{proof}
+
+However, maximal ideals do not contract to maximal ideals:
+
+\begin{example}[Maximal does not contract to maximal]
+    Consider the inclusion $\mathbb{Z} \hookrightarrow \mathbb{Q}$ and the maximal ideal $0$ in $\mathbb{Q}$. 
+\end{example}
+
+For the extension, things are much worse, even prime ideals do not extend to prime ideals:
+
+\begin{example}[Prime does not extend to prime]
+    Consider the inclusion $\mathbb{Z} \hookrightarrow \mathbb{Q}$ and the any prime ideal $I \ne 0$ of $\mathbb{Z}$, then $I^e = (1)$, which is not a prime ideal.
+\end{example}
+
+In fact, if we factor $f: R \rightarrow S$ into:
+$$R \xrightarrow{f} f(R) \xhookrightarrow{j} S$$
+We will find that all the complexity of the extension (by 'complexity', I mean the ugly fact that prime does not extend to prime) occurs on the second part. There is a one-to-one correspondence between ideals of $f(R)$ and ideals of $R$ that contains $\ker(f)$, and prime corresponds to prime by the isomorphism $R / \ker (f) \cong f(R)$. On the other hand, $j$ can be quite complicated.
+
+A few properties are in place:
+
+\begin{proposition}
+    Let $f: R \rightarrow S$ be a ring homomorphism, $I$ an ideal of $R$ and $J$ an ideal of $S$. Then:
+    \begin{enumerate}
+        \item $I \subset I^{ec}, J \supset J^{ce}$
+        \item $I^e = I^{ece}, J^c = J^{cec}$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Part 1 is trivial. For part 2 follows from part 1. (The trick is $I^{ece} = (I^e)^{ce} = (I^{ec})^e$)
+\end{proof}
+
+Clearly not all ideals are extension and not all ideals are contraction. But the above proposition shows that if an ideal $J$ (resp. $I$) is an extension (resp. contraction), it must have $J = J^{ce}$ (resp. $I = I^{ec}$). But clearly this condition is also sufficient (for example, $J$ is the extension of $J^c$), and we have the correspondence:
+
+\begin{proposition}
+    Let $f: R \rightarrow S$ be a ring homomorphism, $E$ the set of extended ideals in $S$ and $C$ the set of contracted ideals in $R$, then we have:
+    $$E = \left\lbrace J \subset S: J^{ce} = J \right\rbrace, C = \left\lbrace I \subset R: I^{ec} = I \right\rbrace$$
+    And $I \mapsto I^e$ is a bijective map from $C$ to $E$, with inverse $J \mapsto J^c$
+\end{proposition}
+
+The following properties are trivial:
+
+\begin{proposition}
+    Let $f: R \rightarrow S$ be a ring homomorphism, $I_1, I_2$ ideals of $R$ and $J_1, J_2$ ideals of $S$, then we have:
+    \begin{enumerate}
+        \item $(I_1 + I_2)^e = I_1^e + I_2^e$
+        \item $(I_1 \cap I_2)^e \subset I_1^e \cap I_2^e$
+        \item $(I_1I_2)^e = I_1^eI_2^e$
+        \item $(I_1 : I_2)^e \subset (I_1^e : I_2^e)$
+        % \item $\sqrt{I}^e \subset \sqrt{I^e}$
+    \end{enumerate}
+    And:
+    \begin{enumerate}
+        \item $(J_1 + J_2)^c \supset J_1^c + J_2^c$
+        \item $(J_1 \cap J_2)^c = J_1^c \cap J_2^c$
+        \item $(J_1J_2)^c \supset J_1^c J_2^c$
+        \item $(J_1 : J_2)^c \subset (J_1^c : J_2^c)$
+        % \item $\sqrt{J}^c = \sqrt{J^c}$
+    \end{enumerate}
+\end{proposition}
+
+We close the section with graded rings, which is a generalization of polynomial rings that arise everywhere. The polynomial rings are prototypical, as we will see later that they define 'finite extension' of rings. They are also relatively easy to handle, and the main reason for that is we can break polynomials into 'homogeneous' parts with different degrees. We extract this property and study graded rings in this section.
+
+\begin{definition}[Homogeneous Polynomial, Form]
+    Let $R$ be a ring, $\underline{X} = \left\lbrace X_\lambda \right\rbrace_{\lambda \in \Lambda}$ a set of indeterminates, and $F \in R[\underline{X}]$ a polynomial. Then if every term in $F$ has the same degree $d$, we call $F$ a \textbf{homogeneous polynomial} or a \textbf{form} of degree $d$.
+
+    Take arbitrary $F \in R[\underline{X}]$, there are unique $\left\lbrace F_i \right\rbrace_{i \ge 0}$ such that $F = \sum\limits_{i = 0}^{\infty} F_i$ where the sum if finite, and that $F_i$ is a form of degree $i$. We call $F_i$'s the \textbf{homogeneous component} of $F$.
+\end{definition}
+
+\begin{definition}[Graded Rings]
+    Let $R$ be a ring. If there are subgroups $\left\lbrace R_i \right\rbrace_{i \in \mathbb{N}}$ of $(R, +)$ such that $R = \bigoplus\limits_{i = 0}^{\infty} R_i$ as abelian groups, and $R_iR_j \subset R_{i + j}$ for all $i, j \ge 0$, then we call $R$ a \textbf{graded ring}.
+    
+    Let $r \in R$, if $r \in R_d$ for some $d$, we say $r$ is \textbf{homogeneous}, and $r$ has \textbf{degree} $i$.
+
+    For arbitrary $r \in R$, by definition we have unique $r_i$'s such that $r = \sum\limits_{i = 0}^{\infty} r_i$ and $r_i \in R_i$. Then we call $r_i$'s the \textbf{homogeneous component} of $r$.
+
+    We usually use $R_{\ast}$ to denote graded rings.
+\end{definition}
+
+As in the case of polynomial rings, given element $r \in R_\ast$, we can always write it uniquely as a finite sum of homogeneous components: $r = r_0 + \cdots + r_d$ where $r_i \in R_i$.
+
+The reader may verify from the definitions that:
+
+\begin{proposition}
+    Let $R_{\ast}$ be a graded ring. Then:
+    \begin{enumerate}
+        \item $R_0$ is a subring of $R$, in particular, $1_R \in R_0$
+        \item For arbitrary $i \ge 0$, $R_i$ is an $R_0$-modules.
+    \end{enumerate}
+\end{proposition}
+
+\begin{example}
+    Let $\underline{X} = \left\lbrace X_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ be a collection of indeterminates, then $R = k[\underline{X}]$ graded by the degree of the polynomials is a graded ring. (Namely $R_i$ is the collection of all homogeneous polynomials of degree $i$)
+\end{example}
+
+
+\begin{definition}[Homomorphisms between Graded Rings]
+    Let $R_{\ast}, S_{\ast}$ be graded rings, $f: R_{\ast} \rightarrow S_{\ast}$ a ring homomorphism. Then we call $f$ a \textbf{homomorphism between graded rings} if $f(R_i) \subset S_i$ for all $i \ge 0$
+\end{definition}
+
+\begin{definition}[Graded Modules]
+    Let $R_\ast$ be a graded ring, $M$ be an $R_\ast$-module. If there are subgroups $\left\lbrace M_i \right\rbrace_{i \in \mathbb{Z}}$ of $(M, +)$ such that $M = \bigoplus\limits_{i = -\infty}^{+\infty} M_i$ as abelian groups, and $R_iM_j \subset M_{i + j}$ for all $i \ge 0, j \in \mathbb{Z}$, then we call $M$ a \textbf{graded $R_\ast$-module}.
+
+    Let $m \in M$, if $m \in M_d$ for some $d$, we say $m$ is \textbf{homogeneous}, and $m$ has \textbf{degree} $d$.
+
+    For arbitrary $m \in M$, by definition we have unique $m_i$'s such that $m = \sum\limits_{i = -\infty}^{\infty} m_i$ and $m_i \in R_i$. Then we call $m_i$'s the \textbf{homogeneous component} of $m$.
+
+    We usually use $M_\ast$ to denote graded modules.
+\end{definition}
+
+In particular, a graded ring $R_\ast$ is a graded $R_\ast$-module.
+
+\begin{definition}[Homomorphisms between Graded Modules]
+    Let $R_\ast$ be a graded ring, $M_\ast, N_\ast$ graded $R_\ast$-modules, $f: M_\ast \rightarrow N_\ast$ a module homomorphism. Then we call $f$ a \textbf{homomorphism between graded modules} if $f(M_i) \subset N_i$ for all $i \in \mathbb{Z}$
+\end{definition}
+
+To generalize the concept of homogeneous polynomials, we have:
+
+\begin{definition}[Graded Submodule, Homogeneous Ideal]
+    Let $R_\ast$ be a graded ring, $M_\ast$ a graded $R_\ast$-module and $N$ a submodule of $M_\ast$. If $N$ is generated by homogeneous elements, then $N$ is called a \textbf{graded submodule} of $M_\ast$.
+
+    An ideal $I$ of $R$ is called \textbf{homogeneous} if and only if $I$ is a graded $R$-submodule of $R$.
+\end{definition}
+
+\begin{proposition}[Equivalent Definition of Graded Submodule]
+    Let $R_\ast$ be a graded ring, $M_\ast$ a graded $R_\ast$-module and $N$ a submodule of $M_\ast$. Then TFAE:
+    \begin{enumerate}
+        \item $N$ is a graded submodule of $M_\ast$
+        \item For arbitrary $n \in N$, the homogeneous components of $n$ are contained in $N$ 
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    "$(1) \Rightarrow (2)$" is trivial. For the other direction, note that $N$ is clearly generated by all the elements in $N$. Then for each element, we can replace it by its homogeneous components, so $N$ is generated by homogeneous elements.
+\end{proof}
+
+
+\section{From Domain to Field}
+
+In the previous sections, we are dealing with rings in general. The only two special rings we define are domain and field. Usually the fields are too strong to establish, while the domains do not give sufficient support for the proof. In this section, we give a sequence of refinements of domains, until we reach the field.
+
+That being said, in many cases, when we need a field while we only have a domain, we can go to the 'field of fraction':
+
+\begin{definition}[Field of Fraction]
+    Let $R$ be a domain, the \textbf{field of fraction} $\mathrm{Frac}(R)$ of $R$ is $R \times (R \setminus \left\lbrace 0 \right\rbrace) / \sim$ where $\sim$ is the equivalence relation:
+    $$(a, b) \sim (c, d) \Leftrightarrow ad - bc = 0$$
+    with addition and multiplication defined as:
+    $$(a, b) + (c, d) = (ad + bc, bd), (a, b)(c, d) = (ac, bd)$$
+    The reader should verify that this is indeed a field and $R$ can be identified with a subring of $\mathrm{Frac}(R)$ by the canonical homomorphism $r \mapsto (r, 1)$. We denote elements in $\mathrm{Frac}(R)$ as $a / b = (a, b)$
+\end{definition}
+
+The reader should be familiar with this construct as it is how we define the fractions (of integers). However, I need to remind you of one thing in particular: In $\mathrm{Frac}(R)$, every element can be represented as $a / b$. But the representation is not unique. For example, $2 / 3 = 4 / 6$ in $\mathbb{Q}$. In $\mathbb{Q}$, by requiring that the denominator and the numerator are coprime, we can get the essentially unique representation of elements in $\mathbb{Q}$. However, this is in general not true. The key problem is that in $\mathbb{Z}$ we can always factor the denominators and numerators into primes \textbf{uniquely} and cancel out the common ones, which is not always possible in general rings. (We shall see an example later) This leads to the following notion:
+
+\begin{definition}[Unique Factorization Domain, UFD]
+    Let $R$ be a domain, if for every nonzero, non-unit element of $R$ can be uniquely represented (up to reordering and multiplying by units) as a finite product of irreducible elements, then we call $R$ a \textbf{unique factorization domain}, or UFD for short. To be more specific, the uniqueness is defined as below: Let $x$ be a nonzero, non-unit of $R$, $x = p_1 \cdots p_r = q_1 \cdots q_s$ be two factorization of $x$ into irreducible elements. Then $r = s$ and there is a permutation $\sigma \in \Sigma_r$ such that $p_i$ and $q_{\sigma(i)}$ differ by a unit.
+
+    We call the factorization into irreducibles a \textbf{complete factorization} in UFD.
+\end{definition}
+
+Back to our motivation, we do have an essentially unique representation of elements in the field of fractions of UFDs:
+
+\begin{definition}[In Lowest Terms]
+    Let $R$ be a UFD, then $f / g \in \mathrm{Frac}(R)$ is said to be \textbf{in lowest terms} if $f$ do not have irreducible factors associated with the irreducible factors of $g$
+\end{definition}
+
+\begin{proposition}
+    Let $R$ be a UFD, $f_1 / g_1 = f_2 / g_2 \in \mathrm{Frac}(R)$, and $f_i / g_i$'s are in lowest terms, then $f_1, f_2$ are associated and $g_1, g_2$ are associated. As a result, the representation of elements in $\mathrm{Frac}(R)$ in lowest terms is unique
+\end{proposition}
+
+\begin{proof}
+    By definition, $f_1g_2 = f_2g_1$. Factor both sides. By uniqueness, the factorization of $fg$ is the product of the factorization of $f$ and $g$. It follows from the hypothesis that any irreducible factor of $f_1$ must be associated with one irreducible factor of $f_2$, namely $f_1 | f_2$. By symmetry $f_1, f_2$ are associated. Similar for $g_i$'s
+\end{proof}
+
+By taking the complete factorization, UFD allows us to judge whether two elements are coprime easily (at least theoretically since the algorithm for factorization may not be simple). Moreover, it allows us to compute the greatest common divisor and the least common multiple (left to the reader), which are not guaranteed to exist in general.
+
+Previously, we have seen that prime elements are irreducible in domains. In UFD, the converse holds:
+
+\begin{proposition} \label{prop:irreduible-is-prime-UFD}
+    Let $R$ be a UFD, then $r \in R$ is a prime element if and only if $r$ is an irreducible element
+\end{proposition}
+
+\begin{proof}
+    The "only if" part is proved in Prop \ref{prop:prime-is-irreducible-domain}. The "if" part is an easy application of the UFD property and is thus omitted.
+\end{proof}
+
+Of course, we can always factor an element into non-units if it is not irreducible. The real magic about UFD is that this process stops in finite steps. So it is usually hard to establish UFD directly. Usually we establish stronger properties like PID or ED (which will be introduced later) and get UFD automatically. But if we already know a ring is UFD, we can deduce other rings are UFD. One practical theorem is the Gauss' lemma:
+
+\begin{theorem}[Gauss' Lemma]
+    If $R$ is a UFD, then $R[X]$ is a UFD.
+\end{theorem}
+
+The original Gauss' Lemma, however, is not stated in the above form. Let's first clarify a few facts.
+
+\begin{definition}[Primitive Polynomial]
+    Let $R$ be a UFD, if the coefficients of polynomial $F(X) \in R[X]$ have no non-unit common divisor, then we call $F(X)$ \textbf{primitive}.
+\end{definition}
+
+\begin{lemma}\label{lem:gauss-associated}
+    Let $R$ be a UFD, $F, G \in R[X]$ primitive. Then if $F, G$ are associated in $\mathrm{Frac}(R)[X]$, then $F, G$ are associated in $R[X]$.
+\end{lemma}
+
+\begin{proof}
+    Since the units in $\mathrm{Frac}(R)[X]$ are the nonzero constants, we may assume $F = \frac{A}{B} G$ where $A, B \in R, B \ne 0$. Then $BF = AG$, taking gcd of the coefficients on both sides, we get $A, B$ associated in $R$. It follows that $F, G$ are associated in $R[X]$.
+\end{proof}
+
+\begin{lemma}[Gauss' Lemma About Primitivity] \label{lem:gauss-primitivity}
+    Let $R$ be a UFD, $F, G \in R[X]$. Then $F, G$ are primitive if and only if $FG$ is primitive.
+\end{lemma}
+
+\begin{proof}
+    The "if" part is trivial. For the "only if" part, denote
+    $$F(X) = \sum\limits_{i = 0}^{n} a_i X^i, G(X) = \sum\limits_{i = 0}^{m} b_i X^i$$
+    then suppose $FG$ is not primitive and irreducible $p$ divides all coefficients of $FG$. Then $p | a_0b_0$. By UFD, $p$ is prime and $p | a_0$ or $p | b_0$. WLOG, $p | a_0$. Then $p$ also divides all coefficients in $F_1G$ where $F_1(X) = \sum\limits_{i = 0}^{n - 1}a_{i + 1}X^i$. Argue inductively.
+\end{proof}
+
+\begin{lemma}[Gauss' Lemma About Irreducibility] \label{lem:gauss-irreducible}
+    Let $R$ be a UFD, $F(X) \in R[X]$ primitive. Then $F$ is irreducible in $R[X]$ if and only if $F$ is irreducible in $\mathrm{Frac}(R)[X]$.
+\end{lemma}
+
+\begin{proof}
+    The "if" part is trivial. For the "only if" part, suppose $F$ is irreducible in $R[X]$ and $F(X) = \prod\limits_{i = 1}^{n}P_i(X)$ in $\mathrm{Frac}(R)[X]$ for some $n \gt 1$ where each $P_i$'s are irreducible polynomials in $\mathrm{Frac}(R)[X]$. We shall modify $P_i$'s so that they belong to $R[X]$.
+
+    Let $B_i$ be the multiplication of denominators of the coefficients in $P_i$, and $A_i$ be a gcd of all coefficients in $B_i P_i$, define
+    $$Q_i(X) = \frac{B_i}{A_i} P_i(X)$$
+    then $Q_i$'s are primitive. Write:
+    $$F(X) = \prod\limits_{i = 1}^{n} \frac{A_i}{B_i} Q_i(X)$$
+    and therefore we have:
+    $$F(X) \prod\limits_{i = 1}^{n} B_i = \prod\limits_{i = 1}^{n} A_i \prod\limits_{i = 1}^{n} Q_i(X)$$
+    By Gauss' lemma about primitivity, $\prod\limits_{i = 1}^{n} Q_i(X)$ is primitive. By considering the gcd of both sides, we know that $\prod\limits_{i = 1}^{n} A_i$ and $\prod\limits_{i = 1}^{n} B_i$ are associated in $R$. Then $F$ and $\prod\limits_{i = 1}^{n} Q_i$ differ by a unit in $R$, a contradiction since $F$ is irreducible in $R[X]$.
+\end{proof}
+
+As a corollary of the proof:
+
+\begin{corollary} \label{cor:gauss-irreducibility}
+    Let $R$ be a UFD, $F(X) \in R[X]$ primitive.
+    \begin{enumerate}
+        \item If $F$ has a complete factorization in $R[X]$, then the same factorization of $F$ is also complete in $\mathrm{Frac}(R)[X]$
+        \item If $F$ has a complete factorization in $\mathrm{Frac}(R)[X]$, then there is a complete factorization of $F$ in $R[X]$ whose factors associate with the corresponding factors of the factorization of $F$ in $\mathrm{Frac}(R)[X]$
+    \end{enumerate}
+\end{corollary}
+
+Actually, the factorization in the above corollary always exists, as we will see later that $k[X]$ is a UFD for arbitrary field $k$. But for now let's assume $k[X]$ is a UFD and prove Gauss' Lemma:
+
+\begin{proof}[Proof of Gauss' Lemma]
+    Let $F(X) \in R[X] \subset \mathrm{Frac}(R)[X]$, we need to prove $F(X)$ can be factored uniquely into irreducible polynomials in $R[X]$.
+    
+    We may assume that $F(X)$ is primitive: Note that every irreducible elements in $R[X]$ must be primitive, and we can always write $F(X) = CG(X)$ where $G$ is primitive, $C \in R$. If $G$ can be factored into irreducibles uniquely, say $G = \prod\limits_{i = 1}^{n} G_i$, then $F$ has the unique factorization:
+    $$F(X) = \prod\limits_{i = 1}^{m} C_i \prod\limits_{i = 1}^{n} G_i(X)$$
+    where $C = \prod\limits_{i = 1}^{m} C_i$ is the unique factorization of $C$. Indeed, if $F$ has another factorization into irreducibles:
+    $$F(X) = \prod\limits_{i = 1}^{m'} C_i' \prod\limits_{i = 1}^{n'} G_i(X)'$$
+    Then $G_i'$'s are primitive, by Lem \ref{lem:gauss-primitivity}, so is $\prod\limits_{i = 1}^{n'} G_i(X)'$. It follows that $\prod\limits_{i = 1}^{m'} C_i'$ is associated with $C$ and $\prod\limits_{i = 1}^{n'} G_i'$ is associated with $G$. Conclude by the uniqueness of factorization of both $C$ and $G(X)$.
+    
+    Since $F(X)$ can also be considered as a polynomial in $\mathrm{Frac}(R)[X]$, which is a UFD (as mentioned before the proof, we assume $k[X]$ are UFD for now), $F$ can be factorized completely in $R[X]$ by Cor \ref{cor:gauss-irreducibility}. Also, by Cor \ref{cor:gauss-irreducibility}, every factorization of $F$ in $R[X]$ is essentially the same as the unique factorization of $F$ in $\mathrm{Frac}(R)[X]$, by Lem \ref{lem:gauss-associated} the factorization of $F$ in $R[X]$ is also essentially unique.
+\end{proof}
+
+Gauss' lemma allows us to derive UFD from known UFDs. But until now, we haven't established UFD for any rings. In fact, usually we do not establish UFD directly. Instead, we establish something stronger:
+
+\begin{definition} [Principal Ideal Domain, PID]
+    Let $R$ be a domain, if every ideal of $R$ is generated by one element, then we call $R$ a \textbf{principal ideal domain}, or \textbf{PID} for short.
+\end{definition}
+
+Since in PID, every ideal is generated by one element, then the properties of ideals are actually the properties of the elements.
+
+\begin{proposition} \label{prop:PID-ideals}
+    Let $R$ be a PID, $I$ be an ideal, then the followings are equivalent:
+    \begin{enumerate}
+        \item $I$ is maximal
+        \item $I$ is prime
+        \item $I = (x)$ for some prime element $x$
+        \item $I = (x)$ for some irreducible element $x$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    $(1) \Rightarrow (2) \Rightarrow (3) \Rightarrow (4)$ is clear. (Note: PIDs are domains, so prime elements are irreducible by Prop \ref{prop:prime-is-irreducible-domain})
+    
+    $(4) \Rightarrow (1)$: Let $x \in R$ be irreducible, take any ideal $(y) \supset (x)$, then $y | x$. By irreducibility, either $x, y$ are associated, or $y$ is a unit, which is equivalent to that $(x)$ is maximal.
+\end{proof}
+
+As a corollary (of the previous proposition, Prop \ref{prop:prime-is-irreducible-domain} and Prop \ref{porp:prime-element-prime-ideal}):
+
+\begin{corollary}
+    Let $R$ be a PID, $x \in R$ is irreducible if and only if it is prime.
+\end{corollary}
+
+\begin{proposition}[PIDs are UFD]
+    Let $R$ be a PID, then $R$ is a UFD.
+\end{proposition}
+
+\begin{proof}
+    We need to show that every element in $R$ can be factored completely, and the factorization is unique. The first part of the proof can be generalized to arbitrary Noetherian ring (a notion to be covered later), but for now we only prove in the case of PID.
+
+    Take arbitrary $x \in R$, non-unit. Suppose there is no factorization of $x$ into finite many irreducibles, then $x$ is reducible. As a result, $x = x_1y_1$ for some $x_1, y_1$ non-unit. By the hypothesis, one of $x_1, y_1$ cannot be factored into finite many irreducibles. WLOG, we assume $x_1$ cannot be factored into finite many irreducibles. Repeat the process, we have an infinite chain of elements $x_i$'s such that:
+    $$(x) \subset (x_1) \subset (x_2) \subset \cdots$$
+    Take the union of all ideals (check this is an ideal), since $R$ is a PID, we must have $\bigcup\limits_{i = 1}^{\infty} (x_i) = (x_{\infty})$ for some $x_{\infty}$. But there must be some $n$ such that $x_\infty \in (x_n)$ by definition, it follows that $(x_{n + 1}) = (x_n) \Rightarrow y_{n + 1}$ is a unit, a contradiction to our construction.
+
+    To show that the factorization is unique, suppose $x = \prod\limits_{i = 1}^{m} p_i = \prod\limits_{i = 1}^{n} q_i$, where $p_i, q_i$ irreducible, and hence prime by Prop \ref{prop:PID-ideals}. Then $p_i | \prod\limits_{i = 1}^{n} q_i$ implies $p_i | q_j$ for some $j$, since $q_j$ is irreducible, $p_i, q_j$ are associated. Argue inductively to show that the two factorizations are essentially the same.
+\end{proof}
+
+Still, it is no easy to establish PID, since we have to check every ideal is principal. It would be nice if we have an algorithm that performs the task. In $\mathbb{Z}$, we have the famous \textbf{Euclidean}'s algorithm, which leads to the definition:
+
+\begin{definition}[Euclidean Domain, ED]
+    Let $R$ be a domain. If there is a function $d: R \setminus \left\lbrace 0 \right\rbrace \rightarrow \mathbb{N}$, such that for every nonzero element $a, b \in R$, there exists $q, r \in R$ with $b = aq + r$ and $r = 0$ or $d(r) \lt d(a)$, then we call $R$ a \textbf{Euclidean Domain}, or \textbf{ED} for short.
+\end{definition}
+
+\begin{example}
+    $k[X]$ with degree map, $k[[X]]$ with leading degree map (the smallest degree of the nonzero terms), $\mathbb{Z}$ with absolute value are examples of ED. After the following proposition, they are established as PID and thus UFD.
+\end{example}
+
+\begin{proposition}[Euclidean Domains are PID]
+    Let $R$ be a Euclidean domain, then $R$ is a PID
+\end{proposition}
+
+\begin{proof}
+    Of course we can just wave our hands and say 'proof by Euclidean's algorithm'. But that simple sentence itself is non-trivial. For example, to prove some process is an algorithm, we need to show that it terminates in finite steps, and also we have to check carefully that the algorithm always produces the desired result, even for all the corner cases. (I refer the reader to Section 1.1 in Donald Knuth's famous book, TAOCP, for a complete correctness check of an algorithm) Here we prove by contradiction, but keep in mind that the proof is essentially equivalent to Euclidean's algorithm and is thus constructive in nature. 
+
+    Let $I \subset R$ be an ideal. We may assume $I \ne 0$. Take $x \in I$ with minimum value $d$ ($x$ exists by the Least Integer Principal). We claim that $(x) = I$. Suppose otherwise, there is $y \notin (x)$, by definition there are $q, r$ such that $y = qx + r$, and $d(r) \lt d(x)$ since $r \ne 0$. But then $r \in (x, y) \subset I$, a contradiction since $d(x)$ is minimum among elements of $I$.
+\end{proof}
+
+Finally, our last step to complete the refinements from domain to field:
+
+\begin{proposition}[Fields are ED]
+    Let $k$ be a field, then $k$ is an Euclidean domain.
+\end{proposition}
+
+\begin{proof}
+    The map $d$ is the constant map $0$.
+\end{proof}
+
+We close this section by presenting a few examples that belong to a certain level of the chain fields $\subset$ EDs $\subset$ PIDs $\subset$ UFDs $\subset$ domains but do not belong to the next level, which shows that the chain does not 'collapse'.
+
+\begin{example}[Domain but not UFD]
+    Let $k$ be a field, consider
+    $$R = k[X, Y, Z, W] / (XW - YZ)$$
+    The latter is a domain: $XW - YZ$ is irreducible (check) and $k[X, Y, Z, W]$ is a UFD by Gauss' lemma, then $(XW - YZ)$ is a prime by Prop \ref{prop:irreduible-is-prime-UFD}.
+
+    This is not a UFD since we have two essentially different (check) factorization of $\overline{XW}$, namely $\overline{XW} = \overline{YZ}$ (the construction is straightforward). Note that this is also an example where elements in the field of fraction has non-unique representation: $\overline{X} / \overline{Y} = \overline{Z} / \overline{W}$.
+
+    As promised before, $\overline{X}$ here is an example of irreducible but not prime element: $\overline{X} | \overline{Y} \overline{Z}$ but $\overline{X} \nmid \overline{Y}$ and $\overline{X} \nmid \overline{Z}$. (This is another demonstration that $R$ is not a UFD)
+\end{example}
+
+\begin{example}[Domain but not UFD]
+    The previous example is too 'artificial'. For a more practical example, we have $\mathbb{Z}[\sqrt{-5}] \cong \mathbb{Z}[X] / (X^2 + 5)$. This is a domain: $\mathbb{Z}[X]$ is UFD by Gauss' lemma and $X^2 + 5$ is irreducible. But this is not a UFD since we have essentially two different factorization of $6 = 2 \cdot 3 = (1 - \sqrt{-5})(1 + \sqrt{-5})$ (check they are irreducible by arguing with norms)
+\end{example}
+
+\begin{example}[UFD but not PID]
+    Let $k$ be a field, then $k[X, Y]$ is UFD by Gauss' lemma. It is not UFD since $\left\langle X, Y \right\rangle$ is not generated by one element
+\end{example}
+
+\begin{example}[PID but not ED]
+    This one is hard, since PID can not be established easily. See \href{https://www.emis.de/journals/NSJOM/Papers/38_1/NSJOM_38_1_137_154.pdf}{this paper} for a counter example.
+\end{example}
+
+\begin{example}[ED but not field]
+    There is a lot, like $\mathbb{Z}, k[X], k[[X]]$.
+\end{example}
+
+\section{Modules}
+
+We start with operations between modules. Since ideals are special modules, this part should resemble the operations of ideals, except that we cannot multiply elements in modules:
+
+\begin{definition}[Sum, Intersection]
+    Let $M$ be an $R$-module and $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ be a family of submodules, then define:
+    \begin{enumerate}
+        \item The \textbf{sum} of $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ $\sum\limits_{\lambda \in \Lambda} M_\lambda$ as the set of all $\sum\limits_{\lambda \in \Lambda} x_\lambda$ where $x_\lambda \in M_\lambda$ and the sum is finite
+        \item The \textbf{intersection} of $\left\lbrace M_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ $\bigcap\limits_{\lambda \in \Lambda}M_{\lambda}$ as the intersection of $M_\lambda$'s as sets
+    \end{enumerate}
+    The reader should verify that the sum and intersection of submodules are submodules, moreover:
+    \begin{enumerate}
+        \item The sum of $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ is the smallest submodule of $M$ that contains all $M_\lambda$
+        \item The intersection of $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ is the largest submodule of $M$ that is contained in all $M_\lambda$
+    \end{enumerate}
+\end{definition}
+
+However, we do have multiplication of $R$ on $M$, and hence we define:
+
+\begin{definition}
+    Let $I$ be an ideal of $R$, $M$ be an $R$-module, define $IM$ as the submodule of $M$ generated by $\left\lbrace rm: r \in I, m \in M \right\rbrace$. In particular, if $I = (r)$ for some $r \in R$, we also denote $rM = IM$
+\end{definition}
+
+\begin{definition}[Annihilator]
+    Let $M$ be an $R$-module, if $r \in R$ satisfies $rM = 0$, then $r$ is called an \textbf{annihilator} of $M$. The set of annihilators of $M$ is denoted as $\mathrm{Ann}_R(M)$. The reader should check that $\mathrm{Ann}_R{M}$ is an ideal.
+\end{definition}
+
+\begin{definition}[Faithful]
+    Let $M$ be an $R$-module, if $\mathrm{Ann}_R(M) = 0$, then $M$ is called a \textbf{faithful} $R$-module.
+\end{definition}
+
+Why is $M$ called 'faithful'? Note that an $R$-module is essentially an abelian group $M$ with $\varphi: R \rightarrow \mathrm{End}_{\mathrm{Ab}}(M)$. The latter is called a \textbf{representation} of $R$, since we represent the elements in $R$ as endomorphisms. Note that the kernel of the latter homomorphism is $\mathrm{Ann}_R(M)$, so $M$ is faithful if and only if $\varphi$ is injective, namely we faithfully represent elements in $R$ without confusing any two of them.
+
+\begin{proposition}
+    Let $M$ be an $R$-module, $I \subset \mathrm{Ann}_R(M)$ an ideal, then $M$ inherits an $R / I$-module structure by defining $\overline{r} m = rm$. Moreover, $M$ is a faithful $R / \mathrm{Ann}_R(M)$ module.
+\end{proposition}
+
+The direct product of rings and the direct product of modules (ideals) are connected in the following manner:
+
+\begin{proposition}
+    Let $R$ be a ring. Then $R$ can be written as a product of rings if and only if $R$ is the direct sum of ideals(as $R$-modules). Moreover:
+    \begin{enumerate}
+        \item If $R = \prod\limits_{i = 1}^{n} R_i$ as products of rings, then $R \cong \bigoplus\limits_{i = 1}^n I_i$ as $R$-modules where $I_i = \left\lbrace (0, \cdots, 0, x, 0, \cdots, 0): x \in R_i \right\rbrace$
+        \item If $R = \bigoplus\limits_{i = 1}^{n} M_i$ as direct sum of $R$-modules, then $R \cong \prod\limits_{i = 1}^{n} R / (I_i)$ where $I_i = \left\lbrace (x_1, \cdots, x_{i - 1}, 0, x_{i + 1}, \cdots, x_n): x_j \in M_j, \forall j \ne i \right\rbrace$
+    \end{enumerate}
+\end{proposition}
+
+The proposition really is just a translation between the languages in rings and modules. It should be noted that when $R = \prod\limits_{i = 1}^{n} R_i$, $R_i$ itself is neither an ideal nor a subring of $R$, since it is not a subset of $R$. The correct way to say $R_i$ is an ideal is stated in the proposition. Also, when $R = \bigoplus\limits_{i = 1}^nM_i$, $M_i$ is neither an ideal of $A$ nor a ring itself, to get a ring that corresponds to $M_i$, we have to quotient out the other modules.
+
+Next we talk about finitely generated modules:
+
+\begin{definition} [Generator, Finitely Generated]
+    Let $M$ be an $R$-module, $x \in M$, then denote $(x)$ or $Rx$ as the set $\left\lbrace rx: r \in R \right\rbrace$, which is a submodule of $M$. If $M = \sum\limits_{\lambda \in \Lambda} Rx_{\lambda}$ for some $\left\lbrace x_{\lambda} \right\rbrace_{\Lambda} \subset M$, then $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ is called \textbf{a set of generators} of $M$. If $M$ has a finite set of generators, it is said to be \textbf{finitely generated}.
+\end{definition}
+
+Note that the set of generators may have relations among them, so despite by definition every element in $M$ can be represented as a linear combination of the generators, the representation may not be unique. This leads to the definition of free modules.
+
+\begin{definition}[Free Module]
+    A \textbf{free $R$-module} over index set $\Lambda$ is a module isomorphic to $\bigoplus_{\lambda \in \Lambda} R$. It is often denoted as $R^{(\Lambda)}$
+\end{definition}
+
+\begin{remark}
+    The notion $R^{\Lambda}$ is reserved for direct product.
+\end{remark}
+
+Clearly, we can always get a module from a free module by quotienting out the relations among its element, which is a trivial set of generators:
+
+\begin{proposition}[Every module is a quotient of free module]
+    Let $M$ be an $R$-module, $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ be a set of generators, then $M$ is a quotient of $R^{(\Lambda)}$. In particular, $M$ is a quotient of $R^{(M)}$
+\end{proposition}
+
+\begin{proof}
+    Define the map $\varphi: R^{(\Lambda)} \rightarrow M$ by sending $e_{\lambda}$ to $x_\lambda$, where $e_{\lambda}$ is the element in $R^{(\Lambda)}$ that is zero at every coordinate except at the $\lambda$-th coordinate, where it takes value $1$. Then $\varphi$ is surjective by definition of generators. Conclude by the first isomorphism theorem.
+\end{proof}
+
+Conversely, if $M$ is a quotient of $R^{(\Lambda)}$, then there is a set of generators $\left\lbrace x_\lambda = \overline{e_\lambda} \right\rbrace_{\lambda \in \Lambda}$ for $M$. As a corollary:
+
+\begin{corollary}
+    Let $M$ be an $R$-module, then $M$ is a finitely generated module if and only if $M$ is isomorphic to a quotient of $R^n$ for some $n$.
+\end{corollary}
+
+Finitely generated modules are similar to finite dimensional vector spaces. For example, it has the Hamilton-Cayley Theorem:
+
+\begin{theorem}[Hamilton-Cayley Theorem]
+    Let $M$ be a finitely generated $R$-module, and $\varphi$ an $R$-module endomorphism of $M$. If $\varphi(M) \subset IM$ for some ideal $I$, then there are some $n \gt 0$ and $a_1, \cdots, a_n \in I$ such that:
+    $$\varphi^n + a_1 \varphi^{n - 1} + \cdots + a_0 = 0$$
+\end{theorem}
+
+\begin{proof}
+    The proof below is the so-called 'determinant trick'.
+
+    Let $x_1, \cdots, x_n$ be a set of generators of $M$, then the elements in $IM$ can be written as linear combination of $x_i$'s with coefficients in $I$. Then we have:
+    $$\varphi(x_i) = \sum\limits_{i = 1}^{n}c_{i, j} x_j$$
+    As a result:
+    $$
+    \begin{bmatrix}
+        \varphi - c_{1, 1} & -c_{1, 2} & \cdots &-c_{1, n} \\
+        - c_{2, 1} & \varphi - c_{2, 2} & \cdots &-c_{2, n} \\
+        \vdots &\vdots &\ddots &\vdots \\
+        - c_{n, 1} & -c_{n, 2} & \cdots & \varphi - c_{n, n}
+    \end{bmatrix}
+    \begin{bmatrix}
+        x_1 \\ x_2 \\ \vdots \\ x_n
+    \end{bmatrix} = 0
+    $$
+    Multiplying the adjugate matrix on the left, we know that the determinant (a monic polynomial of $\varphi$ with coefficients in $I$) of the matrix vanishes in all $x_i$ and thus vanishes on $R$, which completes the proof.
+\end{proof}
+
+Of course, we can always take $I = (1)$, that's the only possible case if $R$ is a field (and the theorem falls back to the Hamilton-Cayley theorem in linear algebra). For rings in general, things are more interesting, especially if $IM = M$ for some non-unit ideal $I$.
+
+\begin{corollary}
+    Let $M$ be a finitely generated $R$-module. If $IM = M$ for some ideal $I \ne (1)$ of $R$, then there is some $x \equiv 1 \pmod{I}$ such that $xM = 0$
+\end{corollary}
+
+\begin{proof}
+    Take $\varphi = \mathds{1}_M$ in the Hamilton-Cayley theorem.
+\end{proof}
+
+\iffalse
+
+If all $x \equiv 1 \pmod{I}$ are units, then $IM = M$ implies $M = 0$. This is the case when $I \subset \mathfrak{R}_R$.
+
+\begin{theorem}[Nakayama's Lemma]
+    Let $M$ be a finitely generated $R$-module, $I \subset \mathfrak{R}_R$ and $IM = M$, then $M = 0$
+\end{theorem}
+
+\begin{corollary}
+    Let $M$ be a finitely generated $R$-module and $N$ a submodule of $M$, $I \subset \mathfrak{R}_R$ and $M = IM + N$, then $M = N$
+\end{corollary}
+
+\begin{proof}
+    Note that $(IM + N) / N = I(M / N)$. Then apply Nakayama's Lemma to $M / N$
+\end{proof}
+
+We conclude this section by presenting a method of judging whether a set of elements form a set of generators, which is usually nontrivial.
+
+\begin{proposition}
+    Let $R$ be a local ring, $\mathfrak{m}$ its maximal ideal, $k$ its residue field. Let $M$ be an $R$-module, then $M / \mathfrak{m}$ is annihilated by $\mathfrak{m}$, so it is an $R / \mathfrak{m}$-module, namely a $k$-vector space. If the images of $\left\lbrace x_\lambda \right\rbrace_{\lambda \in \Lambda}$ in $M / \mathfrak{m}M$ form a basis, then $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ is a set of generators for $M$
+\end{proposition}
+
+\begin{proof}
+    Let $N$ be the submodule of $M$ generated by $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$. Since $\left\lbrace \overline{x_{\lambda}} \right\rbrace_{\lambda \in \Lambda}$ is a basis in $M / \mathfrak{m} M$, we have $N + \mathfrak{m}M = M$. Apply the previous corollary to conclude $M = N$
+\end{proof}
+
+\begin{remark}
+    We need $R$ to be a local ring, since this is the only case where maximal ideals are contained in the Jacobson radical.
+\end{remark}
+
+\fi
+
+Like finite dimensional vector space, we can always represent an element in a finitely generated modules as a sum of its generatros. Unlike finite dimensional vector space, the representation may not be unique. This is because the generators may have relations among them. To completely describe a finitely generated modules, we have to give a set of generators together with the relations among them.
+
+Now let's make this rigorous. Given any finitely generated module $M$ with generators $x_1, \cdots, x_n$. Then as in the previous arguments we have surjection $\varphi: R^n \rightarrow M$ that maps $e_i$ to $x_i$. And by the first isomorphism theorem, we have $M \cong R^n / \mathrm{ker}(\varphi)$. Here $\mathrm{ker}(\varphi)$ corresponds to the relations among the generators. Since $\mathrm{ker}(\varphi)$ is a submodule of $R^n$, the reader may guess that $\mathrm{ker}(\varphi)$ is also finitely generated. However, this is not true in general, even for $n = 1$:
+
+\begin{example}
+    Let $R = k[X_1, X_2, \cdots]$ the polynomial ring of infinite indeterminates. Consider the ideal (submodule as $R$-module) $(X_1, X_2, \cdots)$, it is clearly not finitely generated.
+\end{example}
+
+This suggests us to require every ideal in a ring to be finitely generated. Indeed the rings satisfying this requirement are called \textbf{Noetherian rings}. We shall study them in later chapter. But for now let's restrict our attention to those finitely generated modules whose relations among generators can be finitely generated:
+
+\begin{definition}[Finitely Presented Modules]
+    Let $R$ be a ring, $M$ an $R$-module. If there are integers $m, n$ and homomorphism $\varphi: R^m \rightarrow R^n$ such that $M \cong \mathrm{coker}(\varphi)$, then we call $M$ a \textbf{finitely presented module} and that $M$ is \textbf{presented by} $\varphi$
+\end{definition}
+
+By our previous discussion, if the ring $R$ satisfies that every submodule of $R^n$ is finitely generated, then every finitely generated $R$-module would be finitely presented. In the following chapters, we will prove that Noetherian modules satisfy this requirement, and PID is Noetherian, which lead us to the assumption:
+
+\begin{assumption}
+    Every finitely generated module over PID can be finitely presented.
+\end{assumption}
+
+Note that $\varphi$ can be represented by a matrix $A_{\varphi} \in R^{n \times m}$. Given the standard basis of $R^m, R^n$, the matrix has the form:
+$$A_{\varphi} = \begin{bmatrix}
+    a_{1, 1} & a_{1, 2} & \cdots & a_{1, m} \\
+    a_{2, 1} & a_{2, 2} & \cdots & a_{2, m} \\
+    \vdots &\vdots &\ddots &\vdots \\
+    a_{n, 1} & a_{n, 2} & \cdots & a_{n, m}
+\end{bmatrix}$$
+where each column $a_{\cdot, j}$ corresponds to a relation among the generaters:
+$$\sum\limits_{i = 1}^{n} a_{i, j} x_i = 0$$
+
+And the reason modules over PID is of special interest is that we can manipulate the matrix into a simple form through a change of basis on both the domain and the codomain.
+
+\begin{proposition}[Smith Normal Form]
+    Let $R$ be a PID, $A \in R^{n \times m}$ a matrix. Then there are invertible matrices $C \in R^{n \times n}, B \in R^{m \times m}$ such that
+    $$C A B ^{-1} = D$$
+    where $D$ is a matrix of the form:
+    $$D = \begin{bmatrix}
+        d_{1} \\
+        & \ddots \\
+        & & d_r \\
+        & & & 0 \\
+        & & & & \ddots \\
+        & & & & & 0
+    \end{bmatrix}$$
+    for some $d_1 | d_2 | \cdots | d_r \ne 0$. We call the matrix $D$ to be in \textbf{Smith Normal Form}
+\end{proposition}
+
+\begin{proof}
+    The proof is basically an algorithm that diagonalize the matrix. In each step, we perform operations equivalent to left / right multiplication of the following two types of elementary matrix:
+    \begin{enumerate}
+        \item Add $c$ times the row / col $i$ to row / col $j$;
+        \item Swap row / col $i$ with row / col $j$.
+    \end{enumerate}
+    (The reader may check that such operations, or equivalently the elementary matrices are invertible)
+
+    The algorithm can be divided into two parts, in the first part, we diagonalize the matrix, and in the second we make the diagonal elements satisfy the constraints. The first part is similar to Gauss Elimination. We refer the readers to the \href{https://en.wikipedia.org/wiki/Smith_normal_form}{wikipedia} for the details.
+\end{proof}
+
+As a corollary of the proposition, any finitely generated module $M$ over PID will be the cokernel of some homomorphism $\varphi$ represented by a matrix in Smith Normal Form. Then the image of $\varphi$ would be:
+$$d_1R \oplus d_2R \oplus \cdots \oplus d_rR \oplus 0 \oplus \cdots \oplus 0$$
+and as a result:
+$$M \cong R / d_1R \oplus R / d_2 R \oplus \cdots \oplus R / d_r R \oplus R^{n - r}$$
+Moreover, such representation is unique:
+
+\begin{theorem}[Structure Theorem of Finitely Generated Modules over PID]
+    Let $R$ be a PID, $M$ an finitely generated $R$-module. Then there are unique (up to multiplication by units) $d_1 | d_2 | \cdots | d_r \in R$ and integer $t \ge 0$ such that:
+    \begin{equation}\label{eq:invariant-form}
+        M \cong R^t \oplus \bigoplus\limits_{i = 1}^{r} R / d_iR
+    \end{equation}
+    we call Eq \ref{eq:invariant-form} the \textbf{invariant decomposition} of $M$.
+
+    Alternatively, there are unique integer $t \ge 0$, and unique (up to multiplication by units) prime elements $p_1, \cdots, p_s \in R$ with degrees $e_{i, 1}, \cdots, e_{i, n_i}$ for each $i = 1, \cdots, s$, such that:
+    \begin{equation}\label{eq:primary-form}
+        M \cong R^t \oplus \bigoplus\limits_{i = 1}^{s} \left(\bigoplus\limits_{j = 1}^{n_i} (R / p_i^j R)^{e_{i, j}}\right)
+    \end{equation}
+    we call Eq \ref{eq:primary-form} the \textbf{primary decomposition} of $M$.
+
+    We call the unique $t$ in both decomposition the \textbf{rank} of $R$.
+\end{theorem}
+
+We already prove the existence. We will prove the uniqueness part by calculating each $d_i$'s using the homomorphisms between modules. Denote $\mathrm{Hom}_{R}(M, N)$ the set of $R$-module homomorphisms from $M$ to $N$, the reader may verify that it has an $R$-module structure. (\TODO)
+
+\begin{lemma}
+    Let $R$ be a ring, then:
+    \begin{enumerate}
+        \item If $R$ is a domain, we have $\mathrm{Hom}_{R}(R / I, R / J) = 0$ for ideal $I \supsetneq J$. In particular, $\mathrm{Hom}_{R}(R / I, R) = 0$
+        \item $\mathrm{Hom}_{R}(R / I, R / J) = 0$ for ideals $I, J$ coprime
+        \item $\mathrm{Hom}_{R}(R / I, R / J) = R / J$ for $I \subset J$. In particular, $\mathrm{Hom}_{R}(R, R / I) = R / I$
+        \item $\mathrm{Hom}_{R}(M \oplus N, P) = \mathrm{Hom}_{R}(M, P) \oplus \mathrm{Hom}_{R}(N, P)$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \begin{enumerate}
+        \item ISTS the special case when $J = 0$ by the third isomorphism theorem. Take arbitrary $\varphi: R / I \rightarrow R$. Take $r \in I, r \ne 0$. For arbitrary $x \in R$, we have $r \varphi (\overline{x}) = \varphi(\overline{rx}) = \varphi(0) = 0$. Since $R$ is a domain, this implies that $\varphi(\overline{x}) = 0$ for arbitrary $x$, then $\varphi = 0$.
+        \item Take arbitrary $\varphi: R / I \rightarrow R / J$. Since $I + J = (1)$, there are $a \in I, b \in J$ such that $a + b = 1$. For arbitrary $x \in R$, we have $a \varphi(\overline{x}) = \varphi(\overline{ax}) = \varphi(0) = 0$ and $b \varphi(\overline{x}) = 0$ as $b$ annihilates $R / J$. As a result, $\varphi(\overline{x}) = (a + b)\varphi(\overline{x}) = 0$. Since $x$ is arbitrary, $\varphi = 0$.
+        \item ISTS the special case when $I = 0$ by the third isomorphism theorem. However, $\mathrm{Hom}_{R}(R, M) = M$ for arbitrary $M$, the isomorphism is defined by $\varphi \mapsto \varphi(1)$.
+    \end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of the Structure Theorem (only the existence part)]
+    We first establish the one-to-one correspondence between invariant decomposition and primary decomposition, and then prove the uniqueness of primary decomposition.
+
+    Given the invariant decomposition, since PIDs are UFD, we have decomposition $d_i = \prod\limits_{j = 1}^{m_i} p_i^{l_{i, j}}$. By the Chinese Remainder Theorem (The readers may verify that $(p^r) + (q^s) = (1)$ for $p, q$ coprime, say by taking the $r + s$-th power of both sides of $ap + bq = 1$), we have 
+    $$R / d_i R \cong \bigoplus\limits_{j = 1}^{m_i} R / p_i^{l_{i, j}} R$$
+    Grouping the same prime elements together, we obtain the primary decomposition.
+
+    To get back from primary decomposition to invariant decomposition, we note that the order of the same prime elements increases from $d_1$ to $d_r$. So $d_r$ must be the product of all highest orders, namely
+    $$d_r = \prod\limits_{i = 1}^{s} p_i^{e_{i, n_i}}$$
+    Argue inductively, we obtain all $d_i$.
+
+    The reader may verify that the correspondence between invariant decomposition and primary decomposition are inverse to each other (of course, two decomposition are considered equivalent up to multiplication of units of the terms), so we have established a one-to-one correspondence between the two decompositions.
+
+    Now let's prove the uniqueness of the primary decomposition. Given arbitrary prime element $p$:
+    \begin{enumerate}
+        \item If $p \ne p_i$ for arbitrary $i = 1, \cdots, s$, we have:
+        $$\mathrm{Hom}_{R}(R / pR, M) = 0$$
+        by the previous lemma.
+        \item If $p = p_i$ for some $i$, we have:
+        $$\mathrm{Hom}_{R}(R / p^jR, M) = \bigoplus\limits_{k = 1}^{j} (R / p_i^{l} R)^{e_{i, l}}$$
+        for all $j = 1, \cdots, n_i$.
+    \end{enumerate}
+    This demonstrates that both the primes and their orders are determined by $M$ itself, which completes the proof for uniqueness.
+\end{proof}
+
+\begin{corollary}[Every submodule of finite free module over PID is free]
+    Let $R$ be a PID and $M$ an submodule of $R^n$ for some finite $n$. Then $M$ is free.
+\end{corollary}
+
+\begin{proof}
+    By our assumption $M$ is finitely generated. Take the invariant decomposition of $M$ and obtain:
+    $$M \cong R^t \oplus \bigoplus\limits_{i = 1}^{r} R / d_iR$$
+    If $M$ is not free, then $r \gt 0$, and we obtain an injection:
+    $$R^t \oplus \bigoplus\limits_{i = 1}^{r} R / d_iR \hookrightarrow R^n$$
+    which is impossible since there are elements annihilates by $d_1$ in the former module while there is none in the latter module.
+\end{proof}
+
+It should be noted that the corollary above also holds when $n$ is infinite, and the result is usually refered to as the structure theorem for modules over PID in general, but we will not cover it here.
+
+We close this section by presenting an interesting application of the structure theorem. We will derive Jordan and Rational Normal From in linear algebra from the structure theorem. The readers may be surprised that half of her linear algebra courses are spent on the mere implication of the structure theorem!
+
+To begin, let $k$ be a field and $V$ a finite dimensional $k$-vector space. Let $\varphi: V \rightarrow V$ be an endomorphism on $V$, then $(V, \varphi)$ is a $k[X]$-module through the ring homomorphism $k[X] \rightarrow \mathrm{End}(V)$ by $F(X) \mapsto F(\varphi)$.
+
+Since $k[X]$ is a PID, and $(V, \varphi)$ is clearly finitely generated. And we have the two decomposition of $(V, \varphi)$:
+
+\begin{enumerate}
+    \item Invariant decomposition:
+    $$V \cong k[X]^t \oplus \bigoplus\limits_{i = 1}^{r} k[X] / (d_i)$$
+    for some $d_1 | d_2 | \cdots d_r$ polynomials in $k[X]$
+    \item Primary decomposition:
+    $$V \cong k[X]^t \oplus \bigoplus\limits_{i = 1}^{s} \left(\bigoplus\limits_{j = 1}^{n_i} (k[X] / p_i^j)^{e_{i, j}}\right)$$
+    for some $p_i$'s irreducible polynomials in $k[X]$
+\end{enumerate}
+
+The first thing to be notice is that $t = 0$: By Hamilton-Cayley, there is the nonzero characteristic polynomial $\chi \in k[X]$ such that $\chi(\varphi) = 0$, so $V$ is annihilated by $\chi$, which is impossible when $t \ne 0$. Another implication of this is that $d_r | \chi$, and $p_i | \chi$ for all $i$.
+
+In either decomposition, a summand $k[X] / (F)$ corresponds to a subspace of $V$ (as it is closed under multiplication by $k$, and addition by definition), invariant under $\varphi$ (as it is further closed under mulitplication by $X$). Now we study each component.
+
+Let $k[X] / (f)$ be a summand. Suppose:
+$$f(X) = X^{m} + a_{1} X^{m - 1} + \cdots + a_m, a_i \in k$$
+Then $k[X] / (f)$ is a $k$-vector space with a basis $\left\lbrace 1, \overline{X}, \cdots, \overline{X}^{m - 1} \right\rbrace$, which corresponds to the vectors $\left\lbrace v, \varphi(v), \cdots, \varphi^{m - 1} (v) \right\rbrace$, denote $b_i = \varphi^i(v)$ for $i = 0, \cdots, m - 1$, then they satisfies the equations:
+$$
+    \begin{aligned}
+        &\varphi(b_{i}) = b_{i + 1}  & \forall 0 \le i \lt m - 1\\
+        &\varphi(b_{m - 1}) = - a_{1} b_{m - 1} - \cdots - a_{m_i} b_{0}
+    \end{aligned}
+$$
+Choose $\left\lbrace b_{0}, \cdots, b_{m - 1} \right\rbrace$ as a basis for the subspace, $\varphi$ can be represented as the matrix:
+\begin{equation}\label{eq:rational-block}
+    \begin{bmatrix}
+        0 & & & -a_m\\
+        1 & & & -a_{m - 1}\\
+        & \ddots & & -a_2\\
+        & &1 &- a_1
+    \end{bmatrix}
+\end{equation}
+
+If we choose a basis as above for each components of some decomposition of $(V, \varphi)$, we obtain a block diagonal matrix with blocks of the form Eq \ref{eq:rational-block}. Moreover, if we choose the invariant decomposition, we call the resulting matrix the \textbf{rational normal form} of $\varphi$.
+
+If we assume $k$ algebraically closed, then as mentioned before every irreducible polynomials in $k[X]$ will be linear. Namely, $p_i(X) = X - \lambda_i$ for some $\lambda_i \in k$. We can further simplify the blocks on the diagonal in this case.
+
+Let $k[X] / (f)$ be a summand such that $f(X) = (X - \lambda)^m$. Then we can choose a basis corresponding to the elements $\left\lbrace \overline{(X - \lambda)^{m - 1}}, \overline{(X - \lambda)^{m - 2}}, \cdots, 1 \right\rbrace$. Suppose $b_i$ corresponds to $\overline{(X - \lambda)^{m - i}}$ for $i = 1, \cdots, m$. Then they satisfies the equations:
+$$
+    \begin{aligned}
+    &\varphi(b_i) = \lambda b_i + b_{i - 1} &1 \lt i \lt m \\
+    &\varphi(b_{1}) = \lambda b_{1}
+    \end{aligned}
+$$
+Choose $\left\lbrace b_1, \cdots, b_{m} \right\rbrace$ as a basis for the subspace, $\varphi$ can be represented as the matrix
+\begin{equation}\label{eq:jordan-block}
+    \begin{bmatrix}
+        \lambda & 1 \\
+        & \lambda & 1\\
+        & & \ddots & \ddots \\
+        & & &\lambda & 1 \\
+        & & & & \lambda
+    \end{bmatrix}    
+\end{equation}
+If we choose a basis as above for each components of the primary decomposition, we obtain a block diagonal matrix with blocks of the form \ref{eq:jordan-block}. We call the resulting matrix the \textbf{Jordan normal form} of $\varphi$. Note that the Jordan normal form only guarantees to exist when $k$ is algebraically closed.
+
+Finally, we extract information from the normal forms:
+
+\begin{proposition}
+    Let $\varphi: V \rightarrow V$ be an endomorphism of $k$-vector space $V$, such that the $k[X]$-module $(V, \varphi)$ has invariant decomposition:
+    $$V \cong \bigoplus\limits_{i = 1}^{r} k[X] / (d_i)$$
+    and primary decomposition:
+    $$V \cong \bigoplus\limits_{i = 1}^{s} \left(\bigoplus\limits_{j = 1}^{n_i} (k[X] / p_i^j)^{e_{i, j}}\right)$$
+    Then we have:
+    \begin{enumerate}
+        \item The polynomial $d_r$ is the \textbf{minimal polynomial} of $\varphi$: For any polynomial $f$ such that $f(\varphi) = 0$, we have $d_r | f$
+        \item The characteristic polynomial $\chi_{\varphi}$ of $\varphi$ is the product of all components:
+        $$\chi_{\varphi} = \prod\limits_{i = 1}^{r} d_i = \prod\limits_{i = 1}^{s} \prod\limits_{j = 1}^{n_i} p_{i}^{j e_{i, j}}$$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item This is because any polynomials in $k[X]$ that annihilate $V$ must be divisible by all $d_i$'s (by the invariant decomposition).
+        \item We only need to check that the characteristic polynomial of each rational block is the corresponding polynomial.
+    \end{enumerate}
+\end{proof}
+
+\end{document}

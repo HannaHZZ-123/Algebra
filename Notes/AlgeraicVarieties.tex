@@ -1,0 +1,1565 @@
+\documentclass{note-eng}
+
+\title{Algebraic Varieties and Zariski Topology}
+\author{Jingyi Long}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section{Preliminary Topology}
+
+I assume the readers have elementary knowledge of topology, namely she should be familiar with the definition of topology, continuous map, compactness, etc. Chapter 2 of Baby Rudin is a good reference for this purpose. However, since some concepts of topology does not occur often in analysis (which I suppose is where most people, including me, learn and apply the knowledge of topology), I shall record them here. The readers familiar with the contents may skip freely.
+
+Before we proceed, we should first remark about a convention of algebraists that is not usually adopted by analysts:
+
+\begin{remark}
+    In the following discussions, we use 'quasi-compact' to refer to 'compact' (any open cover admits a finite subcover) and 'compact' to refer to 'quasi-compact and Hausdorff'. The reason for this is that the space we discuss are usually not Hausdorff.
+\end{remark}
+
+As we will see later, the closed sets in the topology will be of major interest to us. If we can break down a topological space into a finite collection of closed sets, we can study these subspaces instead. The splitting process terminates at irreducible spaces:
+
+\begin{definition}[Irreducible]
+    Let $X$ be a topological space. If for any two closed sets $X_1, X_2$ of $X$, $X = X_1 \cup X_2$ implies $X_1 = X$ or $X_2 = X$, then we call $X$ \textbf{irreducible}. Equivalently, $X$ is irreducible if for any two open sets $X_1, X_2$ of $X$, $X_1 \cap X_2 = \emptyset$ implies $X_1 = \emptyset$ or $X_2 = \emptyset$.
+
+    If $X$ is not irreducible, we call $X$ \textbf{reducible}.
+
+    Let $Y$ be a subset of $X$, if $Y$ is irreducible with respect to the reduced topology, we call $Y$ an irreducible subset of $X$.
+\end{definition}
+
+Irreducibility basically says we cannot write the topological space as a union of two (and hence finitely many) proper closed subsets (or equivalently, any two nonempty open sets intersect, or any non-empty open set is dense). The readers should not confuse it with the concept of disconnect, where the subsets have to be \textbf{disjoint}.
+
+The irreducible sets are similar to the irreducible elements in a ring, in the following sense:
+
+\begin{proposition}\label{prop:irreducible-avoidance}
+    Let $X$ be a topological space and $V$ an irreducible subset of $X$. Then $V \subset \bigcup\limits_{i = 1}^{r} X_i$ where $X_i$'s are closed subsets of $X$ if and only if $V \subset X_i$ for some $i$.
+\end{proposition}
+
+\begin{proof}
+    The "if" part is clear. For the "only if" part, consider $V = \bigcup\limits_{i = 1}^{r} (X_i \cap V)$, a finite union of closed subsets of $V$. It follows that $X_i \cap V = V \Leftrightarrow V \subset X_i$ for some $i$.
+\end{proof}
+
+\begin{proposition}[Continuous image of irreducible space is irreducible]\label{prop:cont-image-irred}
+    Let $f: X \rightarrow Y$ be a continuous map. If $X$ is irreducible, so is $f(X)$
+\end{proposition}
+
+\begin{proof}
+    Take arbitrary closed sets $U, V$ in $Y$ such that $U \cup V \supset f(X)$. $f(X) = (U \cap f(X)) \cup (V \cap f(X))$. By continuity, $f ^{-1} (U \cap f(X)), f ^{-1} (V \cap f(X))$ are closed. By irreducibility and WLOG, $f ^{-1}(U \cap f(X)) = X$, so $f(X) = U \cap f(X)$, which completes the proof.
+\end{proof}
+
+If a space is reducible, we can always decompose it into a finite union of closed sets. For each closed set, if it is reducible, we can continue the process. In the end, we reach a state where each component is irreducible and closed. However, there is one major issue with this splitting process: We do not know whether the splitting process terminates. We need extra conditions of the topological space. One condition that clearly works is the following Noetherian condition, which states that any stricly descending chain of closed sets must terminate after finite steps.
+
+\begin{definition}[Noetherian Space]
+    Let $X$ be a topological space. If for every descending chain of closed subsets
+    $$C_1 \supset C_2 \supset \cdots$$
+    there is $n \gt 0$ such that $C_i = C_n$ for all $i \ge n$, then we call $X$ a \textbf{Noetherian space}. Equivalently, $X$ is Noetherian if and only if for every ascending chain of open subsets
+    $$O_1 \subset O_2 \subset \cdots$$
+    there is $n \gt 0$ such that $O_i = O_n$ for all $i \ge n$.
+\end{definition}
+
+Such condition is often called the \textit{ascending / descending chain condition}, which will be studied in more details later when we discuss Noetherian rings.
+
+\begin{proposition}\label{prop:equi-def-Noetherian}
+    Let $X$ be a topological space, then TFAE:
+    \begin{enumerate}
+        \item $X$ is Noetherian;
+        \item Every subspace is quasi-compact;
+        \item Every open subspace is quasi-compact.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    $(1) \Rightarrow (2)$: If $X$ is Noetherian, then so is any of its subspace (check). So ISTS $X$ is quasi-compact. Let $\left\lbrace X_\lambda \right\rbrace_{\lambda \in \Lambda}$ be an open cover of $X$. Suppose it does not admit a finite subcover. Pick $\lambda_1 \in \Lambda$ arbitrarily. Then for each $i$, we can always pick $\lambda_i$ such that $X_{\lambda_i} \not \subset \bigcup\limits_{j \lt i} X_{\lambda_j}$ (otherwise $\left\lbrace X_{\lambda_i} \right\rbrace_{j = 1}^{i - 1}$ will be a finite subcover). Let $Y_i = \bigcup\limits_{j \le i} X_{\lambda_j}$, which is open. Then $Y_1 \subset Y_2 \subset \cdots$ is an ascending chain of open sets, by Noetherian, it stabilizes, which is absurd by our construction.
+
+    $(2) \Rightarrow (3)$: Clear.
+
+    $(3) \Rightarrow (1)$: Let $O_1 \subset O_2 \subset \cdots$ be an arbitrary ascending chain of open sets, then $O = \bigcup\limits_{i = 1}^{\infty} O_i$ is an open subspace, with an open cover $\left\lbrace O_i \right\rbrace_{i = 1}^{\infty}$. By the hypothesis, there is a finite subcover $\left\lbrace O_{i_j} \right\rbrace_{j = 1}^n$, let $N = \max_{j = 1}^n i_j$, it follows easily that the chain stabilizes at $N$
+\end{proof}
+
+\begin{corollary}
+    Noetherian spaces are quasi-compact.
+\end{corollary}
+
+We now formally prove that:
+
+\begin{proposition}[Noetherian space is a finite union of irreducible subsets]\label{prop:Noetherian-finite-union}
+    Let $X$ be a Noetherian space, then there is a finite collection of irreducible subsets $\left\lbrace X_i \right\rbrace_{i = 1}^n$ such that $X = \bigcup\limits_{i = 1}^{n} X_i$.
+\end{proposition}
+
+\begin{proof}
+    Suppose otherwise, then $X$ must be reducible, so we can write it as a finite union of proper closed sets. One of them must be reducible and cannot be written as a finite union of irreducible subsets, let's call it $X_1$. Repeat the process to $X_1$, we obtain an infinite strictly descending chain of closed subsets $X_1 \supsetneq X_2 \supsetneq \cdots$, which is absurd by Noetherian.
+\end{proof}
+
+It should be noted that we are not only writing a Noetherian space as a union of irreducible subsets, the subsets are also closed.
+
+The proof of the previous proposition is by construction in nature. But the resulting decomposition of Noetherian space is not necessarily unique, nor is it efficient (minimal). In particular, it is possible that $X_i \subset \bigcup\limits_{j \ne i}X_j$, allowing us to remove $X_i$ from the decomposition. By Prop \ref{prop:irreducible-avoidance}, we must have $X_i \subset X_j$ for some $j \ne i$. This suggests that we can avoid unnecessary irreducible subsets by imposing the 'maximal' condition on them:
+
+\begin{definition}[Irreducible Components]
+    Let $X$ be a topological space. If a subspace $C$ of $X$ is irreducible and for arbitrary irreducible subset $D$ of $X$ such that $C \subset D$, we have $D = C$ (namely $C$ is a \textit{maximal} irreducible subspace), then we call $C$ an \textbf{irreducible component} of $X$.
+\end{definition}
+
+\begin{proposition}[Every irreducible subspace is contained in an irreducible component]\label{prop:maximal-irreducible}
+    Let $X$ be a topological space and $Y$ an irreducible subset of $X$. Then there is some irreducible component $C$ of $X$ such that $X \subset C$.
+\end{proposition}
+
+\begin{proof}
+    Apply Zorn's lemma to $\Sigma = \left\lbrace Z: Z \text{ irreducible}, Y \subset Z \subset X\right\rbrace$ (which is non-empty as $Y \in \Sigma$), we only need to show $Z = \bigcup\limits_{i = 1}^{\infty} Z_i \in \Sigma$ where $Z_1 \subset Z_2 \subset \cdots$ is an ascending chain in $\Sigma$. It is clear that $Y \subset Z \subset X$. To show that it is irreducible, suppose otherwise, $Z = Z' \cup Z''$ where $Z', Z''$ are two proper closed subsets of $Z$. Since $Z', Z''$ are proper, there is a large enough $n$ such that $Z' \cap Z_n, Z'' \cap Z_n$ are both proper closed sets in $Z_n$, and clearly $(Z' \cap Z_n) \cup (Z'' \cap Z_n) = Z_n$, a contradiction since $Z_n$ is irreducible.
+\end{proof}
+
+The irreducible components are necessarily closed, for we can always enlarge an irreducible subset if it is not closed:
+
+\begin{proposition}\label{prop:irreducible-closure}
+    Let $X$ be a topological space, $Y \subset X$. Then $Y$ is irreducible if and only if $\overline{Y}$ is irreducible.
+\end{proposition}
+
+\begin{proof}
+    "only if": Suppose otherwise, $\overline{Y} = Y_1 \cup Y_2$, where $Y_1, Y_2$ are closed subsets of $\overline{Y}$. Then $Y_1, Y_2$ are also closed in $X$. Then $Y = \overline{Y} \cap Y = (Y_1 \cap Y) \cup (Y_2 \cap Y)$, which is a union of two closed subsets of $Y$. By irreducibility of $Y$ and WLOG, $Y_1 \cap Y = Y$. So $Y_1$ is a closed subset of $X$ containing $Y$, by properties of the closure, $\overline{Y} \subset Y_1$ and hence $\overline{Y} = Y_1$. This completes the proof.
+
+    "if": Note that $Y$ is dense in $\overline{Y}$. Take arbitrary non-empty open sets $U, V$ of $Y$, we have $U = U' \cap Y, V = V' \cap Y$ where $U', V'$ are non-empty open sets in $\overline{Y}$. Then $U' \cap V'$ is a non-empty open set in $\overline{Y}$, by dense, $U' \cap V' \cap Y = U \cap V \ne \emptyset$, which completes the proof.
+\end{proof}
+
+\begin{corollary}[Irreducible components are closed]
+    Let $X$ be a topological space and $C$ an irreducible component of $X$, then $C$ is closed.
+\end{corollary}
+
+Now back to our business:
+
+\begin{proposition}[Noetherian space has a finite minimal decomposition into its irreducible components] \label{prop:Noetherian-space-minimal}
+    Let $X$ be a Noetherian space, then the number of irreducible components of $X$ is finite and $X = \bigcup\limits_{i = 1}^{n} X_i$ where $X_i$'s are the irreducible components of $X$. Moreover, the decomposition is the unique minimal decomposition in the following sense: If $X = \bigcup\limits_{i = 1}^{n} C_i$ where $C_i$'s are closed and irreducible such that $C_i \not \subset \bigcup\limits_{j \ne j} C_j$ (or by Prop \ref{prop:irreducible-avoidance} $C_i \not \subset C_j, \forall j \ne i$), then $\left\lbrace C_i \right\rbrace_{i = 1}^n$ is the set of all irreducible components of $X$.
+\end{proposition}
+
+\begin{proof}
+    By Prop \ref{prop:Noetherian-finite-union} and Prop \ref{prop:maximal-irreducible}, the Noetherian space can be written as a finite union of irreducible components $X = \bigcup\limits_{i = 1}^{n} C_i$. For arbitrary irreducible component $C$ of $X$, by Prop \ref{prop:irreducible-avoidance}, $C \subset C_i$ for some $i$. But since $C$ is maximal, $C = C_i$, and hence $\left\lbrace C_i \right\rbrace_{i = 1}^n$ are all the irreducible components of $X$, which completes the proof of the first part. Also, it shows that the decomposition into irreducible components satisfies the minimal condition. So we only need to show that the minimal decomposition is unique for the second part.
+
+    Let $\bigcup\limits_{i = 1}^{n} C_i, \bigcup\limits_{j = 1}^{m} D_j$ be two minimal decompositions. Then by similar argument as above, for arbitrary $i$, $C_i \subset D_j$ for some $j$. By symmetry, $D_j \subset C_{i'}$ for some $i'$. Then $C_i \subset C_{i'}$ and by the hypothesis $i = i'$. It follows that $C_i = D_j$. The rest is easy.
+\end{proof}
+
+The last thing we are going to talk about is the locally closed subsets. Their significance is not self-evident now. But to avoid mixing general topological arguments with the argument specific to the varieties, we present the results here.
+
+\begin{definition}[Locally Closed]
+    Let $X$ be a topological space and $E \subset X$. If $E$ is the intersection of an open set and a closed set in $X$, then we call $E$ a \textbf{locally closed} subset of $X$.
+\end{definition}
+
+We have the following equivalent definition of locally closed.
+
+\begin{proposition}\label{prop:locally-closed-equiv-def}
+    Let $X$ be a topological space and $E \subset X$. Then $E$ is locally closed if and only if $E$ is open in $\overline{E}$.
+\end{proposition}
+
+\begin{proof}
+    The "if" part is trivial as $E = \overline{E} \cap O$ for some open set by definition and $\overline{E}$ is closed. For the "only if" part, suppose $E = O \cap C$ where $O$ is open and $C$ is closed. Since $C \supset E$, by definition $C \supset \overline{E}$ and as a result $E = O \cap \overline{E}$.
+\end{proof}
+
+Locally closed is not an intrinsic property of a topological space. It depends on the embedding space. For example, let $E$ be an arbitrary subset of $X$, consider the subspace $Y$ between $E$ and $X$: $E \subset Y \subset X$. By taking $Y = E$, $E$ is guaranteed to be locally closed in $Y$, but $E$ is not necessarily a subspace of $X$. However, if we require $Y$ to be a locally closed subset of $X$, then locally closed in $Y$ is equivalent to locally closed in $X$:
+
+\begin{proposition}\label{prop:locally-closed-transitive}
+    Let $X$ be a topological space, and $E \subset Y \subset X$. If $Y$ is locally closed, then $E$ is locally closed in $X$ if and only if $E$ is locally closed in $Y$
+\end{proposition}
+
+\begin{proof}
+    "only if": This direction holds for arbitrary $Y$, not necessarily locally closed. Suppose $E = O \cap C$ where $O, C$ are open and closed subsets of $X$. Then $E = O \cap C \cap Y = (O \cap Y) \cap (C \cap Y)$, which is locally closed in $Y$.
+
+    "if": Suppose $E = (O \cap Y) \cap (C \cap Y)$ where $O, C$ are open and closed subsets of $X$. Since $Y$ is locally closed, we may assume $Y = O' \cap C'$ where $O', C'$ are open and closed subsets of $X$. Then $E = (O \cap O') \cap (C \cap C')$, which is locally closed in $X$.
+\end{proof}
+
+\section{Affine Varieties and Projective Varieties}
+
+In this section, $k$ will be a field.
+
+Classic algebraic geometry began with the studies of the zeros of a system of polynomials. This is the natural extension of linear algebra, which studies the zeros of a system of linear polynomials.
+
+In the following discussions, we use underscored letters to denote 'tuples', and we use subscripts to access the components of that tuple. For example, we may write $\underline{a} \in k^n$, which means $\underline{a} = (a_1, \cdots, a_n)$ with $a_i \in k$.
+
+\begin{definition}[Affine Algebraic Set]
+    Let $S \subset k[X_1, \cdots, X_n]$ a set of polynomials. Denote
+    $$V(S) = \left\lbrace P \in k^n: F(P) = 0, \forall F \in S \right\rbrace$$
+    and call it an \textbf{(affine) algebraic set} in $k^n$ defined by $S$.
+
+    If $S = \left\lbrace F \right\rbrace$ is a singleton, we also write $V(F)$ for $V(S)$, and call it a \textbf{hypersurface} in $\mathbb{A}^n$.
+\end{definition}
+
+Basically, an affine algebraic set is the solution to a system of polynomials. It is clear that $V(S) = V(I)$ where $I$ is the ideal generated by $S$, so it suffices to consider algebraic sets defined by ideals.
+
+\begin{proposition}[Affine algebraic sets can be considered as closed sets]\label{prop:affine-algebraic-set-properties}
+    Let $R = k[X_1, \cdots, X_n]$, we have the following properties for algebraic sets in $k^n$:
+    \begin{enumerate}
+        \item If $S, T$ are subsets of $R$ and $S \subset T$, then $V(S) \supset V(T)$;
+        \item If $\left\lbrace I_\lambda \right\rbrace_{\lambda \in \Lambda}$ is a set of ideals of $R$, then $V\left(\sum\limits_{\lambda \in \Lambda} I_\lambda\right) = \bigcap\limits_{\lambda \in \Lambda} V(I_\lambda)$;
+        \item If $\left\lbrace I_i \right\rbrace_{i = 1}^{r}$ is a finite set of ideals of $R$, then $V \left(\bigcap\limits_{i = 1}^{r} I_i\right) = V \left(\prod\limits_{i = 1}^{r} I_i\right) = \bigcup\limits_{i = 1}^{r} V(I_i)$;
+        \item $V(0) = k^n, V(1) = \emptyset$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Clear.
+        \item "$\subset$" is clear by part 1. For the other direction, note that $P \in \mathrm{RHS} \Rightarrow F(P) = 0, \forall F \in \bigcup\limits_{\lambda \in \Lambda} I_\lambda \Rightarrow F(P) = 0, \forall F \in \sum\limits_{\lambda \in \Lambda} I_\lambda$
+        \item We split it into three parts:
+        \begin{enumerate}
+            \item $V \left(\bigcap\limits_{i = 1}^{r} I_i\right) \subset V \left(\prod\limits_{i = 1}^{r} I_i\right)$: By part 1 and $\prod\limits_{i = 1}^{r} I_i \subset \bigcap\limits_{i = 1}^{r} I_i$
+            \item $V \left(\prod\limits_{i = 1}^{r} I_i\right) \subset \bigcup\limits_{i = 1}^{r} V(I_i)$: We prove by induction on $r$. The base case $r = 1$ is trivial. For the inductive step. Note that $P \in V \left(\prod\limits_{i = 1}^{r} I_i\right) \Leftrightarrow F_1F_2 \cdots F_r(P) = 0, \forall F_i \in I_i$. If $P \in V(I_r)$, there is nothing to prove. Now suppose $P \notin V(I_r)$, then there is some $F_{r, \ast} \in I_r$ such that $F_{r, \ast}(P) \ne 0$. It then follows that $F_1F_2 \cdots F_{r, \ast}(P) = 0$ for arbitrary $F_i \in I_i, i = 1, \cdots, r - 1 \Rightarrow P \in V \left(\prod\limits_{i = 1}^{r - 1} I_i\right)$. By the IH, $P \in \bigcup\limits_{i = 1}^{r - 1} V(I_i)$, which completes the proof.
+            \item $\bigcup\limits_{i = 1}^{r} V(I_i) \subset V \left(\bigcap\limits_{i = 1}^{r} I_i\right)$: By part 1 and $\bigcap\limits_{i = 1}^{r} I_i \subset I_i, \forall i$.
+        \end{enumerate}
+        \item Clear.
+    \end{enumerate}
+\end{proof}
+
+\begin{remark}
+    Despite we can define arbitrary intersection of ideals, we do not have
+    $$V\left(\bigcap\limits_{\lambda \in \Lambda} I_\lambda\right) = \bigcup\limits_{\lambda \in \Lambda} V(I_\lambda)$$
+    in general. The bridging term $V\left(\prod\limits_{i = 1}^{r} I_i\right)$ is necessary in the proof and cannot be generalized to arbitrary collection of ideals.
+\end{remark}
+
+As the title of the proposition suggests, if we consider algebraic sets as closed sets, we obtain a topology on $k^n$:
+
+\begin{definition}[Zariski Topology for Affine Space]
+    The \textbf{Zariski topology} on $k^n$ is defined as follows: a set $U \subset k^n$ is open if and only if $k^n \setminus U$ is an algebraic set. We denote the space $k^n$ with Zariski topology as $\mathbb{A}^n(k)$ or simply $\mathbb{A}^n$ if the field is well understood.
+\end{definition}
+
+We mention before that usually the topological space considered in this chapter is not Hausdorff. However, we do have a slightly weaker separation axiom:
+
+\begin{proposition}[Zariski Topology is $T_1$]
+    $\mathbb{A}^n(k)$ is a $T_1$-space.
+\end{proposition}
+
+\begin{proof}
+    We use an equivalent definition for $T_1$-space: Every singleton is closed. This is clearly the case for $\mathbb{A}^n$: $\left\lbrace \underline{a} \right\rbrace = V(X_1 - a_1, \cdots, X_n - a_n)$.
+\end{proof}
+
+And in fact, the affine spaces are not Hausdorff in most cases, we prove this by showing they are irreducible:
+
+\begin{lemma}
+    Let $k$ be an infinite field, $F \in k[X_1, \cdots, X_n]$ is non-zero, then $F$ is non-vanishing on $k^n$.
+\end{lemma}
+
+\begin{proof}
+    Argue inductively. The base case is trivial: a nonzero polynomial of one variable can only have finitely many zeros. For the inductive step, write $F = \sum\limits_{i = 1}^{d} F_iX_n^i$ where $F_i \in k[X_1, \cdots, X_{n - 1}]$. Since $F$ is nonzero, at least one of $F_i$'s is non-zero and thus non-vanishing on $k^{n - 1}$ by IH. It follows that there is $x_1, \cdots, x_{n - 1} \in k$ such that $F(x_1, \cdots, x_{n - 1}, \cdot)$ is a non-zero polynomial. Then by the base case, there is $x_{n} \in k$ such that $F(x_1, \cdots, x_n) \ne 0$.
+\end{proof}
+
+\begin{proposition}[Affine spaces for infinite field is irreducible]
+    Let $k$ be an infinite field, then $\mathbb{A}^n(k)$ is irreducible.
+\end{proposition}
+
+\begin{proof}
+    Suppose otherwise, there are proper closed sets $V(I), V(J)$ such that $V(I) \cup V(J) = V(IJ) = \mathbb{A}^n$. When $k$ is infinite, any non-zero polynomial $F \in k[X_1, \cdots, X_n]$ is non-vanishing on $k^n$ by the lemma above. So we must have $IJ = 0$. Then either $I = 0$ or $J = 0$, namely $V(I) = \mathbb{A}^n$ or $V(J) = \mathbb{A}^n$, a contradiction.
+\end{proof}
+
+\begin{corollary}[Affine spaces for infinite field is non-Hausdorff]
+    Let $k$ be an infinite field, then $\mathbb{A}^n(k)$ is not Hausdorff.
+\end{corollary}
+
+What about finite fields? Turns out that their topology is simple:
+
+\begin{example}[The Zariski topology in $\mathbb{A}^n(k)$ is discrete if $k$ is finite]
+    Note that $\mathbb{A}^n(k)$ itself is finite, and points are closed. It follows that arbitrary subset, which is a finite union of points, is closed.
+\end{example}
+
+Another special case worth noting is that:
+
+\begin{example}[The Zariski topology in $\mathbb{A}^1$ is cofinite]
+    It is clear that any finite set $\left\lbrace \lambda_i \right\rbrace_{i = 1}^n$ is an algebraic set $V(F)$ where $F = \prod\limits_{i = 1}^{n} (X - \lambda_i)$. On the other hand, any algebraic set, except for $\mathbb{A}^1$ itself, is finite as the defining ideal contains at least one polynomial, which has only finitely many solutions. Note that this also gives an example that arbitrary union of algebraic set is not necessarily an algebraic set.
+\end{example}
+
+The first part of Prop \ref{prop:affine-algebraic-set-properties} does not prevent the case that $V(I) = V(J)$ when $I \subsetneq J$. So an affine algebraic set may have different defining ideals. However, the collection of subsets of $k[X_1, \cdots, X_n]$ with identical algebraic sets has a unique maximum element, namely the set of polynomials that vanish on $V(I)$. In fact, it can be readily shown that the set is actually an ideal, and we call it the ideal of a set of points:
+
+\begin{definition}[The ideal of a set of points in affine spaces]
+    Let $X$ be a set of points in $\mathbb{A}^n(k)$. Denote
+    $$I(X) = \left\lbrace F \in k[X_1, \cdots, X_n]: F(P) = 0, \forall P \in X \right\rbrace$$
+    and call it the \textbf{ideal of $X$}. (The reader should check that $I(X)$ is an ideal)
+\end{definition}
+
+A few properties are in place:
+
+\begin{proposition}\label{prop:affine-ideal-properties}
+    Let $R = k[X_1, \cdots, X_n]$, we have the following properties for the ideal of a set of points in $\mathbb{A}^n$:
+    \begin{enumerate}
+        \item If $X, Y$ are subsets of $\mathbb{A}^n$ and $X \subset Y$, then $I(X) \supset I(Y)$;
+        \item $I(\emptyset) = k[X_1, \cdots, X_n]$, and $I(\mathbb{A}^n) = 0$ if $k$ is infinite.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Omitted.
+\end{proof}
+
+\begin{proposition}\label{prop:affine-VI-corresp}
+    Let $R = k[X_1, \cdots, X_n]$, $S \subset R$ and $X \subset \mathbb{A}^n$, then we have:
+    \begin{enumerate}
+        \item $S \subset I(V(S)), X \subset V(I(X))$.
+        \item $S$ is an ideal of a set of points if and only if $I(V(S)) = S$; $X$ is an algebraic set if and only if $V(I(X)) = X$.
+        \item $V(I(X))$ is the closure of $X$ in the Zariski topology.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Clear by definition.
+        \item For the first statement, the 'if' part is trivial ($S$ is the ideal of $V(S)$); For the 'only if' part, suppose $S = I(X)$. Since $X \subset V(I(X))$ by the second statement of part 1, we have $S = I(X) \supset I(V(I(X))) = I(V(S))$. But we also know that $S \subset I(V(S))$ by the first statement of part 1, so $I(V(S)) = S$. Similar for the second statement.
+        \item We already know $X \subset V(I(X))$ by part 1 and $V(I(X))$ is closed. Take arbitrary closed set $V \supset X$. Since $X \subset V$, we must have $V(I(X)) \subset V(I(V)) = V$.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary} \label{cor:affine-strict-inclusion}
+    Let $U, V$ be two algebraic sets of $\mathbb{A}^n(k)$, then $U = V$ if and only if $I(U) = I(V)$. In particular, if $U \subsetneq V$, we must have $I(U) \supsetneq I(V)$, namely there is $F \in k[X_1, \cdots, X_n]$ such that $F$ vanishes on $U$ and $F(P) \ne 0$ for some $P \in V \setminus U$.
+
+    A useful special case is when $V = U \cup \left\lbrace P_i \right\rbrace_{i = 1}^n$, by linear combination we have polynomial $F$ that vanishes on $U$ and $F(P_i) = a_i$ for some specified $a_i \in k$.
+\end{corollary}
+
+\begin{proof}
+    Use part 2 of the previous proposition.
+\end{proof}
+
+We now have the correspondence
+$$\left\lbrace \text{ideals of } k[X_1, \cdots, X_n] \right\rbrace \xrightleftharpoons[I]{V} \left\lbrace \text{algebraic sets in } \mathbb{A}^n \right\rbrace$$
+and we know that $V \circ I = \mathds{1}_{\mathrm{RHS}}$ by the proposition above. However, we also know that $I \circ V$ is not the identity on the LHS, because not every ideal is an ideal of a set of points. The question is: What are the algebraic characteristics of ideals of a set of points? How can we test whether an ideal $I$ is the ideal of a set of points without calculating $I(V(I))$?
+
+Below is a clear necessary condition:
+
+\begin{proposition}
+    Let $X \subset \mathbb{A}^n$, then $I(X)$ is radical.
+\end{proposition}
+
+The real magic is that the condition is also sufficient, given that $k$ is algebraically closed. This is called the Hilbert's Nullstellensatz.
+
+\begin{theorem}[Hilbert's Nullstellensatz, weak form]
+    Let $k$ be an algebraically closed field. Then the only maximal ideals in $k[X_1, \cdots, X_n]$ are of the form $\mathfrak{m} = (X_1 - a_1, \cdots, X_n - a_n)$. Namely there is a one-to-one correspondence between maximal ideals in $k[X_1, \cdots, X_n]$ and points in $\mathbb{A}^n$.
+\end{theorem}
+
+\begin{corollary}
+    Let $k$ be an algebraically closed field, and $I$ an ideal of $k[X_1, \cdots, X_n]$. Then $V(I) = \emptyset$ if and only if $I = (1)$.
+\end{corollary}
+
+\begin{proof}
+    The "if" part is trivial. For the "only if" part, let $I \ne (1)$, then $I \subset \mathfrak{m} = (X_1 - a_1, \cdots, X_n - a_n)$ for some $(\underline{a}) \in \mathbb{A}^n$, then $V(I) \supset V(\mathfrak{m}) = \left\lbrace (\underline{a}) \right\rbrace \ne \emptyset$.
+\end{proof}
+
+\begin{theorem}[Hilbert's Nullstellensatz]
+    Let $k$ be an algebraically closed field and $I$ be an ideal of $k[X_1, \cdots, X_n]$, then $I(V(I)) = \sqrt{I}$.
+\end{theorem}
+
+\begin{corollary}
+    Let $k$ be an algebraically closed field. Then an ideal $I \subset k[X_1, \cdots, X_n]$ is an ideal of a set of points if and only if $I$ is radical
+\end{corollary}
+
+Although the statement of the Nullstellensatz (perhaps in plural form, but I don't speak German) is as simple as it is, the proof is not. In fact I have encountered many proofs of the Hilbert's Nullstellensatz but none of them is both short and elementary. As a result, I consider it necessary to postpone the proof until later chapters, after we have enough knowledge of commutative algebra. In the following discussions of this chapter, we will assume the correctness of the Hilbert's Nullstellensatz (both the weak form and the strong form).
+
+By the Nullstellensatz, we now have a one-to-one correspondence:
+$$\left\lbrace \text{radical ideals of } k[X_1, \cdots, X_n] \right\rbrace \xrightleftharpoons[I]{V} \left\lbrace \text{algebraic sets in } \mathbb{A}^n \right\rbrace$$
+
+Now let's talk about topological properties of affine spaces:
+
+\begin{proposition}[Affine Space is Noetherian]
+    $\mathbb{A}^n$ is Noetherian.
+\end{proposition}
+
+\begin{proof}
+    By Prop \ref{prop:affine-VI-corresp} and Cor \ref{cor:affine-strict-inclusion}, a descending chain of closed sets in $\mathbb{A}^n$ corresponds to an ascending chain of ideals in $k[X_1, \cdots, X_n]$, and the two chains stabilize simultaneously. Conclude by the fact that $k[X_1, \cdots, X_n]$ is a Noetherian ring.
+\end{proof}
+
+As a result, any subspace of $\mathbb{A}^n$ is also Noetherian, so we can always decompose an algebraic set into finitely many affine varieties, which is the synonym for 'closed irreducible sets':
+
+\begin{definition}[Affine Varieties]
+    Let $V$ be an algebraic set of $\mathbb{A}^n$. If $V$ is irreducible, then we call $V$ an \textbf{affine variety}. By default, we give $V$ the induced topology of the Zariski topology of $\mathbb{A}^n$ and call it the Zariski topology of $V$.
+\end{definition}
+
+\begin{proposition}[Unique Decomposition of Algebraic Set into Affine Varieties]
+    Let $V$ be an algebraic set of $\mathbb{A}^n$. Then there is a unique collection of affine varieties $V_1, \cdots, V_m$ such that $V = \bigcup\limits_{i = 1}^{m} V_i$ and $V_i \not \subset \bigcup\limits_{j \ne i} V_j$ for $i = 1, \cdots, m$
+\end{proposition}
+
+\begin{proof}
+    An easy application of Prop \ref{prop:Noetherian-space-minimal}, the $V_i$'s are the irreducible components of $V$.
+\end{proof}
+
+We haven't given an example of affine variety yet. The key question is: What are the irreducible subsets in $\mathbb{A}^n$?
+
+\begin{proposition}[$X$ irreducible $\Leftrightarrow$ $I(X)$ prime] \label{prop:affine-irreducible-prime}
+    Let $X \subset \mathbb{A}^n(k)$, then $X$ is irreducible if and only if $I(X)$ is prime.
+\end{proposition}
+
+\begin{proof}
+    By Prop \ref{prop:irreducible-closure}, $X$ is irreducible if and only if $\overline{X} = V(I(X))$ is irreducible. Since $I(\overline{X}) = I(V(I(X))) = I(X)$, we may replace $X$ by $\overline{X}$ and assume $X$ is an algebraic set.
+    
+    "if": Suppose $X = (V(I) \cap X) \cup (V(J) \cap X)$ a union of closed subsets. Then $V(I) \cup V(J) = V(IJ) \supset X$ and hence $IJ \subset I(V(IJ)) \subset I(X)$. Take arbitrary $F \in I, G \in J$, then $FG \in IJ \subset I(X)$, since $I(X)$ is prime, $F \in I(X)$ or $G \in I(X)$. By arbitrarity of $F, G$, we must have $I \subset I(X)$ or $J \subset I(X)$, namely $V(I) \supset V(I(X)) = X$ or $V(J) \supset X$, which completes the proof.
+
+    "only if": Suppose $I(X)$ is not prime, then there is $F, G \in k[X_1, \cdots, X_n]$ such that $FG \in I(X)$ and $F, G \notin I(X)$. Then $V(F) \cup V(G) = V(FG) \supset V(I(X)) = X$, so $X = (V(F) \cap X) \cup (V(G) \cap X)$. On the other hand, $V(F) \cap X = V(F) \cap V(I(X)) = V((F) + I(X)) \subsetneq V(I(X)) = X$ where the last comparison is by Cor \ref{cor:affine-strict-inclusion}. So $V(F) \cap X$ and $V(G) \cap X$ are proper, a contradiction.
+\end{proof}
+
+\begin{corollary}
+    Let $\mathfrak{p}$ be a prime ideal of $k[X_1, \cdots, X_n]$, then $V(\mathfrak{p})$ is an affine variety.
+\end{corollary}
+
+\begin{proof}
+    Prime ideals are radical.
+\end{proof}
+
+\begin{corollary}
+    Let $F \in k[X_1, \cdots, X_n]$, then the hyperplane $V(F)$ in $\mathbb{A}^n$ is irreducible if and only if $F$ is the power of an irreducible polynomial.
+\end{corollary}
+
+\begin{proof}
+    Since $k[X_1, \cdots, X_n]$ is UFD, we have $\sqrt{(F)} = (G)$ where $G = F_1 \cdots F_r$ where $F_i$'s are irreducible components of $F$, and $(G)$ is prime $\Leftrightarrow$ $G$ is irreducible.
+\end{proof}
+
+
+{\color{red}From now on, we assume $k$ to be an \textbf{infinite} field, so that $\mathbb{A}^n$ are affine varieties.}
+
+
+One problem about affine varieties or affine algebraic sets is that distinct lines may not intersect, even if the field is algebraically closed. Sometimes it is desirable that 'a curve of degree $m$ and a curve of degree $n$ intersect $mn$ times' (we shall formalize the sentence in later chapters). To deal with that, we introduce infinite points and allow the lines to 'intersect at infinity'.
+
+\begin{definition}[Projective Space]
+    The \textbf{projective $n$-space} is the set of all lines in $k^{n + 1}$ through the origin, we denote it as $\mathbb{P}^n(k)$. Stated formally:
+    $$\mathbb{P}^n(k) = \left(k^{n + 1} \setminus \left\lbrace (0, \cdots, 0) \right\rbrace \right) / \sim$$
+    where $\sim$ is the equivalence relationship defined by:
+    $$(x_1, \cdots, x_{n + 1}) \sim (y_1, \cdots, y_{n + 1}) \Leftrightarrow \exists \lambda \in k, s.t. y_i = \lambda x_i \forall i$$
+    
+    We may also denote $\mathbb{P}^n(k)$ as $\mathbb{P}^n$ if the field $k$ is well understood.
+\end{definition}
+
+For now the projective space is merely a set, we shall define the Zariski topology on it later.
+
+\begin{definition}[Homogeneous Coordinate]
+    Let $P \in \mathbb{P}^n(k)$. If $P$ is the residue class of $(x_1, \cdots, x_{n + 1}) \in k^{n + 1}$, then we call $x_1, \cdots, x_{n + 1}$ \textbf{homogeneous coordinates} of $P$, and denote $P$ as $[x_1 : \cdots : x_{n + 1}]$.
+\end{definition}
+
+The homogeneous coordinates are not well-defined. However, whether $x_i = 0$ is well-defined, and when $x_i \ne 0$, $x_j / x_i$ are well-defined for all $j$. Denote
+$$U_i = \left\lbrace [x_1:x_2:\cdots:x_{n + 1}] \in \mathbb{P}^n: x_i \ne 0 \right\rbrace$$
+We have a canonical representation for points in $U_i$:
+
+\begin{definition}[Nonhomogeneous Coordinate]
+    Let $P \in \mathbb{P}^n(k)$ and $P \in U_i$, then we have
+    $$P = [x_1 : \cdots : x_{i - 1} : 1 : x_{i + 1} : \cdots : x_{n + 1}]$$
+    for some unique $x_i$'s. We call $(x_1, \cdots, x_{i - 1}, x_{i + 1}, \cdots, x_{n + 1})$ the \textbf{nonhomogeneous coordinates} for $P$ with respect to $U_i$.
+\end{definition}
+
+The nonhomogeneous coordinate defines a one-to-one correspondence between $U_i$ and $\mathbb{A}^n$.
+
+The complement of $U_i$'s are called the hyperplanes at infinity:
+
+\begin{definition}[Hyperplane at infinity]
+    Denote
+    $$H_{i} = \left\lbrace [x_1 : \cdots : x_{n + 1}] \in \mathbb{P}^n(k): x_{i} = 0 \right\rbrace$$
+    and call it a \textbf{hyperplane at infinity}.
+\end{definition}
+
+Similarly, $[x_1 : \cdots : x_{i - 1} : 0 : x_{i + 1} : \cdots : x_{n + 1}] \mapsto [x_1 : \cdots : x_{i - 1} : x_{i + 1} : \cdots : x_{n + 1}]$ is a one-to-one correspondence between $H_i$ and $\mathbb{P}^{n - 1}$.
+
+Now we define algebraic sets on $\mathbb{P}^n$. We want to define them as solutions of polynomial functions. However, given polynomial $F \in k[X_1, \cdots, X_{n + 1}]$, its value at $P \in \mathbb{P}^n$ is not well-defined in general. Luckily, we only care about whether $F(P) = 0$, and the natural way to define $F(P) = 0$ would be that $F$ vanishes on every element in the residue class:
+
+\begin{notation}
+    Let $F \in k[X_1, \cdots, X_{n + 1}]$ and $P \in \mathbb{P}^n$, denote $F(P) = 0$ if $F(x_1, \cdots, x_{n + 1}) = 0$ for all $x_i$'s such that $[x_1:x_2:\cdots:x_{n + 1}] = P$. If $F(P) = 0$, we call $F$ \textbf{vanishes} at $P$.
+\end{notation}
+
+If $F$ is a homogeneous polynomial, there is no confusion of the meaning of $F(P) = 0$: If $F(x_1, \cdots, x_{n + 1}) = 0$, then $F(\lambda x_1, \cdots, \lambda x_{n + 1}) = 0$ for all $\lambda \in k$. However, when $F$ is not homogeneous, each of its homogeneous components will scale at different speed, and they have to all vanish at $P$:
+
+\begin{proposition}\label{prop:proj-homo}
+    Let $F \in k[X_1, \cdots, X_{n + 1}]$ and $P \in \mathbb{P}^n(k)$. Then $F(P) = 0$ if and only if $F_i(P) = 0$ for all homogeneous component $F_i$ of $F$.
+\end{proposition}
+
+\begin{proof}
+    Suppose $F = \sum\limits_{i = 0}^{d} F_i$ where $F_i$ is of degree $i$. It's then clear that
+    $$F_i(\lambda x_1, \cdots, \lambda x_{n + 1}) = \lambda^i F(x_1, \cdots, x_{n + 1})$$
+    Suppose $P = [x_1, \cdots, x_{n + 1}]$, write $a_i = F_i (x_1, \cdots, x_{n + 1})$, then $F$ vanishes on all homogeneous coordinates $\Leftrightarrow$ $\sum\limits_{i = 0}^{d} a_i \lambda^i = 0, \forall \lambda \in k, \lambda \ne 0$ $\Leftrightarrow$ (this is where we need the field to be infinite) $a_i = 0, \forall i$ $\Leftrightarrow$ $F_i(P) = 0$, $\forall i$.
+\end{proof}
+
+\begin{definition}[Projective Algebraic Set]
+    Let $S \subset k[X_1, \cdots, X_{n + 1}]$ be a set of polynomials. Denote
+    $$V(S) = \left\lbrace P \in \mathbb{P}^n: F(P) = 0, \forall F \in S \right\rbrace$$
+    and call it the \textbf{projective algebraic set} defined by $S$.
+\end{definition}
+
+\begin{definition}[The Ideal of a Set of Points in $\mathbb{P}^n$]
+    Let $X \subset \mathbb{P}^n$ be a set of points. Denote
+    $$I(X) = \left\lbrace F \in k[X_1, \cdots, X_{n + 1}]: F(P) = 0, \forall P \in X \right\rbrace$$
+    and call it the \textbf{ideal of $X$}.
+\end{definition}
+
+An immediate result of Prop \ref{prop:proj-homo} is:
+
+\begin{corollary}
+    Let $X \subset \mathbb{P}^n$ be a set of points, then $I(X)$ is a homogeneous ideal.
+\end{corollary}
+
+Here we use the same notations $I, V$ in both projective and affine settings. When confusion is possible, we use $I_a, V_a$ to denote the affine case and $I_p, V_p$ to denote the projective case.
+
+Projective algebraic set and the ideal of a point sets in projective spaces have similar properties as their affine counterpart. Instead of repeating the proofs here, we translate the problems in projective spaces back to affine spaces. By definition, a polynomial $F$ vanishes at $P \in \mathbb{P}^n$ if and only $P$ vanishes on the line of $\mathbb{A}^{n + 1}$ defined by $P$, except possibly at $0$. But the corner case is fixed by Prop \ref{prop:proj-homo} ($a_0 = 0$), so a projective algebraic set in $\mathbb{P}^n$ corresponds to a union of lines in $\mathbb{A}^{n + 1}$, which is called a 'cone':
+
+\begin{definition}[Cone]
+    Let $X \subset \mathbb{P}^n$ be a point set. Denote
+    $$C(X) = \left\lbrace (x_1, \cdots, x_{n + 1}) \in \mathbb{A}^{n + 1}: [x_1, \cdots, x_{n + 1}] \in X \right\rbrace \cup \left\lbrace 0 \right\rbrace$$
+    and call it the \textbf{cone} of $X$. If $Y \subset \mathbb{A}^{n + 1}$ is the cone of some $X \subset \mathbb{P}^n$, then we call $Y$ a cone.
+\end{definition}
+
+The cones in $\mathbb{A}^n$ are in a one-to-one correspondence with subsets of $\mathbb{P}^n$. So taking cones will not lose information, and indeed we have:
+    
+\begin{proposition} \label{prop:cone-correspondence}
+    \begin{enumerate}
+        \item Let $X, Y \subset \mathbb{P}^n$, then $X = Y$ if and only if $C(X) = C(Y)$;
+        \item Let $\left\lbrace X_\lambda \right\rbrace_{\lambda \in \Lambda}$ be a family of subsets of $\mathbb{P}^n$, then $C\left(\bigcup\limits_{\lambda \in \Lambda} X_\lambda\right) = \bigcup\limits_{\lambda \in \Lambda} C(X_\lambda)$ and $C\left(\bigcap\limits_{\lambda \in \Lambda} X_\lambda\right) = \bigcap\limits_{\lambda \in \Lambda} C(X_\lambda)$
+    \end{enumerate}
+\end{proposition}
+
+With the preparations, now it is easy to see the correspondence between affine and projective cases:
+
+\begin{proposition}\label{prop:translate-affine}
+    \begin{enumerate}
+        \item Let $X \subset \mathbb{P}^n$ be a set of points, then the ideal of $C(X)$ is homogeneous. Moreover, if $X \ne \emptyset$, $I_a(C(X)) = I_p(X)$.
+        \item Let $I \subset k[X_1, \cdots, X_{n + 1}]$ be a homogeneous ideal, then the affine algebraic set defined by $I$ is a cone. Moreover, if $V_p(I) \ne \emptyset$, $V_a(I) = C(V_p(I))$.
+    \end{enumerate}
+\end{proposition}
+
+For the next few propositions, we only give the proofs when necessary, since their proofs are similar to the affine cases, or can easily be translated back to the affine cases through the previous two propositions.
+
+\begin{proposition}[Projective algebraic sets can be considered as closed sets]
+    Let $R = k[X_1, \cdots, X_{n + 1}]$, we have the following properties for projective algebraic sets:
+    \begin{enumerate}
+        \item If $S, T$ are subsets of $R$ and $S \subset T$, then $V(S) \supset V(T)$;
+        \item If $\left\lbrace I_\lambda \right\rbrace_{\lambda \in \Lambda}$ is a set of homogeneous ideals of $R$, then $V\left(\sum\limits_{\lambda \in \Lambda} I_\lambda\right) = \bigcap\limits_{\lambda \in \Lambda} V(I_\lambda)$;
+        \item If $\left\lbrace I_i \right\rbrace_{i = 1}^r$ is a finite set of homogeneous ideals of $R$, then $V \left(\bigcap\limits_{i = 1}^{r} I_i\right) = V \left(\prod\limits_{i = 1}^{r} I_i\right) = \bigcup\limits_{i = 1}^{r} V(I_i)$
+        \item $V(0) = \mathbb{P}^n, V(1) = \emptyset$
+    \end{enumerate}
+\end{proposition}
+
+\begin{remark}
+    The reader should recall from the preliminary chapter that the sum, intersection and product of homogeneous ideals are also homogeneous.
+\end{remark}
+
+And thus we can define the Zariski topology on $\mathbb{P}^n$:
+
+\begin{definition}[Zariski Topology for Projective Space]
+    The \textbf{Zariski topology} on $\mathbb{P}^n(k)$ is defined as follows: a set $U \subset \mathbb{P}^n$ is open if and only if $\mathbb{P}^n \setminus U$ is a projective algebraic set.
+\end{definition}
+
+By default, $\mathbb{P}^n$ is equipped with the Zariski topology.
+
+\begin{proposition}
+    Let $R = k[X_1, \cdots, X_{n + 1}]$, then we have the following properties for the ideal of a set of points in $\mathbb{P}^n(k)$:
+    \begin{enumerate}
+        \item If $X, Y$ are subsets of $\mathbb{P}^n$ and $X \subset Y$, then $I(X) \supset I(Y)$
+        \item $I(\emptyset) = k[X_1, \cdots, X_{n + 1}], I(\mathbb{P}^n) = 0$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Let $R = k[X_1, \cdots, X_{n + 1}]$, $S \subset R$ and $X \subset \mathbb{P}^n$, then we have:
+    \begin{enumerate}
+        \item $S \subset I(V(S)), X \subset V(I(X))$.
+        \item $S$ is an ideal of a set of points if and only if $I(V(S)) = S$; $X$ is an algebraic set if and only if $V(I(X)) = X$.
+        \item $V(I(X))$ is the closure of $X$ in the Zariski topology.
+    \end{enumerate}
+\end{proposition}
+
+\begin{corollary}
+    Let $V, W$ be two algebraic sets of $\mathbb{P}^n(k)$, then $V = W$ if and only if $I(V) = I(W)$. In particular, if $V \subsetneq W$, we must have $I(V) \supsetneq I(W)$, namely there is $F \in k[X_1, \cdots, X_{n + 1}]$ such that $F$ vanishes on $V$ and $F(P) \ne 0$ for some $P \in W \setminus V$.
+\end{corollary}
+
+\begin{proposition}[Zariski Topology is $T_1$]
+    $\mathbb{P}^n(k)$ is a $T_1$-space.
+\end{proposition}
+
+\begin{proof}
+    We prove that every singleton is closed: $V(\left\lbrace a_i X_j - a_j X_i \right\rbrace_{i, j = 1, \cdots, n}) = \left\lbrace [a_1, \cdots, a_{n + 1}] \right\rbrace$
+\end{proof}
+
+\begin{proposition}[Projective spaces are irreducible]
+    $\mathbb{P}^n$ is irreducible.
+\end{proposition}
+
+\begin{proof}
+    Suppose otherwise, there are homogeneous ideals $I, J$ of $k[X_1, \cdots, X_{n + 1}]$ such that $V_p(I), V_p(J) \subsetneq \mathbb{P}^n$ and $V_p(I) \cup V_p(J) = \mathbb{P}^n$ (so we also have $V_p(I), V_p(J) \ne \emptyset$). Take the cones, by Prop \ref{prop:cone-correspondence} we have $V_a(I) \cup V_a(J) = \mathbb{A}^{n + 1}$. By irreducibility of $\mathbb{A}^{n + 1}$ and WLOG, $V_a(I) = \mathbb{A}^{n + 1}$, and hence $C(V_p(I)) = C(\mathbb{P}^{n}) \Rightarrow V_p(I) = \mathbb{P}^{n}$ by Prop \ref{prop:cone-correspondence}, a contradiction.
+\end{proof}
+
+\begin{corollary}[Projective spaces is non-Hausdorff]
+    $\mathbb{P}^n$ is non-Hausdorff.
+\end{corollary}
+
+\begin{proposition}[$X$ irreducible $\Leftrightarrow$ $I(X)$ prime]
+    Let $X \subset \mathbb{P}^n$, then $X$ is irreducible if and only if $I(X)$ is prime.
+\end{proposition}
+
+\begin{corollary}
+    Let $F \in k[X_1, \cdots, X_{n + 1}]$ be a homogeneous polynomial, then the hyperplane $V(F)$ in $\mathbb{P}^n$ is irreducible if and only if $F$ is a power of an irreducible homogeneous polynomial.
+\end{corollary}
+
+\begin{proposition}[Projective space is Noetherian]
+    $\mathbb{P}^n$ is Noetherian.
+\end{proposition}
+
+\begin{definition}[Projective Varieties]
+    Let $V$ be an algebraic set of $\mathbb{P}^n$. If $V$ is irreducible, then we call $V$ a \textbf{projective variety}. By default, we give $V$ the induced topology of the Zariski topology of $\mathbb{P}^n$ and call it the Zariski topology of $V$.
+\end{definition}
+
+\begin{proposition}[Unique decomposition of algebraic set into affine varieties]
+    Let $V$ be an algebraic set of $\mathbb{P}^n$. Then there is a unique family of projective varieties $V_1, \cdots, V_m$ such that $V = \bigcup\limits_{i = 1}^{m} V_i$ and $V_i \not \subset \bigcup\limits_{j \ne i} V_j$.
+\end{proposition}
+
+\begin{proposition}[Projective Nullstellensatz]
+    Let $k$ be an algebraically closed field, and $I$ be a homogeneous ideal of $k[X_1, \cdots, X_{n + 1}]$, then:
+    \begin{enumerate}
+        \item $V_p(I) = \emptyset$ if and only if there is $N \ge 0$ where $I$ contains all homogeneous polynomials of order $\ge N$;
+        \item If $V_p(I) \ne \emptyset$, $I_p(V_p(I)) = \sqrt{I}$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that $V_p(I) = \emptyset \Leftrightarrow V_a(I) \subset \left\lbrace \underline{0} \right\rbrace \Leftrightarrow \sqrt{I} \supset (X_1, \cdots, X_{n + 1})$ (Nullstellensatz) $\Leftrightarrow$ $(X_1, \cdots, X_{n + 1})^N \subset I$ for some $N$ (Check. Hint: Take $N = (\sum\limits_{i = 1}^{n + 1} r_i) - 1$ where $X_i^{r_i} \in I$).
+        \item By Prop \ref{prop:translate-affine}, $I_p(V_p(I)) = I_a(C(V_p(I))) = I_a(V_a(I)) = \sqrt{I}$
+    \end{enumerate}
+\end{proof}
+
+For the rest of the section, we embed affine varieties into projective spaces as topological subspaces, so that any topological statements in either $\mathbb{A}^n$ or $\mathbb{P}^n$ could be dealt within $\mathbb{P}^n$. Our goal here is to show that $\varphi_i: \mathbb{A}^n \rightarrow U_i$'s are homeomorphisms. To simplify the matters, the following discussions will be about $\varphi_{n + 1}$, but the readers will have no difficulty replacing $n + 1$ with arbitrary $i$. 
+
+We mentioned before that $\varphi_{n + 1}$ is a one-to-one correspondence. So we only need to show that both $\varphi_{n + 1}$ and $\varphi_{n + 1}^{-1}$ are continuous:
+\begin{enumerate}
+    \item For arbitrary $W \subset \mathbb{P}^n$ a projective algebraic set, we need to show $\varphi_{n + 1} ^{-1}(W)$ is closed.
+    \item For arbitrary $V \subset \mathbb{A}^n$ an affine algebraic set, we need to show that $\varphi_{n + 1}(V)$ is closed in $U_{n + 1}$, namely $\varphi_{n + 1} (V) = W \cap U_{n + 1}$ for some closed set $W \subset \mathbb{P}^n$. But since every closed set in $\mathbb{P}^n$ that contains $\varphi_{n + 1}(V)$ must contain $\overline{\varphi_{n + 1}(V)}$, we only need to test whether $\varphi_{n + 1}(V) = \overline{\varphi_{n + 1}(V)} \cap U_{n + 1}$.
+\end{enumerate}
+So the key is to understand $\overline{\varphi_{n + 1}(V)}$ and $\varphi_{n + 1} ^{-1}(W)$. We use the following notations for them:
+
+\begin{definition}[Projective Closure]
+    Let $V \subset \mathbb{A}^n$ be an affine algebraic set. Denote $V^\ast = \overline{\varphi_{n + 1}(V)}$, the closure of $\varphi_{n + 1}(V)$ with respect to the Zariski topology of $\mathbb{P}^n$, we call it the \textbf{projective closure} of $V$.
+\end{definition}
+
+\begin{notation}
+    Let $V \subset \mathbb{P}^n$ be a projective algebraic set. Denote $V_{\ast} = \varphi_{n + 1} ^{-1}(V)$.
+\end{notation}
+
+\begin{proposition} \label{prop:closure-preserve-order}
+    \begin{enumerate}
+        \item Let $V, W \subset \mathbb{A}^n$ be two affine varieties and $V \subset W$, then $V^\ast \subset W^\ast$
+        \item Let $V, W \subset \mathbb{P}^n$ be two projective varieties and $V \subset W$, then $V_\ast \subset W_\ast$
+    \end{enumerate}
+\end{proposition}
+
+$V^\ast$ and $V_\ast$ correspond to the following algebraic operations.
+
+\begin{notation}
+    Let $F \in k[X_1, \cdots, X_n]$ and $F = \sum\limits_{i = 0}^{d} F_i$ the homogeneous decomposition of $F$. Denote $F^\ast$ a polynomial in $k[X_1, \cdots, X_{n + 1}]$ by
+    $$F^\ast = \sum\limits_{i = 0}^{d} F_i X_{n + 1}^{d - i}$$
+
+    Let $F \in k[X_1, \cdots, X_{n + 1}]$. Denote $F_\ast$ a polynomial in $k[X_1, \cdots, X_n]$ by
+    $$F_\ast(x_1, \cdots, x_n) = F(x_1, \cdots, x_n, 1)$$
+
+    For $I$ an ideal of $k[X_1, \cdots, X_n]$, denote $I^\ast$ to be the ideal in $k[X_1, \cdots, X_{n + 1}]$ generated by $\left\lbrace F^\ast: F \in I \right\rbrace$.
+    
+    For $J$ an ideal of $k[X_1, \cdots, X_{n + 1}]$, denote $J_\ast$ to be the ideal in $k[X_1, \cdots, X_n]$ generated by $\left\lbrace F_\ast: F \in I \right\rbrace$
+\end{notation}
+
+\begin{proposition}\label{prop:rule-homogenize}
+    \begin{enumerate}
+        \item Let $F \in k[X_1, \cdots, X_n]$, then $(F^{\ast})_\ast = F$
+        \item Let $F \in k[X_1, \cdots, X_{n + 1}]$, then $X_{n + 1}^d(F_{\ast})^\ast = F$ where $d$ is the maximum number such that $X_{n + 1}^d | F$.
+        \item Let $F, G \in k[X_1, \cdots, X_{n + 1}]$, then $(FG)_\ast = F_\ast G_\ast$ and $(F + G)_\ast = F_\ast + G_\ast$.
+        \item Let $F, G \in k[X_1, \cdots, X_n]$, then $(FG)^\ast = F^\ast G^\ast$ and
+        $$X_{n + 1}^{\deg(F) + \deg(G) - \deg(F + G)} (F + G)^\ast = X_{n + 1}^{\deg(G)} F^\ast + X_{n + 1}^{\deg(F)} G^\ast$$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Exercise. A comment on $(F + G)^\ast$: we simply raise each side to a form of degree $\deg(F) + \deg(G)$.
+\end{proof}
+
+An immediate result is:
+
+\begin{proposition}
+    Let $I \subset k[X_1, \cdots, X_n]$ be an ideal, then:
+    $$I_\ast = \left\lbrace F_\ast: F \in I \right\rbrace$$
+\end{proposition}
+
+\begin{proposition} \label{prop:homogeneous-closure}
+    \begin{enumerate}
+        \item Let $V \subset \mathbb{A}^n$ be an algebraic set, then $I(V^\ast) = I(V)^\ast$.
+        \item Let $W \subset \mathbb{P}^n$ be an algebraic set, then $W_\ast = V(I(W)_\ast)$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Note that $I(\varphi_{n + 1}(V)) = I(V(I(\varphi_{n + 1}(V)))) = I(V^\ast)$, but from definitions we have $I(V)^\ast \subset I(\varphi_{n + 1}(V))$ and hence $I(V)^\ast \subset I(V^\ast)$. For the other direction, take $F$ that vanishes on $\varphi_{n + 1}(V)$, then $F_\ast \in I(V)$ by checking the definitions. It follows that $F = X_{n + 1}^d(F_\ast)^\ast \in I(V)^\ast$. This shows that $I(V^\ast) \subset I(V)^\ast$.
+        \item Just check the definition.
+    \end{enumerate}
+\end{proof}
+
+The second part already shows that $\varphi_{n + 1}$ is continuous. With a bit of extra effort, we can show that $\varphi_{n + 1} ^{-1}$ is also continuous by the first part:
+
+\begin{proposition} \label{prop:affine-proj-correspondence}
+    Let $V \subset \mathbb{A}^n$ be an affine algebraic set, then $(V^\ast)_\ast = V$.
+\end{proposition}
+
+\begin{proof}
+    By Prop \ref{prop:homogeneous-closure}, we have $I(V^\ast) = I(V)^\ast$ and therefore $(V^\ast)_\ast = V(I(V^\ast)_\ast) = V((I(V)^\ast)_\ast)$. By Prop \ref{prop:rule-homogenize}, we have $(I(V)^\ast)_\ast = I(V)$ (check), which completes the proof.
+\end{proof}
+
+\begin{corollary}[$\varphi_{n + 1}$ is a homeomorphism]\label{cor:phi-homeo}
+    $\varphi_{n + 1}: \mathbb{A}^n \rightarrow U_{n + 1}$ is a homeomorphism.
+\end{corollary}
+
+\begin{corollary}\label{cor:affine-proj-closure-irred}
+    Let $V \subset \mathbb{A}^n$ be an affine variety. Then $V^\ast$ is a projective variety.
+\end{corollary}
+
+\begin{proof}
+    By Cor \ref{cor:phi-homeo}, and Prop \ref{prop:irreducible-closure}.
+\end{proof}
+
+\begin{corollary}
+    Let $V \subset \mathbb{A}^n$ be an affine algebraic set and $\left\lbrace V_i \right\rbrace_{i = 1}^r$ the irreducible components of $V$. Then $\left\lbrace V_i^\ast \right\rbrace$'s are the irreducible components of $V^\ast$ in $\mathbb{P}^n$.
+\end{corollary}
+
+\begin{proof}
+    By Prop \ref{prop:closure-preserve-order}, Cor \ref{cor:affine-proj-closure-irred} and Prop \ref{prop:Noetherian-space-minimal}. (Use the uniqueness of minimal decomposition into irreducible components)
+\end{proof}
+
+It is clear by definition that $(W_\ast)^\ast \subset W$. However, $(W_\ast)^\ast = W$ do not necessarily hold: For example we could have $W \ne \emptyset$ but $W \cap U_{n + 1} = \emptyset$. Actually, we do not need $W \cap U_{n + 1} = \emptyset$, we only need one component of $W$ to be disjoint from $U_{n + 1}$: Let $V_1, \cdots, V_r$ be the decomposition of $V = W_\ast$, then $V_1^\ast, \cdots, V_r^\ast$ are the irreducible components of $(W_\ast)^\ast$. When $(W_\ast)^\ast = W$, they are also the components of $W$. Then if $W$ has an irreducible components that do not intersect $U_{n + 1}$, it is impossible that $(W_\ast)^\ast = W$. In fact, this is the only obstacle, and the discussions above suggest us to study the case when $W$ is irreducible.
+
+\iffalse
+
+\begin{lemma}
+    Let $V \subset W \subset \mathbb{P}^n$ be varieties and $V$ be a hyperplane. Then $W = V$ or $W = \mathbb{P}^n$
+\end{lemma}
+
+\begin{proof}
+    Suppose $V = V(F)$ where $F$ an irreducible form of degree $1$. The reader should verify that $I(V(F)) = (F)$. (\TODO verify it, this is why we require $V$ to be a hyperplane and not a hypersurface in general). Then $0 \subset I(W) \subset (F)$. Suppose $I(W) \ne (0)$, let $0 \ne G \in I(W)$, then $G \in (F) \Rightarrow G = F^nH$ for some $H$ not divisable by $F$. Since $I(W)$ is prime, either $F \in I(W)$, which proves that $(F) = I(W)$, or $H \in I(W)$, which leads to contradiction since clearly $H \notin (F)$. So either $I(W) = 0$ or $I(W) = (F)$, which completes the proof.
+\end{proof}
+
+\begin{corollary}
+    Let $V \subset \mathbb{P}^n$ be a projective variety. If $H_{\infty} \subset V$, then $V = H_{\infty}$ or $V = \mathbb{P}^n$.
+\end{corollary}
+
+\fi
+
+\begin{proposition}
+    Let $k$ be an algebraically closed field and $W \subset \mathbb{P}^n$ be a projective variety such that $W \cap U_{n + 1} \ne \emptyset$, then $(W_\ast)^\ast = W$
+\end{proposition}
+
+\begin{proof}
+    It is clear by closure property that $(W_\ast)^\ast \subset W$. For the other direction, ISTS $I(W) \supset I((W_\ast)^\ast) = I(W_\ast)^\ast$ by Prop \ref{prop:homogeneous-closure}. Take arbitrary $F \in I(W_\ast) = I(V(I(W)_\ast)) = \sqrt{I(W)_\ast}$ by Prop \ref{prop:homogeneous-closure} and the Nullstellensatz, then $F^m \in I(W)_\ast$ for some $m \ge 0$. Namely, there is some $G \in I(W)$ such that $F^m = G_\ast$. It follows that $G = X_{n + 1}^d (G_\ast)^\ast = X_{n + 1}^d (F^\ast)^m \in I(W)$. Since $I(W)$ is prime and $X_{n + 1} \notin I(W)$ as $W \cap U_{n + 1} \ne \emptyset$, we have $F^\ast \in I(W)$, which completes the proof.
+\end{proof}
+
+\begin{corollary}
+    Let $k$ be an algebraically closed field and $W \subset \mathbb{P}^n$ be a projective algebraic set. Then $(W_\ast)^\ast = W$ if and only if every irreducible component of $W$ intersects $U_{n + 1}$.
+\end{corollary}
+
+\begin{corollary}
+    There is a one-to-one correspondence between non-empty affine varieties in $\mathbb{A}^n$ and projective varieties in $\mathbb{P}^n$ that intersect $U_{n + 1}$, defined by $V \mapsto V^\ast$ and $W \mapsto W_\ast$.
+\end{corollary}
+
+\section{Quasi Varieties and Morphisms}
+
+In this section, $k$ is assumed to be an algebraically closed field.
+
+We define varieties in the previous section, now it's time to consider the morphisms between them. What kind of map between the varieties do we want to study? One way to think about this is to consider the 'intrinsic properties' of a variety. The intrinsic properties of an object are the properties preserved under isomorphisms. It should be something that is only related to the variety itself. For example, the specific embedding of a variety into $\mathbb{A}^n$ or $\mathbb{P}^n$ is not a proper intrinsic property, otherwise there could be no isomorphisms between different varieties at all. On the other hand, the \textit{functions} on the varieties would be a good choice for intrinsic properties, and the translations between the functions on isomorphic varieties are naturally defined by precomposition of the isomorphism.
+
+Since the affine and projective varieties are defined by polynomials, it would be logical if we consider the polynomial functions on them, namely the value of the function are required to be a polynomial of the coordinates. However, things do not work out well for the projective spaces, as polynomials are usually ill-defined: The only polynomial functions $\mathbb{P}^n \rightarrow k$ are the constant polynomials. This is analogous to Liouville's theorem, which states any holomorphic function from the Riemann sphere to $\mathbb{C}$ will be constant, while there are a lot more meromorphic functions. Therefore, we instead focus on the quotient of polynomials, namely the rational functions.
+
+Rational functions are not functions, as they have poles where the function values are undefined. To deal with this, we either enlarge the codomain to allow $\infty$ value, or restrict the domain to where the function is defined. Here we adopt the latter approach, as $k \cup \left\lbrace \infty \right\rbrace$ loses the algebraic structure of $k$. The pole sets of a quotient of polynomials are defined by polynomials, so they will be closed subsets of a variety, and we define:
+
+\begin{definition}[Qausi-affine / Quasi-projective Variety]
+    Let $V \subset \mathbb{A}^n$ (resp. $\mathbb{P}^n$) be an affine (resp. projective) variety, and $X \subset V$ be an open subset. Then we call $X$ an \textbf{quasi-affine variety} (resp. \textbf{quasi-projective variety}).
+\end{definition}
+
+The default topology on quasi-affine (resp. quasi-projective) varieties is the induced topology from the enclosing affine (resp. projective) variety, and we also call it the Zariski topology on the variety.
+
+And we simply call:
+
+\begin{definition}[Variety]
+    A \textbf{variety over $k$} is an affine variety, a quasi-affine variety, a projective variety or a quasi-projective variety in an affine or projective space over $k$.
+\end{definition}
+
+When the context is clear, we omit $k$ and simply call them 'varieties'.
+
+Note that in the definition of quasi-varieties, we only only assume the existence of \textit{a} variety that encloses the quasi variety. In fact, the variety is uniquely determined by the quasi-variety:
+
+\begin{proposition}[Uniqueness of the enclosing variety] \label{prop:unique-enclosing-variety}
+    Let $X$ be a quasi-affine (resp. quasi-projective) variety, then there is a unique affine (resp. projective) variety $V$ such that $X$ is open in $V$. In fact, $V = \overline{X}$.
+\end{proposition}
+
+\begin{proof}
+    Since $X$ is open in $V$ and $V$ is irreducible, $X$ is dense in $V$ and hence $V \subset \overline{X}$. On the other hand, $V$ is closed, so $\overline{X} \subset V$ by definition of the closure.
+\end{proof}
+
+Then by Prop \ref{prop:irreducible-closure}:
+
+\begin{proposition}\label{prop:variety-irred}
+    Varieties are irreducible.
+\end{proposition}
+
+Now given the Zariski topology, it is a purely topological question to test whether a subset of $\mathbb{A}^n$ or $\mathbb{P}^n$ is a variety: A variety is an intersection of an open subspace and a closed and irreducible subspace of $\mathbb{A}^n$ or $\mathbb{P}^n$. In fact, we have the equivalent definition:
+
+\begin{proposition}
+    Let $X \subset \mathbb{A}^n$ (resp. $\mathbb{P}^n$), then $X$ is a variety if and only if $X$ is locally closed and irreducible.
+\end{proposition}
+
+\begin{proof}
+    The "only if" part is clear by Prop \ref{prop:variety-irred} and the definition. For the "if" part, we use the equivalent definition for locally closed (Prop \ref{prop:locally-closed-equiv-def}) and Prop \ref{prop:irreducible-closure}.
+\end{proof}
+
+However, as mentioned before, locally closed is relevant to the embedding space. So it seems that we have to go back to $\mathbb{A}^n$ or $\mathbb{P}^n$ if we want to test whether a subset of them is a variety. Luckily, we have Prop \ref{prop:locally-closed-transitive}, which allow us to test whether a subset of a \textit{variety} is a variety without going back to the definition. As it turns out, the criterion for testing whether a subset of a \textit{variety} is a 'subvariety' is the same as testing whether a subset of $\mathbb{A}^n$ or $\mathbb{P}^n$ is a variety:
+
+\begin{definition}[Subvariety]
+    Let $X$ be a variety, and $Y \subset X$, if $Y$ is also a variety, then we call $Y$ a \textbf{subvariety} of $X$.
+\end{definition}
+
+\begin{proposition}\label{prop:open-closed-subvariety}
+    Let $X$ be a variety, $Y \subset X$, if
+    \begin{enumerate}
+        \item $Y$ is open in $X$, or,
+        \item $Y$ is closed and irreducible in $X$,
+    \end{enumerate}
+    then $Y$ is a subvariety of $X$.
+\end{proposition}
+
+\begin{proof}
+    Note that open and closed subsets of $X$ are both locally closed. By Prop \ref{prop:locally-closed-transitive}, we only need to test irreducibility. The open subsets of $X$ are dense in $X$, so are irreducible by Prop \ref{prop:irreducible-closure}.
+\end{proof}
+
+And hence we define:
+
+\begin{definition}[Open Subvariety, Closed Subvariety]
+    Let $X$ be a variety. An open subset of $X$ is called an \textbf{open subvariety} of $X$. A closed and irreducible subset of $X$ is called a \textbf{closed variety} of $X$.
+\end{definition}
+
+Then the following should be obvious:
+
+\begin{proposition}\label{prop:subvariety-test}
+    Let $X$ be a variety, then $Y \subset X$ is a subvariety of $X$ if and only if $Y$ is the intersection of an open subvariety and a closed subvariety of $X$.
+\end{proposition}
+
+\iffalse
+
+\begin{proposition}
+    Let $X$ be a quasi-affine (resp. quasi-projective) variety. Then $I(X) = I(\overline{X})$.
+\end{proposition}
+
+\begin{proof}
+    Note that $I(X) = I(V(I(X))) = I(\overline{X})$.
+\end{proof}
+
+\fi
+
+Now let's define the rational functions on the quasi-varieties. It is tempting to define them simply as the quotient of two polynomials (for quasi-projective varieties, things are more complicated, we need two homogeneous polynomials with same degree for the function to be well-defined). Take the example of affine variety $V = \mathbb{A}^n$. Take $F, G \in k[X_1, \cdots, X_n]$ such that $F, G$ do not share common factors (this is well-defined as $k[X_1, \cdots, X_n]$ is a UFD), then $F / G$ defines a function on quasi-affine $\mathbb{A}^n \setminus V(G)$. Moreover, there is no way we can extend this function: For arbitrary $F' / G'$ such that $F' / G'$ and $F / G$ agree on $\mathbb{A}^n \setminus (V(G) \cup V(G'))$, then we must have $F'G(P) - FG'(P) = 0$ for $P \in \mathbb{A}^n \setminus (V(G) \cup V(G'))$. But the equation clearly holds for $P \in V(G) \cup V(G')$ and therefore $F'G - FG'$ vanishes on $\mathbb{A}^n$. Since $k$ is infinite, we have $F'G = FG'$ as polynomials, and therefore $G$ divides $G'$ by the UFD property, namely $V(G') \supset V(G)$ and $F' / G'$ is defined at an even smaller region.
+
+However, this is not necessarily true when $V$ is an arbitrary affine variety: The key point is that $k[X_1, \cdots, X_n] / I(V)$ is no longer guaranteed to be a UFD. See the example below:
+
+\begin{example}
+    Consider the variety $V = V(XW - YZ) \subset \mathbb{A}^4$ (it is a variety as $XW - YZ$ is irreducible). Then consider $F = X$ and $G = Y$, $F / G$ is defined on $V \setminus V(Y)$. However, if we take $F' = Z, G' = W$, then $F' / G'$ is defined on $V \setminus V(W)$, which is not contained in $V \setminus V(Y)$. Moreover, $F' / G'$ and $F / G$ agree on $V \setminus (V(Y) \cup V(W))$ (Due to the extra requirement $XW - YZ = 0$ on $V$), so we can extend $F / G$ to $V \setminus V(Y, Z)$.
+\end{example}
+
+In fact, with a bit of effort, we can show that it is impossible to give a 'global' expression $F / G$ for the function defined on $V \setminus V(Y, Z)$ in the previous example. The best we can do is to patch different pieces of 'local' rational functions together. Each patch will be called a regular function on the corresponding quasi-variety, and we define rational functions to be the maximal patches.
+
+\begin{definition}[Regular Function]
+    Let $X \subset \mathbb{A}^n$ (resp. $\mathbb{P}^n$) be a quasi-affine (resp. quasi-projective) variety, and $f: X \rightarrow k$ be a function. If for $P \in X$, we have open neighborhood $U$ of $P$ such and polynomials (resp. homogeneous polynomials with same degree) $F, G$ such that $G \ne 0$ on $U$ and $f(P) = F(P) / G(P)$ for all $P \in U$, then we call $f$ to be \textbf{regular} at $P$. If $f$ is regular at every point of $X$, then we call $f$ a \textbf{regular function} on $X$. Denote the set of regular functions on $X$ as $\Gamma(X)$.
+\end{definition}
+
+Since $k$ is a field, $\mathrm{Hom}_{\mathscr{Sets}}(X, k)$ is a $k$-algebra for arbitrary set $X$, with the operation defined pointwise. Then the reader may verify:
+
+\begin{proposition}
+    Let $X$ be a variety. Then $\Gamma(X)$ is a subalgebra of $\mathrm{Hom}_{\mathscr{Sets}}(X, k)$.
+\end{proposition}
+
+\begin{definition}
+    Let $X$ be a variety, we call $\Gamma(X)$ \textbf{the ring of regular functions} on $X$.
+\end{definition}
+
+Actually, regular functions are more than set maps. Equip $k$ with the Zariski topology, they are actually continuous maps between topological spaces.
+
+\begin{proposition}\label{prop:regular-cont}
+    Let $X$ be a variety and $f: X \rightarrow k$ a regular function. Then $f$ is continuous with respect to the Zariski topology on $k$.
+\end{proposition}
+
+\begin{proof}
+    We show that closed sets contract to closed sets. Since the topology on $\mathbb{A}^1$ is cofinite, we only need to show $f ^{-1} (\lambda)$ is closed for arbitrary $\lambda \in k$. It then suffices to show that $X \setminus f ^{-1}(\lambda)$ is open in each open set of an open cover of $X$. By definition, for any $P \in X$, there is an open neighborhood $U$ of $P$ and polynomials $F, G$ such that $f = F / G$ on $U$. The collection of $U$'s form an open cover of $X$. Take an arbitrary $U$ and the corresponding $F, G$, we have $X \setminus f ^{-1}(\lambda) \cap U = \left\lbrace P \in U: F(P) \ne \lambda G(P) \right\rbrace = U \setminus V(F - \lambda G)$, which is open.
+\end{proof}
+
+\begin{definition}[Rational Function]
+    Let $X$ be a variety. If a pair $(Y, f)$ is maximal in the poset $(\left\lbrace (Y, f) \right\rbrace_{Y \text{ open in } X, f \in \Gamma(Y)}, \le)$, where
+    $$(Y, f) \le (Y', f') \Leftrightarrow Y \subset Y', f'|_Y = f$$
+    Then we call the pair $(Y, f)$ a \textbf{rational function} on $X$. We denote the set of rational function on $X$ as $K(X)$, and call it the \textbf{rational function field} of $X$. Since domain is part of the function, we usually omit $Y$ and call $f$ a rational function on $X$.
+
+    If $P \in Y$, we call $f$ \textbf{defined} at $P$, with \textbf{value} $f(P)$ at $P$. Otherwise $P$ is a \textbf{pole} of $f$.
+\end{definition}
+
+Basically, a rational function on $X$ is a regular function on an open subset of $X$ that cannot be extended. For each regular function, by Noetherian of the space, there is a rational function that extends it. Moreover, the maximal extension is unique:
+
+\begin{proposition}\label{prop:unique-rational}
+    Let $X$ be a variety, $Y$ be an open subset of $X$ and $f \in \Gamma(Y)$. Then there is a unique rational function $(\tilde{Y}, \tilde{f})$ such that $(Y, f) \le (\tilde{Y}, \tilde{f})$.
+\end{proposition}
+
+\begin{proof}
+    Denote $\Sigma = \left\lbrace (Z, g): Z \text{ open in } X, g \in \Gamma(Z), (Y, f) \le (Z, g) \right\rbrace$. We construct $(\tilde{Y}, \tilde{f})$ by patching all regular functions in $\Sigma$, namely $\tilde{Y} = \bigcup\limits_{(Z, g) \in \Sigma} Z$ and $\tilde{f}$ is defined by $\tilde{f}|_Z = g$ for all $(Z, g) \in \Sigma$. We only need to show that the regular functions in $\Sigma$ are mutually compatible: For $(Z_1, g_1)$ and $(Z_2, g_2)$, we have $g_1|_X = g_2|_X$ by definition. However, $X$ is open and hence is dense in $Z_1 \cap Z_2$ by irreducibility of $Z_1 \cap Z_2$. By continuity, $g_1|_{Z_1 \cap Z_2} = g_2|_{Z_1 \cap Z_2}$.
+\end{proof}
+
+Since we call $K(X)$ the rational function \textit{field}, we need to show that $K(X)$ is actually a field.
+
+\begin{proposition}
+    Let $X$ be a variety, then $K(X)$ has a structure of field such that the operations are compatible with the point-wise operations where the operands are defined.
+\end{proposition}
+
+\begin{proof}
+    Let $(Y, f), (Z, g)$ be two rational functions on $X$ and $\lambda \in k$. Define:
+    \begin{enumerate}
+        \item $k (Y, f)$ to be $(Y, kf)$ where $kf$ is the point-wise scalar product of $k$ and $f$;
+        \item $(Y, f) + (Z, g)$ to be the unique rational function that restricts to $(Y \cap Z, f + g)$;
+        \item $(Y, f) (Z, g)$ to be the unique rational function that restricts to $(Y \cap Z, f g)$;
+        \item $(Y, f) ^{-1}$ to be the unique rational function that restricts to $(Y_f, 1 / f)$.
+    \end{enumerate}
+
+    The details are not hard: Finite intersection of open sets are still open, and hence dense. Then we can use the continuity argument. We leave the details to the readers.
+\end{proof}
+
+And obviously we have:
+
+\begin{proposition}\label{prop:ring-of-regular-subset-rational-field}
+    Let $X$ be a variety, then $\Gamma(X) \subset K(X)$ is a subring. As a result, $\Gamma(X)$ is a domain and $\mathrm{Frac}(\Gamma(X)) \subset K(X)$.
+\end{proposition}
+
+\iffalse
+Since $K(X)$ is a field, we must have $\mathrm{Frac}(\Gamma(X)) \cong K(X)$. Actually the converse also holds:
+
+\begin{proposition}
+    Let $X$ be a variety, then $K(X) \cong \mathrm{Frac}(\Gamma(X))$.
+\end{proposition}
+
+\begin{proof}
+    We only prove the case for quasi-projective varieties, the proof for affine cases are basically the same, except simpler.
+
+    Take $(Y, f) \in K(X)$, then $Y \ne \emptyset$ by maximality. Pick $P \in Y$, by definition there are homogeneous polynomials $G, H$ of the same degree $d$ such that $f = G / H$ on an open neighborhood of $P$. WLOG, suppose $P \in U_{n + 1}$. Now take $g = G / X_{n + 1}^d, h = X_{n + 1}^d / H$. Then $g, h \in \Gamma$
+\end{proof}
+
+\fi
+
+Moreover, we only need to consider the rational function fields of affine or projective varieties.
+
+\begin{proposition}\label{prop:field-equal-closure}
+    Let $X$ be a variety. Then $K(X) \cong K(\overline{X})$.
+\end{proposition}
+
+\begin{proof}
+    Since $X$ is open in $\overline{X}$, any rational function $(Y, f)$ of $X$ will be a regular function on the open subvariety $Y$ of $\overline{X}$. By Prop \ref{prop:unique-rational}, $(Y, f)$ corrsponds to a unique rational function on $\overline{X}$. For two different rational functions $(Y, f), (Y', f')$, they must not agree on $Y \cap Y'$, and hence extends to different rational functions on $X$. This allows us to regard $K(X) \subset K(\overline{X})$. The converse is trivial: Any rational function $(Y, f)$ on $\overline{X}$ is the unique extension of $(Y \cap X, f|_{Y \cap X})$.
+\end{proof}
+
+Finally, we define the morphisms between the varieties. The key point is to keep regular functions on open subvarieties as an intrinsic property:
+
+\begin{definition}[Regular Map]
+    Let $X, Y$ be varieties and $\varphi: X \rightarrow Y$ be a map. If:
+    \begin{enumerate}
+        \item $f$ is continuous;
+        \item For all open subset $U$ of $Y$, $\varphi^\ast (\Gamma(U)) \subset \Gamma(\varphi ^{-1}(U))$
+    \end{enumerate}
+    then we call $\varphi$ a \textbf{regular map}.
+\end{definition}
+
+\begin{remark}
+    About the second condition:
+    \begin{enumerate}
+        \item By continuity, $\varphi ^{-1}(U)$ is an open subset of $X$, so it is also a variety and hence $\Gamma(\varphi ^{-1}(U))$ is well-defined.
+        \item For arbitrary set map $\varphi: X \rightarrow Y$, the precomposition $\varphi^\ast$ is always a $k$-algebra homomorphism. As a result, the restriction $\varphi^\ast: \Gamma(U) \rightarrow \mathrm{Hom}_{\mathscr{Sets}}(\varphi ^{-1}(U), k)$ is also a $k$-algebra homomorphism. The second condition simply means that the image of $\varphi^\ast$ is contained in the subring $\Gamma(\varphi ^{-1}(U))$. With that in mind, $\varphi$ is regular if and only if $\varphi^\ast$ is a $k$-algebra homomorphism $\Gamma(U) \rightarrow \Gamma(\varphi ^{-1} (U))$ for all open set $U$.
+    \end{enumerate}
+\end{remark}
+
+And the readers may verify that varieties and regular maps form a category:
+
+\begin{definition}[Category of Variety]
+    Let $\mathscr{Var}_k$ be the category defined by:
+    \begin{enumerate}
+        \item $\mathrm{ob}(\mathscr{Var}_k) = \text{Varieties}$
+        \item $\mathrm{Hom}_{\mathscr{Var}_k}(X, Y) = \left\lbrace \varphi: \varphi \text{ is a regular map } X \rightarrow Y \right\rbrace$
+    \end{enumerate}
+    and the composite rule is simply the composite rule of set maps.
+\end{definition}
+
+We promise before that the functions on varieties should be their intrinsic properties, the following proposition should not be hard to verify:
+
+\begin{proposition}
+    Let $X, Y$ be varieties and $X \cong Y$. Then $\Gamma(X) \cong \Gamma(Y)$ and $K(X) \cong \Gamma(Y)$.
+\end{proposition}
+
+The isomorphisms in $\mathscr{Var}_k$ are also called \textbf{biregular}, and isomorphic objects are usually called \textbf{biregular} to each other.
+
+Since we usually do not differentiate isomorphic objects, a variety will be called affine / projective / quasi-affine / quasi-projective if it is isomorphic to an affine / projective / quasi-affine / quasi-projective variety. To avoid confusion, when we write "$V \subset \mathbb{A}^n$ is an affine variety", we mean $V$ is a closed subvariety of $\mathbb{A}^n$; When we write "$V$ is an affine variety", we mean $V$ is isomorphic to an affine variety.
+
+\begin{lemma}\label{lem:iso-keep-substructure}
+    Let $X, Y$ be varieties, $\varphi: X \rightarrow Y$ be an isomorphism and $U \subset X$ be a subvariety of $X$, then $\varphi|_U$ is an isomorphism $U \rightarrow \varphi(U)$. Namely, isomorphisms keep the subvariety structure.
+\end{lemma}
+
+\begin{proof}
+    Note that we first need to show that $\varphi(U)$ is a variety for the isomorphism $\varphi|_U$ to make sense. This is true as subvarieties are topological properties by Prop \ref{prop:subvariety-test}.
+
+    It is clear that $\varphi|_U$ is a homeomorphism. So we only need to show that $\varphi|_U$ is regular, and the reverse direction is by symmetry. But this is trivial thanks to the second condition of the regular map.
+\end{proof}
+
+The rest of the section will be divided into three parts. First we show that all varieties so far (affine, projective, quasi-affine, quasi-projective) are quasi-projective. Then we show that quasi-projective varieties are 'locally affine', in a similar way that manifolds are 'locally Euclidean'. And finally, we focus on affine varieties whose importance are self-evidence after the previous two steps.
+
+Projective varieties are by definition quasi-projective. If affine varieties are quasi-projective, then as open subvarieties, quasi-affine varieties are also quasi-projective. As a result, we only need to show affine varieties are quasi-projective. We already did the topological part in the previous section: For an arbitrary affine variety $V \subset \mathbb{A}^n$, $\varphi_{n + 1}$ is a homeomorphism $V \rightarrow \varphi_{n + 1} (V) = U_{n + 1} \cap V^\ast$ by Cor \ref{cor:phi-homeo} and Prop \ref{prop:affine-proj-correspondence}, and the latter is an open subset of a projective variety. 
+
+\begin{proposition}[$\varphi_{n + 1}$ is an isomorphism] \label{prop:phi-iso}
+    $\varphi_{n + 1}: \mathbb{A}^n \rightarrow U_{n + 1} \subset \mathbb{P}^n$ is an isomorphism in $\mathscr{Var}_k$.
+\end{proposition}
+
+\begin{proof}
+    We already know that $\varphi_{n + 1}$ is a homeomorphism. Now take arbitrary open set $X$ of $U_{n + 1}$ and $f \in \Gamma(X)$, $\varphi_{n + 1}^\ast(f)$ will be a function $\varphi_{n + 1} ^{-1} (X) \rightarrow k$. Now for arbitray $P \in \varphi_{n + 1} ^{-1}(X)$, consider $\varphi_{n + 1}(P) \in X$, by definition there is open neighborhood $U$ of $\varphi_{n + 1}(P)$ in $U_{n + 1}$ and homogeneous polynomials $F, G$ of the same degree such that $f = F / G$ on $U$. But then $\varphi_{n + 1}^\ast(f) = F_\ast / G_\ast$ on $\varphi_{n + 1}^{-1}(U)$. Since $P$ is arbitrary, $\varphi_{n + 1} ^{-1}(f)$ is regular on $\varphi_{n + 1} ^{-1}(X)$, which completes the proof that $\varphi_{n + 1}$ is a regular map. The proof for $\varphi_{n + 1}^{-1}$ is  similar except that we use $(\varphi_{n + 1} ^{-1})^\ast(f) = F^\ast / G^\ast X_{n + 1}^{\deg (G) - \deg(F)}$ where $f = F / G$ on some open sets.
+\end{proof}
+
+\begin{corollary}
+    All varieties are quasi-projective.
+\end{corollary}
+
+\begin{proof}
+    As mentioned before, we only need to show that affine varieties are isomorphic to a quasi-projectiv variety. But it follows from Prop \ref{prop:phi-iso} and Lem \ref{lem:iso-keep-substructure}.
+\end{proof}
+
+So in the following discussion, we will assume any varieties to be quasi-projective.
+
+We proceed to our next step. Our goal is to find an open base of quasi-projective varieties such that each element in the base is an affine variety. We call it an 'affine base' of the quasi-projective variety. We already know that a quasi-projective variety $X$ can be covered by $X \cap U_i$'s, which are quasi-affine by the isomorphism $\varphi_i$'s. So we only need to find an affine basis of the quasi-affine varieties. Then it suffices to find an affine basis of affine varieties, since quasi-affine varieties are merely open subsets of affine varieties and therefore inherit the open basis of the corresponding affine varieties.
+
+As a result, things would be more convenient if we study affine varieties first, and then go back to construct the affine basis. The first astonishing result is that regular functions on affine varieties are actually polynomials.
+
+\begin{proposition}[Regular functions on affine varieties in $\mathbb{A}^n$ are polynomials]\label{prop:affine-regular-poly}
+    Let $V \subset \mathbb{A}^n$ be an affine variety. For arbitrary $f \in \Gamma(V)$, there is polynomial $F \in k[X_1, \cdots, X_n]$ such that $f(P) = F(P)$ for all $P \in V$. As a result:
+    $$\Gamma(V) \cong k[X_1, \cdots, X_n] / I(V)$$
+    as $k$-algebras.
+\end{proposition}
+
+\begin{proof}
+    We only prove the first part. The second part follows easily from the first isomorphism theorem. Let
+    $$J = \left\lbrace F \in k[X_1, \cdots, X_n]: \exists G \in k[X_1, \cdots, X_n], \forall P \in V, fF(P) = G(P) \right\rbrace$$
+    namely the set of all polynomials $F$ such that $fF$ behaves like a polynomial on $J$. Then it is clear that $J$ is an ideal and $I(V) \subset J$, which implies $V(J) \subset V$.
+
+    If $V(J) \ne \emptyset$, take $P \in V(J)$. By definition, there are polynomials $F, G \in k[X_1, \cdots, X_n]$ such that $f = F / G$ on some open neighborhood $U$ of $P$. Then $Gf = F$ on $U$, which is dense in $V$ due to irreducibility. By continuity of regular functions (clealy polynomials are regular as function on $V$), $Gf = F$ on $V$. As a result, $G \in V(J)$. However, $G(P) \ne 0$, a contradiction to $P \in V(J)$.
+
+    So $V(J) = \emptyset$. By Nullstellensatz, $J = (1)$ and hence $f = F$ on $V$ for some polynomial $F$.
+\end{proof}
+
+\begin{proposition}[Regular maps to affine varieties in $\mathbb{A}^n$ are coordinate-wise regular] \label{prop:affine-regular-coordinate-poly}
+    Let $X$ be a variety, $V \subset \mathbb{A}^n$ be an affine variety and $\varphi: X \rightarrow V$ be a set map. Then TFAE:
+    \begin{enumerate}
+        \item $\varphi$ is regular;
+        \item $\varphi^\ast(\Gamma(V)) \subset \Gamma(X)$.
+        \item $\pi_i \circ \varphi$ is a regular function on $X$ for all $i = 1, \cdots, n$, where $\pi_i: V \rightarrow k$ is defined by $\pi_i(\underline{x}) = x_i$;
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    $(1) \Rightarrow (2) \Rightarrow (3)$: Clear, simply note that $\pi_i$'s are regular.
+
+    $(3) \Rightarrow (1)$:
+    \begin{enumerate}
+        \item $\varphi$ is continuous: We only need to show $\varphi ^{-1}(V(F))$ is closed for arbitrary $F \in k[X_1, \cdots, X_n]$. Note that $F(Q) = F(\pi_1(Q), \cdots, \pi_n(Q))$ for all $Q \in V$, so $\varphi ^{-1}(V(F)) = \left\lbrace P \in X: F(\pi_1 \circ \varphi(P), \cdots, \pi_n \circ \varphi(P)) = 0 \right\rbrace = F(\pi_1 \circ \varphi, \cdots, \pi_n \circ \varphi) ^{-1}(\left\lbrace 0 \right\rbrace)$. Since $\pi_i \circ \varphi \in \Gamma(X)$, a $k$-algebra, so we must have $F (\pi_1 \circ \varphi, \cdots, \pi_n \circ \varphi) \in \Gamma(X)$. By continuity of regular functions (Prop \ref{prop:regular-cont}), $\varphi ^{-1}(V(F))$ is closed.
+        \item $\varphi^\ast(\Gamma(U)) \subset \Gamma(\varphi ^{-1}(U))$ for all open subset $U$ of $V$: Use similar proofs as in the continuity part with a bit of extra efforts. Details omitted.
+    \end{enumerate}
+\end{proof}
+
+Note that the second condition is strictly weaker than the definition of regular maps. We only need to keep the 'global' regular functions.
+
+\begin{corollary}[Regular map between affine varieties in $\mathbb{A}^n$ are coordinate-wise polynomial]
+    Let $V \subset \mathbb{A}^n, W \subset \mathbb{A}^m$ be affine varieties and $\varphi: V \rightarrow W$ be a set map. Then $\varphi$ is regular if and only if there are polynomials $T_1, \cdots, T_m \in k[X_1, \cdots, X_n]$ such that $\varphi = (T_1, \cdots, T_m)$ on $V$.
+\end{corollary}
+
+\begin{proposition}[Regular maps to affine varieties corresponds to algebra homomorphisms]
+    Let $X$ be a variety and $Y$ be an affine variety. Then we have:
+    $$\mathrm{Hom}_{\mathscr{Var}_k}(X, Y) \cong \mathrm{Hom}_{\mathscr{alg}_k}(\Gamma(Y), \Gamma(X))$$
+    where the correspondence is defined by $\varphi \mapsto \varphi^\ast$. Moreover, if a set map $\varphi: X \rightarrow Y$ induces an algebra homomorphism $\Gamma(Y) \rightarrow \Gamma(X)$, then $\varphi$ is a regular map.
+\end{proposition}
+
+\begin{proof}
+    Since biregular maps induce isomorphisms on the algebra of regular functions by definition, we may assume $Y$ is a closed subvariety of $\mathbb{A}^n$.
+
+    The correspondence is surjective: For arbitrary algebra homomorphism $\psi: \Gamma(Y) \rightarrow \Gamma(X)$, take $\pi_i: Y \rightarrow \mathbb{A}^1$ as before. Then $\pi_i \in \Gamma(Y)$ and we can take $f_i = \psi(\pi_i)$ a regular function on $X$. Then $f = (f_1, \cdots, f_n): X \rightarrow Y$ is a regular map by Prop \ref{prop:affine-regular-coordinate-poly}. And since $f^\ast (\pi_i) = f_i = \psi(\pi_i)$ and $\pi_1, \cdots, \pi_n$ generates $\Gamma(Y)$, we have $f^\ast = \psi$.
+
+    The correspondence is injective \& the 'moreover' part: Take arbitrary $\varphi: X \rightarrow Y$ a set map such that $\varphi^ \ast$ is a homomorphism $\Gamma(Y) \rightarrow \Gamma(X)$. Let $f_i = \varphi^\ast(\pi_i)$ as before. Then we must have $\varphi = (f_1, \cdots, f_n)$, which is a regular map by Prop \ref{prop:affine-regular-coordinate-poly}.
+\end{proof}
+
+As a corollary:
+
+\begin{corollary} [Affine varieties are classified by the ring of regular functions]
+    Let $X, Y$ be affine varieties. Then $X \cong Y$ if and only if $\Gamma(X) \cong \Gamma(Y)$.
+\end{corollary}
+
+The above discussions lead to the following concise result:
+
+\begin{definition}
+    Denote the full subcategory of $\mathscr{Var}_k$ consists of affine varieties as $\mathscr{aff}_k$, and call it the \textbf{category of affine varieties}.
+\end{definition}
+
+\begin{proposition}
+    By sending affine varieties $X$ to $\Gamma(X)$ and regular maps $f: X \rightarrow Y$ to $f^\ast: \Gamma(Y) \rightarrow \Gamma(X)$, $\Gamma$ is a contravarient equivalence functor from $\mathscr{aff}_k$ to the category of finitely generated integral domains over $k$.
+\end{proposition}
+
+Previously, we show that $\mathrm{Frac}(\Gamma(X)) \subset K(X)$ for arbitrary variety $X$. For affine varieties, the converse is also true.
+
+\begin{proposition}\label{prop:affine-rational-function-field-fraction}
+    Let $X$ be an affine variety, then $K(X) \cong \mathrm{Frac}(\Gamma(X))$.
+\end{proposition}
+
+\begin{proof}
+    We may assume $X \subset \mathbb{A}^n$. By previous arguments, ISTS $K(X) \subset \mathrm{Frac}(\Gamma(X))$. Take $(Y, f) \in K(X)$, clearly $Y \ne \emptyset$ by maximality. Then pick any $P \in Y$, we have $f = F / G$ on some neighborhood of $P$. Note that $F, G$ are regular functions on $X$, we claim that $f = F / G$ in $K(X)$: But this is almost tautology by our definition of operations in $K(X)$.
+\end{proof}
+
+Now let's get back to business. We aim to find an open base of affine varieties. Instead, we consider the neighborhood basis at a point $P$. Since closed sets are defined by polynomials, it is natural to select an open neighborhood of $P$ as the complement of a polynomial non-vanishing at $P$. We slightly generate this idea to arbitrary regular functions:
+
+\begin{notation}
+    Let $X$ be a variety and $f \in \Gamma(X)$, denote $X_f = \left\lbrace P \in X: f(P) \ne 0 \right\rbrace$.
+\end{notation}
+
+\begin{proposition}
+    Let $X$ be an affine variety, $P \in X$. Then $\left\lbrace X_f \right\rbrace_{f \in \Gamma(X), f(P) \ne 0}$ is a neighborhood basis of $P$. As a result, $\left\lbrace X_f \right\rbrace_{f \in \Gamma(X)}$ is an open base of $X$.
+\end{proposition}
+
+\begin{proof}
+    We may assume $X \subset \mathbb{A}^n$ is a closed subvariety of $\mathbb{A}^n$. For arbitrary open neighborhood $U$ of $P$, by Cor \ref{cor:affine-strict-inclusion}, there is a polynomial $F \in k[X_1, \cdots, X_n]$ such that $F(P) \ne 0$ and $F(X \setminus U) = 0$. Since polynomials are regular functions, $X_F$ will be an open neighborhood of $P$ contained in $U$, which completes the proof.
+\end{proof}
+
+Now we prove:
+
+\begin{proposition}
+    Let $X$ be an affine variety and $f \in \Gamma(X)$. Then:
+    \begin{enumerate}
+        \item $\Gamma(X_f) = \Gamma(V)[1 / f] \cong \Gamma(X)[X_0] / (fX_0 - 1)$;
+        \item $X_f$ is an affine variety.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Before we begin, it should be noted that $\Gamma(X)[1 / f]$ in part 1 denotes the subring of $K(X)$ generated by $\Gamma(V)$ and the element $1 / f$, namely elements of the form $g / f^n$ where $g \in \Gamma(V)$ and $n \ge 0$. It is then clear that $\Gamma(X)[X_0] / (fX_0 - 1) \cong \Gamma(X)[1 / f]$ by sending $\overline{X}$ to $1 / f$.
+
+    We may assume $X \subset \mathbb{A}^n$ is a closed subvariety of $\mathbb{A}^n$, and then $f = \overline{F}$ through Prop \ref{prop:affine-regular-poly} where $F \in k[X_1, \cdots, X_n]$. Denote $I = I(X)$.
+
+    \begin{enumerate}
+        \item Take arbitrary $g \in \Gamma(X_f)$. It extends to a unique rational function $\tilde{g}$ on $X$. Consider $J = \left\lbrace G \in k[X_1, \cdots, X_n]: G \tilde{g} \in \Gamma(X) \right\rbrace$. Then the pole set of $\tilde{g}$ is just $V(J) \cap X$ (check). Since $g \in \Gamma(X_f)$, $V(J) \cap V(I) \subset V(F) \cap V(I)$, by Nullstellensatz, $F^N \in J + I$ for some $N$, namely $g = \overline{G} / \overline{F}^N$ for some polynomial $G$. This completes the proof.
+        \item Let's consider pushing the poles of $V_f$ to infinity by lifting $X_f$ to the graph of $1 / f$. Let $X'$ be the affine variety in $\mathbb{A}^{n + 1}$ defined by $X' = V(I')$ where $I' = I + (X_{n + 1}F - 1)$. Then it is clear that the projection $\pi: \mathbb{A}^{n + 1} \rightarrow \mathbb{A}^n: (x_1, \cdots, x_{n + 1}) \mapsto (x_1, \cdots, x_n)$ restrict to a bijection $X' \rightarrow X_f$. Since $k[X_1, \cdots, X_{n + 1}] / I' \cong \Gamma[V] / (X_{n + 1}F - 1)$, by part 1 this is a subring of a field and hence a domain. It follows that $I'$ is a prime ideal and $X'$ is an affine variety. Now consider the set map $\varphi: X \rightarrow X'$ defined by $(x_1, \cdots, x_n) \rightarrow (x_1, \cdots, x_n, 1 / f)$. By Prop \ref{prop:affine-regular-coordinate-poly}, $\varphi$ is regular. Also, it has the inverse $\pi: X' \rightarrow X$ defined by $(x_1, \cdots, x_{n + 1}) \mapsto (x_1, \cdots, x_n)$. We leave it to the readers to verify that $\pi$ is regular.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Let $X$ be a variety and $P \in X$. Then we have a open neighborhood basis of $P$ consists of affine varieties. In particular, there is an open basis of $X$ constists of affine varieties.
+\end{corollary}
+
+\begin{definition}[Affine Neighborhood]
+    Let $X$ be a variety and $P \in X$. If an affine variety $U \subset X$ is a neighborhood of $P$, then we call $U$ an \textbf{affine neighborhood} of $P$.
+\end{definition}
+
+The implication of the corollary is magnificent. A variety is 'locally affine', so any local properties of varieties can be discussed in the affine setting, which is super convenient. For example, the regularity of maps between varieties is a local property:
+
+\begin{definition}[Regularity at a point]
+    Let $X, Y$ be varieties, $P \in X$, and $\varphi: X \rightarrow Y$ be a set map. If there are affine neighborhood $V$ of $P$ ad $W$ of $\varphi(P)$ such that $\varphi(V) \subset W$ and $\varphi|_V: V \rightarrow W$
+\end{definition}
+
+\begin{proposition}
+    Let $X, Y$ be varieties and $\varphi: X \rightarrow Y$ be a set map. Then $\varphi$ is a regular map if and only if $\varphi$ is regular at all $P \in X$.
+\end{proposition}
+
+The theorem is useful, by Prop \ref{prop:affine-regular-coordinate-poly}, the test for regularity of maps between affine varieties is much easier than that between arbitrary varieties. The proposition follows easily from the following lemma:
+
+\begin{lemma}
+    Let $X, Y$ be varieties and $f: X \rightarrow Y$ be a set map. Let $\left\lbrace U_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ be an open cover of $X$. Then $f$ is a regular map if and only if $f_{U_\lambda}: U_\lambda \rightarrow Y$ is regular for any $\lambda \in \Lambda$.
+\end{lemma}
+
+\iffalse
+
+We close this section with a subcategory of $\mathscr{aff}_k$ worth mentioning. The solution to a system of polynomials is a generalization of the solution to a system of linear equations, which leads us to the linear varieties:
+
+\begin{definition}[Linear Variety]
+    Let $V \subset \mathbb{A}^n(k)$ be a subset. If $V = V(F_1, \cdots, F_r)$ where $F_i$'s are linear polynomials, then we call $V$ a \textbf{linear variety}.
+\end{definition}
+
+\begin{definition}[Affine Map]
+    Let $k$ be a field and $V \subset \mathbb{A}^n, W \subset \mathbb{A}^m$ be two affine varieties. A map $\varphi: V \rightarrow W$ is called an \textbf{affine map} if there are linear polynomials $T_1, \cdots, T_m \in k[X_1, \cdots, X_n]$ such that $\varphi(P) = (T_1(P), \cdots, T_m(P))$ for all $P \in V$.
+
+    An affine map is invertible if and only if it is an isomorphism (of affine varieties), the inverse is also an affine map. An invertible affine map is also called an \textbf{affine change of coordinates}.
+\end{definition}
+
+The affine maps are regular, but it is not immediately true that linear varieties are varieties! We still need to verify that $V(F_1, \cdots, F_r)$ is irreducible when $F_i$'s are linear:
+
+\begin{proposition}[Linear varieties are varieties]
+    Let $V \subset \mathbb{A}^n(k)$ be a linear variety. Then $V$ is a variety.
+\end{proposition}
+
+\begin{proof}
+    Suppose $V = V(F_1, \cdots, F_r)$ and $F_i = \sum\limits_{j = 1}^{n} c_{i, j} X_j + d_i$. Then $\underline{x} \in V$ if and only if it is the solution to the system of linear equations:
+    $$
+        \begin{bmatrix}
+            c_{1, 1} & c_{1, 2} & \cdots &c_{1, n} \\
+            c_{2, 1} & c_{2, 2} & \cdots &c_{2, n} \\
+            \vdots &\vdots & \ddots &\vdots \\
+            c_{r, 1} & c_{r, 2} & \cdots &c_{r, n}
+        \end{bmatrix}
+        \begin{bmatrix}
+            x_1 \\
+            x_2 \\
+            \vdots \\
+            x_n
+        \end{bmatrix} + 
+        \begin{bmatrix}
+            d_1 \\
+            d_2 \\
+            \vdots \\
+            d_n
+        \end{bmatrix} = 0
+    $$
+    Denote the first matrix as $C$, with some linear algebra knowledge, we know that the solutions are the vectors of the form:
+    $$\sum\limits_{i = 1}^{m} y_i \xi_i + e$$
+    where $\xi_i \in k^n$ are linearly independent vectors, $y_i \in k$ are arbitrary and $m = n - \mathrm{rank}(C)$. It follows that there is an affine map $\varphi: \mathbb{A}^{m} \rightarrow \mathbb{A}^n: \underline{y} \mapsto \sum\limits_{i = 1}^{m} y_i \xi_i + e$ such that $\varphi(\mathbb{A}^m) = V$. It follows from Prop \ref{prop:poly-image-variety} that $V$ is a variety.
+\end{proof}
+
+As a corollary of the proof, the linear varieties are totally characterized by its 'dimension':
+
+\begin{corollary}[Dimension of Linear Varieties]
+    Let $k$ be a field, $V \subset \mathbb{A}^n(k)$ be a linear variety, then $V \cong \mathbb{A}^m$ for some $m \le n$. $m$ depends only on the variety, and we call it the \textbf{dimension} of $V$.
+\end{corollary}
+
+\begin{proof}
+    We leave it to the readers to construct the inverse of $\varphi$ in the previous proof. For the uniqueness of $m$, we only need to show that $\mathbb{A}^n \not \cong \mathbb{A}^m$ through affine maps (as our isomorphism $V \cong \mathbb{A}^m$ is an affine map) when $n \ne m$, a result known in linear algebra.
+\end{proof}
+
+\fi
+
+\section{Prime Spectrum}
+
+\epigraph{Hilbert says algebraic geometry should be about maximal ideals, while Grothendieck says algebraic geometry should be about prime ideals.}{\textit{Aaron Bertram, while teaching MATH 6310}}
+
+By the Hilbert's Nullstellensatz, there is a one-to-one correspondence between $k^n$ and the maximal ideals in $k[X_1, \cdots, X_n]$, given that $k$ is algebraically closed. This enables us to translate the geometric picture into an algebraic one: Under the correspondence, $\underline{x} \in V(I)$ is equivalent to $\mathfrak{m}_{\underline{x}} \supset I$. If we generalize the ring $k[X_1, \cdots, X_n]$ to be an arbitrary ring and replace maximal ideals with prime ideals, we can define a topology on the set of all prime ideals of a ring.
+
+\begin{definition}[Prime Spectrum, Max Spectrum]
+    Let $R$ be a ring. Denote $\mathrm{Spec}(R)$ to be the set of all prime ideals of $R$, and call it the \textbf{prime spectrum} of $R$. Denote $\mathrm{MSpec}(R)$ to be the set of all maximal ideals of $R$, and call it the \textbf{maximal spectrum} of $R$.
+\end{definition}
+
+\begin{proposition}[Zariski closed sets of the spectrum]
+    Let $R$ be a ring and $I$ be an ideal of $R$. Denote $V(I) = \left\lbrace \mathfrak{p} \in \mathrm{Spec}(R): I \subset \mathfrak{p} \right\rbrace$. Then:
+    \begin{enumerate}
+        \item Let $I, J$ be ideals of $R$ and $I \subset J$, then $V(I) \supset V(J)$;
+        \item Let $\left\lbrace I_\lambda \right\rbrace_{\lambda \in \Lambda}$ be a set of ideals of $R$, then we have $V\left(\sum\limits_{\lambda \in \Lambda} I_\lambda\right) = \bigcap\limits_{\lambda \in \Lambda} V(I_\lambda)$;
+        \item Let $\left\lbrace I_i \right\rbrace_{i = 1}^n$ be a set of ideals of $R$, then we have $V \left(\bigcap\limits_{i = 1}^{n} I_i\right) = V \left(\prod\limits_{i = 1}^{n} I_i\right) = \bigcup\limits_{i = 1}^{n} V(I_i)$;
+        \item $V(0) = \mathrm{Spec}(R), V(1) = \emptyset$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item Clear.
+        \item For any ideal (not just primes) $J$, $J \supset I_\lambda, \forall \lambda$ $\Leftrightarrow$ $J \supset \sum\limits_{\lambda \in \Lambda} I_\lambda$.
+        \item As before, we prove it in three steps:
+        \begin{enumerate}
+            \item $V \left(\bigcap\limits_{i = 1}^{n} I_i\right) \subset V \left(\prod\limits_{i = 1}^{n} I_i\right)$: By part 1.
+            \item $V \left(\prod\limits_{i = 1}^{n} I_i\right) \subset \bigcup\limits_{i = 1}^{n} V(I_i)$: Take arbitrary prime ideal $\mathfrak{p} \supset \prod\limits_{i = 1}^{n} I_i$. Suppose $\mathfrak{p} \not \supset I_{n}$, then there is some $x \in I_{n}$ such that $x \notin \mathfrak{p}$. Then for arbitrary $x_1, \cdots, x_{n - 1}$ where $x_i \in I_i$, we have $x_1x_2 \cdots x_{n - 1}x \in \prod\limits_{i = 1}^{n} I_i \subset \mathfrak{p}$, which implies $x_1 x_2 \cdots x_{n - 1} \in \mathfrak{p}$ since $\mathfrak{p}$ is a prime. As a result, we have $\prod\limits_{i = 1}^{n - 1} I_i \subset \mathfrak{p}$. Argue inductively.
+            \item $\bigcup\limits_{i = 1}^{n} V(I_i) \subset V \left(\bigcap\limits_{i = 1}^{n} I_i\right)$: Also by part 1.
+        \end{enumerate}
+        \item Clear.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}[Zariski Topology for Prime Spectrums]
+    Let $R$ be a ring. Define the \textbf{Zariski topology} on $\mathrm{Spec}(R)$ as follows: a subset $V$ of $\mathrm{Spec}(R)$ is closed if and only if there is an ideal $I$ of $R$ such that $V = V(I)$.
+
+    By default, $\mathrm{Spec}(R)$ is equipped with the Zariski topology.
+\end{definition}
+
+Similar to the ideal of a point of sets, replacing maximal ideals with prime ideals, we define:
+
+\begin{notation}
+    Let $R$ be a ring, and $S \subset \mathrm{Spec}(R)$. Denote
+    $$I(S) = \left\lbrace r \in R: r \in \mathfrak{p}, \forall \mathfrak{p} \in S \right\rbrace = \bigcap\limits_{\mathfrak{p} \in S} \mathfrak{p}$$
+\end{notation}
+
+As before, we have $I(\emptyset) = (1)$, but what is $I(\mathrm{Spec}(R))$? Is it necessarily $0$? No. Take the example of $\mathbb{Z} / 4 \mathbb{Z}$, the only prime ideal is $(2)$ and hence $I(\mathrm{Spec}(R)) = (2) \ne 0$. Luckily, we can compute $I(\mathrm{Spec}(R))$ elementwisely:
+
+\begin{definition}[Nilpotent Element]
+    Let $R$ be a ring, $r \in R$. If there is $n \gt 0$ such that $r^n = 0$, then we call $r$ \textbf{nilpotent}. 
+\end{definition}
+
+\begin{definition}
+    Let $R$ be a ring. Denote $\mathfrak{N}_R = \left\lbrace r \in R: r \text{ is nilpotent.} \right\rbrace$, and call it the \textbf{nilradical} of $R$. Stated equivalently $\mathfrak{N}_R = \sqrt{0}$ and hence is an ideal.
+\end{definition}
+
+\begin{proposition}[The intersection of primes is the nilradical]\label{prop:prime-intersection}
+    Let $R$ be a ring. Then $I(\mathrm{Spec}(R)) = \mathfrak{N}_R$.
+\end{proposition}
+
+\begin{proof}
+    "$\subset$": Take arbitrary $r$ not nilpotent, we construct a prime ideal that does not contain $r$. Let $\Sigma$ be the set of all ideals that does not contain $r^n$ for any $n \gt 0$. Then $\Sigma$ is non-empty, as $0 \in \Sigma$. (This is where we use the hypothesis that $r$ is not nilpotent) By standard Zorn's lemma argument, there is a maximal element $\mathfrak{p}$ in $\Sigma$. We claim that $\mathfrak{p}$ is prime. Take arbitrary $xy$ such that $xy \in \mathfrak{p}$. If $x \notin \mathfrak{p}$ and $y \notin \mathfrak{p}$, then both $\mathfrak{p} + (x)$ and $\mathfrak{p} + (y)$ are strictly larger than $\mathfrak{p}$. By the maximality, $r^n \in \mathfrak{p} + (x)$ and $r^m \in \mathfrak{p} + (y)$. However, this implies $r^{n + m} \in \mathfrak{p}$ (check), a contradiction.
+
+    "$\supset$": Take arbitrary $r \in \mathfrak{N}_R$ and arbitrary prime ideal $\mathfrak{p}$, $r^n = 0 \in \mathfrak{p}$ for some $n \gt 0$ and hence $r \in \mathfrak{p}$. It follows that $r \in \bigcap\limits_{\mathfrak{p} \in \mathrm{Spec}(R)} \mathfrak{p}$. Since $r$ is arbitrary, this completes the proof.
+\end{proof}
+
+\begin{definition}[Reduced, Reduction]
+    Let $R$ be a ring. If $\mathfrak{N}_R = 0$, then we call $R$ \textbf{reduced}. For arbitrary ring $R$, $R / \mathfrak{N}_R$ is reduced, and we call it the \textbf{reduction} of $R$.
+\end{definition}
+
+Summing up, we have the following correspondence to Prop \ref{prop:affine-ideal-properties} and Prop \ref{prop:affine-VI-corresp}
+
+\begin{proposition}
+    Let $R$ be a ring, then we have:
+    \begin{enumerate}
+        \item If $S, T \subset \mathrm{Spec}(R)$ and $S \subset T$, then $I(S) \supset I(T)$;
+        \item $I(\emptyset) = R, I(\mathrm{Spec}(R)) = \mathfrak{N}_R$.
+    \end{enumerate}
+\end{proposition}
+
+
+\begin{proposition}\label{prop:general-closure}
+    Let $R$ be a ring, $S \subset \mathrm{Spec}(R)$ and $I$ be an ideal. Then we have:
+    \begin{enumerate}
+        \item $S \subset V(I(S)), I \subset I(V(I))$
+        \item $S = V(J)$ for some ideal $J$ if and only if $S = V(I(S))$; $I = I(T)$ for some $T \subset \mathrm{Spec}(R)$ if and only if $T = I(V(T))$.
+        \item $V(I(S))$ is the closure of $S$; $I(V(I))$ is the maximum ideal $J$ such that $V(J) = V(I)$.
+    \end{enumerate}
+\end{proposition}
+
+And the 'abstract Nullstellensatz':
+
+\begin{proposition}['Abstract Nullstellensatz']
+    Let $R$ be a ring and $I$ be an ideal. Then:
+    \begin{enumerate}
+        \item Weak Nullstellensatz: $V(I) = \emptyset$ if and only if $I = R$;
+        \item Strong Nullstellensatz: $I(V(I)) = \sqrt{I}$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    \begin{enumerate}
+        \item If $I \ne R$, let $\mathfrak{m}$ be a maximal ideal that contains $I$, then $\mathfrak{m} \in V(I)$.
+        \item Replace $R$ by $R / I$ and assume $I = 0$. Then apply \ref{prop:prime-intersection}.
+    \end{enumerate}
+\end{proof}
+
+By the abstract Nullstellensatz, it suffices to discuss Zariski-closed set $V(I)$ for radical ideal $I$ only.
+
+Now we have the abstract Nullstellensatz, does that imply the Nullstellensatz directly? Unfortunately no. The catch is that the affine spaces are maximal spectrums instead of prime spectrums. As a result, $V(I)$ is the set of \textit{maximal} ideals that contain $I$, and $I(V(I)) = \bigcap\limits_{\mathfrak{m} \supset I, \mathfrak{m} \text{ maximal}} \mathfrak{m}$, which clearly contains $\sqrt{I}$ by the abstract Nullstellensatz, but the equality does not necessarily hold. In fact, we have a name for the rings where 'Nullstellensatz for maximal spectrum hold':
+
+\begin{definition}[Jacobson Ring]
+    Let $R$ be a ring. If $\sqrt{I} = \bigcap\limits_{\mathfrak{m} \supset I, \mathfrak{m} \text{ maximal}} \mathfrak{m}$ for all ideal $I$, then we call $R$ a \textbf{Jacobson ring}.
+\end{definition}
+
+And then we can rephrase the Hilbert's Nullstellensatz (but we still assume the weak Hilbert's Nullstellensatz):
+
+\begin{theorem}[Hilbert's Nullstellensatz]
+    Let $k$ be an algebraically closed field, then $k[X_1, \cdots, X_n]$ is a Jacobson ring.
+\end{theorem}
+
+We now consider the properties of the Zariski topology. The first thing to notice is that the Zariski topology for the prime spectrum has worse seperation axioms than the Zariski topology on affine spaces. We could have singletons that are not closed, and the example would be easy to come up with through the following propositions.
+
+\begin{proposition}
+    Let $R$ be a ring and $\mathfrak{p}$ be an arbitrary prime ideal of $R$. Then $\overline{\left\lbrace \mathfrak{p} \right\rbrace} = V(\mathfrak{p})$.
+\end{proposition}
+
+\begin{proof}
+    Let $V(I)$ be an arbitrary Zariski-closed set such that $\mathfrak{p} \in V(I) \Leftrightarrow I \subset \mathfrak{p}$, then clearly $V(I) \supset V(\mathfrak{p})$. Also $\mathfrak{p} \in V(\mathfrak{p})$, so $V(\mathfrak{p})$ is the closure of $\left\lbrace \mathfrak{p} \right\rbrace$.
+\end{proof}
+
+So as long as there are non-maximal prime ideals, the prime spectrum will not be $T_1$.
+
+\begin{corollary}[Closed points $\Leftrightarrow$ Maximal ideals]
+    Let $R$ be a ring, $\mathfrak{p}$ be an arbitrary prime ideal of $R$. Then $\left\lbrace \mathfrak{p} \right\rbrace$ is closed if and only if $\mathfrak{p}$ is maximal.
+\end{corollary}
+
+\begin{corollary}[Zariski topology for prime spectrum is $T_0$]
+    Let $R$ be a ring, then $\mathrm{Spec}(R)$ is a $T_0$ space, namely for each pair of distinct points $x, y$ in the space, either there is a neighborhood of $x$ that does not contain $y$ or there is a neighborhood of $y$ that does not contain $x$.
+\end{corollary}
+
+\begin{proof}
+    Take arbitrary two distinct points $\mathfrak{p}, \mathfrak{q} \in \mathrm{Spec}(R)$, if every neighborhood of $\mathfrak{q}$ contain $\mathfrak{p}$, then $\mathfrak{q} \in \overline{\left\lbrace \mathfrak{p} \right\rbrace} = V(\mathfrak{p}) \Leftrightarrow \mathfrak{p} \subset \mathfrak{q}$. Similarly, if every neighborhood of $\mathfrak{p}$ contains $\mathfrak{q}$, then $\mathfrak{p} \supset \mathfrak{q}$. The two cases cannot happen simultaneously.
+\end{proof}
+
+Then we discuss the irreducible subsets. Before that we need to discuss the 'irreducibility' of prime ideals further.
+
+\begin{proposition}
+    Let $R$ be a ring, $I_1, \cdots, I_n$ be ideals and $\mathfrak{p}$ be a prime ideal. If $\prod\limits_{i = 1}^{n} I_i \subset \mathfrak{p}$, then there is some $i$ such that $I_i \subset \mathfrak{p}$
+\end{proposition}
+
+% \TODO move to the preliminary chapter.
+
+\begin{proposition}[Irreducible closed sets $\Leftrightarrow$ $V(\mathfrak{p})$]
+    Let $R$ be a ring. Then a closed subset $V$ of $\mathrm{Spec}(R)$ is irreducible and closed if and only if $I(V) = \mathfrak{p}$ for some prime ideal $\mathfrak{p}$.
+\end{proposition}
+
+\begin{proof}
+    "if": Take arbitrary two closed susbet $V_i = V \cap V(I_i), i = 1, 2$ of $V$. Suppose $V_1 \cup V_2 = V$, then $V \subset V(I_1) \cup V(I_2) = V(I_1 I_2)$. Applying $I$ to both sides, we have $\mathfrak{p} \supset I_1 I_2$, but this implies $I_1 \subset \mathfrak{p}$ or $I_2 \subset \mathfrak{p}$ (\TODO ref), namely $V = V_1$ or $V = V_2$.
+
+    "only if": Suppose otherwise. Then there are $r, s \in R$ such that $rs \in I(V)$ but $r, s \notin I(V)$. Consider closed subset $V_1 = V((r)) \cap V(I(V)) = V(I(V) + (r)), V_2 = V((s)) \cap V(I(V)) = V(I(V) + (s))$. By part 3 of \ref{prop:general-closure}, $V_1, V_2 \subsetneq V$. However, $V_1 \cup V_2 = V((I(V) + (s))(I(V) + (r))) \supset V(I(V)) = V$, a contradiction since $V$ is irreducible.
+\end{proof}
+
+An easy consequence of the above proposition and Prop \ref{prop:prime-intersection} is:
+
+\begin{corollary}[$\mathrm{Spec}(R)$ irreducible $\Leftrightarrow$ $\mathfrak{N}_R$ prime]
+    Let $R$ be a ring. Then $\mathrm{Spec}(R)$ is irreducible if and only if $\mathfrak{N}_R$ is prime, or equivalently there is a minimum prime ideal ($\mathfrak{N}_R$)
+\end{corollary}
+
+\begin{corollary}
+    Let $R$ be a ring, the irreducible components of $\mathrm{Spec}(R)$ are $V(\mathfrak{p})$'s, where $\mathfrak{p}$ is a minimal prime ideal.
+\end{corollary}
+
+Another difference between prime spectrums and affine varieties is that prime spectrums are not necessarily Noetherian, which, as suggested by the name, is a property for the prime spectrum of Noetherian rings.
+
+\begin{proposition}[Prime spectrum of Noetherian ring is prime]
+    Let $R$ be a Noetherian ring, then $\mathrm{Spec}(R)$ is Noetherian.
+\end{proposition}
+
+\begin{proof}
+    Clear.
+\end{proof}
+
+However, the reader may find that $\mathrm{Spec}(R)$ being Noetherian only implies the accending chain condition on \textit{irreducible} ideals, so is weaker than $R$ being Noetherian. To construct a non-Noetherian ring with a Noetherian spectrum, we need a ring with a lot more ideals than irreducible ideals.
+
+\begin{example}[Noetherian spectrum does not imply Noetherian ring]
+    Let $R = k[X_1, X_2, \cdots] / (X_1, X_2^2, X_3^3, \cdots)$. Then (radical) ideals in $R$ corresponds to (radical) ideals in $k[X_1, X_2, \cdots]$ that contain $(X_1, X_2^2, \cdots)$. It follows that there are only one non-trivial radical ideals in $R$, which corresponds to $(X_1, \cdots)$ (a maximal ideal), so the prime spectrum is clearly Noetherian. On the other hand, the ring is not Noetherian as it has an infinite ascending chain of ideals $(\overline{X_1}) \subset (\overline{X_1}, \overline{X_2}) \subset \cdots$.
+\end{example}
+
+Luckily, we still have quasi-compactness:
+
+\begin{proposition}[Prime spectrums are quasi-compact]\label{prop:spectrum-compact}
+    Let $R$ be a ring, then $\mathrm{Spec}(R)$ is quasi-compact.
+\end{proposition}
+
+\begin{proof}
+    We argue through closed sets. Take $\left\lbrace V_\lambda \right\rbrace_{\lambda \in \Lambda}$ a collection of closed sets in $\mathrm{Spec}(R)$ such that $\bigcap\limits_{\lambda \in \Lambda} V_\lambda = \emptyset$. Suppose $V_\lambda = V(I_\lambda)$, then $V(\sum\limits_{\lambda \in \Lambda} I_\lambda) = \bigcap\limits_{\lambda \in \Lambda} V_\lambda = \emptyset \Rightarrow \sum\limits_{\lambda \in \Lambda}I_\lambda = R$ (weak Nullstellensatz). This implies $1 \in \sum\limits_{\lambda \in \Lambda}I_\lambda$, by definition of the sum of ideals there are $\lambda_i, i = 1, \cdots, r$ such that $1 \in \sum\limits_{i = 1}^{r} I_{\lambda_i} \Rightarrow \bigcap\limits_{i = 1}^{n} V_{\lambda_i} = \emptyset$.
+\end{proof}
+
+Theoretically we can argue every topological property through closed sets. But that is unconvenient. However, the open sets are hard to describe so far. So in the following discussions, we shall introduce a handy base of the Zariski topology.
+
+\begin{notation}
+    Let $R$ be a ring, and $X = \mathrm{Spec}(R)$. For arbitrary $r \in R$, denote $X_r = X \setminus V((r))$. By definition $X_r$ is an open set.
+\end{notation}
+
+\begin{proposition}[Base for Zariski Topology]
+    Let $R$ be a ring, and $X = \mathrm{Spec}(R)$. Then $\left\lbrace X_r \right\rbrace_{r \in R}$ is a basis of open sets for $X$.
+\end{proposition}
+
+\begin{proof}
+    Take arbitrary open set $X \setminus V(I)$ of $X$, we have $X \setminus V(I) = \bigcup\limits_{r \in I} X_r$.
+\end{proof}
+
+$\left\lbrace X_r \right\rbrace_{r \in R}$ actually has more properties than just a basis of open sets:
+
+\begin{proposition}
+    Let $R$ be a ring and $X = \mathrm{Spec}(R)$. Then we have:
+    \begin{enumerate}
+        \item $X_r \cap X_s = X_{rs}$ (a basis of open sets only requires some $t$ such that $X_{t} \subset X_r \cap X_s$);
+        \item $X_{r} = \emptyset \Leftrightarrow r$ is nilpotent (a basis of open sets is not required to contain $\emptyset$);
+        \item $X_{r} = X \Leftrightarrow r$ is a unit (a basis of open sets is not required to contain $X$).
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    Exercies.
+\end{proof}
+
+In later chapters, we shall show that $X_r$ is actually the prime spectrum of a ring related to $r$ and $R$ (the ring $R$ 'localized' at $r$). By Prop \ref{prop:spectrum-compact}, this suggests $X_r$'s are quasi-compact (but we will also give a proof below). So the prime spectrums are close to being Noetherian by Prop \ref{prop:equi-def-Noetherian}. However, since a basis of open sets only guarantee arbitrary (e.g. may be infinite) covering of open sets, we do not expect open sets to be quasi-compact in general. On the other hand, the union of finitely many compact set is clearly compact. In fact, they are the only quasi-compact open sets in $X$. We state and prove the above results below:
+
+\begin{proposition}
+    Let $R$ be a ring and $X = \mathrm{Spec}(R)$. Then an open subset $U$ of $X$ is quasi-compact if and only if $U$ is a finite union of $X_r$'s where $r \in R$.
+\end{proposition}
+
+\begin{proof}
+    We first prove the basic open sets $X_r$'s are quasi-compact. Take arbitrary $r$ and arbitrary open cover of $X_r$, we may assume that the open cover consists of basic open sets (by replacing each open set in the cover by a union of basic open sets), namely $X_r = \bigcup\limits_{\lambda \in \Lambda} X_{r_{\lambda}}$ for some $r_\lambda$'s. Taking the complement, we have $V((r)) = \bigcap\limits_{\lambda \in \Lambda} V((r_\lambda)) = V \left(\sum\limits_{\lambda \in \Lambda} (r_\lambda)\right)$. Then we have $r \in \sqrt{\sum\limits_{\lambda \in \Lambda} (r_\lambda)} \Rightarrow r^n \in \sum\limits_{\lambda \in \Lambda} (r_\lambda)$, then by definition of the sum of ideals, we must have $r^n \in \sum\limits_{i = 1}^m (r_{\lambda_i})$ for some finite collection $\left\lbrace \lambda_i \right\rbrace_{i = 1}^m$ of $\Lambda$. It follows that
+    $$V((r)) \supset \bigcap\limits_{i = 1}^{m} V((r_{\lambda_i})) \supset \bigcap\limits_{\lambda \in \Lambda} V((r_\lambda)) = V((r))$$
+    and we obtain a finite subcover of $X_r$ by taking the completement.
+
+    A finite union of quasi-compact sets is clearly quasi-compact. On the other hand, if an open subset is not a union of basic open sets, then the open cover consists of basic open sets does not admit a finite subcovering.
+\end{proof}
+
+So far, if we replace 'prime ideal' with 'maximal ideal', then all arguments above will also holds, since maximal ideals are prime. In fact, $\mathrm{MSpec}(R)$ is a subspace of $\mathrm{Spec}(R)$. Then why do we need to generalize to prime ideals? The most important reason is the following categorical properties below:
+
+\begin{proposition}[$\mathrm{Spec}$ is a functor]\label{prop:spec-is-functor}
+    Let $\varphi: R \rightarrow S$ be a homomorphism of rings. Then $\varphi$ induces a continuous map $\mathrm{Spec}(S) \rightarrow \mathrm{Spec}(R)$ defined by $\mathfrak{q} \mapsto \varphi ^{-1}(\mathfrak{q})$, we denote this map as $\mathrm{Spec}(\varphi)$.
+
+    Moreover, $\mathrm{Spec}$ is now a contravariant functor $\mathscr{Rings} \rightarrow \mathscr{Top}$.
+\end{proposition}
+
+Before we begin, we should note that $\varphi ^{-1}(\mathfrak{q})$ is a prime ideal so $\mathrm{Spec}(\varphi)$ is well-defined. This is why we consider $\mathrm{Spec}$ instead of $\mathrm{MSpec}$, as maximal ideals does not necessarily contract to maximal ideals.
+
+The continuity of $\mathrm{Spec}(\varphi)$ is a trivial implication of the following proposition. We leave it to the readers to verify that $\mathrm{Spec}$ is indeed a functor.
+
+\begin{proposition}
+    Let $\varphi: R \rightarrow S$ be a homomorphism of rings, and $I$ an ideal of $R$. Then $\mathrm{Spec}(\varphi)^{-1}(V(I)) = V(I^e)$
+\end{proposition}
+
+\begin{proof}
+    Note that:
+    $$\mathrm{Spec}(\varphi) ^{-1} (V(I)) = \left\lbrace \mathfrak{q} \in \mathrm{Spec}(S): \varphi ^{-1} (\mathfrak{q}) \supset I \right\rbrace$$
+    Now take abitrary prime ideal $\mathfrak{q}$ of $S$. If $\varphi ^{-1} (\mathfrak{q}) \supset I$, then $\mathfrak{q} \supset \varphi(\varphi ^{-1} (\mathfrak{q})) \supset \varphi(I)$. Since $\mathfrak{q}$ is an ideal, this implies $\mathfrak{q} \supset I^e$. On the other hand, if $\mathfrak{q} \supset I^e$, then $\varphi ^{-1}(\mathfrak{q}) \supset I^{ec} \supset I$. As a result, $\varphi ^{-1}(\mathfrak{q}) \supset I$ if and only if $\mathfrak{q} \supset V(I^e) \Leftrightarrow \mathfrak{q} \in V(I^e)$, which completes the proof.
+\end{proof}
+
+Now let's take a closer look at the map $\mathrm{Spec}(\varphi)$. It has more properties than general continuous map. The first one to be noticed is the symmetry of the previous proposition:
+
+\begin{proposition} \label{prop:spec-image-closure}
+    Let $\varphi: R \rightarrow S$ be a homomorphism of rings, and $J$ an ideal of $S$. Then $\overline{\mathrm{Spec}(\varphi)(V(J))} = V(J^c)$.
+\end{proposition}
+
+\begin{proof}
+    Note that:
+    $$\mathrm{Spec}(\varphi) (V(J)) = \left\lbrace \mathfrak{q}^c: \mathfrak{q} \supset J \right\rbrace$$
+    And by part 3 of Prop \ref{prop:general-closure}, we have:
+    $$\overline{\mathrm{Spec}(\varphi)(V(J))} = V \left( \bigcap\limits_{\mathfrak{q} \supset J, \mathfrak{q} \text{ prime}} \mathfrak{q}^c\right)$$
+    Since the intersection of radical ideals is radical, now ISTS:
+    $$\bigcap\limits_{\mathfrak{q} \supset J, \mathfrak{q} \text{ prime}} \mathfrak{q}^c = \sqrt{J^c}$$
+    But this is clear as
+    $$\mathrm{LHS} = \left(\bigcap\limits_{\mathfrak{q} \supset J, \mathfrak{q} \text{ prime}} \mathfrak{q}\right)^c = \sqrt{J}^c = \sqrt{J^c} = \mathrm{RHS}$$
+    by the properties in the preliminary chapter.
+    % (\TODO add the radical properties)
+\end{proof}
+
+\begin{corollary}
+    Let $\varphi: R \rightarrow S$ be a homomorphism of rings, and $V$ be an arbitrary irreducible closed sets of $\mathrm{Spec}(S)$, then $\mathrm{Spec}(\varphi)(V)$ is irreducible.
+\end{corollary}
+
+The following two propositions roughly say that $\mathrm{Spec}$ sends some monomorphisms to epimorphisms and some epimorphisms to monomorphisms.
+
+\begin{proposition}\label{prop:surj-spec-properties}
+    Let $\varphi: R \rightarrow S$ be a surjective homomorphism of rings. Then $\mathrm{Spec}(\varphi)$ is a homeomorphism $\mathrm{Spec}(S) \cong V(\mathrm{ker}(\varphi))$. In particular:
+    \begin{enumerate}
+        \item $V(I) \cong \mathrm{Spec}(R / I)$
+        \item $\mathrm{Spec}(R) \cong \mathrm{Spec}(R / \mathfrak{N}_R)$
+    \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+    It is clear that the $\mathrm{im} (\mathrm{Spec}(\varphi)) \subset V(\mathrm{ker}(\varphi))$, so we may regard $\mathrm{Spec}(\varphi)$ as a map $\mathrm{Spec}(S) \rightarrow V(\mathrm{ker}(\varphi))$.
+
+    $\mathrm{Spec}(\varphi)$ is bijective:
+    \begin{enumerate}
+        \item Injective: This follows directly from the surjectiveness of $\varphi$;
+        \item Surjective: Take arbitrary $\mathfrak{p} \supset \mathrm{ker}(\varphi)$, it is easy to check that $\varphi(\mathfrak{p})$ is a prime ideal and that $\mathfrak{p} = (\varphi(\mathfrak{p}))^c$.
+    \end{enumerate}
+
+    $\mathrm{Spec}(\varphi)$ is a homeomorphism:
+    \begin{enumerate}
+        \item $\mathrm{Spec}(\varphi)$ is continuous: Clear by Prop \ref{prop:spec-is-functor};
+        \item $\mathrm{Spec}(\varphi)$ is closed: For every closed set $V(J)$ of $\mathrm{Spec}(S)$, we have $\mathrm{Spec}(\varphi)(V(J)) = \left\lbrace \mathfrak{q}^c: \mathfrak{q} \supset J \right\rbrace$. Note that for arbitrary prime ideal $\mathfrak{p} \supset J^c \supset \mathrm{ker} (\varphi)$, we have $\mathfrak{p} = (\varphi(\mathfrak{p}))^c$ as before, and $\varphi(\mathfrak{p}) \supset J$ is a prime ideal. This shows that $\mathrm{Spec}(\varphi)(V(J)) = V(J^c)$.
+    \end{enumerate}
+\end{proof}
+
+\begin{proposition}
+    Let $\varphi: R \rightarrow S$ be an homomorphism of rings. Then the image of $\mathrm{Spec}(\varphi)$ is dense in $\mathrm{Spec}(R)$ if and only if $\mathrm{ker}(\varphi) \subset \mathfrak{N}_R$. In particular, the image of $\mathrm{Spec}(\varphi)$ is dense in $\mathrm{Spec}(R)$ when $\varphi$ is injective.
+\end{proposition}
+
+\begin{proof}
+    By Prop \ref{prop:spec-image-closure}, $\overline{\mathrm{im}(\mathrm{Spec}(\varphi))} = \overline{\mathrm{Spec}(\varphi)(V(\mathfrak{N}_S))} = V(\mathfrak{N}_s^c) = V(\sqrt{0}^c) = V\left(\sqrt{\mathrm{ker}(\varphi)}\right)$, where the last step is by $\sqrt{I}^c = \sqrt{I^c}$. Then the proposition should be clear.
+\end{proof}
+
+Finally, $\mathrm{Spec}$ maps product (direct product of rings) to coproduct (disjoint union of topological space):
+
+\begin{proposition}[Product of rings $\Leftrightarrow$ Disjoint union of topological space]
+    Let $R$ be a ring. TFAE:
+    \begin{enumerate}
+        \item $R$ contains an idempotent element $\ne 0, 1$;
+        \item $R = R_1 \times R_2$ where $R_1, R_2 \ne 0$;
+        \item $X = \mathrm{Spec}(R)$ is disconnected.
+    \end{enumerate}
+    Moreover, when $R = R_1 \times R_2$, we have $X = X_1 \sqcup X_2$ where $X_i \cong \mathrm{Spec}(R_i)$ are clopen subsets of $X$ for $i = 1, 2$.
+\end{proposition}
+
+\begin{proof}
+    $(1) \Rightarrow (2)$: Let $e$ be an idempotent element $\ne 0, 1$. For arbitrary element $r \in R$, we have $r = r \cdot 1 = re + r(1 - e)$. So $(e) + (1 - e) = R$. On the other hand, $(e) \cap (1 - e) = (e(1 - e)) = 0$ (the first step is by $(e), (1 - e)$ coprime). As a result, $R = (e) \oplus (1 - e)$ as abelian groups and hence $R = R / (e) \times R / (1 - e)$.
+
+    $(2) \Rightarrow (3)$ and also the 'moreover' part: Let $\pi_i: R \rightarrow R_i$ be the projection for $i = 1, 2$. Then by Prop \ref{prop:surj-spec-properties}, $V(\mathrm{ker}(\pi_i)) \cong \mathrm{Spec}(R_i)$ for $i = 1, 2$. We only need to show $X = V(\mathrm{ker}(\pi_1)) \sqcup V(\mathrm{ker}(\pi_2))$. We claim that the prime ideals in $R_1 \times R_2$ are of the form $\mathfrak{p} \times R_2$ or $R_1 \times \mathfrak{q}$ for some prime ideal $\mathfrak{p}$ of $R_1$ or $\mathfrak{q}$ of $R_2$: For arbitrary ideal $I \times J$ of $R_1 \times R_2$ where $I \times J$(check all ideals have this form), we have $R_1 \times R_2 / I \times J = (R_1 / I) \times (R_2 / J)$. This will not be a domain unless $I = R_1$ or $J = R_2$, as $(1, 0) \cdot (0, 1) = (0, 0)$ otherwise. The rest of the proof shall be easy by noting $V(\mathrm{ker}(\pi_1)) = \left\lbrace \mathfrak{p} \times R_2: \mathfrak{p} \in \mathrm{Spec}(R_1) \right\rbrace$ and $V(\mathrm{ker}(\pi_2)) = \left\lbrace R_1 \times \mathfrak{q}: \mathfrak{q} \in \mathrm{Spec}(R_2) \right\rbrace$.
+
+    $(3) \Rightarrow (1)$: We first prove a lemma: $R$ has an idempotent element $\ne 0, 1$ if and only if the reduction $R / \mathfrak{N}_R$ has an idempotent element $\ne 0, 1$: The "only if" part is trivial. For the "if" part, let $\overline{e}$ be an idempotent element of $R / \mathfrak{N}_R$ with $\overline{e} \ne 0, 1$. Then consider the ideal $I = (e)$ and $J = (1 - e)$ of $R$, we have $I + J = (1)$ and $IJ = (e(1 - e))$. Since $\overline{e}\overline{1 - e} = 0$, we have $e^n(1 - e)^n = 0$ and hence $I^nJ^n = 0$ for some $n \gt 0$. But then
+    $$\sqrt{I^n + J^n} = \sqrt{\sqrt{I^n} + \sqrt{J^n}} = \sqrt{\sqrt{I} + \sqrt{J}} = \sqrt{I + J} = (1)$$
+    which implies $I^n + J^n = (1)$. \iffalse (\TODO add reference for this part) \fi As a result, pick $e \in I^n$ and $f \in J^n$ such that $e + f = 1$, we have $ef = 0$ and hence $e$ is an idempotent element $\ne 0, 1$.
+    
+    Then we may assume $R$ is reduced. Suppose $X = V(I) \sqcup V(J)$, then we have $V(I) \cap V(J) = V(I + J) = \emptyset \Rightarrow I + J = (1)$, and $V(I) \cup V(J) = V(I J) = X \Rightarrow IJ \subset \mathfrak{N}_R = 0$. As a result, there are element $e \in I$ such that $1 - e \in J$ (which implies $e \ne 0, 1$), then $e(1 - e) = 0 \Rightarrow e^2 = e$, which completes the proof.
+\end{proof}
+
+\end{document}

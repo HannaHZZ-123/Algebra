@@ -1,6 +1,6 @@
 \documentclass{note-eng}
 
-\title{Categories}
+\title{Category}
 \author{Jingyi Long}
 
 
@@ -210,8 +210,6 @@ The idea is better demonstrated with examples:
     \end{tikzcd}\]
     And the diagram commutes if and only if $h = g \circ f$.
 \end{example}
-
-
 
 \section{Functors}
 
@@ -847,6 +845,50 @@ With that in mind, let's write push-out and pull-back as adjoints:
     For the push-out, we have to consider $\mathcal{I}^\mathrm{opp}$ instead. The reader should be able to write out the definition of push-out by herself.
 \end{definition}
 
-Another important example of universal construction would be limits and colimits. But I consider it premature to introduce them here. We will see them when we get more familiar with rings and modules.
+If we replace $\mathcal{I}$ with arbitrary category $\mathcal{D}$, it is clear that we can still define the constant functor $C: \mathcal{C} \rightarrow \mathcal{C}^\mathcal{D}$. Studying the adjoint of $C$ would lead to abundant universal constructions. Among these the prototype is when $\mathcal{I}$ is a so-called 'directed set', which contains the case of push-out and pull-back.
+
+\begin{definition}[Directed Set]
+    Let $(I, \le)$ be a quasi-ordered set. If for every two element $i, j \in I$, there is an element $k \in I$ such that $i \le k, j \le k$. Then we call $(I, \le)$ \textbf{directed}, and $(I, \le)$ a \textbf{directed set}
+\end{definition}
+
+\begin{example}
+    There are few examples of directed sets:
+    \begin{enumerate}
+        \item Any totally-ordered set, or more general any lattice will be a directed set.
+        \item \TODO
+    \end{enumerate}
+\end{example}
+
+It should be noted that the category associated to a directed set is not symmetric in general, namely $\mathcal{I}^\mathrm{opp}$ is not necessarily a directed set. (It is a 'inversely' directed set)
+
+\begin{definition}[Directed System]
+    Let $\mathcal{C}$ be a category, $(I, \le)$ be a directed set. Denote $\mathcal{I}$ the category associated to $(I, \le)$. By a \textbf{directed system in $\mathcal{A}$ over $\mathcal{I}$}, we mean a functor $\mathcal{I} \rightarrow \mathcal{C}$. A directed system in $\mathcal{C}$ is a pair $(\left\lbrace X_i \right\rbrace_{i \in I}, \left\lbrace \mu_{i, j}: X_i \rightarrow X_j \right\rbrace_{i \le j})$.
+\end{definition}
+
+\begin{definition}[Directed Limit / Limit, Inverse Limit / Colimit]
+    Let $\mathcal{C}$ be a category, $(I, \le)$ be a directed set. Denote $\mathcal{I}$ the category associated to $(I, \le)$. Consider the constant functor $C: \mathcal{C} \rightarrow \mathcal{C}^{\mathcal{I}}$.
+    \begin{enumerate}
+        \item If $C$ is right adjoint with left adjoint functor $F$, namely $F \dashv C$, then for any directed system $S = (\left\lbrace X_i \right\rbrace_{i \in I}, \left\lbrace \mu_{i, j}: X_i \rightarrow X_j \right\rbrace_{i \le j})$, we call the pair $(FS, \eta_S: \mathds{1}_{\mathcal{C}^\mathcal{I}} \Rightarrow CF)$ the \textbf{directed limit} or \textbf{limit} of the directed system $S$, and denote it as $\varinjlim X_i$
+        \item If $C$ is left adjoint with right adjoint functor $G$, namely $C \dashv G$, then for any directed system $S = (\left\lbrace X_i \right\rbrace_{i \in I}, \left\lbrace \mu_{i, j}: X_i \rightarrow X_j \right\rbrace_{i \le j})$, we call the pair $(GS, \varepsilon_S: CG \Rightarrow \mathds{1}_{\mathcal{C}^\mathcal{I}})$ the \textbf{inverse limit} or \textbf{colimit} of the directed system $S$, and denote it as $\varprojlim X_i$
+    \end{enumerate}
+    Written explicitly, for a given directed system $S = (\left\lbrace X_i \right\rbrace_{i \in I}, \left\lbrace \mu_{i, j}: X_i \rightarrow X_j \right\rbrace_{i \le j})$:
+    \begin{enumerate}
+        \item The limit of the system is an object $X$ with morphisms $\mu_i: X_i \rightarrow X$ for each $i \in I$ (corresponding to the $i$-th component of $\eta_S$), such that $\mu_{i} = \mu_j \circ \mu_{i, j}$ for each $i \le j$, and the property is universal: For each pair $(X', \left\lbrace \mu_i': X_i \rightarrow X' \right\rbrace)$ such that $\mu_i' = \mu_j' \circ \mu_{i, j}$ for all $i \le j$, there is unique morphism $\varphi: X \rightarrow X'$ such that $\mu'_i = \varphi \circ \mu_i$ for all $i \in I$
+        \item The colimit of the system is an object $X$ with morphisms $\mu_j: X \rightarrow  X_i$ for each $i \in I$ (corresponding to the $i$-th component of $\varepsilon_S$), such that $\mu_{j} = \mu_{i, j} \circ \mu_i$ for each $i \le j$, and the property is universal: For each pair $(X', \left\lbrace \mu_i': X' \rightarrow X_i \right\rbrace)$ such that $\mu_j' = \mu_{i, j} \circ \mu_i'$ for all $i \le j$, there is unique morphism $\varphi: X' \rightarrow X$ such that $\mu'_i = \mu_i \circ \varphi$ for all $i \in I$, 
+    \end{enumerate}
+\end{definition}
+
+Then pull-back and push-out are special cases of the limits. For example, the pull-back of $f: X \rightarrow Z, g: Y \rightarrow Z$ is the colimit of the directed system indicated by the diagram:
+% https://q.uiver.app/#q=WzAsMyxbMSwwLCJYIl0sWzAsMSwiWSJdLFsxLDEsIloiXSxbMCwyLCJmIl0sWzEsMiwiZyIsMl1d
+\[\begin{tikzcd}
+	& X \\
+	Y & Z
+	\arrow["f", from=1-2, to=2-2]
+	\arrow["g"', from=2-1, to=2-2]
+\end{tikzcd}\]
+and similar for the push-out.
+
+
+
 
 \end{document}

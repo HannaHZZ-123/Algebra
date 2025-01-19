@@ -1,0 +1,233 @@
+\documentclass{note-eng}
+
+\begin{document}
+
+\section{Modules}
+
+\begin{definition}
+    (Module) Let $R$ be a ring, an \textbf{$R$-module} is an abelian group $M$ with ring-homomorphism $\varphi: M \rightarrow \mathrm{End}_{\mathrm{Ab}}(M)$. For $a \in R, m \in M$, define $am = \varphi(a)(m)$. In particular, if $R$ is a field, then an $R$-module is also called an $R$-\textbf{vector space}.
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item Let $R$ be a ring, then any ideal of $R$ is an $R$-module
+        \item Abelian group = $\mathbb{Z}$-module
+        \item Let $k$ be a field, $k[X]$-module = $k$-vector space + a linear transformation (the image of $X$)
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    (Module Homomorphism) Let $M, N$ be $R$-modules, a mapping $f: M \rightarrow N$ is an \textbf{$R$-module homomorphism} if:
+    $$f(x + y) = f(x) + f(y), f(rx) = rf(x)$$
+    We also say $f$ is \textbf{$R$-linear}.
+\end{definition}
+
+The reader should check that $R$-modules with $R$-module homomorphisms form a category, we denote it as category $R$ (sorry about the abuse of fonts). It is a subcategory of $\mathrm{Ab}$. Moreover, it is an abelian category:
+
+\begin{proposition}
+    Let $R$ be a ring, the category of $R$-modules is abelian
+\end{proposition}
+
+\begin{proof}
+    \TODO
+\end{proof}
+
+
+Next we are going to show that like the category of $\mathrm{Ab}$, the covariant / contravariant Hom functor maps the category of $R$-modules into itself.
+
+\begin{proposition}\label{prop:hom-functor-map-R-module-to-itself}
+    (Hom functors map the category of $R$-modules to itself) Let $R$ be a ring and $M, N$ be $R$-modules, then $\mathrm{Hom}_{R}(M, N)$ is also an $R$-module, with
+    $$(f_1 + f_2)(m) = f_1(m) + f_2(m), (rf)(m) = r(f(m))$$
+
+    If $u: M' \rightarrow M, v: N \rightarrow N''$ are $R$-module homomorphisms, then the induced map:
+    $$
+        \begin{aligned}
+        \overline{u}: &\mathrm{Hom}_{R}(M, N) \rightarrow \mathrm{Hom}_{R}(M', N): f \mapsto f \circ u \\
+        \overline{v}: &\mathrm{Hom}_{R}(M, N) \rightarrow \mathrm{Hom}_{R}(M, N'): f \mapsto v \circ f
+        \end{aligned}
+    $$
+    are also $R$-module homomorphisms.
+
+    As a result, the covariant / contravariant Hom functors map the category of $R$-modules into itself.
+\end{proposition}
+
+If the ring in consideration is clear, we shall omit $R$ as the subscript and simply denote $\mathrm{Hom}(M, N) = \mathrm{Hom}_{R}(M, N)$
+
+Since the category of $R$-modules is an abelian category, it has the isomorphism theorems:
+
+\begin{definition}
+    (Submodule, Quotient) Let $R$ be a ring and $M$ be an $R$-module, then a subset $M'$ of $M$ is a \textbf{submodule} of $M$ if it is a subgroup of $M$ and is closed under multiplication by $R$. Then the quotient group $M / M'$ inherits an $R$-module structure from $M$ in a way the reader may define him/herself. It is then called a \textbf{quotient} of $M$ by $M'$.
+\end{definition}
+
+\begin{theorem}
+    (First Isomorphism Theorem for $R$-Modules) Let $R$ be a ring and $M, N$ be $R$-modules. $f: M \rightarrow N$ is a homomorphism. Then
+    $$M / \ker (f) \cong \mathrm{im}(f)$$
+\end{theorem}
+
+\section{Operations on Modules}
+
+\begin{definition}
+    (Sum, Intersection) Let $M$ be an $R$-module and $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ be a family of submodules, then define:
+    \begin{enumerate}
+        \item The \textbf{sum} of $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ $\sum\limits_{\lambda \in \Lambda} M_\lambda$ as the set of all $\sum\limits_{\lambda \in \Lambda} x_\lambda$ where $x_\lambda \in M_\lambda$ and the sum is finite
+        \item The \textbf{intersection} of $\left\lbrace M_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ $\bigcap\limits_{\lambda \in \Lambda}M_{\lambda}$ as the intersection of $M_\lambda$'s as sets
+    \end{enumerate}
+    The reader should verify that the sum and intersection of submodules are submodules, moreover:
+    \begin{enumerate}
+        \item The sum of $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ is the smallest submodule of $M$ that contains all $M_\lambda$
+        \item The intersection of $\left\lbrace M_\lambda \right\rbrace_{\lambda \in \Lambda}$ is the largest submodule of $M$ that is contained in all $M_\lambda$
+    \end{enumerate}
+\end{definition}
+
+The ideals in the previous chapter is a special case of $R$-submodules.
+
+\begin{theorem}
+    (Second Isomorphism Theorem for $R$-modules) Let $M_1, M_2$ be $R$-modules, then:
+    $$(M_1 + M_2) / M_1 \cong M_2 / (M_1 \cap M_2)$$
+\end{theorem}
+
+\begin{theorem}
+    (Third Isomorphism Theorem for $R$-modules) Let $L \subset M \subset N$ be $R$-modules, then $M / L$ is a submodule of $N / L$ and:
+    $$(N / L) / (M / L) \cong N / M$$
+\end{theorem}
+
+\begin{definition}
+    Let $I$ be an ideal of $R$, $M$ be an $R$-module, define $IM$ as the set of $M$ of the form $\sum\limits_{i} r_i m_i$ where $r_i \in I, m_i \in M$ and the sum is finite. In particular, if $I = (r)$ for some $r \in R$, we also denote $rM = IM$
+\end{definition}
+
+\begin{definition}
+    (Annihilator) Let $M$ be an $R$-module, if $r \in R$ satisfies $rM = 0$, then $r$ is called an \textbf{annihilator} of $M$. The set of annihilators of $M$ is denoted as $\mathrm{Ann}_R(M)$. The reader should check that $\mathrm{Ann}_R{M}$ is an ideal.
+\end{definition}
+
+\begin{definition}
+    (Faithful) Let $M$ be an $R$-module, if $\mathrm{Ann}_R(M) = 0$, then $M$ is called a \textbf{faithful} $R$-module.
+\end{definition}
+
+Why is $M$ called 'faithful'? Note that an $R$-module is essentially an abelian group $M$ with $\varphi: R \rightarrow \mathrm{End}_{\mathrm{Ab}}(M)$. The latter is called a \textbf{representation} of $R$, since we represent the elements in $R$ as endomorphisms. Note that the kernel of the latter homomorphism is $\mathrm{Ann}_R(M)$, so $M$ is faithful if and only if $\varphi$ is injective, namely we faithfully represent elements in $R$ without confusing any two of them.
+
+\begin{proposition}
+    Let $M$ be an $R$-module, $I \subset \mathrm{Ann}_R(M)$, then $M$ inherits an $R / I$-module structure by defining $\overline{r} m = rm$. Moreover, $M$ is a faithful $R / \mathrm{Ann}_R(M)$ module.
+\end{proposition}
+
+\begin{definition}
+    (Direct Sum and Direct Product) Let $\left\lbrace M_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ be $R$-modules, define:
+    $$\prod\limits_{\lambda \in \Lambda} M_{\lambda} = \left\lbrace (x_{\lambda})_{\lambda \in \Lambda} \right\rbrace$$
+    with element-wise addition and multiplication. Then $\prod\limits_{\lambda \in \Lambda} M_{\lambda}$ is an $R$-module and we call it the \textbf{direct product} of $\left\lbrace M_{\lambda} \right\rbrace_{\lambda \in \Lambda}$. We call the submodule of $\prod\limits_{\lambda \in \Lambda} M_\lambda$ consisting of elements that contain only finitely many nonzero coordinates the \textbf{direct sum} of $\left\lbrace M_{\lambda} \right\rbrace_{\lambda \in \Lambda}$, and denote it as $\bigoplus\limits_{\lambda \in \Lambda} M_{\lambda}$
+\end{definition}
+
+If $\Lambda$ is finite, then direct product and direct sum coincide. Then the direct product/sum of modules corresponds to the product of rings in the following way:
+
+\begin{proposition}
+    Let $R$ be a ring. Then $R$ can be written as a product of rings if and only if $R$ is the direct sum of ideals(as $R$-modules). Moreover:
+    \begin{enumerate}
+        \item If $R = \prod\limits_{i = 1}^{n} R_i$ as products of rings, then $R \cong \bigoplus\limits_{i = 1}^n I_i$ as $R$-modules where $I_i = \left\lbrace (0, \cdots, 0, x, 0, \cdots, 0): x \in R_i \right\rbrace$
+        \item If $R = \bigoplus\limits_{i = 1}^{n} M_i$ as direct sum of $R$-modules, then $R \cong \prod\limits_{i = 1}^{n} R / (I_i)$ where $I_i = \left\lbrace (x_1, \cdots, x_{i - 1}, 0, x_{i + 1}, \cdots, x_n): x_j \in M_j, \forall j \ne i \right\rbrace$
+    \end{enumerate}
+\end{proposition}
+
+The proposition really is just a translation between the languages in rings and modules. It should be noted that when $R = \prod\limits_{i = 1}^{n} R_i$, $R_i$ itself is neither an ideal nor a subring of $R$, since it is not a subset of $R$. The correct way to say $R_i$ is an ideal is stated in the proposition. Also, when $R = \bigoplus\limits_{i = 1}^nM_i$, $M_i$ is neither an ideal of $A$ nor a ring itself, to get a ring that corresponds to $M_i$, we have to quotient out the other modules.
+
+\section{Finitely Generated Modules}
+
+\begin{definition}
+    (Generator, Finitely Generated) Let $M$ be an $R$-module, $x \in M$, then denote $(x)$ or $Rx$ as the set $\left\lbrace rx: r \in R \right\rbrace$, which is a submodule of $M$. If $M = \sum\limits_{\lambda \in \Lambda} Rx_{\lambda}$ for some $\left\lbrace x_{\lambda} \right\rbrace_{\Lambda} \subset M$, then $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ is called \textbf{a set of generators} of $M$. If $M$ has a finite set of generators, it is said to be \textbf{finitely generated}.
+\end{definition}
+
+Note that the set of generators may have relations among them, so despite by definition every element in $M$ can be represented as a linear combination of the generators, the representation may not be unique. This leads to the definition of free modules.
+
+\begin{definition}
+    (Free Module) A \textbf{free $R$-module} over index set $\Lambda$ is a module isomorphic to $\bigoplus_{\lambda \in \Lambda} R$. It is often denoted as $R^{(\Lambda)}$
+\end{definition}
+
+\begin{remark}
+    The notion $R^{\Lambda}$ is reserved for direct product.
+\end{remark}
+
+Clearly, we can always get a module from a free module by quotienting out the relations among its element, which is a trivial set of generators:
+
+\begin{proposition}
+    (Every module is a quotient of free module) Let $M$ be an $R$-module, $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ be a set of generators, then $M$ is a quotient of $R^{(\Lambda)}$. In particular, $M$ is a quotient of $R^{(M)}$
+\end{proposition}
+
+\begin{proof}
+    Define the map $\varphi: R^{(\Lambda)} \rightarrow M$ by sending $e_{\lambda}$ to $x_\lambda$, where $e_{\lambda}$ is the element in $R^{(\Lambda)}$ that is zero at every coordinate except at the $\lambda$-th coordinate, where it takes value $1$. Then $\varphi$ is surjective by definition of generators. Conclude by the first isomorphism theorem.
+\end{proof}
+
+Conversely, if $M$ is a quotient of $R^{(\Lambda)}$, then there is a set of generators $\left\lbrace x_\lambda = \overline{e_\lambda} \right\rbrace_{\lambda \in \Lambda}$ for $M$. As a corollary:
+
+\begin{corollary}
+    Let $M$ be an $R$-module, then $M$ is a finitely generated module if and only if $M$ is isomorphic to a quotient of $R^n$ for some $n$.
+\end{corollary}
+
+Finitely generated modules are similar to finite dimensional vector spaces:
+
+\begin{theorem}
+    (Hamilton-Cayley) Let $M$ be a finitely generated $R$-module, and $\varphi$ an $R$-module endomorphism of $M$. If $\varphi(M) \subset IM$ for some ideal $I$, then there are some $n \gt 0$ and $a_1, \cdots, a_n \in I$ such that:
+    $$\varphi^n + a_1 \varphi^{n - 1} + \cdots + a_0 = 0$$
+\end{theorem}
+
+\begin{proof}
+    The proof is similar to the proof of Hamilton-Cayley. The polynomial is the characteristic polynomial of $\varphi$ expressed as a matrix with coefficients in $I$.
+
+    Let $x_1, \cdots, x_n$ be a set of generators of $M$, then the elements in $IM$ can be written as linear combination of $x_i$'s with coefficients in $I$. Then we have:
+    $$\varphi(x_i) = \sum\limits_{i = 1}^{n}c_{i, j} x_j$$
+    As a result:
+    $$
+    \begin{bmatrix}
+        \varphi - c_{1, 1} & 0c_{1, 2} & \cdots &-c_{1, n} \\
+        - c_{2, 1} & \varphi - c_{2, 2} & \cdots &-c_{2, n} \\
+        \vdots &\vdots &\ddots &\vdots \\
+        - c_{n, 1} & -c_{n, 2} & \cdots & \varphi - c_{n, n}
+    \end{bmatrix}
+    \begin{bmatrix}
+        x_1 \\ x_2 \\ \vdots \\ x_n
+    \end{bmatrix} = 0
+    $$
+    Multiplying the adjugate matrix on the left, we know that the determinant (a monic polynomial of $\varphi$ with coefficients in $I$) of the matrix vanishes in all $x_i$ and thus vanishes on $R$, which completes the proof.
+\end{proof}
+
+Of course, we can always take $I = (1)$, that's the only possible case if $R$ is a field (and the theorem falls back to the Hamilton-Cayley theorem in linear algebra). For rings in general, things are more interesting, especially if $IM = M$ for some non-unit ideal $I$.
+
+\begin{corollary}
+    Let $M$ be a finitely generated $R$-module. If $IM = M$ for some ideal $I \ne (1)$ of $R$, then there is some $x \equiv 1 \pmod{I}$ such that $xM = 0$
+\end{corollary}
+
+\begin{proof}
+    Take $\varphi = \mathds{1}_M$ in the Hamilton-Cayley theorem.
+\end{proof}
+
+All $x \equiv 1 \pmod{I}$ are units, then $IM = M$ implies $M = 0$. This is the case when $I \subset \mathfrak{R}_R$.
+
+\begin{theorem}
+    (Nakayama's Lemma) Let $M$ be a finitely generated $R$-module, $I \subset \mathfrak{R}_R$ and $IM = M$, then $M = 0$
+\end{theorem}
+
+\begin{corollary}
+    Let $M$ be a finitely generated $R$-module and $N$ a submodule of $M$, $I \subset \mathfrak{R}_R$ and $M = IM + N$, then $M = N$
+\end{corollary}
+
+\begin{proof}
+    Note that $(IM + N) / N = I(M / N)$. Then apply Nakayama's Lemma to $M / N$
+\end{proof}
+
+We conclude this section by presenting a method of judging whether a set of elements form a set of generators, which is usually nontrivial.
+
+\begin{proposition}
+    Let $R$ be a local ring, $\mathfrak{m}$ its maximal ideal, $k$ its residue field. Let $M$ be an $R$-module, then $M / \mathfrak{m}$ is annihilated by $\mathfrak{m}$, so it is an $R / \mathfrak{m}$-module, namely a $k$-vector space. If the images of $\left\lbrace x_\lambda \right\rbrace_{\lambda \in \Lambda}$ in $M / \mathfrak{m}M$ form a basis, then $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$ is a set of generators for $M$
+\end{proposition}
+
+\begin{proof}
+    Let $N$ be the submodule of $M$ generated by $\left\lbrace x_{\lambda} \right\rbrace_{\lambda \in \Lambda}$. Since $\left\lbrace \overline{x_{\lambda}} \right\rbrace_{\lambda \in \Lambda}$ is a basis in $M / \mathfrak{m} M$, we have $N + \mathfrak{m}M = M$. Apply the previous corollary to conclude $M = N$
+\end{proof}
+
+\begin{remark}
+    We need $R$ to be a local ring, since this is the only case where maximal ideals are contained in the Jacobson radical.
+\end{remark}
+
+\section{Exact Sequence}
+
+Since the category of $R$-modules is abelian, we can construct exact sequences on it.
+
+\TODO Need more homological algebra to continue.
+
+\end{document}
